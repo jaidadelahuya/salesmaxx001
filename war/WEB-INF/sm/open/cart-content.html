@@ -1,0 +1,149 @@
+<div style="padding: 1%; padding-bottom: 2%;"
+	class="col-md-12 text-muted">
+	<div class="col-md-6">
+		<h3 style="padding: 0; margin: 0">Shopping Cart</h3>
+	</div>
+	<div class="col-md-6" style="text-align: right;">
+		<c:if test='${fn:length(cart.cartItems) > 0}'>
+			<a class="btn btn-danger btn-xs" href="/sm/open/show-all-workshops">Continue
+				Browsing</a>
+			<a class="btn btn-danger btn-xs" href="#" id="clear-cart-button">Clear
+				Cart</a>
+		</c:if>
+	</div>
+</div>
+<c:if test="${itemExist}">
+	<div class="col-md-12">
+		<div class="alert alert-info">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<p>
+				The Workshop, <strong><c:out value="${existingItem.name}" /></strong>
+				scheduled for<strong> <c:out value="${existingItem.date}" /></strong>
+				in <strong> <c:out value="${existingItem.location}" /></strong> was
+				not added because it is already in your cart.
+			</p>
+			<p>You can change the number of delegates in its respective
+				column if you want to.</p>
+		</div>
+	</div>
+</c:if>
+<table class="table table-striped table-responsive">
+	<thead>
+		<tr>
+			<th>Item</th>
+			<th>Description</th>
+			<th>Unit Price</th>
+			<th>No. of Delegates</th>
+			<th style="text-align: right;">Total (NGN)</th>
+			<th style="text-align: center;">Remove</th>
+		</tr>
+	</thead>
+	<tbody>
+		<c:choose>
+			<c:when test="${fn:length(cart.cartItems) eq 0}">
+				<tr>
+					<td colspan="6" style="text-align: center"><strong
+						class="text-muted">There are no items in your cart.</strong></td>
+				</tr>
+			</c:when>
+			<c:otherwise>
+				<c:forEach var="item" items="${cart.cartItems}">
+					<tr>
+						<td><a
+							href="<c:url value='/sm/open/workshop-information?id=${item.workshopCode}' />"><img
+								src="${item.imageUrl}" style="width: 10em; height: auto;"></a></td>
+						<td>
+							<p>
+								<a
+									href="<c:url value='/sm/open/workshop-information?id=${item.workshopCode}' />"><c:out
+										value='${item.name}' /></a>
+							</p>
+							<p>
+								<strong>Code: </strong> <a
+									href="<c:url value='/sm/open/workshop-information?id=${item.workshopCode}' />"><c:out
+										value='${item.workshopCode}' /></a>
+							</p>
+							<p>
+								<strong>Date: </strong>
+								<c:out value='${item.date}' />
+							</p>
+							<p>
+								<strong>Location: </strong>
+								<c:out value='${item.location}' />
+							</p>
+						</td>
+						<td><c:out value='N ${item.formattedPrice}' /></td>
+						<td id="${item.id}"><input class="increment-qty"
+							type="number" min="1" value="${item.qty}" style="width: 4em" /></td>
+						<td style="text-align: right;"><c:out
+								value='${item.total}.00' /></td>
+						<td style="text-align: center;"><input type="checkbox"
+							value="${item.id}" class="remove-from-cart" /></td>
+					</tr>
+				</c:forEach>
+				<tr>
+					<th colspan="4" style="text-align: right;">Sub Total</th>
+					<th style="text-align: right;" id="sub-total"><c:out
+							value='${cart.formattedsubTotal}.00' /></th>
+					<th></th>
+				</tr>
+			</c:otherwise>
+		</c:choose>
+
+
+	</tbody>
+
+</table>
+<div class="col-md-12"
+	style="margin: 2%; text-align: right; padding-right: 5%;">
+	<c:choose>
+		<c:when test="${fn:length(cart.cartItems) eq 0}">
+			<a class="btn btn-danger" href="/sm/open/show-all-workshops">Continue
+				Browsing</a>
+		</c:when>
+		<c:otherwise>
+
+			<a id="proceed-to-checkout"
+				href="<c:url value='/sm/closed/proceed-to-checkout'/>"
+				class="btn btn-danger" style="display: none;">Proceed to
+				checkout</a>
+		</c:otherwise>
+	</c:choose>
+
+
+</div>
+
+<c:if test='${not empty cartRelatedWorkshops}'>
+	<div style="padding: 1%; padding-bottom: 2%;" class="col-md-12">
+		<div class="col-md-12" style="text-align: center;">
+			<h3 class="text-muted" style="padding: 2%;">You should also
+				check out these workshops</h3>
+			<div class="col-md-12" id="slick">
+				<c:forEach var='item' items='${cartRelatedWorkshops}'>
+					<div class="col-sm-3">
+						<a
+							href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+							style="width: 80%; height: auto; margin: 0 auto"
+							alt="${item.workshopName}" src="${item.imageUrl}"
+							class="img img-responsive"></a> <a
+							href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+								value='${item.workshopName}' /></a>
+						<p>
+							<strong>Skill Level</strong>
+							<c:forEach var='val' items='${item.skillLevel}'>${val} </c:forEach>
+						</p>
+						<p>
+							<input type="hidden" class="rating" data-readonly
+								data-fractions="5" value="rating" style='display: block' /> (
+							<c:out value="${fn:length(item.reviews)}" />
+							) reviews
+						</p>
+					</div>
+				</c:forEach>
+			</div>
+		</div>
+
+	</div>
+
+</c:if>
+

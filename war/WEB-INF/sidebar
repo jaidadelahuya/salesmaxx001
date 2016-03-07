@@ -1,0 +1,82 @@
+
+<nav class="col-sm-4 col-md-2 menu">
+	<c:set var="ADMIN" value="<%=UserRole.ADMIN%>" />
+<c:set var="SYSADMIN" value="<%=UserRole.SYSADMIN%>" />
+<c:set var="COURSE" value="<%=UserRole.COURSE_ADMIN%>" />
+	<ul class="admin-sidebar" style="padding-top:3%">
+		<!--  <li style="background-color: #337ab7; color: white; text-align: center; font-weight: bold; padding: 2%; cursor: pointer; border-bottom-color: border-color: #337ab7" id="slide-in">&#8592; Slide in</li>-->
+		<c:if
+			test='${user.role eq COURSE or user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/edit-admin-profile"/>'><img
+					src="/images/small-icons/edit-profile.png" /> Profile</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-assessment"/>'><img
+					src="/images/small-icons/assessment-question.png" />Assessment
+					Questions</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-gift-item"/>'><img
+					src="/images/small-icons/gift-item.png" />Gift Items</a></li>
+		</c:if>
+		
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-facilitator"/>'><img
+					src="/images/small-icons/add-user.png" />Add Facilitator</a></li>
+		</c:if>
+		
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/interswitch-transaction-log"/>'><img
+					src="/images/small-icons/assessment-question.png" />Interswitch</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-event"/>'><img
+					src="/images/small-icons/add-events.png" /> Events</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-organization"/>'><img
+					src="/images/small-icons/organization.png" /> Loyalty Partners</a></li>
+		</c:if>
+		<c:if test='${user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/create-user"/>'><img
+					src="/images/small-icons/add-user.png" /> Users</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/upload-certificate"/>'><img
+					src="/images/small-icons/upload-certificate.png" /> Certificates</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/event-schedule"/>'><img
+					src="/images/small-icons/schedule-event.png" />Schedule Event</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq COURSE or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/schedule-workshop"/>'><img
+					src="/images/small-icons/schedule-workshop.png" />Schedule Workshop
+					</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-workshop"/>'><img
+					src="/images/small-icons/add-workshop.png" /> Workshops</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-workshop-category"/>'><img
+					src="/images/small-icons/add-workshop-category.png" />Workshop
+					categories</a></li>
+		</c:if>
+
+		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+			<li><a href='<c:url value="/sm-admin/add-workshop-material"/>'><img
+					src="/images/small-icons/add-workshop-material.png" />Workshop
+					Material</a></li>
+		</c:if>
+	</ul>
+</nav>

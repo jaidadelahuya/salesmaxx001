@@ -1,0 +1,68 @@
+<div class="well col-md-12" style="background-color: white">
+	<h1 class="text-primary">SalesMaxx Credits History</h1>
+	<table class="table table-responsive table-striped">
+		<thead class="text-muted" style="font-family: calibri">
+			<th>Title</th>
+			<th>Amount Paid</th>
+			<th>Credits Recieved</th>
+			<th>Date</th>
+		</thead>
+		<tbody style="color: black; font-family: calibri; font-size: 10pt">
+			<c:choose>
+				<c:when test="${fn:length(ugi.salesmaxxHistoryCredits) > 0}">
+					<c:forEach var='item' items='${ugi.salesmaxxHistoryCredits}'>
+						<tr>
+							
+						</tr>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<tr>
+						<td colspan="5" style="text-align: center;">No record found.</td>
+					</tr>
+				</c:otherwise>
+			</c:choose>
+
+		</tbody>
+	</table>
+	<p><strong>Pending :</strong> <c:out value="${smch.pending}" />0SL
+		<c:choose>
+			<c:when test="${smch.total > 0}">
+				<a href="#" class="btn btn-xs btn-danger pull-right">Donate to charity</a>
+			</c:when>
+			<c:otherwise>
+				<a href="#" class="btn btn-xs btn-danger pull-right" disabled='disabled'>Donate to charity</a>
+			</c:otherwise>
+		</c:choose>
+		
+	</p>
+	<p></p>
+</div>
+
+<div style="padding: 1%; padding-bottom: 2%; background-color: white;"
+	class="well col-md-12">
+	<div class="col-md-12" style="text-align: center;">
+		<h3 class="text-primary" style="padding: 2%;">Check out our
+			Bootcamps</h3>
+		<div class="col-md-12" id="slick">
+			<c:forEach var='item' items='${bootcamps}'>
+				<div class="col-sm-3" style="font-family: calibri">
+					<a
+						href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+						style="width: 80%; height: auto; margin: 0 auto"
+						alt="${item.workshopName}" src="${item.imageUrl}"
+						class="img img-responsive"></a> <a
+						href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+							value='${item.workshopName}' /></a>
+					<p>
+						<input type="hidden" class="rating" data-readonly
+							data-fractions="5" value="rating" style='display: block' /> (
+						<c:out value="${fn:length(item.reviews)}" />
+						) reviews
+					</p>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+
+</div>

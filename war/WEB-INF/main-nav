@@ -1,0 +1,170 @@
+<nav class="navbar navbar-default"
+	style="margin-top: 2%; margin-bottom: 1%;">
+	<div class="container-fluid" style="width: 80%; margin: 0 auto;">
+		<div class="navbar-header">
+			<button type="button" class="navbar-toggle" data-toggle="collapse"
+				data-target="#myNavbar">
+				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
+					class="icon-bar"></span>
+			</button>
+			<img src="/images/salesmaxx-logo1.jpg" alt="SalesMaxx"
+				style="height: 4.5em; width: auto" />
+		</div>
+		<div class="collapse navbar-collapse" id="myNavbar">
+
+			<c:choose>
+				<c:when test="${user.authenticated}">
+					<div>
+						<strong style="margin-right: -15px" class="pull-right">Welcome
+							<c:out value="${user.firstName}" />
+						</strong><br />
+						<!--<a href="<c:url value='/sm/open/logout'/>" id="logout"
+							class="btn btn-info btn-sm navbar-right navbar-btn">Logout </a>-->
+						<div class="dropdown navbar-right">
+							<button
+								class="btn btn-info btn-sm dropdown-toggle navbar-right navbar-btn"
+								type="button" data-toggle="dropdown">
+								My Account <span class="caret"></span>
+							</button>
+							<ul class="dropdown-menu alert alert-info list-group"
+								style='margin-right: -15px; margin-top: -9px; padding: 2%; width: 22em;'>
+								<li class="list-group-item"><div class="row">
+										<div class="col-sm-5">
+											<img style="width: 100%; height: auto; margin: 2%;"
+												class="img img-responsive img-rounded" alt="YOU"
+												src="${user.pictureUrl}">
+										</div>
+										<div class="col-sm-7" style="padding: 0; margin: 0 auto;">
+											<div class="col-sm-12">
+												<h4 style="font-weight: bolder;">
+													<c:out value='${user.firstName}' />
+													<c:out value='${user.lastName}' />
+												</h4>
+											</div>
+											<div class="col-sm-12" style="text-overflow: ellipsis;">
+												<strong class="text-muted"><c:out value='${user.regId.name}' /></strong>
+											</div>
+											<div class="col-sm-12">
+												<a href="<c:url value='/sm/closed/profile/user-profile'/>" class="glyphicon glyphicon-user" style="margin: 2%;" data-toggle="tooltip" data-placement="bottom" title="View Profile"></a>
+												<a href="<c:url value='/sm/closed/profile/edit-user-profile'/>" class="glyphicon glyphicon-pencil" style="margin: 2%;" data-toggle="tooltip" data-placement="bottom" title="Edit Profile"></a>
+												<a href="<c:url value='#'/>" class="glyphicon glyphicon-cog" style="margin: 2%;" data-toggle="tooltip" data-placement="bottom" title="Notification Settings"></a>
+											</div>
+										</div>
+									</div></li>
+
+								<li class="list-group-item account-drop-down-list"><a href="#">Alumni</a></li>
+								<li class="list-group-item account-drop-down-list "><a href="<c:url value='/sm/closed/profile/my-workshops'/>">My Workshops</a></li>
+								<!--<li class="list-group-item account-drop-down-list"><a href="#">My Events</a></li>-->
+								<li class="list-group-item account-drop-down-list"><a href="<c:url value='/sm/closed/profile/my-certificates'/>">My Certificates</a></li>
+								<!--<li class="list-group-item account-drop-down-list"><a href="#">Sales Tools</a></li>-->
+								<li class="list-group-item account-drop-down-list"><a href="<c:url value='/sm/closed/profile/purchase-history'/>">Purchase History</a></li>
+								<li class="list-group-item account-drop-down-list"><a href="<c:url value='/sm/closed/profile/salesmaxx-credits'/>">SalesMaxx Credits History</a></li>
+								<li class="list-group-item account-drop-down-list"><a href="<c:url value='/sm/open/logout'/>" id="logout">Log Out</a></li>
+							</ul>
+						</div>
+					</div>
+
+				</c:when>
+				<c:otherwise>
+					<div>
+						<strong style="margin-right: -15px" class="pull-right"><c:out
+								value="" /></strong><br />
+						<button type="button"
+							class="btn btn-info btn-sm navbar-right navbar-btn login">Login
+						</button>
+					</div>
+				</c:otherwise>
+			</c:choose>
+			<c:if test="${!user.authenticated}">
+				<div>
+					<button type="button"
+						class="btn btn-danger btn-sm navbar-right navbar-btn sign-up-btn"
+						style="margin-right: 1%">Sign Up</button>
+				</div>
+			</c:if>
+			<div class="button-group">
+				<a href="<c:url value=" /sm/open/add-to-cart"/>" class="btn
+				btn-primary btn-sm navbar-right navbar-btn" style="margin-right:
+				1%;"><span class="glyphicon glyphicon-shopping-cart"
+					style="margin-right: 1%"></span> Cart (
+				<c:out value="${cart.noOfItems}" default="0" />
+				)</a>
+			</div>
+			<ul class="nav navbar-nav">
+				<li class="active main-menu-item"><a href="/index">Home</a></li>
+				<li class="main-menu-item" id='workshop-menu'><a
+					href="/sm/open/show-all-workshops">Workshops</a></li>
+				<li class="main-menu-item" id="tools-menu"><a href="/tools">Tools</a></li>
+				<li class="main-menu-item" id="coaching-menu"><a href="/coaching">Coaching</a></li>
+				<li class="main-menu-item" id="about-menu"><a href="/about">About Us</a></li>
+				<li class="main-menu-item" id="contact-menu"><a href="/contact">Contact Us</a></li>
+				<!--<li><a href="">Shop</a></li>-->
+
+			</ul>
+
+		</div>
+	</div>
+</nav>
+
+
+
+<div id="register-modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #5bc0de;">
+				<button type="button" class="close" data-dismiss="modal"
+					style="opacity: 1; color: white">&times</button>
+				<h3
+					style="margin-top: 0; margin-bottom: 0; text-align: center; font-weight: bold; color: white">SalesMaxx Free Sign Up</h3>
+			</div>
+			<div class="modal-body">
+				<div id="sign-up-form-div" class="col-md-10 col-centered"
+					style="margin-top: 2%">
+
+				</div>
+			</div>
+			<div id="sign-up-footer" class="modal-footer"
+				style="background-color: #5bc0de; text-align: center">
+				<strong style="color: white">Already have an account? <a
+					class="login-at-footer login" 
+					 style="cursor: pointer; color: #b1010c">Login</a></strong>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+
+
+<div id="login-modal" class="modal fade" tabindex="-1" role="dialog"
+	aria-labelledby="mySmallModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header" style="background-color: #5bc0de;">
+				<button type="button" class="close" data-dismiss="modal"
+					style="opacity: 1; color: white">&times</button>
+				<h3
+					style="margin-top: 0; margin-bottom: 0; text-align: center; font-weight: bold; color: white">SalesMaxx
+					Login</h3>
+			</div>
+			<div class="modal-body">
+				<div id="login-form-div" class="col-md-8 col-centered"
+					style="margin-top: 2%">
+					
+				</div>
+			</div>
+			<div id="login-footer" class="modal-footer"
+				style="background-color: #5bc0de; text-align: center">
+				<strong style="color: white">Don't have an account? <a
+					style="color: #b1010c; cursor: pointer" data-dismiss="modal"
+					 data-target="#register-modal" class="sign-up-btn">Sign Up</a></strong>
+
+			</div>
+		</div>
+	</div>
+</div>

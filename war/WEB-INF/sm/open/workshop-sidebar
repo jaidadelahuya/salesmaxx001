@@ -1,0 +1,196 @@
+<form id="sidebar-form" method="get"
+	action="<c:url value='/sm/open/search-for-workshop'/>">
+	<div class='section-heading'>
+		<strong>Workshop Finder</strong>
+	</div>
+	<div style="background-color: #d9edf7; padding: 0; text-align:center">
+		<strong
+			style="text-align: center; font-weight: bold; padding: 1%; margin-top: 0; margin-bottom: 0"
+			class="text-muted">Date</strong>
+	</div>
+	<ul class="list-group">
+		<li class="list-group-item" style="border:none">
+		<input type="text" class="form-control control-elem-date date-picker" name="date"
+								placeholder="mm/dd/yyyy" value="${searchBean.date}" >	</li>
+
+	</ul>
+	<div style="background-color: #d9edf7; padding: 0; text-align:center">
+		<strong
+			style="text-align: center; font-weight: bold; padding: 1%; margin-top: 0; margin-bottom: 0"
+			class="text-muted">Location</strong>
+	</div>
+	<ul class="list-group">
+
+		<c:choose>
+			<c:when test='${pn:contains(searchBean.location,"abuja")}'>
+				<li class="list-group-item checkbox" style="margin-top: 0; border:none"><label><input
+						type="checkbox" value="abuja" name="location" class="control-elem"
+						checked="checked">ABUJA</label></li>
+			</c:when>
+			<c:otherwise>
+				<li class="list-group-item checkbox" style="margin-top: 0; border:none"><label><input
+						type="checkbox" value="abuja" name="location" class="control-elem">ABUJA</label></li>
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test='${pn:contains(searchBean.location,"lagos")}'>
+				<li class="list-group-item checkbox" style='border:none'><label><input
+						type="checkbox" value="lagos" name="location" class="control-elem"
+						checked="checked">LAGOS</label></li>
+			</c:when>
+			<c:otherwise>
+				<li class="list-group-item checkbox" style='border:none'><label><input
+						type="checkbox" value="lagos" name="location" class="control-elem">LAGOS</label></li>
+			</c:otherwise>
+		</c:choose>
+
+
+	</ul>
+	<div style="background-color: #d9edf7; padding: 0; text-align:center">
+		<strong
+			style="text-align: center; font-weight: bold; padding: 1%; margin-top: 0; margin-bottom: 0"
+			class="text-muted">Experience</strong>
+	</div>
+	<ul class="list-group">
+		<c:forEach var="item" items="${experienceItems}">
+			<c:choose>
+				<c:when test='${pn:contains(searchBean.experience,item.name)}'>
+					<li class="list-group-item" style='border:none'>
+							<label style="font-weight: normal;"><input
+								type="checkbox" value="${item.name}" name="experience"
+								class="control-elem" checked="checked"> <c:out
+									value="${item.name}" /> (<c:out value="${item.freq}" />)</label>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li class="list-group-item" style='border:none'>
+							<label style="font-weight: normal;"><input
+								type="checkbox" value="${item.name}" name="experience"
+								class="control-elem"> <c:out value="${item.name}" /> (<c:out
+									value="${item.freq}" />)</label>
+					</li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</ul>
+	<div style="background-color: #d9edf7; padding: 0; text-align:center">
+		<strong
+			style="text-align: center; font-weight: bold; padding: 1%; margin-top: 0; margin-bottom: 0"
+			class="text-muted">Industry</strong>
+	</div>
+	<ul class="list-group" style="height: 10em; overflow: auto;">
+		<c:forEach var="item" items="${industryItems}">
+			<c:choose>
+				<c:when test='${pn:contains(searchBean.industry,item.name)}'>
+					<li class="list-group-item" style='border:none'><label
+						style="font-weight: normal;"><input type="checkbox"
+							value="${item.name}" name="industry" class="control-elem"
+							checked="checked"> <c:out value="${item.name}" /> (<c:out
+								value="${item.freq}" />)</label></li>
+				</c:when>
+				<c:otherwise>
+					<li class="list-group-item" style='border:none'><label
+						style="font-weight: normal;"><input type="checkbox"
+							value="${item.name}" name="industry" class="control-elem">
+							<c:out value="${item.name}" /> (<c:out value="${item.freq}" />)</label></li>
+				</c:otherwise>
+			</c:choose>
+
+		</c:forEach>
+	</ul>
+	<div style="background-color: #d9edf7; padding: 0; text-align:center">
+		<strong
+			style="text-align: center; font-weight: bold; padding: 1%; margin-top: 0; margin-bottom: 0"
+			class="text-muted">Job Role</strong>
+	</div>
+	<ul class="list-group" style="height: 10em; overflow: auto;">
+
+		<c:forEach var="item" items="${jobRoleItems}">
+			<c:choose>
+				<c:when test='${pn:contains(searchBean.jobRole,item.name)}'>
+					<li class="list-group-item" style='border:none'>
+							<label style="font-weight: normal;"><input
+								type="checkbox" value="${item.name}" name="job-role"
+								class="control-elem" checked="checked"> <c:out
+									value="${item.name}" /> (<c:out value="${item.freq}" />)</label>
+					</li>
+				</c:when>
+				<c:otherwise>
+					<li class="list-group-item" style='border:none'>
+							<label style="font-weight: normal;"><input
+								type="checkbox" value="${item.name}" name="job-role"
+								class="control-elem"> <c:out value="${item.name}" /> (<c:out
+									value="${item.freq}" />)</label>
+					</li>
+				</c:otherwise>
+			</c:choose>
+		</c:forEach>
+	</ul>
+	<div style="background-color: #d9edf7; padding: 0; text-align:center">
+		<strong
+			style="text-align: center; font-weight: bold; padding: 1%; margin-top: 0; margin-bottom: 0"
+			class="text-muted">Format</strong>
+	</div>
+	<ul class="list-group">
+		<c:choose>
+			<c:when test='${pn:contains(searchBean.format,"instructor-led")}'>
+				<li class="list-group-item checkbox" style="margin-top: 0;border:none"><label><input
+						type="checkbox" value="instructor-led" name="format"
+						class="control-elem" checked="checked">INSTRUCTOR-LED</label></li>
+			</c:when>
+			<c:otherwise>
+				<li class="list-group-item checkbox" style="margin-top: 0;border:none"><label><input
+						type="checkbox" value="instructor-led" name="format"
+						class="control-elem">INSTRUCTOR-LED</label></li>
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test='${pn:contains(searchBean.format,"online")}'>
+				<li class="list-group-item checkbox" style='border:none'><label><input
+						type="checkbox" value="online" name="format" class="control-elem"
+						checked="checked">ONLINE</label></li>
+			</c:when>
+			<c:otherwise>
+				<li class="list-group-item checkbox" style='border:none'><label><input
+						type="checkbox" value="online" name="format" class="control-elem">ONLINE</label></li>
+			</c:otherwise>
+		</c:choose>
+
+
+	</ul>
+	<div style="background-color: #d9edf7; padding: 0; text-align:center">
+		<strong
+			style="text-align: center; font-weight: bold; padding: 1%; margin-top: 0; margin-bottom: 0"
+			class="text-muted">Type</strong>
+	</div>
+
+	<ul class="list-group">
+		<c:choose>
+			<c:when test='${pn:contains(searchBean.format,"free")}'>
+				<li class="list-group-item checkbox" style="margin-top: 0;border:none"><label><input
+						type="checkbox" value="free" name="type" class="control-elem"
+						checked="checked">Free</label></li>
+			</c:when>
+			<c:otherwise>
+				<li class="list-group-item checkbox" style="margin-top: 0;border:none"><label><input
+						type="checkbox" value="free" name="type" class="control-elem">Free</label></li>
+			</c:otherwise>
+		</c:choose>
+
+		<c:choose>
+			<c:when test='${pn:contains(searchBean.format,"paid")}'>
+				<li class="list-group-item checkbox" style='border:none'><label><input
+						type="checkbox" value="paid" name="type" class="control-elem" checked="checked">Paid</label></li>
+			</c:when>
+			<c:otherwise>
+				<li class="list-group-item checkbox" style='border:none'><label><input
+						type="checkbox" value="paid" name="type" class="control-elem">Paid</label></li>
+			</c:otherwise>
+		</c:choose>
+
+
+	</ul>
+
+</form>

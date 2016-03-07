@@ -1,0 +1,53 @@
+<div class='section-heading'>
+	<strong>Related Workshops</strong>
+</div>
+<ul class="list-group" style="text-align: center;">
+	<c:forEach var='list' items='${relatedWorkshops.sublist}'
+		begin="${relatedWorkshops.start}" end="${relatedWorkshops.end}">
+
+		<c:forEach var="item" items="${list}">
+			<div
+				style="background-color: #d9edf7; text-align: center; padding: 0">
+				<strong
+					style="text-align: center; font-weight: bold; margin-top: 0; margin-bottom: 0; overflow: hidden;"
+					class="text-muted"> <a
+					href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+							value='${item.workshopId.name}' /></a>
+				</strong>
+
+			</div>
+			<li class="list-group-item" style="border: none"><a
+				href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+					style="width: 80%; height: auto; margin: 0 auto"
+					alt="${item.workshopName}" src="${item.imageUrl}"
+					class="img img-responsive"></a> <a
+				href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+						value='${item.workshopName}' /></a>
+				<p>
+					<strong>Skill Level</strong>
+					<c:forEach var='val' items='${item.skillLevel}'>${val} </c:forEach>
+				</p>
+				<p>
+					<input type="hidden" class="rating" data-readonly
+						data-fractions="5" value="rating" style='display: block' /> (
+					<c:out value="${fn:length(item.reviews)}" />
+					) reviews
+				</p></li>
+		</c:forEach>
+
+	</c:forEach>
+</ul>
+
+<c:if test="${fn:length(relatedWorkshops.sublist) > 1}">
+<div
+	style="background-color: #d9edf7; padding: 0; padding-left: 2%; text-align: center">
+	<strong> <c:if test='${relatedWorkshops.start > 0}'>
+			<a href="<c:url value='/sm/open/next?name=related-workshops&dir=previous' />" style="padding: 2%;">&#8592; Previous</a>
+		</c:if> <c:if
+			test="${relatedWorkshops.end < fn:length(relatedWorkshops.sublist) - 1}">
+			<a href="<c:url value='/sm/open/next?name=related-workshops&dir=next' />" style="padding: 2%;">Next &#8594;</a>
+		</c:if>
+	</strong>
+</div>
+
+</c:if>

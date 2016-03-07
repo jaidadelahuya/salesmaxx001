@@ -1,0 +1,62 @@
+<div class='section-heading'>
+	<ul class="breadcrumb">
+  <li><a href="<c:url value='/index'/>">Home</a></li>
+  <li><a href='<c:url value="/sm/open/show-all-workshops" />'>Workshops</a></li>
+  <li class="active"><c:out value="${workshopCategoryDisplay.categoryName}" /></li> 
+</ul>                 
+</div>
+<div style="background-color: #d9edf7; padding: 0;">
+	<a
+		href="<c:url value='/sm/open/get-workshop-category?categoryName=${workshopCategoryDisplay.categoryName}'/>"><strong
+		style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0;padding-left:2%">
+			<c:out value="${workshopCategoryDisplay.categoryName}" /> ( <c:out
+				value="${fn:length(workshopCategoryDisplay.workshops)}" /> )
+	</strong></a> <a href="<c:url value="workshopCategoryDisplay.catalogueLink" />"><strong
+		class="pull-right"
+		style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0;padding-right:2%">Catalogue</strong></a>
+</div>
+<ul class="list-group">
+		<c:forEach var="list" items="${workshopCategoryDisplay.cursor.sublist}" begin="${workshopCategoryDisplay.cursor.start}" end="${workshopCategoryDisplay.cursor.end}">
+			<c:forEach var="wd" items="${list}">
+			<li class="list-group-item">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-3">
+							<a href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"><img class="img-responsive img-rounded"
+								src="${wd.imageUrl}"></a>
+						</div>
+						<div class="col-md-9">
+							<div class="col-md-12">
+								<a href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"><strong style="font-size: 9pt"> <c:out value="${wd.name}" />
+								</strong></a>
+							</div>
+							<div class="col-md-12" style="font-family: calibri; font-size:11pt" >
+								<p><c:out value="${wd.description}" /></p>
+							</div>
+							<div class="col-md-12" style="font-family: calibri; font-size:11pt">
+								<span style="padding-right:2%"><input type="hidden" class="rating" data-readonly
+									data-fractions="5" value="wd.rating"/> (<c:out value="${wd.noReviews}" />) Reviews</span>
+								<span><a class="btn btn-xs btn-danger" href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"  >Read Full Details</a></span>
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+			</c:forEach>
+		</c:forEach>
+	</ul>
+	
+	
+<c:if test="${fn:length(workshopCategoryDisplay.cursor.sublist) > 1}">
+<div
+	style="background-color: #d9edf7; padding: 0; padding-left: 2%; text-align: center">
+	<strong> <c:if test='${workshopCategoryDisplay.cursor.start > 0}'>
+			<a href="<c:url value='/sm/open/next?name=workshop-category&dir=previous' />" style="padding: 2%;">&#8592; Previous</a>
+		</c:if> <c:if
+			test="${workshopCategoryDisplay.cursor.end < fn:length(workshopCategoryDisplay.cursor.sublist) - 1}">
+			<a href="<c:url value='/sm/open/next?name=workshop-category&dir=next' />" style="padding: 2%;">Next &#8594;</a>
+		</c:if>
+	</strong>
+</div>
+
+</c:if>

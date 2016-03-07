@@ -1,0 +1,22 @@
+<div id="confirmation-code">
+
+	<form id="confirm-code-form" action='/sm/open/confirm-code'>
+		<div class="alert alert-info" id="confirm-form-msg-div">
+			<p>
+				A confirmation code has been sent to
+				<output id="email-output" class="text-danger"></output>
+			</p>
+			<p>Enter your confirmation code and click the confirm button</p>
+			
+		</div>
+		<div class="form-group">
+			<label>Confirmation Code:</label> <input type="text"
+				class="form-control" name="confirmation-code" id="confirmation-code" />
+		</div>
+		<div class="form-group">
+			<input id="confirm-button" type="button"
+				class="btn btn-danger btn-md" value="confirm" />
+		</div>
+	</form>
+</div>
+

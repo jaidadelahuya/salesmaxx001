@@ -1,0 +1,1232 @@
+<?xml version="1.0" encoding="utf-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
+http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
+	version="2.5">
+	<servlet>
+		<servlet-name>CreateUser</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.CreateUser</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateUser</servlet-name>
+		<url-pattern>/create-user</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddAdminUser</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.AddAdminUser</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddAdminUser</servlet-name>
+		<url-pattern>/add-user</url-pattern>
+		<url-pattern>/sm-admin/add-user</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Login</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.Login</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Login</servlet-name>
+		<url-pattern>/login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SendEmail</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SendEmail</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendEmail</servlet-name>
+		<url-pattern>/send-email</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>VerifyCode</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.VerifyCode</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VerifyCode</servlet-name>
+		<url-pattern>/verify-code</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ChangePassword</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.ChangePassword</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangePassword</servlet-name>
+		<url-pattern>/change-password</url-pattern>
+		<url-pattern>/sm-admin/change-password</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AdminLogout</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.AdminLogoutServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminLogout</servlet-name>
+		<url-pattern>/admin-logout</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UpLoadURL</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.UploadUrlServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UpLoadURL</servlet-name>
+		<url-pattern>/get-upload-url</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveAdminProfile</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveAdminProfile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveAdminProfile</servlet-name>
+		<url-pattern>/sm-admin/save-admin-profile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveEvent</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveEvent</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveEvent</servlet-name>
+		<url-pattern>/sm-admin/save-event</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UploadUrl</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.UploadUrlServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadUrl</servlet-name>
+		<url-pattern>/sm-admin/getuploadurl</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveGift</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveGift</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveGift</servlet-name>
+		<url-pattern>/sm-admin/save-gift</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveLoyaltyOrganization</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveLoyaltyOrganization</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveLoyaltyOrganization</servlet-name>
+		<url-pattern>/sm-admin/save-organization</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UploadCertificate</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.UploadCertificate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadCertificate</servlet-name>
+		<url-pattern>/sm-admin/upload-certificate</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveWorkshopCategory</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveWorkshopCategory</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveWorkshopCategory</servlet-name>
+		<url-pattern>/sm-admin/save-workshop-category</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveWorkshopMaterial</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveWorkshopMaterial</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveWorkshopMaterial</servlet-name>
+		<url-pattern>/sm-admin/save-workshop-material</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>EventScheduleServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.EventScheduleServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EventScheduleServlet</servlet-name>
+		<url-pattern>/sm-admin/event-schedule</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AdminInterswitchTransactionLogServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.InterswitchTransactionLogServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminInterswitchTransactionLogServlet</servlet-name>
+		<url-pattern>/sm-admin/interswitch-transaction-log</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddEventToCalendar</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.AddEventToCalendar</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddEventToCalendar</servlet-name>
+		<url-pattern>/sm-admin/add-event-to-calendar</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveWorkshop</servlet-name>
+		<url-pattern>/sm-admin/save-workshop</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Interswitch</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.Interswitch</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Interswitch</servlet-name>
+		<url-pattern>/sm/closed/interswitch-callback</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveFacilitator</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveFacilitator</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveFacilitator</servlet-name>
+		<url-pattern>/sm-admin/save-facilitator</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ShowAllWorkshops</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ShowAllWorkshops</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShowAllWorkshops</servlet-name>
+		<url-pattern>/sm/open/show-all-workshops</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ShowWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ShowWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShowWorkshop</servlet-name>
+		<url-pattern>/sm/open/workshop-information</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddIndustry</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.AddIndustry</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddIndustry</servlet-name>
+		<url-pattern>/sm-admin/add-industry</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddJobeRole</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.AddJobRole</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddJobeRole</servlet-name>
+		<url-pattern>/sm-admin/add-job-role</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CategoryServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.WorkshopCategory</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CategoryServlet</servlet-name>
+		<url-pattern>/sm/open/get-workshop-category</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetWorkshopByIndustry</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetWorkshopByIndustry</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetWorkshopByIndustry</servlet-name>
+		<url-pattern>/sm/open/get-industry-workshops</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetWorkshopByExperience</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetWorkshopByExperience</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetWorkshopByExperience</servlet-name>
+		<url-pattern>/sm/open/get-workshops-by-experience</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetWorkshopByJobRole</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetWorkshopByJobRole</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetWorkshopByJobRole</servlet-name>
+		<url-pattern>/sm/open/get-job-role-workshops</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>FindWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.FindWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FindWorkshop</servlet-name>
+		<url-pattern>/sm/open/find-workshop</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SaveScheduleWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveScheduleWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveScheduleWorkshop</servlet-name>
+		<url-pattern>/sm-admin/save-scheduled-workshop</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SaveAlumnus</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.SaveAlumnus</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveAlumnus</servlet-name>
+		<url-pattern>/sm-admin/save-alumnus</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetWorkshopByLocation</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetWorkshopByLocation</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetWorkshopByLocation</servlet-name>
+		<url-pattern>/sm/open/get-workshop-by-location</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetWorkshopByDate</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetWorkshopByDate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetWorkshopByDate</servlet-name>
+		<url-pattern>/sm/open/get-workshop-by-date</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetWorkshopTemplateByScheduledWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetWorkshopTemplateByScheduledWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetWorkshopTemplateByScheduledWorkshop</servlet-name>
+		<url-pattern>/sm/open/get-workshop-template-by-schedule-workshop</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RegisterUser</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.RegisterUser</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RegisterUser</servlet-name>
+		<url-pattern>/sm/open/register-user</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ConfirmCode</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ConfirmCode</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ConfirmCode</servlet-name>
+		<url-pattern>/sm/open/confirm-code</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>UserLogin</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.Login</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UserLogin</servlet-name>
+		<url-pattern>/sm/open/login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Logout</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.Logout</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Logout</servlet-name>
+		<url-pattern>/sm/open/logout</url-pattern>
+	</servlet-mapping>
+
+	
+
+	<servlet>
+		<servlet-name>ResendConfirmationCode</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ResendConfirmationCode</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ResendConfirmationCode</servlet-name>
+		<url-pattern>/sm/open/resend-confirmation-code</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SearchForWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.SearchForWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchForWorkshop</servlet-name>
+		<url-pattern>/sm/open/search-for-workshop</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddToCart</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.AddToCart</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddToCart</servlet-name>
+		<url-pattern>/sm/open/add-to-cart</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ClearCart</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ClearCart</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClearCart</servlet-name>
+		<url-pattern>/sm/open/clear-cart</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ChangePassword1</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ChangePassword</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangePassword1</servlet-name>
+		<url-pattern>/sm/open/change-password</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ChangePasswordFromLogin</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ChangePasswordFromLogin</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangePasswordFromLogin</servlet-name>
+		<url-pattern>/sm/open/change-password-from-login</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ProceedToCheckout</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.ProceedToCheckout</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ProceedToCheckout</servlet-name>
+		<url-pattern>/sm/closed/proceed-to-checkout</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ShowAllEvents</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ShowAllEvents</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShowAllEvents</servlet-name>
+		<url-pattern>/sm/open/show-all-events</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Blog</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.Blog</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Blog</servlet-name>
+		<url-pattern>/sm/open/blog</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>TestFetch</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.TestFetch</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>TestFetch</servlet-name>
+		<url-pattern>/test-fetch</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>InterswitchResponseServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.InterswitchResponse</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InterswitchResponseServlet</servlet-name>
+		<url-pattern>/interswicth-response</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SendMail</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.SendMail</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendMail</servlet-name>
+		<url-pattern>/sm/open/send-mail</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AddMailingList</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.AddMailingList</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddMailingList</servlet-name>
+		<url-pattern>/sm/open/add-mailing-list</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>InitCurrentUserProfile</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.InitCurrentUserProfile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InitCurrentUserProfile</servlet-name>
+		<url-pattern>/sm/closed/profile/*</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>EditUserProfileServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.EditUserProfile</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditUserProfileServlet</servlet-name>
+		<url-pattern>/sm/closed/edit-profile</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SaveInterswitchTransaction</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.SaveInterswitchTransaction</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveInterswitchTransaction</servlet-name>
+		<url-pattern>/sm/closed/save-interswitch-transaction</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LoadWorkshopIndexServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlet.UpdateIndex</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoadWorkshopIndexServlet</servlet-name>
+		<url-pattern>/load-workshop-index</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SearchServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.SearchServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchServlet</servlet-name>
+		<url-pattern>/sm/open/search</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>NextCursorServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.NextCursorServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NextCursorServlet</servlet-name>
+		<url-pattern>/sm/open/next</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>QueryInterswitchServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.QueryInterswitch</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>QueryInterswitchServlet</servlet-name>
+		<url-pattern>/sm-admin/query-interswitch</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>NextPageServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.NextPageServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NextPageServlet</servlet-name>
+		<url-pattern>/sm/open/show-next</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LinkedInSignIn</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.LinkedInSignIn</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LinkedInSignIn</servlet-name>
+		<url-pattern>/sm/open/linkedin-signin</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>FacebookSignIn</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.FacebookSignIn</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FacebookSignIn</servlet-name>
+		<url-pattern>/sm/open/facebook-signin</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GoogleSignIn</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GoogleSignin</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GoogleSignIn</servlet-name>
+		<url-pattern>/sm/open/google-signin</url-pattern>
+	</servlet-mapping>
+	
+	
+	<servlet>
+		<servlet-name>GoogleCallback</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GoogleCallback</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GoogleCallback</servlet-name>
+		<url-pattern>/sm/open/google/callback</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LinkedInCallback</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.LinkedInCallback</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LinkedInCallback</servlet-name>
+		<url-pattern>/sm/open/linkedin/callback</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>FacebookCallback</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.FacebookCallback</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FacebookCallback</servlet-name>
+		<url-pattern>/sm/open/facebook/callback</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PurchaseHistoryTest</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.PurchaseHistoryTest</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PurchaseHistoryTest</servlet-name>
+		<url-pattern>/sm/closed/purchase-history-test</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RescheduleWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.RescheduleWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RescheduleWorkshop</servlet-name>
+		<url-pattern>/sm/closed/reschedule-workshop</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RescheduleWorkshop2</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.RescheduleWorkshop2</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RescheduleWorkshop2</servlet-name>
+		<url-pattern>/sm/closed/join-workshop</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SocialMediaLogin</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.SocialMediaLogin</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SocialMediaLogin</servlet-name>
+		<url-pattern>/sm/open/social-media-login</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>StartDiscussion</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.StartDiscussion</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>StartDiscussion</servlet-name>
+		<url-pattern>/sm/open/start-discussion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>LoginReload</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.LoginReload</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginReload</servlet-name>
+		<url-pattern>/sm/open/non-ajax-login</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ViewAllDiscussion</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ViewAllDiscussion</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewAllDiscussion</servlet-name>
+		<url-pattern>/sm/open/view-all-discussion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>NewsLetterSubscription</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.NewsLetterSubscription</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>NewsLetterSubscription</servlet-name>
+		<url-pattern>/sm/open/newsletter-subscription</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>GetDiscussion</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetDiscussion</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetDiscussion</servlet-name>
+		<url-pattern>/sm/open/get-discussion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CoachingServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.CoachingServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingServlet</servlet-name>
+		<url-pattern>/coaching</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SendNotificationEmail</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.SendNotificationEmail</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendNotificationEmail</servlet-name>
+		<url-pattern>/sm/open/send-notification-email</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SalesAndMarketingTemplates</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.SalesAndMarketingTemplates</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SalesAndMarketingTemplates</servlet-name>
+		<url-pattern>/sm/open/sales-and-marketing-templates</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ForgotPassword</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ForgotPassword</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ForgotPassword</servlet-name>
+		<url-pattern>/sm/open/forgot-password</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ForgotPasswordPage</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ForgotPasswordInit</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ForgotPasswordPage</servlet-name>
+		<url-pattern>/sm/open/forgot-password-page</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SubmitDiscussion</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.SubmitDiscussion</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SubmitDiscussion</servlet-name>
+		<url-pattern>/sm/closed/submit-discussion</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PostComment</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.PostComment</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PostComment</servlet-name>
+		<url-pattern>/sm/closed/post-comment</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SaveTestimonial</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.SaveTestimonial</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SaveTestimonial</servlet-name>
+		<url-pattern>/sm/closed/save-testimonial</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	
+	
+
+	<!-- *********************JSPS*************************** -->
+	<servlet>
+		<servlet-name>CreateAccount</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/sign-up-complete.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateAccount</servlet-name>
+		<url-pattern>/sm/open/sign-up-complete</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SignUpSuccess</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/create-an-account.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SignUpSuccess</servlet-name>
+		<url-pattern>/sm/open/create-an-account</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>ChangePasswordUserPage</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/change-password.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangePasswordUserPage</servlet-name>
+		<url-pattern>/sm/open/change-password-user-page</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>VerificationCode</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/confirmation-code.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VerificationCode</servlet-name>
+		<url-pattern>/sm/open/enter-verification-code</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>SalesMarketingAutomation</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/sales-and-marketing-automation.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SalesMarketingAutomation</servlet-name>
+		<url-pattern>/sm/open/sales-and-marketing-automation</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>LoginPage</servlet-name>
+		<jsp-file>/WEB-INF/login.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>LoginPage</servlet-name>
+		<url-pattern>/sm/open/login-page</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Discussion</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/start-discussion.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Discussion</servlet-name>
+		<url-pattern>/sm/open/start-discussion-page</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CoachingPage</servlet-name>
+		<jsp-file>/WEB-INF/coaching.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingPage</servlet-name>
+		<url-pattern>/coaching-page</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ToolsPage</servlet-name>
+		<jsp-file>/WEB-INF/tools.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ToolsPage</servlet-name>
+		<url-pattern>/tools</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>InterswitchTransactionPage</servlet-name>
+		<jsp-file>/WEB-INF/interswitch-transaction-log.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InterswitchTransactionPage</servlet-name>
+		<url-pattern>/sm-admin/interswitch-transaction-log-page</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AddAlumnus</servlet-name>
+		<jsp-file>/WEB-INF/save-alumnus.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddAlumnus</servlet-name>
+		<url-pattern>/sm-admin/add-alumnus</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Calendar</servlet-name>
+		<jsp-file>/WEB-INF/calendar.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Calendar</servlet-name>
+		<url-pattern>/calendar</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>EditUserProfile</servlet-name>
+		<jsp-file>/WEB-INF/sm/closed/edit-user-profile.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditUserProfile</servlet-name>
+		<url-pattern>/sm/closed/edit-user-profile</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>MakePayment</servlet-name>
+		<jsp-file>/WEB-INF/sm/closed/make-payment.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>MakePayment</servlet-name>
+		<url-pattern>/sm/closed/make-payment</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>About</servlet-name>
+		<jsp-file>/WEB-INF/about.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>About</servlet-name>
+		<url-pattern>/about</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Contact</servlet-name>
+		<jsp-file>/WEB-INF/contact.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Contact</servlet-name>
+		<url-pattern>/contact</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Cart</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/cart.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Cart</servlet-name>
+		<url-pattern>/sm/open/cart</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SearchPage</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/search-page.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SearchPage</servlet-name>
+		<url-pattern>/sm/open/search-page</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ShowWorkshopPage</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/workshop-information.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShowWorkshopPage</servlet-name>
+		<url-pattern>/sm/open/show-workshop-page</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>FindWorkshopPage</servlet-name>
+		<jsp-file>/WEB-INF/find-workshop.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>FindWorkshopPage</servlet-name>
+		<url-pattern>/sm/open/show-found-workshop</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ScheduleWorkshop</servlet-name>
+		<jsp-file>/WEB-INF/schedule-workshop.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScheduleWorkshop</servlet-name>
+		<url-pattern>/sm-admin/schedule-workshop</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CategoryPage</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/workshop-category.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CategoryPage</servlet-name>
+		<url-pattern>/sm/open/workshop-category</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>Miscelleneous</servlet-name>
+		<jsp-file>/WEB-INF/misc.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Miscelleneous</servlet-name>
+		<url-pattern>/sm-admin/miscelleneous</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>IndexPage</servlet-name>
+		<jsp-file>/index.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>IndexPage</servlet-name>
+		<url-pattern>/index</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ShowAllWorkshopsPage</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/all-workshops.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ShowAllWorkshopsPage</servlet-name>
+		<url-pattern>/sm/open/all-workshops</url-pattern>
+	</servlet-mapping>
+
+
+	<servlet>
+		<servlet-name>EditWorkshop</servlet-name>
+		<jsp-file>/WEB-INF/edit-workshop.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditWorkshop</servlet-name>
+		<url-pattern>/sm-admin/edit-workshop</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>Inter</servlet-name>
+		<jsp-file>/WEB-INF/interswitch.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>Inter</servlet-name>
+		<url-pattern>/interswitch-page</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddFacilitator</servlet-name>
+		<jsp-file>/WEB-INF/add-facilitator.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddFacilitator</servlet-name>
+		<url-pattern>/sm-admin/add-facilitator</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CreateUserPage</servlet-name>
+		<jsp-file>/WEB-INF/create-user.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateUserPage</servlet-name>
+		<url-pattern>/create-user-page</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PasswordRecovery</servlet-name>
+		<jsp-file>/WEB-INF/password-recovery.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PasswordRecovery</servlet-name>
+		<url-pattern>/password-recovery</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SalesMaxxAdminHome</servlet-name>
+		<jsp-file>/WEB-INF/salesmaxx-admin-home.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SalesMaxxAdminHome</servlet-name>
+		<url-pattern>/sm-admin</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>ChangePasswordPage</servlet-name>
+		<jsp-file>/WEB-INF/change-password.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChangePasswordPage</servlet-name>
+		<url-pattern>/x-password</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>EditAdminProfile</servlet-name>
+		<jsp-file>/WEB-INF/edit-admin-profile.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>EditAdminProfile</servlet-name>
+		<url-pattern>/sm-admin/edit-admin-profile</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddEvent</servlet-name>
+		<jsp-file>/WEB-INF/add-event.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddEvent</servlet-name>
+		<url-pattern>/sm-admin/add-event</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddOrganization</servlet-name>
+		<jsp-file>/WEB-INF/add-organization.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddOrganization</servlet-name>
+		<url-pattern>/sm-admin/add-organization</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddGiftItem</servlet-name>
+		<jsp-file>/WEB-INF/add-gift-item.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddGiftItem</servlet-name>
+		<url-pattern>/sm-admin/add-gift-item</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddWorkshopCategory</servlet-name>
+		<jsp-file>/WEB-INF/add-workshop-category.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddWorkshopCategory</servlet-name>
+		<url-pattern>/sm-admin/add-workshop-category</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AddWorkshopMaterial</servlet-name>
+		<jsp-file>/WEB-INF/add-workshop-material.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddWorkshopMaterial</servlet-name>
+		<url-pattern>/sm-admin/add-workshop-material</url-pattern>
+	</servlet-mapping>
+
+	
+	
+	<servlet>
+		<servlet-name>AddAssessment</servlet-name>
+		<jsp-file>/WEB-INF/add-assessment.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddAssessment</servlet-name>
+		<url-pattern>/sm-admin/add-assessment</url-pattern>
+	</servlet-mapping>
+	
+	
+	
+	<servlet>
+		<servlet-name>UploadCertificate</servlet-name>
+		<jsp-file>/WEB-INF/upload-certificate.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>UploadCertificate</servlet-name>
+		<url-pattern>/sm-admin/upload-certificate</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ScheduleEvent</servlet-name>
+		<jsp-file>/WEB-INF/schedule-event.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ScheduleEvent</servlet-name>
+		<url-pattern>/sm-admin/schedule-event</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>AddWorkshop</servlet-name>
+		<jsp-file>/WEB-INF/add-workshop.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddWorkshop</servlet-name>
+		<url-pattern>/sm-admin/add-workshop</url-pattern>
+	</servlet-mapping>
+	<servlet>
+		<servlet-name>CreateAdminUser</servlet-name>
+		<jsp-file>/WEB-INF/admin-create-user.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CreateAdminUser</servlet-name>
+		<url-pattern>/sm-admin/create-user</url-pattern>
+	</servlet-mapping>
+
+	<!-- FILTERS -->
+	<filter>
+		<filter-name>AdminAuthFilter</filter-name>
+		<filter-class>com.salesmaxx.servlets.admin.AdminAuthFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AdminAuthFilter</filter-name>
+		<url-pattern>/sm-admin/*</url-pattern>
+	</filter-mapping>
+
+
+	<filter>
+		<filter-name>AuthenticationFilter</filter-name>
+		<filter-class>com.salesmaxx.servlets.sm.closed.AuthenticationFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>AuthenticationFilter</filter-name>
+		<url-pattern>/sm/closed/*</url-pattern>
+	</filter-mapping>
+
+	<filter>
+		<filter-name>ClearSearchFilter</filter-name>
+		<filter-class>com.salesmaxx.servlets.sm.open.ClearSearchFilter</filter-class>
+	</filter>
+	<filter-mapping>
+		<filter-name>ClearSearchFilter</filter-name>
+		<url-pattern>/sm/closed/*</url-pattern>
+		<url-pattern>/sm/open/*</url-pattern>
+	</filter-mapping>
+
+	<listener>
+		<listener-class>com.salesmaxx.listeners.SalesMaxxSessionListener</listener-class>
+	</listener>
+
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>profile</web-resource-name>
+			<url-pattern>/*</url-pattern>
+		</web-resource-collection>
+		<user-data-constraint>
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+	</security-constraint>
+
+
+	<welcome-file-list>
+		<welcome-file>index.jsp</welcome-file>
+	</welcome-file-list>
+	
+	<context-param>
+		<param-name>LinkedInClientId</param-name>
+		<param-value>77ciyhkk0lhyeu</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>LinkedInClientSecret</param-name>
+		<param-value>vId8FSizvWEzzlA7</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>FacebookClientId</param-name>
+		<param-value>1134790883222273</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>FacebookClientSecret</param-name>
+		<param-value>b84eff80efef4a3abe17242b2ca726c8</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>GoogleClientId</param-name>
+		<param-value>1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com
+</param-value>
+	</context-param>
+	
+	<context-param>
+		<param-name>GoogleClientSecret</param-name>
+		<param-value>HCKJkccJbw8vQN3czykSlsjb</param-value>
+	</context-param>
+</web-app>

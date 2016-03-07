@@ -1,0 +1,47 @@
+<div class='section-heading'>
+	<strong>Other Categories</strong>
+</div>
+<ul class="list-group" style="text-align: center;">
+	<c:forEach var='list' items='${otherCategories.sublist}'
+		begin="${otherCategories.start}" end="${otherCategories.end}">
+
+		<c:forEach var="item" items="${list}">
+			<div
+				style="background-color: #d9edf7; text-align: center; padding: 0">
+				<strong
+					style="text-align: center; font-weight: bold; margin-top: 0; margin-bottom: 0; overflow: hidden;"
+					class="text-muted"> <a
+					href="<c:url value='/sm/open/get-workshop-category?categoryName=${item.name}'/>"><c:out
+							value='${item.name}' /></a>
+				</strong>
+
+			</div>
+			<li class="list-group-item" style="border: none"><a
+				href="<c:url value='/sm/open/get-workshop-category?categoryName=${item.name}'/>"><img
+					style="width: 70%; height: auto; margin: 0 auto" alt="${item.name}"
+					src="${item.image}" class="img img-responsive"></a>
+				<p>
+					<a
+						href="<c:url value='/sm/open/get-workshop-category?categoryName=${item.name}'/>">
+						<strong>(<c:out value='${item.noOfWorkshops}' />)
+					</strong> workshops
+					</a>
+
+				</p></li>
+		</c:forEach>
+
+	</c:forEach>
+</ul>
+<c:if test="${fn:length(otherCategories.sublist) > 1}">
+<div
+	style="background-color: #d9edf7; padding: 0; padding-left: 2%; text-align: center">
+	<strong> <c:if test='${otherCategories.start > 0}'>
+			<a href="<c:url value='/sm/open/next?name=other-categories&dir=previous' />" style="padding: 2%;">&#8592; Previous</a>
+		</c:if> <c:if
+			test="${otherCategories.end < fn:length(otherCategories.sublist) - 1}">
+			<a href="<c:url value='/sm/open/next?name=other-categories&dir=next' />" style="padding: 2%;">Next &#8594;</a>
+		</c:if>
+	</strong>
+</div>
+
+</c:if>

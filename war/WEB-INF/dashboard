@@ -1,0 +1,225 @@
+
+<div class="col-sm-8 col-centered" style="padding-top: 4%;">
+
+	<c:set var="ADMIN" value="<%=UserRole.ADMIN%>" />
+	<c:set var="SYSADMIN" value="<%=UserRole.SYSADMIN%>" />
+	<c:set var="COURSE" value="<%=UserRole.COURSE_ADMIN%>" />
+	<c:if
+		test='${user.role eq COURSE or user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/edit-admin-profile"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/edit-profile.png" alt="Edit profile"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/edit-admin-profile"/>'> Profile</a>
+			</div>
+		</div>
+	</c:if>
+
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-assessment"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/assessment.png" alt="Assessment Questions"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-assessment"/>'>Assessment
+					Questions</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-alumnus"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/assessment.png" alt="Add Alumnus"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-alumnus"/>'>Add Alumnus</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-gift-item"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/gift-item.png" alt="Gift Items"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-gift-item"/>'>Gift Items</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-facilitator"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/user.png" alt="Gift Items"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-facilitator"/>'>Add Facilitator</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/interswitch-transaction-log"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/assessment.png" alt="Assessment Questions"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/interswitch-transaction-log"/>'>Interswitch Logs</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-event"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/add-delete-events.png" alt="Add/Delete Event"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-event"/>'>Events</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-organization"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/organization.png" alt="Add Organization"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-organization"/>'>Loyalty
+					Partners</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/create-user"/>'><img
+				class="img-responsive module-image" src="/images/icons/user.png"
+				alt="Add User"></a>
+			<div class="caption" style="text-align: center;">
+				<a href='<c:url value="/sm-admin/create-user"/>'
+					class="module to-pointer">Users</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/miscelleneous"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/assessment.png" alt="Assessment Questions"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/miscelleneous"/>'>Miscelleneous</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/upload-certificate"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/certificate.png" alt="Upload Certificate"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/upload-certificate"/>'>
+					Certificates</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/event-schedule"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/schedule-event.png" alt="Schedule event"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/event-schedule"/>'>Schedule Event
+					</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq COURSE or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/schedule-workshop"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/schedule-workshop.png" alt="Schedule workshop"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/schedule-workshop"/>'>Schedule Workshop
+					</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-workshop"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/add-workshop.png" alt="Add workshop"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-workshop"/>'>Workshops</a>
+			</div>
+		</div>
+	</c:if>
+	
+	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-workshop-category"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/add-workshop-category.png"
+				alt="Add workshop category"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-workshop-category"/>'>
+					Workshop Categories</a>
+			</div>
+		</div>
+	</c:if>
+	<c:if
+		test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/add-workshop-material"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/add-workshop-material.png"
+				alt="Add workshop material"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/add-workshop-material"/>'>
+					Workshop Materials</a>
+			</div>
+		</div>
+	</c:if>
+
+</div>

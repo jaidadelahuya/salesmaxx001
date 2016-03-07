@@ -1,0 +1,7 @@
+<div
+	style="background-color: #5bc0de; padding: 1%; color: black; margin-bottom: 0; text-align: center">
+
+	<a class="btn" style="color: white; font-weight: bold;">Workshop
+		Finder</a> <a class="btn" style="color: white; font-weight: bold;">Cart
+		(0)</a> <a class="btn" style="color: white; font-weight: bold;"><c:if test='${user.authenticated}'>Profile</c:if></a>
+</div>

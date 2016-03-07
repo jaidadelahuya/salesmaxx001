@@ -1,0 +1,137 @@
+<div style="padding: 2%;">
+	<h4 class="text-danger">
+		<i class="text-muted">Search for</i>
+		<c:out value="${searchString}" />
+	</h4>
+</div>
+
+<h4 class="text-muted"
+	style="margin: 1%; font-size: 10pt; font-weight: bold">
+	<c:out value="${fn:length(searchDocs)}" />
+	result(s) found
+	<c:if test='${fn:length(searchDocs) > 0}'>
+		<strong class="pull-right">Showing <c:out
+				value="${sb1.pageStart + 1}" /> - <c:out value="${sb1.pageEnd + 1}" />
+			out of <c:out value="${fn:length(searchDocs)}" /></strong>
+	</c:if>
+</h4>
+
+<c:choose>
+	<c:when test="${fn:length(searchDocs) > 0}">
+		<table class="table table-responsive table-striped">
+			<c:forEach var='item' items='${searchDocs}' begin="${sb1.pageStart}"
+				end="${sb1.pageEnd}">
+				<tr>
+					<td><strong style="font-size: 13pt"> <a
+							href='<c:url value="/sm/open/workshop-information?id=${item.workshopCode}" />'><c:out
+									value="${item.name}" /></a>
+					</strong>
+						<h5>
+							<strong>Workshop Code :</strong> <a
+								href='<c:url value="/sm/open/workshop-information?id=${item.workshopCode}" />'><c:out
+									value="${item.workshopCode}" /></a>
+						</h5>
+						<p style="font-size: 11pt; font-family: calibri;">
+							<c:out value="${item.description}" />
+						</p>
+						<p>
+
+							<strong class="text-danger">Locations(s): </strong>
+							<c:forEach var="x" items="${item.location}" varStatus="i">
+								<span><c:out value="${x}" /></span>
+								<c:if test="${i.index < fn:length(item.location)-1}">, </c:if>
+							</c:forEach>
+							<strong class="text-danger">Month(s): </strong>
+							<c:forEach var="x" items="${item.month}" varStatus="i">
+								<span><c:out value="${x}" /></span>
+								<c:if test="${i.index < fn:length(item.month)-1}">, </c:if>
+							</c:forEach>
+						</p>
+						<p>
+							<a
+								href='<c:url value="/sm/open/workshop-information?id=${item.workshopCode}" />'
+								class="btn btn-danger btn-xs">See full details</a> <a
+								href='<c:url value="#" />' class="btn btn-danger btn-xs">Download
+								Bronchure</a>
+						</p></td>
+				</tr>
+			</c:forEach>
+			<tr>
+				<td style="text-align: center;">
+					<ul class="pagination pagination-sm">
+						<c:forEach var="i" begin="1" end="${sb1.pagination}">
+							<c:choose>
+								<c:when test="${sb1.currentDisplay eq i}">
+									<li class="active"><a
+										href="<c:url value='/sm/open/show-next?val=${i}&name=search-page' />">${i}</a></li>
+								</c:when>
+								<c:otherwise>
+									<li><a
+										href="<c:url value='/sm/open/show-next?val=${i}&name=search-page' />">${i}</a></li>
+								</c:otherwise>
+							</c:choose>
+
+						</c:forEach>
+					</ul>
+				</td>
+			</tr>
+		</table>
+	</c:when>
+	<c:otherwise>
+		<div class="row" style="padding: 5%; padding-top: 0;">
+			<div class="col-md-12">
+				<h4 class="text-muted">Suggested Workshops</h4>
+			</div>
+			<div class="col-md-6">
+				<ul class="list-group"
+					style="font-family: calibri; font-size: 11pt; font-weight: bold">
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/search-for-workshop?location=abuja' />">Workshops
+							in Abuja</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/search-for-workshop?location=lagos' />">Workshops
+							in Lagos</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/search-for-workshop?experience=FOUNDATION' />">Foundation
+							Level Workshops</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/search-for-workshop?experience=INTERMEDIATE' />">Intermediate
+							Level Workshops</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Technology and Telco Sales' />">Technology
+							and Telco Sales</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Training For Every Account Manager' />">Training
+							For Every Account Manager</a></li>
+
+				</ul>
+			</div>
+			<div class="col-md-6">
+				<ul class="list-group"
+					style="font-family: calibri; font-size: 11pt; font-weight: bold">
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Sales Management'/>">Sales
+							Management</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Professional Selling Skills'/>">Professional
+							Selling Skills</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Channel and Distribution Sales'/>">Channel
+							and Distribution Sales</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Presentation'/>">Presentation</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Negotiation'/>">Negotiation</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value='/sm/open/get-workshop-category?categoryName=Relationship Management'/>">Relationship
+							Management</a></li>
+					<li class="list-group-item" style="border: none;"><a
+						href="<c:out value=''/>"></a></li>
+				</ul>
+			</div>
+		</div>
+	</c:otherwise>
+</c:choose>
+
+
+

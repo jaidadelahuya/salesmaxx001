@@ -1,0 +1,117 @@
+<div class='section-heading'>
+	<ul class="breadcrumb">
+  <li><a href="<c:url value='/index'/>">Home</a></li>
+  <li class="active">Workshops</li> 
+</ul> 
+</div>
+<c:forEach var="list" items="${categoryDisplays.sublist}"
+	begin="${categoryDisplays.start}" end="${categoryDisplays.end}">
+
+	<c:forEach var="cd" items="${list}">
+		<div style="background-color: #d9edf7; padding: 0; padding-left: 2%">
+			<a
+				href="<c:url value='/sm/open/get-workshop-category?categoryName=${cd.categoryName}'/>"><strong
+				style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0">
+					<c:out value="${cd.categoryName}" /> ( <c:out
+						value="${fn:length(cd.workshops)}" /> )
+			</strong></a> <a href="<c:url value=" cd.catalogueLink" />"><strong
+				class="pull-right"
+				style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0; padding-right: 2%">Catalogue</strong></a>
+		</div>
+		<div class="row">
+			<div class="col-md-3">
+				<a
+					href="<c:url value='/sm/open/get-workshop-category?categoryName=${cd.categoryName}'/>"><img
+					class="img img-responsive img-rounded" src="${cd.imageUrl}"
+					style="margin: 3%; margin-left: 5%"></a>
+			</div>
+			<div class="col-md-9" style="font-family: calibri">
+				<ul class="list-group">
+					<c:forEach var="wd" items="${cd.workshops}">
+						<li class="list-group-item" style="border: none;"><a
+							href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"><strong
+								style="font-size: 9pt"><span
+									class="glyphicon glyphicon-play"></span> <c:out
+										value="${wd.name}" /> </strong></a></li>
+					</c:forEach>
+				</ul>
+			</div>
+		</div>
+	</c:forEach>
+
+	<!-- 
+	<div style="background-color: #d9edf7; padding: 0; padding-left: 2%">
+		<a
+			href="<c:url value='/sm/open/get-workshop-category?categoryName=${cd.categoryName}'/>"><strong
+			style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0">
+				<c:out value="${cd.categoryName}" /> ( <c:out
+					value="${fn:length(cd.workshops)}" /> )
+		</strong></a> <a href="<c:url value=" cd.catalogueLink" />"><strong
+			class="pull-right"
+			style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0; padding-right: 2%">Catalogue</strong></a>
+	</div>
+	<div class="row">
+		<div class="col-md-3">
+			<a
+				href="<c:url value='/sm/open/get-workshop-category?categoryName=${cd.categoryName}'/>"><img
+				class="img-responsive img-rounded" src="${cd.imageUrl}"
+				style="margin: 3%; margin-left: 5%"></a>
+		</div>
+		<div class="col-md-9">
+			<ul class="list-group">
+				<c:forEach var="wd" items="${cd.workshops}">
+					<li class="list-group-item" style="border: none"><a
+						href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"><strong
+							style="font-size: 9pt"> <c:out value="${wd.name}" />
+						</strong></a></li>
+				</c:forEach>
+			</ul>
+		</div>
+	</div>  -->
+	<!-- <ul class="list-group">
+		<c:forEach var="wd" items="${cd.workshops}" begin="0" end="1">
+			<li class="list-group-item">
+				<div class="container-fluid">
+					<div class="row">
+						<div class="col-md-3">
+							<a
+								href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"><img
+								class="img-responsive img-rounded" src="${wd.imageUrl}"></a>
+						</div>
+						<div class="col-md-9">
+							<div class="col-md-12">
+								<a
+									href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"><strong
+									style="font-size: 9pt"> <c:out value="${wd.name}" />
+								</strong></a>
+							</div>
+							<div class="col-md-12">
+								<>p
+								<c:out value="${wd.description}" />
+								</p>
+
+							</div>
+							<div class="col-md-12">
+								<input type="hidden" class="rating" data-readonly
+									data-fractions="5" value="wd.rating" /> (
+								<c:out value="${wd.noReviews}" />
+								)
+							</div>
+						</div>
+					</div>
+				</div>
+			</li>
+		</c:forEach>
+	</ul> -->
+</c:forEach>
+<div
+	style="background-color: #d9edf7; padding: 0; padding-left: 2%; text-align: center">
+	<strong> <c:if test='${categoryDisplays.start > 0}'>
+			<a href="<c:url value='/sm/open/next?name=workshop&dir=previous' />" style="padding: 2%;">&#8592; Previous</a>
+		</c:if> <c:if
+			test="${categoryDisplays.end < fn:length(categoryDisplays.sublist) - 1}">
+			<a href="<c:url value='/sm/open/next?name=workshop&dir=next' />" style="padding: 2%;">Next &#8594;</a>
+		</c:if>
+	</strong>
+</div>
+

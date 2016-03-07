@@ -1,0 +1,69 @@
+.carousel-img {
+	width: 100%;
+}
+
+
+
+#tools-div {
+	width: 80%;
+	margin: 0 auto;
+	margin-top: 2%;
+	padding: 2%;
+}
+
+.alt-div {
+	background-color: #d9edf7;
+	margin-left: -15px;
+	margin-right: -15px;
+	padding: 15px;
+	padding-bottom: 0px;
+}
+
+.alt-div h2 {
+	text-align: center;
+	font-weight: bold;
+	margin-bottom: 3%;
+}
+
+.featured-workshop {
+	color: white;
+	padding-top: 1em;
+	height: 12em;
+}
+
+.featured-workshop div h3 {
+	font-size: 150%;
+}
+
+.featured-workshop div a {
+	color: white;
+}
+
+.featured-workshop div a:hover{
+	text-decoration: none;
+}
+
+.col-centered {
+	float: none;
+	margin: 0 auto;
+}
+
+.index-mod {
+	width: 90%;
+	height: auto;
+	margin-bottom: 5%;
+}
+
+##overlay {
+	background: rgb(255, 255, 255); /* Fallback */
+	background-color: rgba(255, 255, 255, 0.5); /*dim the background*/
+	height: 23em;
+	width: 15em;
+	float: left;
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	z-index: 1000;
+	padding: 5px;
+	clear: both;
+}

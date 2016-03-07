@@ -1,0 +1,27 @@
+
+
+
+
+		<div style="margin-bottom: 4%">
+			<a href='/calendar'><img class="img img-responsive" src="/images/calender.jpg"
+				alt="Calendar" /></a>
+		</div>
+	
+		<div style="margin-bottom: 4%">
+			<a><img class="img img-responsive" src="/images/download-howtobuy.jpg"
+				alt="How to buy sales training" /></a>
+		</div>
+	
+		<div style="margin-bottom: 4%">
+			<a href='href='<c:out value='/sm/open/search-for-workshop?format=online' />''><img class="img img-responsive" src="/images/e-learning.jpg"
+				alt="online courses" /></a>
+		</div>
+		
+		<div style="margin-bottom: 4%">
+			<a href="#"><img alt="Free Quote" src="/images/free-quote.png" class="img img-responsive"></a>
+		</div>
+		
+	
+	
+
+

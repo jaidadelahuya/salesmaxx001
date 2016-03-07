@@ -1,0 +1,45 @@
+<%@ include file="/WEB-INF/sm/open/content-header"%>
+<div style="background-color: #d9edf7; padding: 0;">
+	<h5
+		style="display: inline-block; font-weight: bolder; padding: 1%; margin-top: 0; margin-bottom: 0">
+		Job Role: <a
+			href="<c:url value='/sm/open/get-workshops-by-experience?experience=${jobRole}'/>">
+			<c:out value="${jobRole}" /> (${fn:length(workshopDisplays)})
+		</a>
+	</h5>
+
+</div>
+<ul class="list-group">
+	<c:forEach var="wd" items="${workshopDisplays}">
+		<li class="list-group-item">
+			<div class="container-fluid">
+				<div class="row">
+					<div class="col-md-3">
+						<a href="#"><img class="img-responsive img-rounded"
+							src="${wd.imageUrl}"></a>
+					</div>
+					<div class="col-md-9">
+						<div class="col-md-12">
+							<a
+								href="<c:url value='/sm/open/workshop-information?id=${wd.id}' />"><strong
+								style="font-size: 9pt"> <c:out value="${wd.name}" />
+							</strong></a>
+						</div>
+						<div class="col-md-12">
+							<p>
+								<c:out value="${wd.description}" />
+							</p>
+						</div>
+						<div class="col-md-12">
+							<input type="hidden" class="rating" data-readonly
+								data-fractions="5" value="wd.rating" /> (
+							<c:out value="${wd.noReviews}" />
+							) <input type="button" class="btn btn-danger btn-sm pull-right"
+								value="Add to cart"></input>
+						</div>
+					</div>
+				</div>
+			</div>
+		</li>
+	</c:forEach>
+</ul>
