@@ -5,7 +5,7 @@
 <%@ taglib uri="/WEB-INF/custom-functions.tld" prefix="pn"%>
 <%@page import="com.salesmaxx.entities.UserRole"%>
 <!DOCTYPE html>
-<html style="height: 100%;">
+<html>
 <head>
 <meta charset="ISO-8859-1">
 <title>Workshops</title>

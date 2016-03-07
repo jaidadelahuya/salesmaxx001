@@ -24,16 +24,16 @@
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
 
-			<div class="col-md-8">
-				<div class="panel panel-default col-md-12" style="padding: 0">
-					<div class='section-heading'>
-						<ul class="breadcrumb" style="">
-							<li><a href="<c:url value='/index'/>">Home</a></li>
-							<li><a href='<c:url value="/coaching" />'>Coaching</a></li>
-							<li><a href="#"><c:out value="${coachingCategory}" /></a></li>
-							<li class="active"><c:out value="New Discussion" /></li>
-						</ul>
+			<div class="col-md-9" style="padding-left: 0px;">
+				<div class="discussion-sidebar"
+					style="padding: 0; background-color: white; padding-left: 4%;">
+					<div class="form-group col-sm-12"
+						style="text-align: right; margin-bottom: 0px; margin-top: 2%;">
+						<a href="<c:url value='/coaching' />"
+							class="btn btn-danger btn-xs" style="margin-bottom: 1px;">View
+							Coaching Categories</a>
 					</div>
+
 					<div class="col-md-12"padding-top: 5%;">
 						<h3 class="text-primary">
 							<c:out value="New Question/Discussion" />
@@ -52,7 +52,7 @@
 										<c:out value='${startDiscussionErrorMessage}' />
 									</p>
 								</div>
-								
+
 							</c:when>
 							<c:when test="${startDiscussionSuccess}">
 								<div class="alert alert-success">
@@ -60,10 +60,11 @@
 										<c:out value='${startDiscussionSuccessMessage}' />
 									</p>
 								</div>
-								
+
 							</c:when>
 						</c:choose>
-						<form action="/sm/closed/submit-discussion" method="post" id="post-discussion-form" >
+						<form action="/sm/closed/submit-discussion" method="post"
+							id="post-discussion-form">
 							<div class="row">
 								<div class="form-group col-sm-12 col-md-10">
 									<label for="title">Title:</label> <input type="text"
@@ -114,7 +115,7 @@
 
 			</div>
 
-			<div class="col-md-4" style="padding: 0">
+			<div class="col-md-3" style="padding: 0">
 				<div style="margin-bottom: 4%">
 					<a href='/calendar'><img class="img img-responsive"
 						src="/images/calender.jpg" alt="Calendar" /></a>
@@ -126,7 +127,7 @@
 						alt="How to buy sales training" /></a>
 				</div>
 
-				
+
 			</div>
 		</div>
 
@@ -143,6 +144,11 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".main-menu-item").removeClass("active");
+			$("#tools-menu").addClass("active");
+		});
+
+		$(".template-div").click(function() {
+			$(this).find("ul").slideToggle();
 		});
 	</script>
 	<script type='text/javascript'>
@@ -150,6 +156,7 @@
 			salesiq : {
 				values : {},
 				ready : function() {
+					$zoho.salesiq.floatbutton.visible('hide');
 				}
 			}
 		};
@@ -161,5 +168,6 @@
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
 	</script>
+
 </body>
 </html>
