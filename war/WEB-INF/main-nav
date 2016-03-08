@@ -69,9 +69,9 @@
 					<div>
 						<strong style="margin-right: -15px" class="pull-right"><c:out
 								value="" /></strong><br />
-						<button type="button"
-							class="btn btn-info btn-sm navbar-right navbar-btn login">Login
-						</button>
+						<a
+							class="btn btn-info btn-sm navbar-right navbar-btn" href="/sm/open/login-page">Sign In
+						</a>
 					</div>
 				</c:otherwise>
 			</c:choose>

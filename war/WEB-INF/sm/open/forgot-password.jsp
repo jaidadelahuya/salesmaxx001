@@ -18,36 +18,6 @@
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <style type="text/css">
-.login-input-div {
-	border-radius: 4px;
-	-moz-border-radius: 4px;
-	-webkit-border-radius: 4px;
-	border: 1px #ddd solid;
-	background-color: white;
-	padding: 1%;
-	padding-top: 0;
-}
-
-.login-input-div h1 {
-	font-weight: normal;
-	font-size: 28px;
-	line-height: 1.2;
-	margin-bottom: 10px !important;
-	font-family: Arial, sans-serif;
-	text-rendering: optimizeLegibility;
-	padding-bottom: 4px;
-	box-sizing: border-box;
-	color: #333;
-	margin-left: 2%;
-}
-
-.login-div {
-	width: 25%;
-	margin: 0 auto;
-	margin-top: 1%;
-	font-family: calibri;
-}
-
 @media screen and (max-width: 1200px) {
 	.login-div {
 		width: 25%;
@@ -79,7 +49,7 @@
 }
 </style>
 </head>
-<body>
+<body class="login-body">
 
 	<div class="container-fluid">
 		<div class="row">
@@ -89,7 +59,10 @@
 			</div>
 			<c:if test="${not empty forgotPasswordError}">
 				<div class="login-div alert alert-danger">
-					<p><span class="glyphicon glyphicon-exclamation-sign"></span> <c:out value="${forgotPasswordError}"/></p>
+					<p>
+						<span class="glyphicon glyphicon-exclamation-sign"></span>
+						<c:out value="${forgotPasswordError}" />
+					</p>
 				</div>
 			</c:if>
 			<div class="login-div login-input-div" style="margin-top: 1%;">
@@ -106,9 +79,11 @@
 					<div class="form-group" style="margin: 2%; font-size: 12pt">
 						<h5 class="text-danger">Let us know you are not a robot.</h5>
 						<span style="padding-right: 5%;"><c:out value="${captha}" /></span>
-						<input name="result" type="text" style="width: 3em" /><a href="<c:url value="/sm/open/forgot-password-page" />">  Reload Captha</a>
+						<input name="result" type="text" style="width: 3em" /><a
+							href="<c:url value="/sm/open/forgot-password-page" />">
+							Reload Captha</a>
 					</div>
-					
+
 					<div class="form-group" style="margin: 2%;">
 
 						<input type="submit" class="form-control btn btn-success"
@@ -125,8 +100,9 @@
 					</h5>
 				</div>
 				<div class="form-group" style="margin: 2%;">
-					<a class="form-control btn btn-primary" href="<c:url value='/sm/open/create-an-account' />"
-						style="margin-top: 4%;" >Create an account</a>
+					<a class="form-control btn btn-primary"
+						href="<c:url value='/sm/open/create-an-account' />"
+						style="margin-top: 4%;">Create an account</a>
 				</div>
 				<div class="form-group" style="margin: 2%; font-size: 9pt">
 					<p>
@@ -138,6 +114,9 @@
 
 			</div>
 		</div>
+	</div>
+	<div style="margin-top: 2%;">
+		<%@ include file="/WEB-INF/footer.html"%>
 	</div>
 </body>
 </html>

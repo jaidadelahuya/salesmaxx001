@@ -12,7 +12,7 @@
 				<c:when test="${fn:length(ugi.salesmaxxHistoryCredits) > 0}">
 					<c:forEach var='item' items='${ugi.salesmaxxHistoryCredits}'>
 						<tr>
-							
+
 						</tr>
 					</c:forEach>
 				</c:when>
@@ -25,16 +25,21 @@
 
 		</tbody>
 	</table>
-	<p><strong>Pending :</strong> <c:out value="${smch.pending}" />0SL
+	<p>
+		<strong>Pending :</strong>
+		<c:out value="${smch.pending}" />
+		0SL
 		<c:choose>
 			<c:when test="${smch.total > 0}">
-				<a href="#" class="btn btn-xs btn-danger pull-right">Donate to charity</a>
+				<a href="#" class="btn btn-xs btn-danger pull-right">Donate to
+					charity</a>
 			</c:when>
 			<c:otherwise>
-				<a href="#" class="btn btn-xs btn-danger pull-right" disabled='disabled'>Donate to charity</a>
+				<a href="#" class="btn btn-xs btn-danger pull-right"
+					disabled='disabled'>Donate to charity</a>
 			</c:otherwise>
 		</c:choose>
-		
+
 	</p>
 	<p></p>
 </div>

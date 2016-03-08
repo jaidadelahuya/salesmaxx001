@@ -772,6 +772,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 	<!-- *********************JSPS*************************** -->
 	<servlet>
+		<servlet-name>CancellationPloicy</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/cancelation-policy.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CancellationPloicy</servlet-name>
+		<url-pattern>/sm/open/cancellation-policy</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>CreateAccount</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/sign-up-complete.jsp</jsp-file>
 	</servlet>

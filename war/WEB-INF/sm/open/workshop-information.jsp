@@ -69,7 +69,7 @@
 			<div class="panel panel-default col-md-3" style="padding: 0">
 				<%@ include file="/WEB-INF/sm/open/workshop-sidebar"%>
 			</div>
-			<div class="col-md-9">
+			<div class="col-md-9" style="padding-right: 0px">
 				<div class="panel panel-default col-md-12" style="padding: 0">
 					<%@ include
 						file="/WEB-INF/sm/open/workshop-information-content.html"%>

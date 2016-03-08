@@ -309,16 +309,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	$(".login").on('click',function() {
-		$("#login-form-div").load("/login.html", function() {
-			loginButtonFunction();
-			$("#forgot-password").on('click',function(event) {
-				event.preventDefault();
-				forgotPasswordAction();
-			});
-		});
-		
-	});
+	
 	
 	$(".sign-up-btn").on('click', function() {
 		$("#sign-up-form-div").load('/signup-form.html',function() {

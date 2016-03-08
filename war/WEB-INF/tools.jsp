@@ -49,9 +49,20 @@
 								Performance Coaching</a></li>
 					</ul>
 				</div>
-				<div style="margin-bottom: 4%">
-					<a href='/calendar'><img class="img img-responsive"
-						src="/images/calender.jpg" alt="Calendar" /></a>
+				<div class="discussion-sidebar">
+					<h4><a href="/calendar">Workshops by Month</a></h4>
+					<span class="workshop-by-month"><a href="/calendar#jan">JAN</a></span>
+					<span class="workshop-by-month"><a href="/calendar#feb">FEB</a></span>
+					<span class="workshop-by-month"><a href="/calendar#mar">MAR</a></span>
+					<span class="workshop-by-month"><a href="/calendar#apr">APR</a></span>
+					<span class="workshop-by-month"><a href="/calendar#may">MAY</a></span>
+					<span class="workshop-by-month"><a href="/calendar#jun">JUN</a></span>
+					<span class="workshop-by-month"><a href="/calendar#jul">JUL</a></span>
+					<span class="workshop-by-month"><a href="/calendar#aug">AUG</a></span>
+					<span class="workshop-by-month"><a href="/calendar#sep">SEP</a></span>
+					<span class="workshop-by-month"><a href="/calendar#oct">OCT</a></span>
+					<span class="workshop-by-month"><a href="/calendar#nov">NOV</a></span>
+					<span class="workshop-by-month"><a href="/calendar#dec">DEC</a></span>
 				</div>
 			</div>
 

@@ -691,7 +691,7 @@
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=bootcamp'/>"><img
-							class="img-responsive module-image" src="/images/BOOTCAMP.jpg"
+							class="img-responsive module-image" src="/images/boot.jpg"
 							alt=""></a>
 						<div class="caption" style="text-align: center">
 							<h4>(14)</h4>

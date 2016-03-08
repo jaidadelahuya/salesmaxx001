@@ -67,7 +67,6 @@
 			salesiq : {
 				values : {},
 				ready : function() {
-					$zoho.salesiq.floatbutton.visible('hide');
 				}
 			}
 		};
@@ -80,4 +79,4 @@
 		t.parentNode.insertBefore(s, t);
 	</script>
 </body>
-</html> -->
+</html>

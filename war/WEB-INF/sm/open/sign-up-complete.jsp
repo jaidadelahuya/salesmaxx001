@@ -18,10 +18,6 @@
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <style type="text/css">
-
-
-
-
 .login-div {
 	width: 25%;
 	margin: 0 auto;
@@ -60,8 +56,7 @@
 }
 </style>
 </head>
-<body>
-
+<body class="login-body">
 
 	<div class="container-fluid">
 		<div class="row">
@@ -77,7 +72,7 @@
 				</p>
 				<p>
 					<div class="form-group">
-						<a class="btn btn-success" href="/sm/open/login-page">
+						<a class="btn btn-info" href="/sm/open/login-page">
 							Login
 						</a>
 					</div>
@@ -86,6 +81,9 @@
 
 
 		</div>
+	</div>
+	<div style="margin-top: 2%;">
+		<%@ include file="/WEB-INF/footer.html"%>
 	</div>
 </body>
 </html>
