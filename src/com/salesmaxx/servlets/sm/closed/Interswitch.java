@@ -120,46 +120,38 @@ public class Interswitch extends HttpServlet {
 		synchronized (session) {
 			session.setAttribute("interswitch", ir);
 		}
-		String toEmail  = null;
+		String toEmail = null;
 		if (ir.getResponseCode().equalsIgnoreCase("00")) {
 
 			Long id = user.getGeneralInfoId();
 			UserGeneralInfoController cont = new UserGeneralInfoController();
 			UserGeneralInfo ugi = cont.findUserGeneralInfo(user, id);
 			ugi = addWorkshopToEnrolledWokshops(c, ugi, user);
-			
+
 			List<PurchaseHistory> phs = getPurchaseHistory(c, ugi, ir);
 			UserGeneralInfoController c1 = new UserGeneralInfoController();
 			c1.edit(ugi, user.getRegId(), phs);
 
 			String body = ClosedUtil.getEmailBody(session);
-			
-			if(user.getUsername() == null) {
+
+			if (user.getUsername() == null) {
 				Object ob = null;
 				synchronized (session) {
 					ob = session.getAttribute("socialUser");
 				}
-				if(o != null) {
-					toEmail = ((SocialUser)ob).getEmail();
+				if (o != null) {
+					toEmail = ((SocialUser) ob).getEmail();
+					if(toEmail == null) {
+						return;
+					}
 				}
-				
+
 			} else {
 				toEmail = user.getUsername();
 			}
-			try {
-				Util.sendEmail(Util.SERVICE_ACCOUNT, toEmail,
-						"Your Transaction Details", body);
 
-			} catch (AddressException e) {
-				resp.getWriter().write("address exception");
-				return;
-			} catch (MessagingException e) {
-
-				resp.getWriter().write(e.getClass().getSimpleName());
-				resp.getWriter().write(e.getCause().getLocalizedMessage());
-				return;
-			}
-
+			Util.sendEmailNotification(toEmail, "Your Transaction Details",
+					body);
 		}
 
 		List<ProductPaidFor> ppfs = null;
@@ -178,7 +170,7 @@ public class Interswitch extends HttpServlet {
 				CartController cc = new CartController();
 				cc.edit(c);
 			}
-			
+
 		}
 
 		InterswitchTransactionLog itl = new InterswitchTransactionLog();
@@ -193,7 +185,6 @@ public class Interswitch extends HttpServlet {
 		InterswitchTransactionLogController c1 = new InterswitchTransactionLogController();
 		c1.create(itl, ppfs);
 
-		
 		RequestDispatcher rd = req
 				.getRequestDispatcher("/WEB-INF/sm/closed/interswitch-response.jsp");
 		rd.include(req, resp);
@@ -226,18 +217,19 @@ public class Interswitch extends HttpServlet {
 		ph.setTxnRef(ir.getTxnRef());
 		for (CartItem ci : cis) {
 			PurchaseableItem pi = new PurchaseableItem();
-			pi.setItemKey(Util.getWorkshopSchedule(String.valueOf(ci.getId())).getId());
+			pi.setItemKey(Util.getWorkshopSchedule(String.valueOf(ci.getId()))
+					.getId());
 			pi.setUnitPrice(ci.getPrice());
 			pi.setQty(ci.getQty());
 			items.add(pi);
 		}
 		List<Key> keys = new ArrayList<>();
 		List<Entity> ents = new ArrayList<>();
-		for(PurchaseableItem ppi:items) {
+		for (PurchaseableItem ppi : items) {
 			Entity e = Util.purchaseableItemToEntity(ppi);
 			ents.add(e);
 			keys.add(e.getKey());
-		} 
+		}
 		new PurchaseableItemController().create(ents);
 		ph.setItems(keys);
 		phs.add(ph);

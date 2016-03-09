@@ -36,9 +36,7 @@ public class FacebookCallback extends HttpServlet {
 		String errorDesc = req.getParameter("error_description");
 
 		if (Util.notNull(error)) {
-			resp.getWriter().write(
-					"<h2>Request was not completed</h2><p>" + errorDesc
-							+ "</p>");
+			// send to error page
 		} else {
 			String clientId = getServletContext().getInitParameter(
 					"FacebookClientId");
@@ -63,27 +61,35 @@ public class FacebookCallback extends HttpServlet {
 									+ "&client_secret=" + clientSecret
 									+ "&code=" + code);
 					HTTPRequest r = new HTTPRequest(url);
-					URLFetchService urlfetch = URLFetchServiceFactory.getURLFetchService();
+					URLFetchService urlfetch = URLFetchServiceFactory
+							.getURLFetchService();
 					HTTPResponse response = urlfetch.fetch(r);
-					FacebookAccessTokenResponse fatr = Util.toFacebookAccessTokenResponse(new String(response.getContent()));
+					FacebookAccessTokenResponse fatr = Util
+							.toFacebookAccessTokenResponse(new String(response
+									.getContent()));
 					synchronized (session) {
 						session.setAttribute("fatr", fatr);
 					}
-					
-					url = new URL("https://graph.facebook.com/v2.5/me?access_token="+fatr.getAccessToken()+"&fields=first_name,last_name,verified,gender,picture,email");
+
+					url = new URL(
+							"https://graph.facebook.com/v2.5/me?access_token="
+									+ fatr.getAccessToken()
+									+ "&fields=first_name,last_name,verified,gender,picture,email");
 					r = new HTTPRequest(url);
 					urlfetch = URLFetchServiceFactory.getURLFetchService();
 					response = urlfetch.fetch(r);
-					//resp.getWriter().write(new String(response.getContent()));
-					SocialUser su = Util.toFaceBookSocialUser(new String(response.getContent()));
-					//resp.getWriter().write(su.toString());
-					RequestDispatcher rd = req.getRequestDispatcher("/sm/open/social-media-login");
+					// resp.getWriter().write(new
+					// String(response.getContent()));
+					SocialUser su = Util.toFaceBookSocialUser(new String(
+							response.getContent()));
+					// resp.getWriter().write(su.toString());
+					RequestDispatcher rd = req
+							.getRequestDispatcher("/sm/open/social-media-login");
 					synchronized (session) {
 						session.setAttribute("socialUser", su);
 					}
-					
+
 					rd.forward(req, resp);
-					
 
 				} else {
 					resp.sendError(401, "You cannot have access");

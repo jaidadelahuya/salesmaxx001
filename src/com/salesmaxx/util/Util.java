@@ -117,6 +117,8 @@ import com.salesmaxx.persistence.controllers.TestimonialController;
 import com.salesmaxx.persistence.controllers.UserController;
 import com.salesmaxx.persistence.controllers.WorkshopController;
 import com.salesmaxx.persistence.controllers.WorkshopTemplateController;
+import com.salesmaxx.util.json.JSONObject;
+import com.salesmaxx.util.json.JSONTokener;
 
 public class Util {
 
@@ -1350,10 +1352,9 @@ public class Util {
 
 	public static void sendConfirmationCodeEmail(String email, String body)
 			throws AddressException, MessagingException {
-		String from = Util.SERVICE_ACCOUNT;
 		String title = "Your SalesMaxx Confirmation Code";
 		String to = email.toLowerCase();
-		Util.sendEmail(from, to, title, body);
+		Util.sendEmailNotification( to, title, body);
 	}
 
 	public static String getConfirmationCodeEmailBody(String code, String name) {
@@ -2325,51 +2326,15 @@ public class Util {
 	public static SocialUser toFaceBookSocialUser(String respString) {
 		SocialUser su = new SocialUser();
 		su.setNetwork(SocialNetwork.FACEBOOK);
-		respString = respString.replace("{", "").replace("}", "")
-				.replace("\"", "");
-		String[] str = respString.split(",");
-		for (String s : str) {
-			String[] ss = s.split(":");
-			if (ss[0].trim().equalsIgnoreCase("email")) {
-				if (ss.length > 1) {
-					ss[1].replace("\u0040", "@");
-					su.setEmail(ss[1]);
-				}
-
-			} else if (ss[0].trim().equalsIgnoreCase("first_name")) {
-				if (ss.length > 1) {
-					su.setFirstName(ss[1]);
-				}
-
-			} else if (ss[0].trim().equalsIgnoreCase("gender")) {
-				if (ss.length > 1) {
-					su.setGender(ss[1]);
-				}
-
-			} else if (ss[0].trim().equalsIgnoreCase("verified")) {
-				if (ss.length > 1) {
-					su.setVerified(new Boolean(ss[1]));
-				}
-
-			} else if (ss[0].trim().equalsIgnoreCase("id")) {
-				if (ss.length > 1) {
-					su.setId(ss[1]);
-				}
-
-			} else if (ss[0].trim().equalsIgnoreCase("last_name")) {
-				if (ss.length > 1) {
-					su.setLastName(ss[1]);
-				}
-
-			} else if (ss[0].trim().equalsIgnoreCase("pictureUrl")) {
-				if (ss.length > 1) {
-					su.setPictureUrl(ss[4] + ":" + ss[5]);
-				}
-
-			}
-
-		}
-
+		JSONTokener jt = new JSONTokener(respString);
+		JSONObject jo = new JSONObject(jt);
+		su.setEmail(jo.getString("email"));
+		su.setFirstName(jo.getString("first_name"));
+		su.setGender(jo.getString("gender"));
+		su.setId(jo.getString("id"));
+		su.setLastName(jo.getString("last_name"));
+		su.setPictureUrl(jo.getJSONObject("picture").getJSONObject("data").getString("url"));
+		su.setVerified(jo.getBoolean("verified"));
 		return su;
 	}
 
@@ -2682,25 +2647,37 @@ public class Util {
 
 	}
 
-	public static void sendEmailNotification(List<String> emailsToNotify, String title,
-			String body) {
+	public static void sendEmailNotification(List<String> emailsToNotify,
+			String title, String body) {
 		Queue q = QueueFactory.getDefaultQueue();
 		for (String email : emailsToNotify) {
 			q.add(TaskOptions.Builder
 					.withUrl("/sm/open/send-notification-email")
-					.param("email", email).param("body", body).param("title", title));
+					.param("email", email).param("body", body)
+					.param("title", title));
 		}
 	}
-	
-	public static Entity SalesMarketingTemplateToEntity (SalesMarketingTemplate smt) {
-		
+
+	public static void sendEmailNotification(String email, String title,
+			String body) {
+		Queue q = QueueFactory.getDefaultQueue();
+
+		q.add(TaskOptions.Builder.withUrl("/sm/open/send-notification-email")
+				.param("email", email).param("body", body)
+				.param("title", title));
+
+	}
+
+	public static Entity SalesMarketingTemplateToEntity(
+			SalesMarketingTemplate smt) {
+
 		Entity e = null;
-		if(smt.getId() == null) {
+		if (smt.getId() == null) {
 			e = new Entity(SalesMarketingTemplate.class.getSimpleName());
 		} else {
 			e = new Entity(smt.getId());
 		}
-		
+
 		e.setProperty("name", smt.getName());
 		e.setProperty("format", smt.getFormat().name());
 		e.setUnindexedProperty("price", smt.getPrice());
@@ -2708,7 +2685,7 @@ public class Util {
 		e.setUnindexedProperty("imageKey", smt.getImageKey());
 		return e;
 	}
-	
+
 	public static SalesMarketingTemplate entityToSalesMarketingTemplate(Entity e) {
 		SalesMarketingTemplate smt = new SalesMarketingTemplate();
 		smt.setCategory((Key) e.getProperty("category"));
@@ -2717,23 +2694,24 @@ public class Util {
 		smt.setPrice((Double) e.getProperty("price"));
 		smt.setImageKey((BlobKey) e.getProperty("imageKey"));
 		String format = (String) e.getProperty("format");
-		if(format.equalsIgnoreCase(SalesTemplateFormat.EXCEL.name())) {
+		if (format.equalsIgnoreCase(SalesTemplateFormat.EXCEL.name())) {
 			smt.setFormat(SalesTemplateFormat.EXCEL);
-		} else if(format.equalsIgnoreCase(SalesTemplateFormat.MS_WORD.name())) {
+		} else if (format.equalsIgnoreCase(SalesTemplateFormat.MS_WORD.name())) {
 			smt.setFormat(SalesTemplateFormat.MS_WORD);
-		} else if(format.equalsIgnoreCase(SalesTemplateFormat.PDF.name())) {
+		} else if (format.equalsIgnoreCase(SalesTemplateFormat.PDF.name())) {
 			smt.setFormat(SalesTemplateFormat.PDF);
-		} else if(format.equalsIgnoreCase(SalesTemplateFormat.POWER_POINT.name())) {
+		} else if (format.equalsIgnoreCase(SalesTemplateFormat.POWER_POINT
+				.name())) {
 			smt.setFormat(SalesTemplateFormat.POWER_POINT);
 		}
-		
-		
+
 		return smt;
 	}
-	
-	public static Entity salesMarketingTemplateCategoryToEntity(SalesMarketingTemplateCategory smtc) {
+
+	public static Entity salesMarketingTemplateCategoryToEntity(
+			SalesMarketingTemplateCategory smtc) {
 		Entity e = null;
-		if(smtc.getId() == null) {
+		if (smtc.getId() == null) {
 			e = new Entity(SalesMarketingTemplateCategory.class.getSimpleName());
 		} else {
 			e = new Entity(smtc.getId());
@@ -2741,8 +2719,9 @@ public class Util {
 		e.setUnindexedProperty("templates", smtc.getTemplates());
 		return e;
 	}
-	
-	public static SalesMarketingTemplateCategory entityToSalesMarketingTemplateCategory(Entity e) {
+
+	public static SalesMarketingTemplateCategory entityToSalesMarketingTemplateCategory(
+			Entity e) {
 		SalesMarketingTemplateCategory smtc = new SalesMarketingTemplateCategory();
 		smtc.setId(e.getKey());
 		smtc.setTemplates((List<Key>) e.getProperty("templates"));
@@ -2750,7 +2729,7 @@ public class Util {
 	}
 
 	public static UserGeneralInfo initUserGeneralInfo(UserGeneralInfo ugi) {
-		
+
 		return ugi;
 	}
 

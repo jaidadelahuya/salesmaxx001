@@ -22,6 +22,8 @@
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <link rel="stylesheet" type="text/css"
 	href="/style/bootstrap-rating.css">
+<link rel="stylesheet" type="text/css" href="/style/slick.css" />
+<link rel="stylesheet" type="text/css" href="/style/slick-theme.css" />
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
@@ -52,6 +54,7 @@
 	<script src="/js/jquery.webui-popover.min.js"></script>
 	<script type="text/javascript" src="/js/waitMe.js"></script>
 	<script type="text/javascript" src="/js/modules.js"></script>
+	<script type="text/javascript" src="/js/slick.min.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-rating.min.js"></script>
 	<script type='text/javascript'>
 		var $zoho = $zoho || {

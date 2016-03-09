@@ -112,36 +112,69 @@
 
 
 
-<div class="discussion-sidebar" style="background-color: white;">
-	<div class="col-md-12" style="text-align: center;">
-		<h3 class="text-primary" style="padding: 2%;">You should also
-			check out these workshops</h3>
-		<div class="col-md-12" id="slick">
-			<c:forEach var="item" items="${bootcamps}">
-				<div class="col-sm-3" style="font-family: calibri">
-					<a href="/sm/open/workshop-information?id=${item.workshopId.name}"><img
-						style="width: 80%; height: auto; margin: 0 auto"
-						alt="${item.workshopName}" src="${item.imageUrl}"
-						class="img img-responsive"></a> <a
-						href="/sm/open/workshop-information?id=${item.workshopId.name}"><c:out
-							value="${item.workshopName}" /></a>
-					<p>
-						<strong>Skill Level</strong>
-						<c:forEach var="x" items="${item.skillLevel}">
-							<c:out value="${x}" />
-						</c:forEach>
-					</p>
-					<p>
-						<input type="hidden" class="rating" data-readonly
-							data-fractions="5" value="rating" style='display: block' /> (
-						<c:out value="${fn:length(item.reviews)}" />
-						) reviews
-					</p>
+<c:choose>
+	<c:when test='${not empty cartRelatedWorkshops}'>
+		<div style="background-color: white"
+			class="discussion-sidebar col-md-12">
+			<div class="col-md-12" style="text-align: center;">
+				<h3 class="text-primary" style="padding: 2%;">You should also
+					check out these workshops</h3>
+				<div class="col-md-12" id="slick">
+					<c:forEach var='item' items='${cartRelatedWorkshops}'>
+						<div class="col-sm-3" style="font-family: calibri">
+							<a
+								href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+								style="width: 80%; height: auto; margin: 0 auto"
+								alt="${item.workshopName}" src="${item.imageUrl}"
+								class="img img-responsive"></a> <a
+								href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+									value='${item.workshopName}' /></a>
+							<p>
+								<strong>Skill Level</strong>
+								<c:forEach var='val' items='${item.skillLevel}'>${val} </c:forEach>
+							</p>
+							<p>
+								<input type="hidden" class="rating" data-readonly
+									data-fractions="5" value="rating" style='display: block' /> (
+								<c:out value="${fn:length(item.reviews)}" />
+								) reviews
+							</p>
+						</div>
+					</c:forEach>
 				</div>
-
-			</c:forEach>
+			</div>
 
 		</div>
-	</div>
 
-</div>
+	</c:when>
+	<c:otherwise>
+		<div style="background-color: white;"
+			class="discussion-sidebar col-md-12">
+			<div class="col-md-12" style="text-align: center;">
+				<h3 class="text-primary" style="padding: 2%;">Check out our
+					Bootcamps</h3>
+				<div class="col-md-12" id="slick">
+					<c:forEach var='item' items='${bootcamps}'>
+						<div class="col-sm-3" style="font-family: calibri">
+							<a
+								href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+								style="width: 80%; height: auto; margin: 0 auto"
+								alt="${item.workshopName}" src="${item.imageUrl}"
+								class="img img-responsive"></a> <a
+								href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+									value='${item.workshopName}' /></a>
+							<p>
+								<input type="hidden" class="rating" data-readonly
+									data-fractions="5" value="rating" style='display: block' /> (
+								<c:out value="${fn:length(item.reviews)}" />
+								) reviews
+							</p>
+						</div>
+					</c:forEach>
+				</div>
+			</div>
+
+		</div>
+
+	</c:otherwise>
+</c:choose>

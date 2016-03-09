@@ -92,8 +92,7 @@
 					</div>
 				</form>
 				<div class="form-group" style="margin: 2%;">
-					<strong>Or login with</strong> <a href="#">Facebook</a> or <a
-						href="#">LinkedIn</a>
+					<a href="<c:url value='/sm/open/resend-confirmation-code' />">Resend Code</a>
 				</div>
 				<c:choose>
 					<c:when test="${fromSignUp}">

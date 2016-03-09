@@ -77,9 +77,9 @@
 			</c:choose>
 			<c:if test="${!user.authenticated}">
 				<div>
-					<button type="button"
-						class="btn btn-danger btn-sm navbar-right navbar-btn sign-up-btn"
-						style="margin-right: 1%">Sign Up</button>
+					<a href="/sm/open/create-an-account"
+						class="btn btn-danger btn-sm navbar-right navbar-btn"
+						style="margin-right: 1%">Create Account</a>
 				</div>
 			</c:if>
 			<div class="button-group">

@@ -311,7 +311,7 @@ $(document).ready(function() {
 	
 	
 	
-	$(".sign-up-btn").on('click', function() {
+	/*$(".sign-up-btn").on('click', function() {
 		$("#sign-up-form-div").load('/signup-form.html',function() {
 			$("#register-modal").modal({
 				backdrop: "static",
@@ -418,7 +418,7 @@ $(document).ready(function() {
 			});
 		});
 		
-	});
+	});*/
 	
 	
 	

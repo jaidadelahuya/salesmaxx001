@@ -24,6 +24,8 @@
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <link rel="stylesheet" type="text/css"
 	href="/style/bootstrap-rating.css">
+<link rel="stylesheet" type="text/css" href="/style/slick.css" />
+<link rel="stylesheet" type="text/css" href="/style/slick-theme.css" />
 <link rel="stylesheet" type="text/css" href="/style/datepicker.css">
 </head>
 <body>
@@ -56,6 +58,7 @@
 	<script type="text/javascript" src="/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-rating.min.js"></script>
+	<script type="text/javascript" src="/js/slick.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".main-menu-item").removeClass("active");

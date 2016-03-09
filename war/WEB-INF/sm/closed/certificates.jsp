@@ -23,6 +23,8 @@
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <link rel="stylesheet" type="text/css"
 	href="/style/bootstrap-rating.css">
+<link rel="stylesheet" type="text/css" href="/style/slick.css" />
+<link rel="stylesheet" type="text/css" href="/style/slick-theme.css" />
 <link rel="stylesheet" type="text/css" href="/style/datepicker.css">
 </head>
 <body>
@@ -50,6 +52,7 @@
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
 	<script src="/js/jquery-ui.min.js"></script>
+	<script type="text/javascript" src="/js/slick.min.js"></script>
 	<script src="/js/jquery.webui-popover.min.js"></script>
 	<script type="text/javascript" src="/js/waitMe.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-datepicker.min.js"></script>

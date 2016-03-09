@@ -40,18 +40,24 @@ public class ResendConfirmationCode extends HttpServlet {
 			Util.sendConfirmationCodeEmail(su.getUsername(), body);
 			synchronized (session) {
 				session.setAttribute("signUp", su);
+				session.removeAttribute("verificationError");
 			}
-			System.out.println(su.getConfirmationCode());
+			
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
 		} catch (AddressException e) {
 			e.printStackTrace();
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"The email address " + su.getUsername()
-							+ " is either invalid or does not exist.");
+			session.setAttribute("verificationError","The email address " + su.getUsername()
+					+ " is either invalid or does not exist.");
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+			return;
+
 		} catch (MessagingException e) {
 			e.printStackTrace();
-			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
-					"We could not send a confirmation code to " + su.getUsername()
-							+ ". Please try again later.");
+			session.setAttribute("verificationError","We could not send a confirmation code to " + su.getUsername()
+					+ ". Please try again later.");
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+			return;
+			
 		}
 		
 		
