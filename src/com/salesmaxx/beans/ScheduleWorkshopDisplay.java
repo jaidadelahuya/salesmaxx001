@@ -10,11 +10,30 @@ public class ScheduleWorkshopDisplay implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5207890116202518776L;
-	private String id,startDate,name,format,type,flyer,venue,imageUrl,workshopCode,description;
+	private String id,startDate,name,format,type,flyer,venue,imageUrl,workshopCode,description,formattedPrice,formattedTotalPrice;
 	private Address location;
+	private long qty;
 	
 	
 	
+	public String getFormattedTotalPrice() {
+		return formattedTotalPrice;
+	}
+	public void setFormattedTotalPrice(String formattedTotalPrice) {
+		this.formattedTotalPrice = formattedTotalPrice;
+	}
+	public long getQty() {
+		return qty;
+	}
+	public void setQty(long qty) {
+		this.qty = qty;
+	}
+	public String getFormattedPrice() {
+		return formattedPrice;
+	}
+	public void setFormattedPrice(String formattedPrice) {
+		this.formattedPrice = formattedPrice;
+	}
 	public String getWorkshopCode() {
 		return workshopCode;
 	}
@@ -90,8 +109,8 @@ public class ScheduleWorkshopDisplay implements Serializable {
 				+ ", name=" + name + ", format=" + format + ", type=" + type
 				+ ", flyer=" + flyer + ", venue=" + venue + ", imageUrl="
 				+ imageUrl + ", workshopCode=" + workshopCode
-				+ ", description=" + description + ", location=" + location
-				+ "]";
+				+ ", description=" + description + ", formattedPrice="
+				+ formattedPrice + ", location=" + location + "]";
 	}
 	@Override
 	public int hashCode() {

@@ -122,7 +122,7 @@ import com.salesmaxx.util.json.JSONTokener;
 
 public class Util {
 
-	public static final String SERVICE_ACCOUNT = "salesmaxx001@appspot.gserviceaccount.com";
+	public static final String SERVICE_ACCOUNT = "1082599418027-compute@developer.gserviceaccount.com";
 	public static final MemcacheService WORKSHOP_CACHE = MemcacheServiceFactory
 			.getMemcacheService("workshops");
 	public static final MemcacheService USER_CACHE = MemcacheServiceFactory
@@ -1081,7 +1081,7 @@ public class Util {
 
 		return ws;
 	}
-
+	
 	public static List<ScheduleWorkshopDisplay> toScheduleWorkshopDisplay(
 			List<WorkShop> ws) {
 		List<ScheduleWorkshopDisplay> list = new ArrayList<>();
@@ -1091,6 +1091,51 @@ public class Util {
 			list.add(s);
 		}
 		return list;
+	}
+
+	public static List<ScheduleWorkshopDisplay> toScheduleWorkshopDisplay(
+			List<WorkShop> ws, List<PurchaseableItem> pis) {
+		List<ScheduleWorkshopDisplay> list = new ArrayList<>();
+
+		for (WorkShop w : ws) {
+			PurchaseableItem pi = null;
+			for(PurchaseableItem p : pis) {
+				if(w.getId().equals(p.getItemKey())){
+					pi = p;
+				}
+			}
+			ScheduleWorkshopDisplay s = toScheduleWorkshopDisplay(w,pi);
+			list.add(s);
+		}
+		return list;
+	}
+	
+	public static ScheduleWorkshopDisplay toScheduleWorkshopDisplay(WorkShop w, PurchaseableItem p) {
+
+		ScheduleWorkshopDisplay s = new ScheduleWorkshopDisplay();
+		s.setQty(p.getQty());
+		AddressController c = new AddressController();
+		Address a = c.findAddress(w.getLocation());
+		s.setId(String.valueOf(w.getId().getId()));
+		s.setLocation(a);
+		s.setFormattedTotalPrice(new DecimalFormat("#,###.00").format(p.getUnitPrice()*p.getQty()));
+		s.setFormattedPrice(new DecimalFormat("#,###.00").format(p.getUnitPrice()));
+		WorkshopTemplate wst = getWorkshopTemplateFromScheduleId(
+				getWorkshopTemplateFromCache(),
+				String.valueOf(w.getId().getId()));
+		if (wst != null) {
+			s.setImageUrl(wst.getImageUrl());
+			s.setDescription(wst.getShortDescription().getValue());
+			s.setWorkshopCode(wst.getWorkshopId().getName());
+		}
+		// s.setFlyer(Util.getImageUrl(w.getFlyer()));
+		s.setFormat(w.getWorkshopType());
+		s.setType((w.isForSale()) ? "FREE" : "PAID");
+		s.setVenue(w.getVenue());
+		s.setName(getWorkshopTemplateName(w.getId()));
+		SimpleDateFormat sm = new SimpleDateFormat("E, dd MMM yyyy");
+		s.setStartDate(sm.format(w.getStartDate()));
+		return s;
 	}
 
 	public static ScheduleWorkshopDisplay toScheduleWorkshopDisplay(WorkShop w) {
@@ -2045,30 +2090,36 @@ public class Util {
 		List<PurchaseHistoryBean> l = new ArrayList<>();
 		if (phs != null) {
 			for (PurchaseHistory ph : phs) {
-				PurchaseHistoryBean phb = new PurchaseHistoryBean();
-				phb.setFormattedDate(ph.getFormattedDate());
-				phb.setFormattedTotalPrice(ph.getFormattedAmount());
-				phb.setTxnRef(ph.getTxnRef());
-				phb.setFormattedUnitPrice(new DecimalFormat("#,###.00")
-						.format(ph.getTotal() / ph.getItems().size()));
-				phb.setKey(KeyFactory.createKey(
-						PurchaseHistory.class.getSimpleName(), ph.getTxnRef()));
-				List<Key> keys = ph.getItems();
-				PurchaseableItemController c = new PurchaseableItemController();
-				List<PurchaseableItem> pis = c.findAll(keys);
-				List<Key> kys = new ArrayList<>();
-				for (PurchaseableItem p : pis) {
-					kys.add(p.getItemKey());
-				}
-				List<WorkShop> wks = Util.getScheduledWorkshops(kys);
-				List<ScheduleWorkshopDisplay> swds = Util
-						.toScheduleWorkshopDisplay(wks);
-				phb.setList(swds);
+				PurchaseHistoryBean phb = getPurchaseHistoryBean(ph);
+			
 				l.add(phb);
 			}
 		}
 
 		return l;
+	}
+	
+	public static PurchaseHistoryBean getPurchaseHistoryBean(PurchaseHistory ph) {
+		PurchaseHistoryBean phb = new PurchaseHistoryBean();
+		phb.setFormattedDate(ph.getFormattedDate());
+		phb.setFormattedTotalPrice(ph.getFormattedAmount());
+		phb.setTxnRef(ph.getTxnRef());
+		phb.setFormattedUnitPrice(new DecimalFormat("#,###.00")
+				.format(ph.getTotal() / ph.getItems().size()));
+		phb.setKey(KeyFactory.createKey(
+				PurchaseHistory.class.getSimpleName(), ph.getTxnRef()));
+		List<Key> keys = ph.getItems();
+		PurchaseableItemController c = new PurchaseableItemController();
+		List<PurchaseableItem> pis = c.findAll(keys);
+		List<Key> kys = new ArrayList<>();
+		for (PurchaseableItem p : pis) {
+			kys.add(p.getItemKey());
+		}
+		List<WorkShop> wks = Util.getScheduledWorkshops(kys);
+		List<ScheduleWorkshopDisplay> swds = Util
+				.toScheduleWorkshopDisplay(wks,pis);
+		phb.setList(swds);
+		return phb;
 	}
 
 	public static List<PurchaseableItem> toPurchaseableItems(

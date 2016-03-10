@@ -91,8 +91,8 @@
 					</div>
 				</form>
 				<div class="form-group" style="margin: 2%;">
-					<strong>Or Login with</strong> <a href="#">Facebook</a> or <a
-						href="#">LinkedIn</a>
+					<strong>Or Login with</strong> <a href="/sm/open/facebook-signin">Facebook</a> or <a
+						href="/sm/open/linkedin-signin">LinkedIn</a>
 				</div>
 				<div class="form-group" style="margin: 2%; margin-top: 5%;">
 					<h5 class="text-muted" style="text-align: center; margin: 0">
@@ -115,8 +115,6 @@
 			</div>
 		</div>
 	</div>
-	<div style="margin-top: 2%;">
-		<%@ include file="/WEB-INF/footer.html"%>
-	</div>
+	>
 </body>
 </html>

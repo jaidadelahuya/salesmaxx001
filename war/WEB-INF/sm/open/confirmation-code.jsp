@@ -132,8 +132,6 @@
 			</div>
 		</div>
 	</div>
-	<div style="margin-top: 2%;">
-		<%@ include file="/WEB-INF/footer.html"%>
-	</div>
+	
 </body>
 </html>

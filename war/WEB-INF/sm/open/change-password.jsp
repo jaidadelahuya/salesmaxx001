@@ -90,32 +90,12 @@
 							style="margin-top: 4%;" value="Change Password" />
 					</div>
 				</form>
-				<div class="form-group" style="margin: 2%;">
-					<strong>Or login with</strong> <a href="#">Facebook</a> or <a
-						href="#">LinkedIn</a>
-				</div>
-				<div class="form-group" style="margin: 2%; margin-top: 5%;">
-					<h5 class="text-muted" style="text-align: center; margin: 0">
-						<strong>New to SalesMaxx?</strong>
-					</h5>
-				</div>
-				<div class="form-group" style="margin: 2%;">
-					<a class="form-control btn btn-primary" href="<c:url value='/sm/open/create-an-account' />"
-						style="margin-top: 4%;" >Create an account</a>
-				</div>
-				<div class="form-group" style="margin: 2%; font-size: 9pt">
-					<p>
-						By clicking Sign Up, you agree to our <a href="#">terms and
-							conditions </a>and you have read our <a href="#">Use Cookie
-							policy</a>
-					</p>
-				</div>
+				
+				
 
 			</div>
 		</div>
 	</div>
-	<div style="margin-top: 2%;">
-		<%@ include file="/WEB-INF/footer.html"%>
-	</div>
+	
 </body>
 </html>

@@ -765,6 +765,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/sm/closed/save-testimonial</url-pattern>
 	</servlet-mapping>
 	
+	<servlet>
+		<servlet-name>GetInvoice</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.GetInvoice</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetInvoice</servlet-name>
+		<url-pattern>/sm/closed/get-invoice</url-pattern>
+	</servlet-mapping>
+	
 	
 	
 	

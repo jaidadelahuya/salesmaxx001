@@ -75,7 +75,7 @@
 								class="btn btn-xs btn-danger">View your workshops</a> 
 								<a
 								class="btn btn-danger btn-xs"
-								href="<c:url value="/sm/open/show-all-workshops"/>">Print Receipt</a>
+								href="<c:url value='/sm/closed/get-invoice?&txnRef=${interswitch.txnRef}' />">Print Receipt</a>
 						</div>
 					</div>
 				</c:when>

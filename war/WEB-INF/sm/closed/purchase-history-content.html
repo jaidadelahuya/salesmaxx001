@@ -21,19 +21,25 @@
 							style="font-family: calibri; font-size: 9pt; margin: 0; padding: 0">ORDER
 							PLACED</div>
 						<div class="col-sm-12"
-							style="font-size: 9pt; margin: 0; padding: 0">07-MAR-2016</div>
+							style="font-size: 9pt; margin: 0; padding: 0">
+							<c:out value="${item.formattedDate}" />
+						</div>
 					</div>
 					<div class="col-sm-3">
 						<div class="col-sm-12"
 							style="font-family: calibri; font-size: 9pt; margin: 0; padding: 0">TOTAL
 							(NGN)</div>
 						<div class="col-sm-12"
-							style="font-size: 9pt; margin: 0; padding: 0">99,999.00</div>
+							style="font-size: 9pt; margin: 0; padding: 0">
+							<c:out value="${item.formattedTotalPrice}" />
+						</div>
 					</div>
 					<div class="col-sm-6">
 						<div class="col-sm-12"
 							style="font-family: calibri; font-size: 9pt; margin: 0; padding: 0; text-align: right;">
-							TRANSACTION REFERENCE: ST1457362469746OW</div>
+							TRANSACTION REFERENCE:
+							<c:out value="${item.txnRef}" />
+						</div>
 						<div class="col-sm-12">
 							<div></div>
 							<div class="col-sm-6"
@@ -42,61 +48,62 @@
 							</div>
 							<div class="col-sm-6"
 								style="font-size: 9pt; margin: 0; padding: 0; text-align: right;">
-								<a href="#">Invoice</a>
+								<a target="_blank" href="<c:url value='/sm/closed/get-invoice?mode=in&txnRef=${item.txnRef}' />">Invoice</a>
 							</div>
 						</div>
 					</div>
 				</div>
 				<ul class="col-sm-12 list-group order-details-div"
 					style="border: 1px solid #e3e3e3; padding: 2%; display: none">
+					<c:forEach var="x" items="${item.list}">
+						<li style="margin-bottom: 2%;">
+							<div class="col-sm-12">
+								<span class="from-amazon-1">Workshop Date: <c:out
+										value='${x.startDate}' /></span>
+							</div>
+							<div class="col-sm-12"
+								style="margin-top: 2%; margin-bottom:3%; font-family: calibri">
+								<div class="col-md-3">
+									<div class="col-sm-12">
+										<a
+											href="<c:url value='/sm/open/workshop-information?id=${x.workshopCode}' />"><img
+											alt="" src="${x.imageUrl}" class="img img-responsive"></a>
+									</div>
+								</div>
+								<div class="col-md-6">
+									<div class="col-sm-12">
+										<a
+											href="<c:url value='/sm/open/workshop-information?id=${x.workshopCode}' />"><c:out
+												value="${x.name}" /></a>
+									</div>
+									<div class="col-sm-12">
+										<a
+											href="<c:url value='/sm/open/workshop-information?id=${x.workshopCode}' />"><c:out
+												value="${x.workshopCode}" /></a>
+									</div>
+									<div class="col-sm-12 text-danger"
+										style="font-family: tahoma; font-weight: bold; font-size: 10pt">
+										<c:out value="NGN ${x.formattedPrice}" />
+									</div>
+									
+								</div>
+								<div class="col-md-3 no-padding-div" style="font-family: arial">
+									<div>
+										<strong>Location: </strong>
+										<c:out value="${x.location.state}" />
+										,
+										<c:out value="${x.location.country}" />
+									</div>
+									<div>
+										<strong>No of delegates: </strong> <c:out value="${x.qty}" />
+									</div>
+									
+								</div>
+							</div>
+					</c:forEach>
 
-					<li style="margin-bottom: 2%;">
-						<div class="col-sm-12">
-							<span class="from-amazon-1">Workshop Date: Thu, 28 Jul
-								2016</span>
-						</div>
-						<div class="col-sm-12"
-							style="margin-top: 2%; font-family: calibri">
-							<div class="col-md-3">
-								<div class="col-sm-12">
-									<a href="/sm/open/workshop-information?id=TEAM-SAM-201"><img
-										alt=""
-										src="http://lh3.googleusercontent.com/d06ZkkFbda9SFQdDcHir6oVHNfExb2tvu2hQtwGtygiqy5NJml0NUQ8WM8stIk3dWuXsvlZNDXZ-Z87E5vcL4_Jq"
-										class="img img-responsive"></a>
-								</div>
-							</div>
-							<div class="col-md-6">
-								<div class="col-sm-12">
-									<a href="/sm/open/workshop-information?id=TEAM-SAM-201">STRATEGIC
-										ACCOUNT MANAGEMENT</a>
-								</div>
-								<div class="col-sm-12">
-									<a href="/sm/open/workshop-information?id=TEAM-SAM-201">TEAM-SAM-201</a>
-								</div>
-								<div class="col-sm-12">
-									<strong>Location: </strong> Abuja , Nigeria
-								</div>
-								<div class="col-sm-12 text-danger"
-									style="font-family: tahoma; font-weight: bold; font-size: 10pt">
-									NGN 9,999,900.00</div>
-								<div class="col-sm-12">
-									<a href='/sm/open/add-to-cart?id=6020003&qty=1'
-										class="btn btn-danger btn-xs" style="font-family: arial">Buy
-										Again</a>
-								</div>
-							</div>
-							<div class="col-md-3" style="font-family: arial">
-								<div class="form-group">
-									<a href="/sm/closed/reschedule-workshop?id=6020003"
-										class="btn btn-danger btn-sm reschedule-workshop"
-										style="width: 100%;">Reschedule</a>
-								</div>
-								<div class="form-group">
-									<a href="#" class="btn btn-danger btn-sm" style="width: 100%;">Cancel</a>
-								</div>
-							</div>
-						</div>
 				</ul>
+
 			</div>
 		</c:forEach>
 
@@ -105,10 +112,6 @@
 	</div>
 </div>
 
-
-
-
-</div>
 
 
 

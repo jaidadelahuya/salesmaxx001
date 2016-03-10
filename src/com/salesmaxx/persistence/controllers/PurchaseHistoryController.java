@@ -11,6 +11,8 @@ import javax.persistence.EntityManagerFactory;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query;
 import com.google.appengine.api.datastore.Transaction;
 import com.salesmaxx.entities.PurchaseHistory;
 import com.salesmaxx.entities.exception.RollbackFailureException;
@@ -101,5 +103,17 @@ public class PurchaseHistoryController {
 			phs.add(ph);
 		}
 		return phs;
+	}
+
+	public PurchaseHistory findByTransactionRef(String txn) {
+		PurchaseHistory ph = null;
+		Query q = new Query(PurchaseHistory.class.getSimpleName());
+		q.setFilter(new Query.FilterPredicate("txnRef",
+				Query.FilterOperator.EQUAL, txn));
+		PreparedQuery pq = ds.prepare(q);
+		Entity e = pq.asSingleEntity();
+		ph = Util.entityToPurchaseHistory(e);
+		return ph;
+
 	}
 }
