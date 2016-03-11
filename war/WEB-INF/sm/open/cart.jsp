@@ -28,7 +28,39 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
+<style type="text/css">
+@media screen and (max-width: 1200px) {
+	#payment-mode-div {
+		width: 30%;
+	}
+}
+
+@media screen and (max-width: 992px) {
+	#payment-mode-div {
+		width: 40%;
+	}
+}
+
+@media screen and (max-width: 767px) {
+	#payment-mode-div {
+		width: 70%;
+	}
+}
+
+@media screen and (max-width: 480px) {
+	#payment-mode-div {
+		width: 80%;
+	}
+}
+
+@media screen and (max-width: 320px) {
+	#payment-mode-div {
+		width: 100%
+	}
+}
+</style>
 </head>
+
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
@@ -37,6 +69,45 @@
 		<div class="row">
 			<div class="panel panel-default col-md-12" style="padding: 0">
 				<%@ include file="/WEB-INF/sm/open/cart-content.html"%>
+			</div>
+
+			<div class="panel panel-default col-md-12" style="padding: 0">
+				<c:if test='${not empty cartRelatedWorkshops}'>
+					<div style="padding: 1%; padding-bottom: 2%;" class="col-md-12">
+						<div class="col-md-12" style="text-align: center;">
+							<h3 class="text-muted" style="padding: 2%;">You should also
+								check out these workshops</h3>
+							<div class="col-md-12" id="slick">
+								<c:forEach var='item' items='${cartRelatedWorkshops}'>
+									<div class="col-sm-3">
+										<a
+											href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+											style="width: 80%; height: auto; margin: 0 auto"
+											alt="${item.workshopName}" src="${item.imageUrl}"
+											class="img img-responsive"></a> <a
+											href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+												value='${item.workshopName}' /></a>
+										<p>
+											<strong>Skill Level</strong>
+											<c:forEach var='val' items='${item.skillLevel}'>${val} </c:forEach>
+										</p>
+										<p>
+											<input type="hidden" class="rating" data-readonly
+												data-fractions="5" value="rating" style='display: block' />
+											(
+											<c:out value="${fn:length(item.reviews)}" />
+											) reviews
+										</p>
+									</div>
+								</c:forEach>
+							</div>
+						</div>
+
+					</div>
+
+				</c:if>
+
+
 			</div>
 
 		</div>

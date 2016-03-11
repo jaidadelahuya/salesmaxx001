@@ -14,7 +14,7 @@
 </div>
 <c:if test="${itemExist}">
 	<div class="col-md-12">
-		<div class="alert alert-info">
+		<div class="alert alert-warning">
 			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
 			<p>
 				The Workshop, <strong><c:out value="${existingItem.name}" /></strong>
@@ -95,55 +95,46 @@
 
 </table>
 <div class="col-md-12"
-	style="margin: 2%; text-align: right; padding-right: 5%;">
+	style="margin: 2%; text-align: right; padding-right: 5%; overflow: auto">
 	<c:choose>
 		<c:when test="${fn:length(cart.cartItems) eq 0}">
-			<a class="btn btn-danger" href="/sm/open/show-all-workshops">Continue
+			<a class="btn btn-success" href="/sm/open/show-all-workshops">Continue
 				Browsing</a>
 		</c:when>
 		<c:otherwise>
+			<button id="proceed-to-checkout" style="display: none;"
+				class="btn btn-success  dropdown-toggle" type="button"
+				data-toggle="dropdown">
+				Proceed To Checkout <span class="caret"
+					style="margin-left: 4%; margin-right: 4%; border-radius: 0px !important;-moz-border-radius:0px;-webkit-border-radius:0px;"></span>
+			</button>
+			<div style="clear: both"></div>
+			<div
+				class="discussion-sidebar" id="payment-mode-div" style="width: 30%; float: right; background-color:white;">
+				<h5
+					style="font-weight: bold; text-align: center; border-bottom: 1px gray dotted; padding-bottom: 2px">Choose
+					a payment option</h5>
+				<form action="/sm/closed/proceed-to-checkout">
+					<div class="radio">
+						<label><input type="radio" name="pay-method" value="web-pay">Web
+							Pay</label>
+					</div>
+					<div class="radio">
+						<label><input type="radio" name="pay-method" value="e-transfer">Electronic
+							Transfer</label>
+					</div>
+					<div class="radio disabled">
+						<label><input type="radio" name="pay-method" value="cheque">Cheque</label>
+					</div>
+					<div class="form-group">
+						<button type="submit" class="btn btn-success form-control">Continue</button>
+					</div>
+				</form>
+			</div>
 
-			<a id="proceed-to-checkout"
-				href="<c:url value='/sm/closed/proceed-to-checkout'/>"
-				class="btn btn-danger" style="display: none;">Proceed to
-				checkout</a>
 		</c:otherwise>
 	</c:choose>
 
 
 </div>
-
-<c:if test='${not empty cartRelatedWorkshops}'>
-	<div style="padding: 1%; padding-bottom: 2%;" class="col-md-12">
-		<div class="col-md-12" style="text-align: center;">
-			<h3 class="text-muted" style="padding: 2%;">You should also
-				check out these workshops</h3>
-			<div class="col-md-12" id="slick">
-				<c:forEach var='item' items='${cartRelatedWorkshops}'>
-					<div class="col-sm-3">
-						<a
-							href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
-							style="width: 80%; height: auto; margin: 0 auto"
-							alt="${item.workshopName}" src="${item.imageUrl}"
-							class="img img-responsive"></a> <a
-							href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
-								value='${item.workshopName}' /></a>
-						<p>
-							<strong>Skill Level</strong>
-							<c:forEach var='val' items='${item.skillLevel}'>${val} </c:forEach>
-						</p>
-						<p>
-							<input type="hidden" class="rating" data-readonly
-								data-fractions="5" value="rating" style='display: block' /> (
-							<c:out value="${fn:length(item.reviews)}" />
-							) reviews
-						</p>
-					</div>
-				</c:forEach>
-			</div>
-		</div>
-
-	</div>
-
-</c:if>
 

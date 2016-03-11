@@ -137,27 +137,7 @@ public class Util {
 		return new Integer(minVal + ran.nextInt(maxVal)).toString();
 	}
 
-	public static boolean sendEmail(String from, String to, String title,
-			String body) throws AddressException, MessagingException {
 
-		Properties prop = System.getProperties();
-		Session session = Session.getDefaultInstance(prop, null);
-
-		MimeMessage msg = new MimeMessage(session);
-		try {
-			msg.setFrom(new InternetAddress(from, "SalesMaxx"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-		}
-		msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-		msg.setSubject(title);
-		msg.setText(body);
-		msg.setContent(body, "text/html");
-		Transport.send(msg);
-		return true;
-
-	}
 
 	@SuppressWarnings("unchecked")
 	public static User toUser(Entity e) {
@@ -204,6 +184,28 @@ public class Util {
 			}
 		}
 		return true;
+	}
+	
+	public static boolean sendEmail(String from, String to, String title,
+			String body) throws AddressException, MessagingException {
+
+		Properties prop = System.getProperties();
+		Session session = Session.getDefaultInstance(prop, null);
+
+		MimeMessage msg = new MimeMessage(session);
+		try {
+			msg.setFrom(new InternetAddress(from, "SalesMaxx"));
+		} catch (UnsupportedEncodingException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		msg.setSubject(title);
+		msg.setText(body);
+		msg.setContent(body, "text/html");
+		Transport.send(msg);
+		return true;
+
 	}
 
 	public static Entity UserToEntity(User user) {

@@ -4,7 +4,7 @@ import com.google.appengine.api.datastore.Key;
 
 public class PurchaseableItem {
 
-	private Key itemKey;
+	private Key itemKey;//WorkShop Key
 	private double unitPrice;
 	private long qty;
 	public Key getItemKey() {

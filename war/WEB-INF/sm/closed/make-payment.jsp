@@ -28,7 +28,8 @@
 	<div class="container-fluid"
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
-			<div class="discussion-sidebar col-sm-12 no-padding-div" style="background-color: white;">
+			<div class="discussion-sidebar col-sm-12 no-padding-div"
+				style="background-color: white;">
 				<div style="padding: 1%; padding-bottom: 2%;"
 					class="col-md-12 text-muted">
 					<div class="col-md-6 no-padding-div">
@@ -43,11 +44,11 @@
 						</c:if>
 					</div>
 				</div>
-				<div style="padding-bottom: 2%;" class="col-md-12 no-padding-div" >
+				<div style="padding-bottom: 2%;" class="col-md-12 no-padding-div">
 					<div class="col-md-12">
 						<h4 class="text-success">
-							<strong>TRANSACTION REFERENCE : </strong>
-							<span class="text-muted"><c:out value="${txnRef}" /></span>
+							<strong>TRANSACTION REFERENCE : </strong> <span
+								class="text-muted"><c:out value="${txnRef}" /></span>
 						</h4>
 					</div>
 				</div>
@@ -66,14 +67,15 @@
 						name="txn_ref" type="hidden" value="${txnRef}" /> <input
 						name="pay_item_id" type="hidden" value="101" /> <input
 						name="hash" type="hidden" value="${interHash}" />
-					<div id="checkout-review-div" class="col-md-12 col-centered no-padding-div"
+					<div id="checkout-review-div"
+						class="col-md-12 col-centered no-padding-div"
 						style="margin-top: 2%">
 						<table class="table table-striped table-responsive">
 							<thead>
 								<tr>
 									<th>Item</th>
 									<th>Description</th>
-									<th style="text-align:right">No. of Delegates</th>
+									<th style="text-align: right">No. of Delegates</th>
 									<th style="text-align: right;">Total (NGN)</th>
 								</tr>
 							</thead>
@@ -91,7 +93,7 @@
 												<c:out value='${item.location}' />
 											</p>
 										</td>
-										<td style="text-align:right;"><c:out value="${item.qty}" /></td>
+										<td style="text-align: right;"><c:out value="${item.qty}" /></td>
 										<td style="text-align: right;"><c:out
 												value='${item.total}.00' /></td>
 									</tr>
@@ -101,24 +103,43 @@
 									<th style="text-align: right;"><c:out
 											value='${cart.formattedsubTotal}.00' /></th>
 								</tr>
-								
+
 							</tbody>
 						</table>
 						<div class="col-sm-12" style="text-align: right;">
 							<div class="checkbox"
 								style="font-size: 10pt; font-family: calibri">
 								<label><input id="cancel-policy" type="checkbox">I
-									have read the <a href="/sm/open/cancellation-policy" target="_blank">cancellation policy</a></label>
+									have read the <a href="/sm/open/cancellation-policy"
+									target="_blank">cancellation policy</a></label>
 							</div>
-							<input id="make-payment" type="submit" class="btn btn-danger"
-								disabled="disabled" value="Make Payment" />
-						</div>
-						<div class="col-sm-12">
-							<span><i><strong>convenience fee:</strong> NGN 100.00</i></span>
-							<img alt="interswitch" src="/images/interswitch-logo.png"
-								class="img img-responsive pull-right">
+							<c:set var = "T1" value="web-pay"/>
+							<c:set var = "T2" value="cheque"/>
+							<c:set var = "T3" value="e-transfer"/>
+							<c:choose>
+								<c:when test="${payMethod eq T1}">
+									<input id="make-payment" type="submit" class="btn btn-success"
+										disabled="disabled" value="Pay With WebPay" />
+								</c:when>
+								<c:when  test="${payMethod eq T2}">
+									<a id="make-payment" class="btn btn-success"
+										disabled="disabled"  >Pay With Cheque</a>
+								</c:when>
+								<c:when test="${payMethod eq T3}">
+									<a id="make-payment" class="btn btn-success"
+										disabled="disabled"  >Make Electronic Transfer</a>
+								</c:when>
+							</c:choose>
 
 						</div>
+						<c:if test="${payMethod eq T1}">
+							<div class="col-sm-12">
+								<span><i><strong>convenience fee:</strong> NGN 100.00</i></span>
+								<img alt="interswitch" src="/images/interswitch-logo.png"
+									class="img img-responsive pull-right">
+
+							</div>
+						</c:if>
 					</div>
 				</form>
 

@@ -58,6 +58,7 @@
 	<script type="text/javascript" src="/js/bootstrap-datepicker.min.js"></script>
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-rating.min.js"></script>
+	<script type="text/javascript" src="/js/index.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".main-menu-item").removeClass("active");

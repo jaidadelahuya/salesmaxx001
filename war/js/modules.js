@@ -650,7 +650,6 @@ $(document).ready(function() {
 				window.location.assign("/sm/open/add-to-cart");
 			},
 			error : function() {
-				alert("We can not increment this qty at this time");
 			}
 		});
 	});
