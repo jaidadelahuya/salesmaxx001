@@ -56,6 +56,7 @@
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/slick.min.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-rating.min.js"></script>
+	<script type="text/javascript" src="/js/index.js"></script>
 	<script type='text/javascript'>
 		var $zoho = $zoho || {
 			salesiq : {
