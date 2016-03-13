@@ -114,15 +114,13 @@
 				</form>
 				<div class="divider form-group">
 					<p>Already have an account? <a href="/sm/open/login-page">Sign in</a></p>
-					<p><strong>Or Login with</strong> <a href="#">Facebook</a> or <a
+					<p><strong>Or Login with</strong> <!--  <a href="#">Facebook</a> or --> <a
 						href="#">LinkedIn</a></p>
 				</div>
 
 			</div>
 		</div>
 	</div>
-	<div style="margin-top: 2%;">
-		<%@ include file="/WEB-INF/footer.html"%>
-	</div>
+	
 </body>
 </html>

@@ -122,7 +122,7 @@ import com.salesmaxx.util.json.JSONTokener;
 
 public class Util {
 
-	public static final String SERVICE_ACCOUNT = "1082599418027-compute@developer.gserviceaccount.com";
+	public static final String SERVICE_ACCOUNT = "salesmaxx001@appspot.gserviceaccount.com";
 	public static final MemcacheService WORKSHOP_CACHE = MemcacheServiceFactory
 			.getMemcacheService("workshops");
 	public static final MemcacheService USER_CACHE = MemcacheServiceFactory
@@ -1401,7 +1401,8 @@ public class Util {
 			throws AddressException, MessagingException {
 		String title = "Your SalesMaxx Confirmation Code";
 		String to = email.toLowerCase();
-		Util.sendEmailNotification( to, title, body);
+		Util.sendEmail(Util.SERVICE_ACCOUNT, to, title, body);
+		//Util.sendEmailNotification( to, title, body);
 	}
 
 	public static String getConfirmationCodeEmailBody(String code, String name) {

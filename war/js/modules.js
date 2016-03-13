@@ -273,6 +273,7 @@ $(document).ready(function() {
 	});
 	
 	$(".date-picker").datepicker({
+	
 	});
 	
 	$("#proceed-to-checkout").show();
@@ -281,7 +282,11 @@ $(document).ready(function() {
 		  
 	});
 	
-	$("#make-payment").click(function (e) {
+	$("#proceed-to-checkout").click(function() {
+		$("#payment-mode-div").slideToggle();
+	});
+	
+	(".make-payment-interswitch").click(function (e) {
 		e.preventDefault();
 		
 		$.ajax({

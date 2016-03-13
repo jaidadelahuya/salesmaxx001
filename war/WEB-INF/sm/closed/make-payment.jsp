@@ -99,7 +99,8 @@
 									</tr>
 								</c:forEach>
 								<tr>
-									<th colspan="3" style="text-align: right;">Sub Total</th>
+									<td colspan="2"><i>Service provided by Profiliant Development Resourses</i></td>
+									<th  style="text-align: right;">Sub Total</th>
 									<th style="text-align: right;"><c:out
 											value='${cart.formattedsubTotal}.00' /></th>
 								</tr>
@@ -118,12 +119,12 @@
 							<c:set var = "T3" value="e-transfer"/>
 							<c:choose>
 								<c:when test="${payMethod eq T1}">
-									<input id="make-payment" type="submit" class="btn btn-success"
+									<input id="make-payment"  type="submit" class="btn btn-success make-payment-interswitch"
 										disabled="disabled" value="Pay With WebPay" />
 								</c:when>
 								<c:when  test="${payMethod eq T2}">
 									<a id="make-payment" class="btn btn-success"
-										disabled="disabled"  >Pay With Cheque</a>
+										disabled="disabled" href="<c:url value='/sm/closed/init-cheque-invoice' />" >Pay With Cheque</a>
 								</c:when>
 								<c:when test="${payMethod eq T3}">
 									<a id="make-payment" class="btn btn-success"

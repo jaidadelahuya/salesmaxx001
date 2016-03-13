@@ -2,6 +2,7 @@ package com.salesmaxx.beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Set;
 
 public class ChequeInvoice implements Serializable {
 
@@ -10,15 +11,27 @@ public class ChequeInvoice implements Serializable {
 	 */
 	private static final long serialVersionUID = 5456884409839717232L;
 	
-	private String name,address,email,phone,date,txnRef,subTotal;
-	private  List<ScheduleWorkshopDisplay> items;
+	private String name,address,email,phone,date,txnRef,subTotal,dueDate;
+	private  Set<CartItem> items;
 	@Override
 	public String toString() {
 		return "ChequeInvoice [name=" + name + ", address=" + address
 				+ ", email=" + email + ", phone=" + phone + ", date=" + date
-				+ ", txnRef=" + txnRef + ", subTotal=" + subTotal + ", items="
-				+ items + "]";
+				+ ", txnRef=" + txnRef + ", subTotal=" + subTotal
+				+ ", dueDate=" + dueDate + ", items=" + items + "]";
 	}
+	
+	
+	public String getDueDate() {
+		return dueDate;
+	}
+
+
+	public void setDueDate(String dueDate) {
+		this.dueDate = dueDate;
+	}
+
+
 	public String getName() {
 		return name;
 	}
@@ -61,10 +74,10 @@ public class ChequeInvoice implements Serializable {
 	public void setSubTotal(String subTotal) {
 		this.subTotal = subTotal;
 	}
-	public List<ScheduleWorkshopDisplay> getItems() {
+	public Set<CartItem> getItems() {
 		return items;
 	}
-	public void setItems(List<ScheduleWorkshopDisplay> items) {
+	public void setItems(Set<CartItem> items) {
 		this.items = items;
 	}
 	

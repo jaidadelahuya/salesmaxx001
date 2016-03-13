@@ -5,6 +5,14 @@
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<servlet>
+		<servlet-name>CC</servlet-name>
+		<servlet-class>com.salesmaxx.SalesmaxxServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CC</servlet-name>
+		<url-pattern>/ss</url-pattern>
+	</servlet-mapping>
+	<servlet>
 		<servlet-name>CreateUser</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.admin.CreateUser</servlet-class>
 	</servlet>
@@ -772,6 +780,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>GetInvoice</servlet-name>
 		<url-pattern>/sm/closed/get-invoice</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>InitChequePayment</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.InitChequePayment</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>InitChequePayment</servlet-name>
+		<url-pattern>/sm/closed/init-cheque-invoice</url-pattern>
 	</servlet-mapping>
 	
 	

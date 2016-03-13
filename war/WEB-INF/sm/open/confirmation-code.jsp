@@ -102,7 +102,7 @@
 									in</a>
 							</p>
 							<p>
-								<strong>Or Login with</strong> <a href="#">Facebook</a> or <a
+								<strong>Or Login with</strong><!--  <a href="#">Facebook</a> or --> <a
 									href="#">LinkedIn</a>
 							</p>
 						</div>

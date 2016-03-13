@@ -1,7 +1,9 @@
 package com.salesmaxx.servlets.sm.closed;
 
 import java.io.IOException;
+import java.text.Format;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import javax.servlet.RequestDispatcher;
@@ -38,6 +40,16 @@ public class InitChequePayment extends HttpServlet {
 			ChequeInvoice cq = new ChequeInvoice();
 			SimpleDateFormat sm = new SimpleDateFormat("E, dd MMM yyyy");
 			cq.setDate(sm.format(new Date()));
+			Calendar date = Calendar.getInstance();
+		    date.setTime(new Date());
+		    date.add(Calendar.DAY_OF_MONTH,5);
+		    if(date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+		    	date.add(Calendar.DAY_OF_MONTH, 2);
+		    } else if(date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+		    	date.add(Calendar.DAY_OF_MONTH, 1);
+		    }
+		    cq.setItems(c.getCartItems());
+		    cq.setDueDate(sm.format(date.getTime()));
 			if(u.getUsername() == null) {
 				if(u.getEmails() != null && !u.getEmails().isEmpty()) {
 					for(String s : u.getEmails()) {

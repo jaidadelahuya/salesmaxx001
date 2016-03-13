@@ -4,6 +4,7 @@
 	<classpathentry exported="true" kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry exported="true" kind="lib" path="gson-2.1.jar"/>
 	<classpathentry kind="lib" path="commons-codec-1.10.jar"/>
+	<classpathentry kind="lib" path="twilio-java-sdk-4.4.5-jar-with-dependencies.jar"/>
 	<classpathentry kind="con" path="com.google.appengine.eclipse.core.GAE_CONTAINER/appengine-java-sdk-1.9.26"/>
 	<classpathentry kind="output" path="war/WEB-INF/classes"/>
 </classpath>

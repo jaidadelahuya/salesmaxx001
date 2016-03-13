@@ -43,7 +43,7 @@
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner" role="listbox">
 				<div class="item active">
-					<img class="img img-responsive" src="/images/coffee-slide.jpg"
+					<img class="img img-responsive" src="/images/salesmaxx_slider_Consultative-Selling.jpg"
 						alt="slide 1" style="width: 100%">
 					<div class="carousel-caption">
 						<h3></h3>
@@ -53,7 +53,7 @@
 
 				<div class="item">
 					<img class="img img-responsive" style="width: 100%;"
-						src="/images/consultative-selling-slide.jpg" alt="slide 2">
+						src="/images/salesmaxx_slider_road.jpg" alt="slide 2">
 					<div class="carousel-caption">
 						<h3></h3>
 						<p></p>
@@ -62,7 +62,7 @@
 
 				<div class="item">
 					<img class="img img-responsive" style="width: 100%;"
-						src="/images/salesmax-slider-target.jpg" alt="slide 3">
+						src="/images/salesmaxx_slider_starting.jpg" alt="slide 3">
 					<div class="carousel-caption">
 						<h3>Acing The Sales Target</h3>
 						<p>Pipeline Management Workshop</p>
@@ -70,7 +70,7 @@
 				</div>
 
 				<div class="item">
-					<img class="img img-responsive" src="/images/slider-road.jpg"
+					<img class="img img-responsive" src="/images/salesmaxx_slider_yes.jpg"
 						style="width: 100%;" alt="slide 4">
 					<div class="carousel-caption">
 						<h3></h3>
@@ -212,8 +212,8 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<img class="img-responsive" alt="Free Downloads"
-					src="/images/tools.gif">
+				<a href="/tools"><img class="img-responsive" alt="Free Downloads"
+					src="/images/tools.gif"></a>
 			</div>
 		</div>
 
