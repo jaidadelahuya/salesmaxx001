@@ -30,12 +30,9 @@
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
 
-			<div class="col-md-9">
+			<div class="col-md-9" style="padding-left: 0px">
 				<div class="panel panel-default col-md-12" style="padding: 0">
-					<div class='section-heading'>
-						<a href="/index" style="color: white">Home</a> / <span
-							style="color: white">About</span>
-					</div>
+					
 					<div class="col-md-12" style="text-align: center; padding: 5%;">
 						<img alt="SalesMaxx" src="/images/salesmaxx-logo.jpg" />
 						<h4>QUALITY AND AFFORDABLE SALES TRAININGS</h4>

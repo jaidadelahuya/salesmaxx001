@@ -286,7 +286,7 @@ $(document).ready(function() {
 		$("#payment-mode-div").slideToggle();
 	});
 	
-	(".make-payment-interswitch").click(function (e) {
+	$(".make-payment-interswitch").click(function (e) {
 		e.preventDefault();
 		
 		$.ajax({

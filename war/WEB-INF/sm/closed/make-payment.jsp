@@ -124,11 +124,11 @@
 								</c:when>
 								<c:when  test="${payMethod eq T2}">
 									<a id="make-payment" class="btn btn-success"
-										disabled="disabled" href="<c:url value='/sm/closed/init-cheque-invoice' />" >Pay With Cheque</a>
+										disabled="disabled" href="<c:url value='/sm/closed/init-cheque-invoice' />" >Get Invoice</a>
 								</c:when>
 								<c:when test="${payMethod eq T3}">
 									<a id="make-payment" class="btn btn-success"
-										disabled="disabled"  >Make Electronic Transfer</a>
+										disabled="disabled"  >Get Bank Details</a>
 								</c:when>
 							</c:choose>
 

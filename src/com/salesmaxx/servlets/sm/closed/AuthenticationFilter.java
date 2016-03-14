@@ -7,6 +7,7 @@ import java.util.List;
 import javax.servlet.Filter;
 import javax.servlet.FilterChain;
 import javax.servlet.FilterConfig;
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
@@ -18,6 +19,7 @@ import com.google.appengine.api.datastore.Text;
 import com.salesmaxx.beans.CoachingPost;
 import com.salesmaxx.entities.Discussion;
 import com.salesmaxx.entities.User;
+import com.salesmaxx.util.Util;
 
 public class AuthenticationFilter implements Filter {
 
@@ -44,10 +46,31 @@ public class AuthenticationFilter implements Filter {
 
 		if (o == null) {
 			if (req.getRequestURI().contains("proceed-to-checkout")) {
-				session.setAttribute("requestURI", req.getRequestURI());
-				resp.sendRedirect("/sm/open/login-page");
+				synchronized (session) {
+					session.setAttribute("requestURI", req.getRequestURI());
+					session.setAttribute("payMethod", req.getParameter("pay-method"));
+				}
+				
+				resp.sendRedirect(resp.encodeRedirectURL("/sm/open/login-page"));
 				return;
-			} else if (req.getRequestURI().contains(
+			} else if(req.getRequestURI().contains("get-cheque-invoice")) {
+				String admin = req.getParameter("admin");
+				if(admin != null && admin.equals("admin") && Util.notNull(req.getParameter("txnRef"))) {
+					synchronized (session) {
+						session.setAttribute("chequeTxnRef", req.getParameter("txnRef"));
+					}
+					RequestDispatcher rd = req.getRequestDispatcher("/sm/open/get-cheque-invoice");
+					rd.forward(req, resp);
+					return;
+				} else if(Util.notNull(req.getParameter("txnRef"))) {
+					synchronized (session) {
+						session.setAttribute("requestURI", req.getRequestURI());
+						session.setAttribute("chequeTxnRef", req.getParameter("txnRef"));
+					}
+					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/login-page"));
+					return;
+				}
+			}else if (req.getRequestURI().contains(
 					"sm/closed/submit-discussion")) {
 				session.setAttribute("requestURI", req.getRequestURI());
 				String title = req.getParameter("title");

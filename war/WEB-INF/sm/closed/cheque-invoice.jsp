@@ -95,8 +95,10 @@
 		<div class="row">
 			<div class="col-sm-12"
 				style="background-color: #ddd; font-weight: bold;">
-				<div class="col-sm-6">Item</div>
-				<div class="col-sm-2" style="text-align: right">Qty</div>
+				<div class="col-sm-2">Workshop Date</div>
+				<div class="col-sm-4">Workshop</div>
+				
+				<div class="col-sm-2" style="text-align: right">No. of Delegates</div>
 				<div class="col-sm-2" style="text-align: right">Unit Price
 					(NGN)</div>
 				<div class="col-sm-2" style="text-align: right">Total (NGN)</div>
@@ -104,9 +106,13 @@
 			<div class="col-sm-12"
 				style="padding-top: 1%; padding-bottom: 1%; border: 1px #ddd solid; border-top: none;">
 				<c:forEach var="x" items="${chequeInvoice.items}">
-					<div class="col-sm-6">
+					<div class="col-sm-2">
+						<c:out value="${x.date }" />
+					</div>
+					<div class="col-sm-4">
 						<c:out value="${x.name }" />
 					</div>
+					
 					<div class="col-sm-2" style="text-align: right">
 						<c:out value="${x.qty }" />
 					</div>
@@ -132,13 +138,16 @@
 		<div class="row">
 			<div class="col-sm-12" style="border: 1px #ddd solid; margin-top: 4%">
 				<h4>Bank Details</h4>
-				<div class="col-sm-6">Bank 1</div>
+				<div class="col-sm-6">
+					<p><strong>Bank Name: </strong><span>First Bank Nigeria</span></p>
+					<p><strong>Account Name: </strong><span>Profiliant Development Resources Limited</span></p>
+					<p><strong>Account Number: </strong><span>2009173282</span></p>
+					<p><strong>Branch: </strong><span>Lagos (Western House)</span></p>
+				</div>
 				<div class="col-sm-6"></div>
 			</div>
 		</div>
-		<div class="row">
-			<div class="col-sm-12">ADDITIONAL INFORMATION</div>
-		</div>
+		
 	</div>
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>

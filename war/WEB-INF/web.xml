@@ -5,6 +5,23 @@
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
 	<servlet>
+		<servlet-name>bouncehandler</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.BounceHandlerServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>bouncehandler</servlet-name>
+		<url-pattern>/_ah/bounce</url-pattern>
+	</servlet-mapping>
+	<security-constraint>
+		<web-resource-collection>
+			<web-resource-name>bounce</web-resource-name>
+			<url-pattern>/_ah/bounce</url-pattern>
+		</web-resource-collection>
+		<auth-constraint>
+			<role-name>admin</role-name>
+		</auth-constraint>
+	</security-constraint>
+	<servlet>
 		<servlet-name>CC</servlet-name>
 		<servlet-class>com.salesmaxx.SalesmaxxServlet</servlet-class>
 	</servlet>
@@ -166,7 +183,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>EventScheduleServlet</servlet-name>
 		<url-pattern>/sm-admin/event-schedule</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AdminInterswitchTransactionLogServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.admin.InterswitchTransactionLogServlet</servlet-class>
@@ -301,7 +318,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SaveScheduleWorkshop</servlet-name>
 		<url-pattern>/sm-admin/save-scheduled-workshop</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SaveAlumnus</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.admin.SaveAlumnus</servlet-class>
@@ -374,7 +391,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/sm/open/logout</url-pattern>
 	</servlet-mapping>
 
-	
+
 
 	<servlet>
 		<servlet-name>ResendConfirmationCode</servlet-name>
@@ -420,7 +437,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ChangePassword1</servlet-name>
 		<url-pattern>/sm/open/change-password</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ChangePasswordFromLogin</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.ChangePasswordFromLogin</servlet-class>
@@ -456,7 +473,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Blog</servlet-name>
 		<url-pattern>/sm/open/blog</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>TestFetch</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.TestFetch</servlet-class>
@@ -465,7 +482,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>TestFetch</servlet-name>
 		<url-pattern>/test-fetch</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>InterswitchResponseServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.InterswitchResponse</servlet-class>
@@ -474,7 +491,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>InterswitchResponseServlet</servlet-name>
 		<url-pattern>/interswicth-response</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SendMail</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.SendMail</servlet-class>
@@ -483,7 +500,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SendMail</servlet-name>
 		<url-pattern>/sm/open/send-mail</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AddMailingList</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.AddMailingList</servlet-class>
@@ -492,7 +509,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AddMailingList</servlet-name>
 		<url-pattern>/sm/open/add-mailing-list</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>InitCurrentUserProfile</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.InitCurrentUserProfile</servlet-class>
@@ -501,8 +518,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>InitCurrentUserProfile</servlet-name>
 		<url-pattern>/sm/closed/profile/*</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 	<servlet>
 		<servlet-name>EditUserProfileServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.EditUserProfile</servlet-class>
@@ -511,7 +528,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>EditUserProfileServlet</servlet-name>
 		<url-pattern>/sm/closed/edit-profile</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SaveInterswitchTransaction</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.SaveInterswitchTransaction</servlet-class>
@@ -520,7 +537,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SaveInterswitchTransaction</servlet-name>
 		<url-pattern>/sm/closed/save-interswitch-transaction</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>LoadWorkshopIndexServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlet.UpdateIndex</servlet-class>
@@ -538,7 +555,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SearchServlet</servlet-name>
 		<url-pattern>/sm/open/search</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>NextCursorServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.NextCursorServlet</servlet-class>
@@ -547,7 +564,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>NextCursorServlet</servlet-name>
 		<url-pattern>/sm/open/next</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>QueryInterswitchServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.admin.QueryInterswitch</servlet-class>
@@ -556,7 +573,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>QueryInterswitchServlet</servlet-name>
 		<url-pattern>/sm-admin/query-interswitch</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>NextPageServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.NextPageServlet</servlet-class>
@@ -565,7 +582,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>NextPageServlet</servlet-name>
 		<url-pattern>/sm/open/show-next</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>LinkedInSignIn</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.LinkedInSignIn</servlet-class>
@@ -574,7 +591,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>LinkedInSignIn</servlet-name>
 		<url-pattern>/sm/open/linkedin-signin</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>FacebookSignIn</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.FacebookSignIn</servlet-class>
@@ -583,7 +600,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>FacebookSignIn</servlet-name>
 		<url-pattern>/sm/open/facebook-signin</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>GoogleSignIn</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.GoogleSignin</servlet-class>
@@ -592,8 +609,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>GoogleSignIn</servlet-name>
 		<url-pattern>/sm/open/google-signin</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 	<servlet>
 		<servlet-name>GoogleCallback</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.GoogleCallback</servlet-class>
@@ -602,7 +619,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>GoogleCallback</servlet-name>
 		<url-pattern>/sm/open/google/callback</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>LinkedInCallback</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.LinkedInCallback</servlet-class>
@@ -611,7 +628,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>LinkedInCallback</servlet-name>
 		<url-pattern>/sm/open/linkedin/callback</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>FacebookCallback</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.FacebookCallback</servlet-class>
@@ -620,7 +637,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>FacebookCallback</servlet-name>
 		<url-pattern>/sm/open/facebook/callback</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>PurchaseHistoryTest</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.PurchaseHistoryTest</servlet-class>
@@ -629,7 +646,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>PurchaseHistoryTest</servlet-name>
 		<url-pattern>/sm/closed/purchase-history-test</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>RescheduleWorkshop</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.RescheduleWorkshop</servlet-class>
@@ -638,7 +655,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>RescheduleWorkshop</servlet-name>
 		<url-pattern>/sm/closed/reschedule-workshop</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>RescheduleWorkshop2</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.RescheduleWorkshop2</servlet-class>
@@ -647,7 +664,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>RescheduleWorkshop2</servlet-name>
 		<url-pattern>/sm/closed/join-workshop</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SocialMediaLogin</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.SocialMediaLogin</servlet-class>
@@ -656,7 +673,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SocialMediaLogin</servlet-name>
 		<url-pattern>/sm/open/social-media-login</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>StartDiscussion</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.StartDiscussion</servlet-class>
@@ -665,7 +682,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>StartDiscussion</servlet-name>
 		<url-pattern>/sm/open/start-discussion</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>LoginReload</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.LoginReload</servlet-class>
@@ -674,7 +691,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>LoginReload</servlet-name>
 		<url-pattern>/sm/open/non-ajax-login</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ViewAllDiscussion</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.ViewAllDiscussion</servlet-class>
@@ -683,7 +700,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ViewAllDiscussion</servlet-name>
 		<url-pattern>/sm/open/view-all-discussion</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>NewsLetterSubscription</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.NewsLetterSubscription</servlet-class>
@@ -692,7 +709,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>NewsLetterSubscription</servlet-name>
 		<url-pattern>/sm/open/newsletter-subscription</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>GetDiscussion</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.GetDiscussion</servlet-class>
@@ -701,7 +718,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>GetDiscussion</servlet-name>
 		<url-pattern>/sm/open/get-discussion</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.CoachingServlet</servlet-class>
@@ -710,7 +727,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingServlet</servlet-name>
 		<url-pattern>/coaching</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SendNotificationEmail</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.SendNotificationEmail</servlet-class>
@@ -719,7 +736,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SendNotificationEmail</servlet-name>
 		<url-pattern>/sm/open/send-notification-email</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SalesAndMarketingTemplates</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.SalesAndMarketingTemplates</servlet-class>
@@ -736,7 +753,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ForgotPassword</servlet-name>
 		<url-pattern>/sm/open/forgot-password</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ForgotPasswordPage</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.ForgotPasswordInit</servlet-class>
@@ -745,7 +762,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ForgotPasswordPage</servlet-name>
 		<url-pattern>/sm/open/forgot-password-page</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SubmitDiscussion</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.SubmitDiscussion</servlet-class>
@@ -754,7 +771,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SubmitDiscussion</servlet-name>
 		<url-pattern>/sm/closed/submit-discussion</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>PostComment</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.PostComment</servlet-class>
@@ -763,7 +780,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>PostComment</servlet-name>
 		<url-pattern>/sm/closed/post-comment</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SaveTestimonial</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.SaveTestimonial</servlet-class>
@@ -772,7 +789,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SaveTestimonial</servlet-name>
 		<url-pattern>/sm/closed/save-testimonial</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>GetInvoice</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.GetInvoice</servlet-class>
@@ -781,7 +798,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>GetInvoice</servlet-name>
 		<url-pattern>/sm/closed/get-invoice</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>InitChequePayment</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.InitChequePayment</servlet-class>
@@ -791,10 +808,20 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/sm/closed/init-cheque-invoice</url-pattern>
 	</servlet-mapping>
 	
-	
-	
-	
-	
+	<servlet>
+		<servlet-name>GetChequeInvoice</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.GetChequeInvoice</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetChequeInvoice</servlet-name>
+		<url-pattern>/sm/closed/get-cheque-invoice</url-pattern>
+		<url-pattern>/sm/open/get-cheque-invoice</url-pattern>
+	</servlet-mapping>
+
+
+
+
+
 
 	<!-- *********************JSPS*************************** -->
 	<servlet>
@@ -861,7 +888,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Discussion</servlet-name>
 		<url-pattern>/sm/open/start-discussion-page</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingPage</servlet-name>
 		<jsp-file>/WEB-INF/coaching.jsp</jsp-file>
@@ -870,7 +897,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingPage</servlet-name>
 		<url-pattern>/coaching-page</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ToolsPage</servlet-name>
 		<jsp-file>/WEB-INF/tools.jsp</jsp-file>
@@ -879,7 +906,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ToolsPage</servlet-name>
 		<url-pattern>/tools</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>InterswitchTransactionPage</servlet-name>
 		<jsp-file>/WEB-INF/interswitch-transaction-log.jsp</jsp-file>
@@ -888,7 +915,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>InterswitchTransactionPage</servlet-name>
 		<url-pattern>/sm-admin/interswitch-transaction-log-page</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AddAlumnus</servlet-name>
 		<jsp-file>/WEB-INF/save-alumnus.jsp</jsp-file>
@@ -921,7 +948,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>MakePayment</servlet-name>
 		<url-pattern>/sm/closed/make-payment</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>About</servlet-name>
 		<jsp-file>/WEB-INF/about.jsp</jsp-file>
@@ -947,7 +974,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Cart</servlet-name>
 		<url-pattern>/sm/open/cart</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SearchPage</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/search-page.jsp</jsp-file>
@@ -956,7 +983,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SearchPage</servlet-name>
 		<url-pattern>/sm/open/search-page</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ShowWorkshopPage</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/workshop-information.jsp</jsp-file>
@@ -1137,8 +1164,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/sm-admin/add-workshop-material</url-pattern>
 	</servlet-mapping>
 
-	
-	
+
+
 	<servlet>
 		<servlet-name>AddAssessment</servlet-name>
 		<jsp-file>/WEB-INF/add-assessment.jsp</jsp-file>
@@ -1147,9 +1174,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AddAssessment</servlet-name>
 		<url-pattern>/sm-admin/add-assessment</url-pattern>
 	</servlet-mapping>
-	
-	
-	
+
+
+
 	<servlet>
 		<servlet-name>UploadCertificate</servlet-name>
 		<jsp-file>/WEB-INF/upload-certificate.jsp</jsp-file>
@@ -1158,7 +1185,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>UploadCertificate</servlet-name>
 		<url-pattern>/sm-admin/upload-certificate</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ScheduleEvent</servlet-name>
 		<jsp-file>/WEB-INF/schedule-event.jsp</jsp-file>
@@ -1232,33 +1259,33 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
-	
+
 	<context-param>
 		<param-name>LinkedInClientId</param-name>
 		<param-value>77ciyhkk0lhyeu</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>LinkedInClientSecret</param-name>
 		<param-value>vId8FSizvWEzzlA7</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>FacebookClientId</param-name>
 		<param-value>1134790883222273</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>FacebookClientSecret</param-name>
 		<param-value>b84eff80efef4a3abe17242b2ca726c8</param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>GoogleClientId</param-name>
 		<param-value>1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com
 </param-value>
 	</context-param>
-	
+
 	<context-param>
 		<param-name>GoogleClientSecret</param-name>
 		<param-value>HCKJkccJbw8vQN3czykSlsjb</param-value>

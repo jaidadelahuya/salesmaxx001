@@ -86,6 +86,7 @@ import com.salesmaxx.entities.Industry;
 import com.salesmaxx.entities.InterswitchTransactionLog;
 import com.salesmaxx.entities.JobRole;
 import com.salesmaxx.entities.MailingList;
+import com.salesmaxx.entities.ManualTransaction;
 import com.salesmaxx.entities.ProductPaidFor;
 import com.salesmaxx.entities.PurchaseHistory;
 import com.salesmaxx.entities.PurchaseableItem;
@@ -122,7 +123,7 @@ import com.salesmaxx.util.json.JSONTokener;
 
 public class Util {
 
-	public static final String SERVICE_ACCOUNT = "salesmaxx001@appspot.gserviceaccount.com";
+	public static final String SERVICE_ACCOUNT = "profiliant.salesmaxx@gmail.com";
 	public static final MemcacheService WORKSHOP_CACHE = MemcacheServiceFactory
 			.getMemcacheService("workshops");
 	public static final MemcacheService USER_CACHE = MemcacheServiceFactory
@@ -189,22 +190,27 @@ public class Util {
 	public static boolean sendEmail(String from, String to, String title,
 			String body) throws AddressException, MessagingException {
 
-		Properties prop = System.getProperties();
-		Session session = Session.getDefaultInstance(prop, null);
-
-		MimeMessage msg = new MimeMessage(session);
+		Properties props = new Properties();
+		Session session = Session.getDefaultInstance(props, null);
 		try {
-			msg.setFrom(new InternetAddress(from, "SalesMaxx"));
-		} catch (UnsupportedEncodingException e) {
-			// TODO Auto-generated catch block
+		    Message msg = new MimeMessage(session);
+		    msg.setFrom(new InternetAddress(Util.SERVICE_ACCOUNT, "SalesMaxx Admin", "UTF-8"));
+		    msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+		    msg.setSubject(title);
+		    msg.setText(body);
+		    msg.setContent(body, "text/html");
+		    Transport.send(msg);
+
+		} catch (AddressException e) {
+		 e.printStackTrace();
+		} catch (MessagingException e) {
 			e.printStackTrace();
+		
+		} catch (UnsupportedEncodingException e) {
+			e.printStackTrace();
+		
 		}
-		msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-		msg.setSubject(title);
-		msg.setText(body);
-		msg.setContent(body, "text/html");
-		Transport.send(msg);
-		return true;
+		   return true;
 
 	}
 
@@ -2785,6 +2791,34 @@ public class Util {
 	public static UserGeneralInfo initUserGeneralInfo(UserGeneralInfo ugi) {
 
 		return ugi;
+	}
+	
+	public static Entity ManualTransactionToEntity(ManualTransaction mt) {
+		Entity e = null;
+		if(mt.getId() == null) {
+			e = new Entity(ManualTransaction.class.getSimpleName());
+		} else {
+			e = new Entity(mt.getId());
+		}
+		e.setIndexedProperty("ownerKey", mt.getOwnerKey());
+		e.setIndexedProperty("txnRef", mt.getTxnRef());
+		e.setIndexedProperty("transactionType", mt.getTransactionType());
+		e.setUnindexedProperty("items",mt.getItems());
+		e.setProperty("issueDate", mt.getIssueDate());
+		e.setProperty("status", mt.getStatus());
+		return e;
+	}
+	
+	public static ManualTransaction entityToManualTransaction(Entity e) {
+		ManualTransaction mt = new ManualTransaction();
+		mt.setId(e.getKey());
+		mt.setIssueDate((Date) e.getProperty("issueDate"));
+		mt.setItems((List<EmbeddedEntity>) e.getProperty("items"));
+		mt.setOwnerKey((Key) e.getProperty("ownerKey"));
+		mt.setStatus((String) e.getProperty("status"));
+		mt.setTransactionType((String) e.getProperty("transactionType"));
+		mt.setTxnRef((String) e.getProperty("txnRef"));
+		return mt;
 	}
 
 }

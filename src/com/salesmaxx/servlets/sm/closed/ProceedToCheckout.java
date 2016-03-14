@@ -13,6 +13,7 @@ import javax.servlet.http.HttpSession;
 import com.salesmaxx.beans.ChequeInvoice;
 import com.salesmaxx.entities.Cart;
 import com.salesmaxx.entities.User;
+import com.salesmaxx.util.Util;
 
 public class ProceedToCheckout extends HttpServlet {
 
@@ -27,6 +28,16 @@ public class ProceedToCheckout extends HttpServlet {
 
 		String payMethod = req.getParameter("pay-method");
 		HttpSession session = req.getSession();
+		if(!Util.notNull(payMethod)) {
+			synchronized (session) {
+				Object o3 = session.getAttribute("payMethod");
+				if(o3 != null) {
+					payMethod = (String)o3;
+				}
+				
+			}
+		}
+		
 		Object o = null;
 		Object o1 = null;
 		synchronized (session) {
