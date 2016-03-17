@@ -4,7 +4,7 @@
 	<version>4</version>
 	<sessions-enabled>true</sessions-enabled>
 	<threadsafe>true</threadsafe>
-	<async-session-persistence enabled="true" />
+	<!-- <async-session-persistence enabled="true" /> -->
 	<inbound-services>
 		<service>mail_bounce</service>
 	</inbound-services>

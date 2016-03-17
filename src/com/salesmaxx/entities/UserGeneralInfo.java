@@ -18,7 +18,6 @@ import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
 
-@Entity
 public class UserGeneralInfo implements Serializable {
 
 	/**
@@ -26,59 +25,45 @@ public class UserGeneralInfo implements Serializable {
 	 */
 	private static final long serialVersionUID = 3379934035699585206L;
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private long id;
 
 	private Date dateOfBirth;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Key notification;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private List<Key> purchaseHistory;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Set<Key> completedWorkshops;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Set<Key> enrolledWorkshops;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Set<Long> wishListEvent;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Set<Long> attendedEvents;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Set<Long> enrolledEvents;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Key address;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private List<String> phones;
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private String website;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private List<EmbeddedEntity> socialMedia;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Key cart;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private boolean cancelWorkshop;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private List<Long> SIG;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private Set<BlobKey> certificate;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private List<Key> salesmaxxHistoryCredits;
 	private Text biography;
+	private List<Key> pendingOrder;
+	private List<Key> completedManualOrder;
+	
+	
+	public List<Key> getPendingOrder() {
+		return pendingOrder;
+	}
+
+	public void setPendingOrder(List<Key> pendingOrder) {
+		this.pendingOrder = pendingOrder;
+	}
+
+	public List<Key> getCompletedManualOrder() {
+		return completedManualOrder;
+	}
+
+	public void setCompletedManualOrder(List<Key> completedManualOrder) {
+		this.completedManualOrder = completedManualOrder;
+	}
 
 	public Text getBiography() {
 		return biography;

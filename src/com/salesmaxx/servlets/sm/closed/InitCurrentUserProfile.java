@@ -15,11 +15,12 @@ import com.salesmaxx.beans.MyWorkshopsBean;
 import com.salesmaxx.beans.ProfileBean;
 import com.salesmaxx.beans.PurchaseHistoryBean;
 import com.salesmaxx.beans.SalesMaxxCreditHistory;
-import com.salesmaxx.beans.WorkshopDisplay;
+import com.salesmaxx.entities.ManualTransaction;
 import com.salesmaxx.entities.PurchaseHistory;
 import com.salesmaxx.entities.User;
 import com.salesmaxx.entities.UserGeneralInfo;
 import com.salesmaxx.entities.WorkshopTemplate;
+import com.salesmaxx.persistence.controllers.ManualTransactionController;
 import com.salesmaxx.persistence.controllers.PurchaseHistoryController;
 import com.salesmaxx.persistence.controllers.UserGeneralInfoController;
 import com.salesmaxx.util.Util;
@@ -92,6 +93,21 @@ public class InitCurrentUserProfile extends HttpServlet {
 				synchronized (session) {
 					session.setAttribute("purchaseHistorys",phbs);
 					session.setAttribute("ugi",ugi);
+					session.removeAttribute("pendingOrders");
+				}
+				RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/sm/closed/purchase-history.jsp");
+				rd.include(req, resp);
+			}else if(path.contains("/pending-orders")) {
+				List<Key> mtKeys = ugi.getPendingOrder();
+				List<ManualTransaction> mt  = null;
+				if(mtKeys != null) {
+					mt = new ManualTransactionController().find(mtKeys);
+				}
+				List<PurchaseHistoryBean> phbs = Util.manualTransactionToPurchaseHistoryBean(mt);
+				synchronized (session) {
+					session.setAttribute("purchaseHistorys",phbs);
+					session.setAttribute("ugi",ugi);
+					session.setAttribute("pendingOrders", true);
 				}
 				RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/sm/closed/purchase-history.jsp");
 				rd.include(req, resp);

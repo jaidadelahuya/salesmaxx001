@@ -23,7 +23,7 @@ public class PurchaseHistory implements Serializable {
 
 	private Date purchaseDate;
 
-	private PurchaseType purchaseType;
+	private String purchaseType;
 
 	private String formattedDate;
 
@@ -91,19 +91,23 @@ public class PurchaseHistory implements Serializable {
 				purchaseDate).toUpperCase();
 	}
 
-	public PurchaseType getPurchaseType() {
+	public String getPurchaseType() {
 		return purchaseType;
 	}
 
-	public void setPurchaseType(PurchaseType purchaseType) {
+	public void setPurchaseType(String purchaseType) {
 		this.purchaseType = purchaseType;
 	}
 
+	
+
 	@Override
 	public String toString() {
-		return "PurchaseHistory [txnRef=" + txnRef + ", title=" + ", total="
-				+ total + ", status=" + status + ", purchaseDate="
-				+ purchaseDate + ", purchaseType=" + purchaseType + "]";
+		return "PurchaseHistory [txnRef=" + txnRef + ", total=" + total
+				+ ", status=" + status + ", purchaseDate=" + purchaseDate
+				+ ", purchaseType=" + purchaseType + ", formattedDate="
+				+ formattedDate + ", formattedAmount=" + formattedAmount
+				+ ", items=" + items + "]";
 	}
 
 	@Override

@@ -138,8 +138,6 @@ public class Util {
 		return new Integer(minVal + ran.nextInt(maxVal)).toString();
 	}
 
-
-
 	@SuppressWarnings("unchecked")
 	public static User toUser(Entity e) {
 		User user = new User();
@@ -186,31 +184,32 @@ public class Util {
 		}
 		return true;
 	}
-	
+
 	public static boolean sendEmail(String from, String to, String title,
 			String body) throws AddressException, MessagingException {
 
 		Properties props = new Properties();
 		Session session = Session.getDefaultInstance(props, null);
 		try {
-		    Message msg = new MimeMessage(session);
-		    msg.setFrom(new InternetAddress(Util.SERVICE_ACCOUNT, "SalesMaxx Admin", "UTF-8"));
-		    msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
-		    msg.setSubject(title);
-		    msg.setText(body);
-		    msg.setContent(body, "text/html");
-		    Transport.send(msg);
+			Message msg = new MimeMessage(session);
+			msg.setFrom(new InternetAddress(Util.SERVICE_ACCOUNT,
+					"SalesMaxx Admin", "UTF-8"));
+			msg.addRecipient(Message.RecipientType.TO, new InternetAddress(to));
+			msg.setSubject(title);
+			msg.setText(body);
+			msg.setContent(body, "text/html");
+			Transport.send(msg);
 
 		} catch (AddressException e) {
-		 e.printStackTrace();
+			e.printStackTrace();
 		} catch (MessagingException e) {
 			e.printStackTrace();
-		
+
 		} catch (UnsupportedEncodingException e) {
 			e.printStackTrace();
-		
+
 		}
-		   return true;
+		return true;
 
 	}
 
@@ -283,6 +282,10 @@ public class Util {
 		ent.setUnindexedProperty("salesmaxxHistoryCredits",
 				userGeneralInfo.getSalesmaxxHistoryCredits());
 		ent.setUnindexedProperty("biography", userGeneralInfo.getBiography());
+		ent.setUnindexedProperty("pendingOrder",
+				userGeneralInfo.getPendingOrder());
+		ent.setUnindexedProperty("completedManualOrder",
+				userGeneralInfo.getCompletedManualOrder());
 		return ent;
 	}
 
@@ -1089,7 +1092,7 @@ public class Util {
 
 		return ws;
 	}
-	
+
 	public static List<ScheduleWorkshopDisplay> toScheduleWorkshopDisplay(
 			List<WorkShop> ws) {
 		List<ScheduleWorkshopDisplay> list = new ArrayList<>();
@@ -1107,18 +1110,19 @@ public class Util {
 
 		for (WorkShop w : ws) {
 			PurchaseableItem pi = null;
-			for(PurchaseableItem p : pis) {
-				if(w.getId().equals(p.getItemKey())){
+			for (PurchaseableItem p : pis) {
+				if (w.getId().equals(p.getItemKey())) {
 					pi = p;
 				}
 			}
-			ScheduleWorkshopDisplay s = toScheduleWorkshopDisplay(w,pi);
+			ScheduleWorkshopDisplay s = toScheduleWorkshopDisplay(w, pi);
 			list.add(s);
 		}
 		return list;
 	}
-	
-	public static ScheduleWorkshopDisplay toScheduleWorkshopDisplay(WorkShop w, PurchaseableItem p) {
+
+	public static ScheduleWorkshopDisplay toScheduleWorkshopDisplay(WorkShop w,
+			PurchaseableItem p) {
 
 		ScheduleWorkshopDisplay s = new ScheduleWorkshopDisplay();
 		s.setQty(p.getQty());
@@ -1126,8 +1130,10 @@ public class Util {
 		Address a = c.findAddress(w.getLocation());
 		s.setId(String.valueOf(w.getId().getId()));
 		s.setLocation(a);
-		s.setFormattedTotalPrice(new DecimalFormat("#,###.00").format(p.getUnitPrice()*p.getQty()));
-		s.setFormattedPrice(new DecimalFormat("#,###.00").format(p.getUnitPrice()));
+		s.setFormattedTotalPrice(new DecimalFormat("#,###.00").format(p
+				.getUnitPrice() * p.getQty()));
+		s.setFormattedPrice(new DecimalFormat("#,###.00").format(p
+				.getUnitPrice()));
 		WorkshopTemplate wst = getWorkshopTemplateFromScheduleId(
 				getWorkshopTemplateFromCache(),
 				String.valueOf(w.getId().getId()));
@@ -1408,7 +1414,7 @@ public class Util {
 		String title = "Your SalesMaxx Confirmation Code";
 		String to = email.toLowerCase();
 		Util.sendEmail(Util.SERVICE_ACCOUNT, to, title, body);
-		//Util.sendEmailNotification( to, title, body);
+		// Util.sendEmailNotification( to, title, body);
 	}
 
 	public static String getConfirmationCodeEmailBody(String code, String name) {
@@ -1503,16 +1509,22 @@ public class Util {
 
 	public static Set<CartItem> getCartItems(List<EmbeddedEntity> items) {
 		Set<CartItem> ci = new HashSet<CartItem>();
-		for (EmbeddedEntity ee : items) {
-			WorkShop w = Util.getWorkshopSchedule(String.valueOf(ee
-					.getProperty("workshopID")));
-			if (w != null) {
-				CartItem c = toCartItem(w,
-						Integer.parseInt((String) ee.getProperty("qty")));
-				ci.add(c);
-			}
+		if(items != null) {
+			for (EmbeddedEntity ee : items) {
+				WorkShop w = Util.getWorkshopSchedule(String.valueOf(ee
+						.getProperty("workshopID")));
+				if (w != null) {
+					CartItem c = toCartItem(w,
+							Integer.parseInt((String) ee.getProperty("qty")));
+					ci.add(c);
+				}
 
+			}
+		} else {
+			return null;
 		}
+		
+		
 		return ci;
 	}
 
@@ -1781,8 +1793,10 @@ public class Util {
 			List<Key> l = (List<Key>) o;
 			s.addAll(l);
 		}
-
 		ugi.setEnrolledWorkshops(s);
+		ugi.setCompletedManualOrder((List<Key>) e
+				.getProperty("completedManualOrder"));
+		ugi.setPendingOrder((List<Key>) e.getProperty("pendingOrder"));
 		ugi.setDateOfBirth((Date) e.getProperty("dateOfBirth"));
 		ugi.setEnrolledEvents((Set<Long>) e.getProperty("enrolledEvents"));
 		ugi.setId(e.getKey().getId());
@@ -1866,10 +1880,11 @@ public class Util {
 			e = new Entity(PurchaseHistory.class.getSimpleName(),
 					ph.getTxnRef());
 			e.setIndexedProperty("txnRef", ph.getTxnRef());
-			e.setUnindexedProperty("purchaseDate", ph.getPurchaseDate());
-			e.setUnindexedProperty("status", ph.getStatus());
+			e.setProperty("purchaseDate", ph.getPurchaseDate());
+			e.setProperty("status", ph.getStatus());
 			e.setUnindexedProperty("items", ph.getItems());
 			e.setUnindexedProperty("total", ph.getTotal());
+			e.setProperty("purchaseType", ph.getPurchaseType());
 			ents.add(e);
 		}
 
@@ -1884,6 +1899,7 @@ public class Util {
 		ph.setItems((List<Key>) e.getProperty("items"));
 		ph.setTotal((Double) e.getProperty("total"));
 		ph.setTxnRef((String) e.getProperty("txnRef"));
+		ph.setPurchaseType((String) e.getProperty("purchaseType"));
 		return ph;
 	}
 
@@ -2100,23 +2116,64 @@ public class Util {
 		if (phs != null) {
 			for (PurchaseHistory ph : phs) {
 				PurchaseHistoryBean phb = getPurchaseHistoryBean(ph);
-			
+
 				l.add(phb);
 			}
 		}
 
 		return l;
 	}
-	
+
+	public static List<PurchaseHistoryBean> manualTransactionToPurchaseHistoryBean(
+			List<ManualTransaction> mts) {
+		List<PurchaseHistoryBean> phbs = new ArrayList<>();
+		for(ManualTransaction mt : mts) {
+			PurchaseHistoryBean phb = new PurchaseHistoryBean();
+			List<PurchaseableItem> items = new ArrayList<>();
+			Set<CartItem> cis = Util.getCartItems(mt.getItems());
+			double total = 0;
+			if(cis == null) {
+				return null;
+			}
+			for (CartItem ci : cis) {
+				PurchaseableItem pi = new PurchaseableItem();
+				pi.setItemKey(Util.getWorkshopSchedule(String.valueOf(ci.getId()))
+						.getId());
+				pi.setUnitPrice(ci.getPrice());
+				pi.setQty(ci.getQty());
+				total += (ci.getPrice() * ci.getQty());
+				items.add(pi);
+			}
+			phb.setFormattedDate(new SimpleDateFormat("dd-MMM-yyyy").format(
+					mt.getIssueDate()).toUpperCase());
+			phb.setFormattedTotalPrice(new DecimalFormat("#,###.00").format(total));
+			phb.setTxnRef(mt.getTxnRef());
+			List<Key> kys = new ArrayList<>();
+			for (PurchaseableItem p : items) {
+				kys.add(p.getItemKey());
+			}
+			List<WorkShop> wks = Util.getScheduledWorkshops(kys);
+			List<ScheduleWorkshopDisplay> swds = Util.toScheduleWorkshopDisplay(
+					wks, items);
+			phb.setList(swds);
+			phbs.add(phb);
+		}
+		
+		return phbs;
+	}
+
 	public static PurchaseHistoryBean getPurchaseHistoryBean(PurchaseHistory ph) {
+		if (ph == null) {
+			return null;
+		}
 		PurchaseHistoryBean phb = new PurchaseHistoryBean();
 		phb.setFormattedDate(ph.getFormattedDate());
 		phb.setFormattedTotalPrice(ph.getFormattedAmount());
 		phb.setTxnRef(ph.getTxnRef());
-		phb.setFormattedUnitPrice(new DecimalFormat("#,###.00")
-				.format(ph.getTotal() / ph.getItems().size()));
-		phb.setKey(KeyFactory.createKey(
-				PurchaseHistory.class.getSimpleName(), ph.getTxnRef()));
+		phb.setFormattedUnitPrice(new DecimalFormat("#,###.00").format(ph
+				.getTotal() / ph.getItems().size()));
+		phb.setKey(KeyFactory.createKey(PurchaseHistory.class.getSimpleName(),
+				ph.getTxnRef()));
 		List<Key> keys = ph.getItems();
 		PurchaseableItemController c = new PurchaseableItemController();
 		List<PurchaseableItem> pis = c.findAll(keys);
@@ -2125,8 +2182,8 @@ public class Util {
 			kys.add(p.getItemKey());
 		}
 		List<WorkShop> wks = Util.getScheduledWorkshops(kys);
-		List<ScheduleWorkshopDisplay> swds = Util
-				.toScheduleWorkshopDisplay(wks,pis);
+		List<ScheduleWorkshopDisplay> swds = Util.toScheduleWorkshopDisplay(
+				wks, pis);
 		phb.setList(swds);
 		return phb;
 	}
@@ -2393,7 +2450,8 @@ public class Util {
 		su.setGender(jo.getString("gender"));
 		su.setId(jo.getString("id"));
 		su.setLastName(jo.getString("last_name"));
-		su.setPictureUrl(jo.getJSONObject("picture").getJSONObject("data").getString("url"));
+		su.setPictureUrl(jo.getJSONObject("picture").getJSONObject("data")
+				.getString("url"));
 		su.setVerified(jo.getBoolean("verified"));
 		return su;
 	}
@@ -2792,10 +2850,10 @@ public class Util {
 
 		return ugi;
 	}
-	
+
 	public static Entity ManualTransactionToEntity(ManualTransaction mt) {
 		Entity e = null;
-		if(mt.getId() == null) {
+		if (mt.getId() == null) {
 			e = new Entity(ManualTransaction.class.getSimpleName());
 		} else {
 			e = new Entity(mt.getId());
@@ -2803,12 +2861,12 @@ public class Util {
 		e.setIndexedProperty("ownerKey", mt.getOwnerKey());
 		e.setIndexedProperty("txnRef", mt.getTxnRef());
 		e.setIndexedProperty("transactionType", mt.getTransactionType());
-		e.setUnindexedProperty("items",mt.getItems());
+		e.setUnindexedProperty("items", mt.getItems());
 		e.setProperty("issueDate", mt.getIssueDate());
 		e.setProperty("status", mt.getStatus());
 		return e;
 	}
-	
+
 	public static ManualTransaction entityToManualTransaction(Entity e) {
 		ManualTransaction mt = new ManualTransaction();
 		mt.setId(e.getKey());

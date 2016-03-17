@@ -128,7 +128,7 @@ public class Interswitch extends HttpServlet {
 			UserGeneralInfo ugi = cont.findUserGeneralInfo(user, id);
 			ugi = addWorkshopToEnrolledWokshops(c, ugi, user);
 
-			List<PurchaseHistory> phs = getPurchaseHistory(c, ugi, ir);
+			List<PurchaseHistory> phs = getPurchaseHistory(c,  ir);
 			UserGeneralInfoController c1 = new UserGeneralInfoController();
 			c1.edit(ugi, user.getRegId(), phs);
 
@@ -205,8 +205,7 @@ public class Interswitch extends HttpServlet {
 
 	}
 
-	private List<PurchaseHistory> getPurchaseHistory(Cart c,
-			UserGeneralInfo ugi, InterswitchResponse ir) {
+	private List<PurchaseHistory> getPurchaseHistory(Cart c, InterswitchResponse ir) {
 		Set<CartItem> cis = c.getCartItems();
 		List<PurchaseHistory> phs = new ArrayList<PurchaseHistory>();
 		List<PurchaseableItem> items = new ArrayList<>();

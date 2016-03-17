@@ -22,7 +22,7 @@
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 </head>
 <body>
-	<div class="container">
+	<div class="container" style="margin-bottom: 2%;">
 		<div class="row">
 			<div class="col-sm-12" style="margin-top: 2%;">
 				<div class="col-sm-12">
@@ -79,7 +79,7 @@
 							</div>
 							<div class="col-sm-12">
 								<div class="col-sm-6" style="text-align: right;">
-									<strong>TRANSACTION REF:</strong>
+									<strong style="color: red">TRANSACTION ID:</strong>
 								</div>
 								<div class="col-sm-6">
 									<c:out value="${chequeInvoice.txnRef}" />
@@ -97,8 +97,9 @@
 				style="background-color: #ddd; font-weight: bold;">
 				<div class="col-sm-2">Workshop Date</div>
 				<div class="col-sm-4">Workshop</div>
-				
-				<div class="col-sm-2" style="text-align: right">No. of Delegates</div>
+
+				<div class="col-sm-2" style="text-align: right">No. of
+					Delegates</div>
 				<div class="col-sm-2" style="text-align: right">Unit Price
 					(NGN)</div>
 				<div class="col-sm-2" style="text-align: right">Total (NGN)</div>
@@ -112,7 +113,7 @@
 					<div class="col-sm-4">
 						<c:out value="${x.name }" />
 					</div>
-					
+
 					<div class="col-sm-2" style="text-align: right">
 						<c:out value="${x.qty }" />
 					</div>
@@ -131,23 +132,45 @@
 					Total</div>
 				<div class="col-sm-2"
 					style="border: 1px #ddd solid; border-top: none;">
-					<div class="col-sm-12" style="text-align: right;"><c:out value="${chequeInvoice.subTotal}" /></div>
+					<div class="col-sm-12" style="text-align: right;">
+						<c:out value="${chequeInvoice.subTotal}" />
+					</div>
 				</div>
 			</div>
 		</div>
 		<div class="row">
 			<div class="col-sm-12" style="border: 1px #ddd solid; margin-top: 4%">
-				<h4>Bank Details</h4>
+				<div class="col-sm-12" style="padding-top: 2%;">
+					<strong style="color: red;">Please ensure that
+						you indicate your transaction ID when making payment for tracking.</strong>
+				</div>
+				<div class="col-sm-12">
+					<h4>Bank Details</h4>
+				</div>
 				<div class="col-sm-6">
-					<p><strong>Bank Name: </strong><span>First Bank Nigeria</span></p>
-					<p><strong>Account Name: </strong><span>Profiliant Development Resources Limited</span></p>
-					<p><strong>Account Number: </strong><span>2009173282</span></p>
-					<p><strong>Branch: </strong><span>Lagos (Western House)</span></p>
+					<p>
+						<strong>Bank Name: </strong><span>First Bank Nigeria</span>
+					</p>
+					<p>
+						<strong>Account Name: </strong><span>Profiliant Development
+							Resources Limited</span>
+					</p>
+					<p>
+						<strong>Account Number: </strong><span>2009173282</span>
+					</p>
+					<p>
+						<strong>Branch: </strong><span>Lagos (Western House)</span>
+					</p>
 				</div>
 				<div class="col-sm-6"></div>
 			</div>
 		</div>
-		
+		<div class="row">
+			<div class="col-sm-12" style="text-align: center; margin-top:1%;">
+				<a href="<c:url value='/sm/closed/profile/pending-orders' />"><strong>Go To Purchase History</strong></a>
+			</div>
+		</div>
+
 	</div>
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>

@@ -13,7 +13,7 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
-import com.google.apphosting.utils.config.AppEngineWebXml.UseGoogleConnectorJ;
+import com.salesmaxx.entities.ManualTransaction;
 import com.salesmaxx.entities.PurchaseHistory;
 import com.salesmaxx.entities.User;
 import com.salesmaxx.entities.UserGeneralInfo;
@@ -29,29 +29,43 @@ public class UserGeneralInfoController {
 	public EntityManager getEntityManager() {
 		return emf.createEntityManager();
 	}
-	
+
 	public void edit(UserGeneralInfo userGeneralInfo, Key userKey) {
-	
+
 		Entity ent = Util.UserGeneralInfoToEntity(userGeneralInfo, userKey);
 		txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
 		ds.put(ent);
 		txn.commit();
 	}
 
-	public void edit(UserGeneralInfo userGeneralInfo, Key userKey, List<PurchaseHistory> phs) {
+	public void edit(UserGeneralInfo userGeneralInfo, Key userKey,
+			List<PurchaseHistory> phs) {
 		List<Entity> phEnts = Util.purchaseHistoryToEntity(phs);
+
 		List<Key> phKeys = userGeneralInfo.getPurchaseHistory();
-		if(phKeys == null) {
+		if (phKeys == null) {
 			phKeys = new ArrayList<Key>();
 		}
-		for(Entity e: phEnts) {
+		for (Entity e : phEnts) {
 			phKeys.add(e.getKey());
 		}
 		userGeneralInfo.setPurchaseHistory(phKeys);
+
 		Entity ent = Util.UserGeneralInfoToEntity(userGeneralInfo, userKey);
 		txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
 		ds.put(ent);
 		ds.put(phEnts);
+		txn.commit();
+	}
+	
+	public void edit(UserGeneralInfo userGeneralInfo, Key userKey,
+			ManualTransaction mt) {
+		Entity e1 = Util.ManualTransactionToEntity(mt);
+
+		Entity ent = Util.UserGeneralInfoToEntity(userGeneralInfo, userKey);
+		txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
+		ds.put(ent);
+		ds.put(e1);
 		txn.commit();
 	}
 
@@ -80,15 +94,16 @@ public class UserGeneralInfoController {
 		}
 	}
 
-	public UserGeneralInfo findUserGeneralInfo(User user,long id) {
-		Key key = KeyFactory.createKey(user.getRegId(), UserGeneralInfo.class.getSimpleName(), id);
+	public UserGeneralInfo findUserGeneralInfo(User user, long id) {
+		Key key = KeyFactory.createKey(user.getRegId(),
+				UserGeneralInfo.class.getSimpleName(), id);
 		Entity e = null;
 		try {
 			e = ds.get(key);
 		} catch (EntityNotFoundException enfe) {
 			return null;
 		}
-		
+
 		return Util.EntityToUserGeneralInfo(e);
 	}
 

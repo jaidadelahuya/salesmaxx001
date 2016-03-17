@@ -24,6 +24,7 @@ public class ManualTransaction implements Serializable {
 	private List<EmbeddedEntity> items;
 	private String status;
 	private String transactionType;
+
 	@Override
 	public String toString() {
 		return "ManualTransaction [ownerKey=" + ownerKey + ", issueDate="
