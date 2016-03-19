@@ -103,4 +103,15 @@ public class WorkshopTemplateController {
 		}
 		return temps;
 	}
+
+	public void edit(List<WorkshopTemplate> workshopTemplates) {
+		List<Entity> ents = new ArrayList<>();
+		for(WorkshopTemplate wt : workshopTemplates) {
+			ents.add(Util.WorkshopTemplateToEntity(wt));
+		}
+		txn = ds.beginTransaction();
+		ds.put(ents);
+		txn.commit();
+		
+	}
 }

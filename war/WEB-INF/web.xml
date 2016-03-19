@@ -47,6 +47,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/add-user</url-pattern>
 		<url-pattern>/sm-admin/add-user</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ChequePayment</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.ChequePayment</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChequePayment</servlet-name>
+		<url-pattern>/sm-admin/cheque-payment</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>Login</servlet-name>

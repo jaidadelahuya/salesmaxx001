@@ -461,6 +461,13 @@ $(document).ready(function() {
 		});
 	});
 	
+	$(".display-cheque-component").click(function(e) {
+		e.preventDefault();
+		var x = $(this).find("small").text();
+		$(this).parent().parent().find(x).show();
+		
+	});
+	
 	$("#user-change-password-button").click(function() {
 		$("#user-change-password-div").waitMe({
 			effect : 'ios',

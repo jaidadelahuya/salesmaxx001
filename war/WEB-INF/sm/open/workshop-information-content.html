@@ -32,7 +32,7 @@
 			</h4>
 		</div>
 	</div>
-	
+
 	<div class="row">
 		<div class="col-sm-4">
 			<div class="col-sm-12">
@@ -165,10 +165,17 @@
 											Details <span class="caret"></span>
 										</button>
 									</td>
-									<td style="text-align: center"><a
-										class="btn btn-xs btn-danger add-to-cart"
-										href='<c:url value="/sm/open/add-to-cart?id=${wsp.id}&qty=1" />'>Enroll
-											Now</a></td>
+									<td style="text-align: center"><c:choose>
+											<c:when test="${wsp.seatsLeft > 0}">
+												<a class="btn btn-xs btn-danger add-to-cart"
+													href='<c:url value="/sm/open/add-to-cart?id=${wsp.id}&qty=1" />'>Enroll
+													Now</a>
+											</c:when>
+											<c:otherwise>
+												<input class="btn btn-xs btn-danger add-to-cart"
+													value="Filled" disabled="disabled" />
+											</c:otherwise>
+										</c:choose></td>
 									</td>
 								</tr>
 								<tr style="display: none;">
@@ -204,6 +211,11 @@
 												<p>
 													<strong class="text-muted">SALESSMAXX POINTS: </strong>1000SL
 												</p>
+												<c:if test="${wsp.seatsLeft < 5}">
+													<p>
+														<strong class="text-danger">No of seats left: </strong> <c:out value="${wsp.seatsLeft}" />
+													</p>
+												</c:if>
 
 											</div>
 										</div>

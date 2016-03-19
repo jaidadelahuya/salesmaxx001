@@ -55,13 +55,16 @@ import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 import com.salesmaxx.beans.CartItem;
 import com.salesmaxx.beans.CategoryDisplay;
+import com.salesmaxx.beans.ChequePaymentBean;
 import com.salesmaxx.beans.CoachingPost;
 import com.salesmaxx.beans.CommentBean;
 import com.salesmaxx.beans.DiscussionPageBean;
 import com.salesmaxx.beans.FacebookAccessTokenResponse;
 import com.salesmaxx.beans.GoogleDiscoveryDocument;
 import com.salesmaxx.beans.LinkedInAccessTokenResponse;
+import com.salesmaxx.beans.ManualPaymentBean;
 import com.salesmaxx.beans.OtherCategoriesDisplay;
+import com.salesmaxx.beans.PendingWorkshopBean;
 import com.salesmaxx.beans.ProfileBean;
 import com.salesmaxx.beans.PurchaseHistoryBean;
 import com.salesmaxx.beans.ScheduleWorkshopDisplay;
@@ -112,6 +115,7 @@ import com.salesmaxx.persistence.controllers.DiscussionController;
 import com.salesmaxx.persistence.controllers.EMF;
 import com.salesmaxx.persistence.controllers.IndustryController;
 import com.salesmaxx.persistence.controllers.JobRoleController;
+import com.salesmaxx.persistence.controllers.ManualTransactionController;
 import com.salesmaxx.persistence.controllers.PurchaseableItemController;
 import com.salesmaxx.persistence.controllers.ReviewController;
 import com.salesmaxx.persistence.controllers.TestimonialController;
@@ -935,6 +939,7 @@ public class Util {
 		ent.setUnindexedProperty("noEnrolled", workShop.getNoEnrolled());
 		ent.setUnindexedProperty("workshopType", workShop.getWorkshopType());
 		ent.setUnindexedProperty("venue", workShop.getVenue());
+		ent.setUnindexedProperty("students", workShop.getStudents());
 
 		return ent;
 	}
@@ -1089,7 +1094,7 @@ public class Util {
 		ws.setStartDate((Date) result.getProperty("startDate"));
 		ws.setWorkshopType((String) result.getProperty("workshopType"));
 		ws.setVenue((String) result.getProperty("venue"));
-
+		ws.setStudents((List<Key>) result.getProperty("students"));
 		return ws;
 	}
 
@@ -1159,6 +1164,7 @@ public class Util {
 		Address a = c.findAddress(w.getLocation());
 		s.setId(String.valueOf(w.getId().getId()));
 		s.setLocation(a);
+		s.setSeatsLeft(25-w.getNoEnrolled());
 		WorkshopTemplate wst = getWorkshopTemplateFromScheduleId(
 				getWorkshopTemplateFromCache(),
 				String.valueOf(w.getId().getId()));
@@ -1537,7 +1543,6 @@ public class Util {
 		c.setId(w.getId().getId());
 
 		c.setImageUrl(wt.getImageUrl());
-		System.out.println(wt.getImageUrl());
 		c.setItemType(CartItem.ItemType.WORKSHOP);
 		Address a = Util.toScheduleWorkshopDisplay(w).getLocation();
 		c.setLocation(a.getState() + "," + a.getCountry());
@@ -2877,6 +2882,99 @@ public class Util {
 		mt.setTransactionType((String) e.getProperty("transactionType"));
 		mt.setTxnRef((String) e.getProperty("txnRef"));
 		return mt;
+	}
+
+	public static ChequePaymentBean getChequePaymentBean(String category, String currentPage, String numberOfEntries, ChequePaymentBean oCpb) {
+		ChequePaymentBean cpb = new ChequePaymentBean();
+		if(notNull(category) | oCpb == null) {
+			if(notNull(category)) {
+				cpb.setCategory(category);
+			} else {
+				cpb.setCategory("pending");
+			}
+			
+			if(notNull(currentPage)) {
+				cpb.setCurrentPage(Integer.parseInt(currentPage));
+			} else {
+				cpb.setCurrentPage(1);
+			}
+			if(notNull(numberOfEntries)) {
+				cpb.setNoOfEntries(Integer.parseInt(numberOfEntries));
+			} else {
+				cpb.setNoOfEntries(10);
+			}
+			
+			ManualTransactionController mtc = new ManualTransactionController();
+			cpb = mtc.addManualTransactions(cpb);
+			
+		}else {
+			
+			if(notNull(currentPage)) {
+				oCpb.setCurrentPage(Integer.parseInt(currentPage));	
+			}
+			if (notNull(numberOfEntries)) {
+				oCpb.setNoOfEntries(Integer.parseInt(numberOfEntries));
+				ManualTransactionController mtc = new ManualTransactionController();
+				oCpb = mtc.addManualTransactions(oCpb);
+			}
+			cpb = oCpb;
+		}
+		return cpb;
+	}
+
+	public static List<ManualPaymentBean> toManualPaymentBean(
+			List<ManualTransaction> mts) {
+		List<ManualPaymentBean> mpbs = new ArrayList<>();
+		for(ManualTransaction mt : mts) {
+			ManualPaymentBean mpb = Util.toManualPaymentBean(mt);
+			mpbs.add(mpb);
+		}
+		return mpbs;
+	}
+
+	private static ManualPaymentBean toManualPaymentBean(ManualTransaction mt) {
+		ManualPaymentBean mpb = new ManualPaymentBean();
+		SimpleDateFormat sdf = new SimpleDateFormat("dd-MMM-yyyy");
+		mpb.setIssueDate(sdf.format(mt.getIssueDate()));
+		Calendar date = Calendar.getInstance();
+		date.setTime(mt.getIssueDate());
+		date.add(Calendar.DAY_OF_MONTH, 5);
+		if (date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+			date.add(Calendar.DAY_OF_MONTH, 2);
+		} else if (date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			date.add(Calendar.DAY_OF_MONTH, 1);
+		}
+		mpb.setOverdueDate(sdf.format(date.getTime()));
+		mpb.setTxnRef(mt.getTxnRef());
+		User u = new UserController().findUser(mt.getOwnerKey());
+		if(u != null) {
+			mpb.setCustomerName(u.getFirstName()+" "+u.getLastName());
+		}
+		DecimalFormat f1 = new DecimalFormat("#,###.00");
+		List<PendingWorkshopBean> items = new ArrayList<>();
+		Set<CartItem> cis = Util.getCartItems(mt.getItems());
+		double total = 0;
+		if(cis != null) {
+			for (CartItem ci : cis) {
+				PendingWorkshopBean pwb = new PendingWorkshopBean();
+				WorkShop w = Util.getWorkshopSchedule(String.valueOf(ci.getId()));
+				pwb.setDate(sdf.format(w.getStartDate()));
+				ScheduleWorkshopDisplay swd = Util.toScheduleWorkshopDisplay(w);
+				pwb.setLocation(swd.getVenue());
+				WorkshopTemplate wt = getWorkshopTemplateFromScheduleId(Util.getWorkshopTemplateFromCache(), String.valueOf(w.getId().getId()));
+				pwb.setWorkshopCode(wt.getWorkshopId().getName());
+				pwb.setWorkshopName(wt.getWorkshopName());
+				pwb.setUnitPrice(f1.format(ci.getPrice()));
+				pwb.setQty(String.valueOf(ci.getQty()));
+				pwb.setTotalPrice(f1.format(ci.getPrice() * ci.getQty()));
+				total += (ci.getPrice() * ci.getQty());
+				pwb.setUserWebSafeKey(KeyFactory.keyToString(u.getRegId()));
+				items.add(pwb);
+			}
+			mpb.setTotalAmount(f1.format(total));
+			mpb.setPwbs(items);
+		}
+		return mpb;
 	}
 
 }

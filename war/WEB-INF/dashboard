@@ -1,5 +1,5 @@
 
-<div class="col-sm-8 col-centered" style="padding-top: 4%;">
+<div class="col-sm-10 col-centered" style="padding-top: 4%;">
 
 	<c:set var="ADMIN" value="<%=UserRole.ADMIN%>" />
 	<c:set var="SYSADMIN" value="<%=UserRole.SYSADMIN%>" />
@@ -147,6 +147,19 @@
 				<a class="module to-pointer"
 					href='<c:url value="/sm-admin/upload-certificate"/>'>
 					Certificates</a>
+			</div>
+		</div>
+	</c:if>
+	<c:if test='${user.role eq SYSADMIN }'>
+		<div class="dashboard-module">
+			<a class="module to-pointer"
+				href='<c:url value="/sm-admin/cheque-payment"/>'><img
+				class="img-responsive module-image"
+				src="/images/icons/organization.png" alt="Cheque Payment"></a>
+			<div class="caption" style="text-align: center;">
+				<a class="module to-pointer"
+					href='<c:url value="/sm-admin/cheque-payment"/>'>Cheque Payment
+					</a>
 			</div>
 		</div>
 	</c:if>

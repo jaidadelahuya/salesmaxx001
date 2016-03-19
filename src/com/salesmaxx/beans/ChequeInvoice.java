@@ -11,7 +11,7 @@ public class ChequeInvoice implements Serializable {
 	 *
 	 */
 	public enum InvoiceStatus {
-		PENDING,EXPIRED,CLEARED
+		PENDING,OVERDUE,CLEARED
 	}
 	/**
 	 * 

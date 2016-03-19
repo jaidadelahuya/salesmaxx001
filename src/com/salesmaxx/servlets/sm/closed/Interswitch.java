@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Logger;
 
-import javax.mail.MessagingException;
-import javax.mail.internet.AddressException;
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
@@ -36,11 +34,14 @@ import com.salesmaxx.entities.PurchaseHistory;
 import com.salesmaxx.entities.PurchaseableItem;
 import com.salesmaxx.entities.User;
 import com.salesmaxx.entities.UserGeneralInfo;
+import com.salesmaxx.entities.WorkShop;
 import com.salesmaxx.entities.WorkshopTemplate;
 import com.salesmaxx.persistence.controllers.CartController;
 import com.salesmaxx.persistence.controllers.InterswitchTransactionLogController;
 import com.salesmaxx.persistence.controllers.PurchaseableItemController;
 import com.salesmaxx.persistence.controllers.UserGeneralInfoController;
+import com.salesmaxx.persistence.controllers.WorkshopController;
+import com.salesmaxx.persistence.controllers.WorkshopTemplateController;
 import com.salesmaxx.util.InterswitchResponse;
 import com.salesmaxx.util.Util;
 
@@ -131,7 +132,9 @@ public class Interswitch extends HttpServlet {
 			List<PurchaseHistory> phs = getPurchaseHistory(c,  ir);
 			UserGeneralInfoController c1 = new UserGeneralInfoController();
 			c1.edit(ugi, user.getRegId(), phs);
-
+			List<CartItem> ciss = new ArrayList<>();
+			ciss.addAll(c.getCartItems());
+			updateWorkshops(ciss , user.getRegId());
 			String body = ClosedUtil.getEmailBody(session);
 
 			if (user.getUsername() == null) {
@@ -263,5 +266,33 @@ public class Interswitch extends HttpServlet {
 		ugi.setEnrolledWorkshops(enrolled);
 		return ugi;
 
+	}
+	
+	private void updateWorkshops(List<CartItem> items, Key userKey) {
+		
+		List<WorkshopTemplate> workshopTemplates = new ArrayList<>();
+		List<WorkShop> schedules = new ArrayList<>();
+		
+		for (CartItem ci : items) {
+			WorkshopTemplate wt = Util.getWorkshopFromList(ci.getWorkshopCode(), Util.getWorkshopTemplateFromCache());
+			wt.setNoEnrolled(wt.getNoEnrolled()+ci.getQty());
+			workshopTemplates.add(wt);
+			WorkShop w = Util.getWorkshopSchedule(String.valueOf(ci.getId()));
+			for(int i = 0; i < ci.getQty(); i++) {
+				if(w.getNoEnrolled() < 25) {
+					w.setNoEnrolled(w.getNoEnrolled()+1);
+					List<Key> keys = w.getStudents();
+					keys.add(userKey);
+					w.setStudents(keys);
+				}
+			}
+			schedules.add(w);
+		}
+		
+		WorkshopController wc = new WorkshopController();
+		wc.edit(schedules);
+		WorkshopTemplateController wtc = new WorkshopTemplateController();
+		wtc.edit(workshopTemplates);
+		
 	}
 }

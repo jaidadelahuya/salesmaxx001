@@ -37,7 +37,7 @@ public class WorkshopController {
 		Key key = range.getStart();
 		workShop.setId(key);
 		List<Key> schedules = template.getSchedules();
-		if(schedules == null) {
+		if (schedules == null) {
 			schedules = new ArrayList<>();
 		}
 		Entity ent3 = Util.WorkshopTemplateToEntity(template);
@@ -47,7 +47,9 @@ public class WorkshopController {
 		Entity ent2 = Util.addressToEntity(address, key);
 		ent.setUnindexedProperty("location", ent2.getKey());
 		txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
-		ds.put(ent); ds.put(ent3); ds.put(ent2);
+		ds.put(ent);
+		ds.put(ent3);
+		ds.put(ent2);
 		txn.commit();
 		Util.WORKSHOP_CACHE.clearAll();
 
@@ -55,7 +57,7 @@ public class WorkshopController {
 
 	public void edit(WorkShop workShop) throws RollbackFailureException,
 			Exception {
-		//create(workShop);
+		// create(workShop);
 	}
 
 	public void destroy(Key key) throws RollbackFailureException, Exception {
@@ -92,9 +94,9 @@ public class WorkshopController {
 			e.printStackTrace();
 			return null;
 		}
-		
+
 		return new WorkShop();
-		
+
 	}
 
 	public List<WorkShop> getAllWorkshops() {
@@ -102,11 +104,23 @@ public class WorkshopController {
 		q.addSort("startDate");
 		PreparedQuery pq = ds.prepare(q);
 		List<WorkShop> temps = new ArrayList<WorkShop>();
-		for(Entity result: pq.asIterable()) {
+		for (Entity result : pq.asIterable()) {
 			WorkShop wt = Util.entityToWorkshop(result);
 			temps.add(wt);
 		}
 		return temps;
 	}
 
+	public void edit(List<WorkShop> schedules) {
+		List<Entity> ents = new ArrayList<>();
+		for(WorkShop w : schedules) {
+			WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(Util.getWorkshopTemplateFromCache(), String.valueOf(w.getId().getId()));
+			ents.add(Util.workshopToEntity(w, wt.getWorkshopId()));
+		}
+		txn = ds.beginTransaction();
+		ds.put(ents);
+		txn.commit();
+		
+		
+	}
 }

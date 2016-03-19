@@ -28,7 +28,7 @@ public class WorkShop implements Serializable {
 	
 	private long noEnrolled;
 	@Basic
-	
+	private List<Key> students;
 	private List<String> facilitators;
 	private Date startDate;
 	private Date endDate;
@@ -39,6 +39,14 @@ public class WorkShop implements Serializable {
 	private String venue;
 	
 	
+	
+	public List<Key> getStudents() {
+		return students;
+	}
+
+	public void setStudents(List<Key> students) {
+		this.students = students;
+	}
 
 	public String getVenue() {
 		return venue;
@@ -125,10 +133,11 @@ public class WorkShop implements Serializable {
 	@Override
 	public String toString() {
 		return "WorkShop [id=" + id + ", noEnrolled=" + noEnrolled
-				+ ", facilitators=" + facilitators + ", startDate=" + startDate
-				+ ", endDate=" + endDate + ", forSale=" + forSale
-				+ ", workshopType=" + workshopType + ", location=" + location
-				+ ", flyer=" + flyer + "]";
+				+ ", students=" + students + ", facilitators=" + facilitators
+				+ ", startDate=" + startDate + ", endDate=" + endDate
+				+ ", forSale=" + forSale + ", workshopType=" + workshopType
+				+ ", location=" + location + ", flyer=" + flyer + ", venue="
+				+ venue + "]";
 	}
 
 	

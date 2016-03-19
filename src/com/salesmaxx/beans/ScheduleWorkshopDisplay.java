@@ -13,9 +13,17 @@ public class ScheduleWorkshopDisplay implements Serializable {
 	private String id,startDate,name,format,type,flyer,venue,imageUrl,workshopCode,description,formattedPrice,formattedTotalPrice;
 	private Address location;
 	private long qty;
+	private long seatsLeft;
 	
 	
 	
+	
+	public long getSeatsLeft() {
+		return seatsLeft;
+	}
+	public void setSeatsLeft(long seatsLeft) {
+		this.seatsLeft = seatsLeft;
+	}
 	public String getFormattedTotalPrice() {
 		return formattedTotalPrice;
 	}
@@ -110,7 +118,9 @@ public class ScheduleWorkshopDisplay implements Serializable {
 				+ ", flyer=" + flyer + ", venue=" + venue + ", imageUrl="
 				+ imageUrl + ", workshopCode=" + workshopCode
 				+ ", description=" + description + ", formattedPrice="
-				+ formattedPrice + ", location=" + location + "]";
+				+ formattedPrice + ", formattedTotalPrice="
+				+ formattedTotalPrice + ", location=" + location + ", qty="
+				+ qty + ", seatsLeft=" + seatsLeft + "]";
 	}
 	@Override
 	public int hashCode() {
