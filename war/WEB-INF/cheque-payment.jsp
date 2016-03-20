@@ -160,7 +160,7 @@
 												<strong>Amount Paid:</strong> <c:out value='${y.totalPrice}' />
 											</div>
 											<div class="col-sm-1">
-												<a href="<c:url value='/sm-admin/clear-payment?txnRef=${x.txnRef}&' />">Clear</a>
+												<a href="<c:url value='/sm-admin/clear-manual-payment?txnRef=${x.txnRef}&id=${y.scheduleID}&qty=${y.qty}' />">Clear</a>
 											</div>
 										</div>
 									</c:forEach></td>

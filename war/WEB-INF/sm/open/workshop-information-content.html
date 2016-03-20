@@ -62,8 +62,8 @@
 			</p>
 			<p style="font-family: calibri">
 				<span style="padding-right: 2%;"><a
-					class="btn btn-xs btn-danger" href="#schedules" id="to-schedule">Enroll
-						Now</a></span><span><a class="btn btn-xs btn-danger">Download
+					class="btn btn-xs btn-success" href="#schedules" id="to-schedule">Enroll
+						Now</a></span><span><a class="btn btn-xs btn-primary">Download
 						Brochure</a></span>
 			</p>
 
@@ -167,13 +167,13 @@
 									</td>
 									<td style="text-align: center"><c:choose>
 											<c:when test="${wsp.seatsLeft > 0}">
-												<a class="btn btn-xs btn-danger add-to-cart"
+												<a class="btn btn-xs btn-success add-to-cart"
 													href='<c:url value="/sm/open/add-to-cart?id=${wsp.id}&qty=1" />'>Enroll
 													Now</a>
 											</c:when>
 											<c:otherwise>
-												<input class="btn btn-xs btn-danger add-to-cart"
-													value="Filled" disabled="disabled" />
+												<a class="btn btn-xs btn-danger add-to-cart"
+													disabled="disabled">Filled</a>
 											</c:otherwise>
 										</c:choose></td>
 									</td>
@@ -213,7 +213,8 @@
 												</p>
 												<c:if test="${wsp.seatsLeft < 5}">
 													<p>
-														<strong class="text-danger">No of seats left: </strong> <c:out value="${wsp.seatsLeft}" />
+														<strong class="text-danger">No of seats left: </strong>
+														<c:out value="${wsp.seatsLeft}" />
 													</p>
 												</c:if>
 

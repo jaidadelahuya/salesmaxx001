@@ -5,7 +5,7 @@
 	</div>
 	<div class="col-md-6" style="text-align: right;">
 		<c:if test='${fn:length(cart.cartItems) > 0}'>
-			<a class="btn btn-danger btn-xs" href="/sm/open/show-all-workshops">Continue
+			<a class="btn btn-success btn-xs" href="/sm/open/show-all-workshops">Continue
 				Browsing</a>
 			<a class="btn btn-danger btn-xs" href="#" id="clear-cart-button">Clear
 				Cart</a>
@@ -27,13 +27,29 @@
 		</div>
 	</div>
 </c:if>
+<c:if test="${cannotAddWorkshops}">
+	<div class="col-md-12">
+		<div class="alert alert-warning">
+			<a href="#" class="close" data-dismiss="alert" aria-label="close">&times;</a>
+			<p>
+				The Workshop, <strong><c:out
+						value="${notAddedWorkshop.name}" /></strong> scheduled for<strong>
+					<c:out value="${notAddedWorkshop.startDate}" />
+				</strong> in <strong> <c:out value="${notAddedWorkshop.location.state}" />,  <c:out value="${notAddedWorkshop.location.country}" /></strong>
+				has only <c:out value="${notAddedWorkshop.seatsLeft}" /> seat(s) left.
+			</p>
+			<p><a  class="btn btn-xs btn-warning" href="<c:url value='/sm/open/workshop-information?id=${notAddedWorkshop.workshopCode}#schedules' />">View other schedules</a></p>
+		</div>
+	</div>
+</c:if>
 <table class="table table-striped table-responsive">
 	<thead>
-		<tr>
+		<tr
+			style="background-color: #5bc0de; color: white; border-bottom: none; border-top: 1px #46b8da solid">
 			<th>Item</th>
 			<th>Description</th>
-			<th>Unit Price</th>
-			<th>No. of Delegates</th>
+			<th style="text-align: right">Unit Price (NGN)</th>
+			<th style="text-align: right">No. of Delegates</th>
 			<th style="text-align: right;">Total (NGN)</th>
 			<th style="text-align: center;">Remove</th>
 		</tr>
@@ -72,9 +88,17 @@
 								<c:out value='${item.location}' />
 							</p>
 						</td>
-						<td><c:out value='N ${item.formattedPrice}' /></td>
-						<td id="${item.id}"><input class="increment-qty"
-							type="number" min="1" value="${item.qty}" style="width: 4em" /></td>
+						<td style="text-align: right"><c:out
+								value='${item.formattedPrice}' /></td>
+						<td id="${item.id}" style="text-align: right"><div
+								class="form-group" style="margin-bottom: 2px">
+								<input class="increment-qty" type="number" min="1"
+									value="${item.qty}" style="width: 4em;" />
+							</div>
+							<div class="form-group">
+								<input class="increment-qty-btn" type="button" value="Update"
+									style="width: 4em; display: none;">
+							</div></td>
 						<td style="text-align: right;"><c:out
 								value='${item.total}.00' /></td>
 						<td style="text-align: center;"><input type="checkbox"
@@ -82,7 +106,8 @@
 					</tr>
 				</c:forEach>
 				<tr>
-					<td colspan="2"><i>Service provided by Profiliant Development Resourses</i></td>
+					<td colspan="2"><i class="text-primary">Service provided
+							by Profiliant Development Resourses</i></td>
 					<th colspan="2" style="text-align: right;">Sub Total</th>
 					<th style="text-align: right;" id="sub-total"><c:out
 							value='${cart.formattedsubTotal}.00' /></th>
@@ -103,7 +128,8 @@
 				Browsing</a>
 		</c:when>
 		<c:otherwise>
-			<div class="form-group" style="padding-bottom:0px; margin-bottom:2%">
+			<div class="form-group"
+				style="padding-bottom: 0px; margin-bottom: 2%">
 				<button id="proceed-to-checkout" style="display: none;"
 					class="btn btn-success  dropdown-toggle" type="button"
 					data-toggle="dropdown">
@@ -128,7 +154,7 @@
 					</div>
 					<div class="radio disabled">
 						<label><input type="radio" name="pay-method"
-							value="cheque" >Cheque</label>
+							value="cheque">Cheque</label>
 					</div>
 					<div class="form-group">
 						<button type="submit" class="btn btn-success form-control">Continue</button>

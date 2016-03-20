@@ -7,13 +7,13 @@ import java.util.List;
 import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Key;
 
-public class ManualTransaction implements Serializable {
+public class ManualTransaction implements Serializable{
 
 	/**
 	 * 
 	 */
 	public enum TransactionType {
-		CHEQUE,ELECTRONIC
+		CHEQUE,ELECTRONIC,WEBPAY
 	}
 	private static final long serialVersionUID = -4544318862178480429L;
 	
@@ -24,6 +24,15 @@ public class ManualTransaction implements Serializable {
 	private List<EmbeddedEntity> items;
 	private String status;
 	private String transactionType;
+	
+	public ManualTransaction() {}
+	
+	public ManualTransaction(ManualTransaction mt) {
+		ownerKey = mt.getOwnerKey();
+		issueDate = mt.getIssueDate();
+		txnRef = mt.getTransactionType();
+		transactionType = mt.getTransactionType();
+	}
 
 	@Override
 	public String toString() {

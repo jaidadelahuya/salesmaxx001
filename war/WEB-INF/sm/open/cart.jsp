@@ -29,6 +29,17 @@
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
 <style type="text/css">
+.increment-qty-btn {
+	color: #fff;
+	background-color: #5cb85c;
+	border-color: #4cae4c
+}
+
+.increment-qty-btn:hover {
+	color: #fff;
+	background-color: #449d44;
+	border-color: #398439
+}
 @media screen and (max-width: 1200px) {
 	#payment-mode-div {
 		width: 30%;

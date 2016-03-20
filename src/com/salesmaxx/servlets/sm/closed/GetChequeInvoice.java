@@ -1,6 +1,7 @@
 package com.salesmaxx.servlets.sm.closed;
 
 import java.io.IOException;
+import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -37,13 +38,17 @@ public class GetChequeInvoice extends HttpServlet {
 			}
 			if(txnRef != null) {
 				ManualTransactionController c = new ManualTransactionController();
-				ManualTransaction  mt = c.findByTxnRef(txnRef);
-				ChequeInvoice cq = ClosedUtil.manualTransactionToChequeInvoice(mt);
-				synchronized (session) {
-					session.setAttribute("chequeInvoice", cq);
+				List<ManualTransaction>  mts = c.findByTxnRef(txnRef, ChequeInvoice.InvoiceStatus.PENDING);
+				if(mts.size() == 1) {
+					ChequeInvoice cq = ClosedUtil.manualTransactionToChequeInvoice(mts.get(0));
+					synchronized (session) {
+						session.setAttribute("chequeInvoice", cq);
+					}
+					RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/sm/closed/cheque-invoice.jsp");
+					rd.include(req, resp);
 				}
-				RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/sm/closed/cheque-invoice.jsp");
-				rd.include(req, resp);
+				
+				
 			}
 			
 		}

@@ -648,9 +648,12 @@ $(document).ready(function() {
 	});
 	
 	$(".increment-qty").change(function(e) {
-		
+		$(this).closest("td").find(".increment-qty-btn").show();
+	});
+	
+	$(".increment-qty-btn").click(function() {
 		var v = $(this).closest("td").prop("id");
-		var qty = $(this).prop('value');
+		var qty = $(this).closest("td").find(".increment-qty").prop('value');
 		$.ajax({
 			url : "/sm/open/clear-cart",
 			type : "POST",

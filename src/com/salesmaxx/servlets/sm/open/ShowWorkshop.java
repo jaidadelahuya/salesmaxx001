@@ -54,6 +54,10 @@ public class ShowWorkshop extends HttpServlet {
 					session.setAttribute("workshopCategory", cat);
 					session.setAttribute("reviews", reviews);
 					session.setAttribute("rating", rating);
+					session.removeAttribute("cannotAddWorkshops");
+					session.removeAttribute("notAddedWorkshop");
+					session.removeAttribute("existingItem");
+					session.removeAttribute("itemExist");
 				}
 
 				Util.initWorkshopLayout(session, resp);

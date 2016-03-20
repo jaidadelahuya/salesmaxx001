@@ -29,6 +29,7 @@ import com.salesmaxx.beans.CartItem;
 import com.salesmaxx.beans.SocialUser;
 import com.salesmaxx.entities.Cart;
 import com.salesmaxx.entities.InterswitchTransactionLog;
+import com.salesmaxx.entities.ManualTransaction;
 import com.salesmaxx.entities.ProductPaidFor;
 import com.salesmaxx.entities.PurchaseHistory;
 import com.salesmaxx.entities.PurchaseableItem;
@@ -217,6 +218,7 @@ public class Interswitch extends HttpServlet {
 		ph.setStatus("Pending");
 		ph.setTotal(Double.parseDouble(ir.getAmount()));
 		ph.setTxnRef(ir.getTxnRef());
+		ph.setPurchaseType(ManualTransaction.TransactionType.WEBPAY.name());
 		for (CartItem ci : cis) {
 			PurchaseableItem pi = new PurchaseableItem();
 			pi.setItemKey(Util.getWorkshopSchedule(String.valueOf(ci.getId()))
@@ -282,6 +284,9 @@ public class Interswitch extends HttpServlet {
 				if(w.getNoEnrolled() < 25) {
 					w.setNoEnrolled(w.getNoEnrolled()+1);
 					List<Key> keys = w.getStudents();
+					if(keys == null) {
+						keys = new ArrayList<>();
+					}
 					keys.add(userKey);
 					w.setStudents(keys);
 				}

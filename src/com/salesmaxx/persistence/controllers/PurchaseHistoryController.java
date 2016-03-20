@@ -112,8 +112,13 @@ public class PurchaseHistoryController {
 				Query.FilterOperator.EQUAL, txn));
 		PreparedQuery pq = ds.prepare(q);
 		Entity e = pq.asSingleEntity();
-		ph = Util.entityToPurchaseHistory(e);
-		return ph;
+		if(e == null) {
+			return null;
+		} else {
+			ph = Util.entityToPurchaseHistory(e);
+			return ph;
+		}
+		
 
 	}
 }

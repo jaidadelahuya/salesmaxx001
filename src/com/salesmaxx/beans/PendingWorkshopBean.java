@@ -17,18 +17,31 @@ public class PendingWorkshopBean implements Serializable {
 	private String totalPrice;
 	private String date;
 	private String location;
-	
+	private String scheduleID;
 	
 	@Override
 	public String toString() {
 		return "PendingWorkshopBean [workshopName=" + workshopName
 				+ ", workshopCode=" + workshopCode + ", userWebSafeKey="
 				+ userWebSafeKey + ", qty=" + qty + ", unitPrice=" + unitPrice
-				+ ", totalPrice=" + totalPrice + "]";
+				+ ", totalPrice=" + totalPrice + ", date=" + date
+				+ ", location=" + location + ", scheduleID=" + scheduleID + "]";
 	}
+
 	
-	
-	
+
+	public String getScheduleID() {
+		return scheduleID;
+	}
+
+
+
+	public void setScheduleID(String scheduleID) {
+		this.scheduleID = scheduleID;
+	}
+
+
+
 	public String getDate() {
 		return date;
 	}

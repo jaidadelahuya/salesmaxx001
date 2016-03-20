@@ -12,8 +12,10 @@ import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Key;
+import com.salesmaxx.beans.ScheduleWorkshopDisplay;
 import com.salesmaxx.entities.Cart;
 import com.salesmaxx.entities.User;
+import com.salesmaxx.entities.WorkShop;
 import com.salesmaxx.persistence.controllers.CartController;
 import com.salesmaxx.util.Util;
 
@@ -43,7 +45,7 @@ public class ClearCart extends HttpServlet {
 			CartController cont = new CartController();
 			Cart c = cont.findCart(ky);
 			if (c != null) {
-				c.setItems(getUpdatedItems(c, id, qty));
+				c.setItems(Util.getUpdatedItems(c, id, qty, req));
 				cont.edit(c);
 				synchronized (session) {
 					session.setAttribute("cart", c);
@@ -56,7 +58,7 @@ public class ClearCart extends HttpServlet {
 				o = session.getAttribute("cart");
 				if(o != null) {
 					Cart c = (Cart) o;
-					c.setItems(getUpdatedItems(c, id, qty));
+					c.setItems(Util.getUpdatedItems(c, id, qty, req));
 					session.setAttribute("cart", c);
 				}
 				
@@ -65,27 +67,5 @@ public class ClearCart extends HttpServlet {
 		}
 	}
 	
-	private static List<EmbeddedEntity> getUpdatedItems(Cart c,String id, String qty) {
-		List<EmbeddedEntity> items = null;
-		if (Util.notNull(id, qty)) {
-			items = c.getItems();
-			for (EmbeddedEntity ee : items) {
-				if (((String) ee.getProperty("workshopID")).equals(id)) {
-					ee.setProperty("qty", qty);
-					break;
-				}
-			}
-		} else if (Util.notNull(id)) {
-			items = c.getItems();
-			for (EmbeddedEntity ee : items) {
-				if (((String) ee.getProperty("workshopID")).equals(id)) {
-					items.remove(ee);
-					break;
-				}
-			}
-		} else {
-			items = new ArrayList<EmbeddedEntity>();
-		}
-		return items;
-	}
+	
 }

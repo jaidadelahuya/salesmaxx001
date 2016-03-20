@@ -55,6 +55,7 @@ import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
 import com.salesmaxx.beans.CartItem;
 import com.salesmaxx.beans.CategoryDisplay;
+import com.salesmaxx.beans.ChequeInvoice;
 import com.salesmaxx.beans.ChequePaymentBean;
 import com.salesmaxx.beans.CoachingPost;
 import com.salesmaxx.beans.CommentBean;
@@ -116,10 +117,12 @@ import com.salesmaxx.persistence.controllers.EMF;
 import com.salesmaxx.persistence.controllers.IndustryController;
 import com.salesmaxx.persistence.controllers.JobRoleController;
 import com.salesmaxx.persistence.controllers.ManualTransactionController;
+import com.salesmaxx.persistence.controllers.PurchaseHistoryController;
 import com.salesmaxx.persistence.controllers.PurchaseableItemController;
 import com.salesmaxx.persistence.controllers.ReviewController;
 import com.salesmaxx.persistence.controllers.TestimonialController;
 import com.salesmaxx.persistence.controllers.UserController;
+import com.salesmaxx.persistence.controllers.UserGeneralInfoController;
 import com.salesmaxx.persistence.controllers.WorkshopController;
 import com.salesmaxx.persistence.controllers.WorkshopTemplateController;
 import com.salesmaxx.util.json.JSONObject;
@@ -127,6 +130,7 @@ import com.salesmaxx.util.json.JSONTokener;
 
 public class Util {
 
+	public static final long totalNumberOfSeats = 25;
 	public static final String SERVICE_ACCOUNT = "profiliant.salesmaxx@gmail.com";
 	public static final MemcacheService WORKSHOP_CACHE = MemcacheServiceFactory
 			.getMemcacheService("workshops");
@@ -1164,7 +1168,7 @@ public class Util {
 		Address a = c.findAddress(w.getLocation());
 		s.setId(String.valueOf(w.getId().getId()));
 		s.setLocation(a);
-		s.setSeatsLeft(25-w.getNoEnrolled());
+		s.setSeatsLeft(25 - w.getNoEnrolled());
 		WorkshopTemplate wst = getWorkshopTemplateFromScheduleId(
 				getWorkshopTemplateFromCache(),
 				String.valueOf(w.getId().getId()));
@@ -1515,7 +1519,7 @@ public class Util {
 
 	public static Set<CartItem> getCartItems(List<EmbeddedEntity> items) {
 		Set<CartItem> ci = new HashSet<CartItem>();
-		if(items != null) {
+		if (items != null) {
 			for (EmbeddedEntity ee : items) {
 				WorkShop w = Util.getWorkshopSchedule(String.valueOf(ee
 						.getProperty("workshopID")));
@@ -1529,8 +1533,7 @@ public class Util {
 		} else {
 			return null;
 		}
-		
-		
+
 		return ci;
 	}
 
@@ -2132,18 +2135,18 @@ public class Util {
 	public static List<PurchaseHistoryBean> manualTransactionToPurchaseHistoryBean(
 			List<ManualTransaction> mts) {
 		List<PurchaseHistoryBean> phbs = new ArrayList<>();
-		for(ManualTransaction mt : mts) {
+		for (ManualTransaction mt : mts) {
 			PurchaseHistoryBean phb = new PurchaseHistoryBean();
 			List<PurchaseableItem> items = new ArrayList<>();
 			Set<CartItem> cis = Util.getCartItems(mt.getItems());
 			double total = 0;
-			if(cis == null) {
+			if (cis == null) {
 				return null;
 			}
 			for (CartItem ci : cis) {
 				PurchaseableItem pi = new PurchaseableItem();
-				pi.setItemKey(Util.getWorkshopSchedule(String.valueOf(ci.getId()))
-						.getId());
+				pi.setItemKey(Util.getWorkshopSchedule(
+						String.valueOf(ci.getId())).getId());
 				pi.setUnitPrice(ci.getPrice());
 				pi.setQty(ci.getQty());
 				total += (ci.getPrice() * ci.getQty());
@@ -2151,20 +2154,52 @@ public class Util {
 			}
 			phb.setFormattedDate(new SimpleDateFormat("dd-MMM-yyyy").format(
 					mt.getIssueDate()).toUpperCase());
-			phb.setFormattedTotalPrice(new DecimalFormat("#,###.00").format(total));
+			phb.setFormattedTotalPrice(new DecimalFormat("#,###.00")
+					.format(total));
 			phb.setTxnRef(mt.getTxnRef());
 			List<Key> kys = new ArrayList<>();
 			for (PurchaseableItem p : items) {
 				kys.add(p.getItemKey());
 			}
 			List<WorkShop> wks = Util.getScheduledWorkshops(kys);
-			List<ScheduleWorkshopDisplay> swds = Util.toScheduleWorkshopDisplay(
-					wks, items);
+			List<ScheduleWorkshopDisplay> swds = Util
+					.toScheduleWorkshopDisplay(wks, items);
 			phb.setList(swds);
 			phbs.add(phb);
 		}
-		
+
 		return phbs;
+	}
+	
+	public static PurchaseHistory manualTransactionToPurchaseHistory(ManualTransaction mt) {
+		PurchaseHistory ph = new PurchaseHistory();
+		ph.setPurchaseDate(mt.getIssueDate());
+		ph.setPurchaseType(mt.getTransactionType());
+		ph.setStatus(mt.getStatus());
+		ph.setTxnRef(mt.getTxnRef());
+		List<PurchaseableItem> items = new ArrayList<>();
+		Set<CartItem> cis = Util.getCartItems(mt.getItems());
+		double total = 0;
+		for (CartItem ci : cis) {
+			PurchaseableItem pi = new PurchaseableItem();
+			pi.setItemKey(Util.getWorkshopSchedule(String.valueOf(ci.getId()))
+					.getId());
+			pi.setUnitPrice(ci.getPrice());
+			pi.setQty(ci.getQty());
+			total += (ci.getPrice() * ci.getQty());
+			items.add(pi);
+		}
+		ph.setTotal(total);
+		List<Key> keys = new ArrayList<>();
+		List<Entity> ents = new ArrayList<>();
+		for (PurchaseableItem ppi : items) {
+			Entity e = Util.purchaseableItemToEntity(ppi);
+			ents.add(e);
+			keys.add(e.getKey());
+		}
+		new PurchaseableItemController().create(ents);
+		ph.setItems(keys);
+		return ph;
 	}
 
 	public static PurchaseHistoryBean getPurchaseHistoryBean(PurchaseHistory ph) {
@@ -2884,33 +2919,34 @@ public class Util {
 		return mt;
 	}
 
-	public static ChequePaymentBean getChequePaymentBean(String category, String currentPage, String numberOfEntries, ChequePaymentBean oCpb) {
+	public static ChequePaymentBean getChequePaymentBean(String category,
+			String currentPage, String numberOfEntries, ChequePaymentBean oCpb) {
 		ChequePaymentBean cpb = new ChequePaymentBean();
-		if(notNull(category) | oCpb == null) {
-			if(notNull(category)) {
+		if (notNull(category) | oCpb == null) {
+			if (notNull(category)) {
 				cpb.setCategory(category);
 			} else {
 				cpb.setCategory("pending");
 			}
-			
-			if(notNull(currentPage)) {
+
+			if (notNull(currentPage)) {
 				cpb.setCurrentPage(Integer.parseInt(currentPage));
 			} else {
 				cpb.setCurrentPage(1);
 			}
-			if(notNull(numberOfEntries)) {
+			if (notNull(numberOfEntries)) {
 				cpb.setNoOfEntries(Integer.parseInt(numberOfEntries));
 			} else {
 				cpb.setNoOfEntries(10);
 			}
-			
+
 			ManualTransactionController mtc = new ManualTransactionController();
 			cpb = mtc.addManualTransactions(cpb);
-			
-		}else {
-			
-			if(notNull(currentPage)) {
-				oCpb.setCurrentPage(Integer.parseInt(currentPage));	
+
+		} else {
+
+			if (notNull(currentPage)) {
+				oCpb.setCurrentPage(Integer.parseInt(currentPage));
 			}
 			if (notNull(numberOfEntries)) {
 				oCpb.setNoOfEntries(Integer.parseInt(numberOfEntries));
@@ -2925,7 +2961,7 @@ public class Util {
 	public static List<ManualPaymentBean> toManualPaymentBean(
 			List<ManualTransaction> mts) {
 		List<ManualPaymentBean> mpbs = new ArrayList<>();
-		for(ManualTransaction mt : mts) {
+		for (ManualTransaction mt : mts) {
 			ManualPaymentBean mpb = Util.toManualPaymentBean(mt);
 			mpbs.add(mpb);
 		}
@@ -2947,21 +2983,26 @@ public class Util {
 		mpb.setOverdueDate(sdf.format(date.getTime()));
 		mpb.setTxnRef(mt.getTxnRef());
 		User u = new UserController().findUser(mt.getOwnerKey());
-		if(u != null) {
-			mpb.setCustomerName(u.getFirstName()+" "+u.getLastName());
+		if (u != null) {
+			mpb.setCustomerName(u.getFirstName() + " " + u.getLastName());
 		}
 		DecimalFormat f1 = new DecimalFormat("#,###.00");
 		List<PendingWorkshopBean> items = new ArrayList<>();
 		Set<CartItem> cis = Util.getCartItems(mt.getItems());
 		double total = 0;
-		if(cis != null) {
+		if (cis != null) {
 			for (CartItem ci : cis) {
 				PendingWorkshopBean pwb = new PendingWorkshopBean();
-				WorkShop w = Util.getWorkshopSchedule(String.valueOf(ci.getId()));
+				WorkShop w = Util
+						.getWorkshopSchedule(String.valueOf(ci.getId()));
 				pwb.setDate(sdf.format(w.getStartDate()));
+				
 				ScheduleWorkshopDisplay swd = Util.toScheduleWorkshopDisplay(w);
+				pwb.setScheduleID(swd.getId());
 				pwb.setLocation(swd.getVenue());
-				WorkshopTemplate wt = getWorkshopTemplateFromScheduleId(Util.getWorkshopTemplateFromCache(), String.valueOf(w.getId().getId()));
+				WorkshopTemplate wt = getWorkshopTemplateFromScheduleId(
+						Util.getWorkshopTemplateFromCache(),
+						String.valueOf(w.getId().getId()));
 				pwb.setWorkshopCode(wt.getWorkshopId().getName());
 				pwb.setWorkshopName(wt.getWorkshopName());
 				pwb.setUnitPrice(f1.format(ci.getPrice()));
@@ -2975,6 +3016,137 @@ public class Util {
 			mpb.setPwbs(items);
 		}
 		return mpb;
+	}
+
+	public static List<EmbeddedEntity> getUpdatedItems(Cart c, String id,
+			String qty, HttpServletRequest req) {
+		HttpSession session = req.getSession();
+		List<EmbeddedEntity> items = null;
+		if (Util.notNull(id, qty)) {
+			items = c.getItems();
+			for (EmbeddedEntity ee : items) {
+
+				if (((String) ee.getProperty("workshopID")).equals(id)) {
+					WorkShop w = Util.getWorkshopSchedule(id);
+					long seatsLeft = 25 - w.getNoEnrolled();
+					if (seatsLeft >= Long.valueOf(qty)) {
+						ee.setProperty("qty", qty);
+						synchronized (session) {
+							session.removeAttribute("cannotAddWorkshops");
+							session.removeAttribute("notAddedWorkshop");
+						}
+					} else {
+						ScheduleWorkshopDisplay swd = Util
+								.toScheduleWorkshopDisplay(w);
+						ee.setProperty("qty", String.valueOf(seatsLeft));
+						synchronized (session) {
+							session.setAttribute("cannotAddWorkshops", true);
+							session.setAttribute("notAddedWorkshop", swd);
+						}
+
+					}
+
+					break;
+				}
+			}
+		} else if (Util.notNull(id)) {
+			items = c.getItems();
+			for (EmbeddedEntity ee : items) {
+				if (((String) ee.getProperty("workshopID")).equals(id)) {
+					items.remove(ee);
+					synchronized (session) {
+						session.removeAttribute("cannotAddWorkshops");
+						session.removeAttribute("notAddedWorkshop");
+					}
+					break;
+				}
+			}
+		} else {
+			items = new ArrayList<EmbeddedEntity>();
+		}
+		synchronized (session) {
+			session.removeAttribute("existingItem");
+			session.removeAttribute("itemExist");
+		}
+		return items;
+	}
+
+	public static boolean clearManualPayment(String txnRef, WorkShop w) {
+		ManualTransactionController mtc = new ManualTransactionController();
+		List<ManualTransaction> mtss = mtc.findByTxnRef(txnRef, ChequeInvoice.InvoiceStatus.PENDING);
+		ManualTransaction mt = null;
+		if(mtss.size() == 1) {
+			mt = mtss.get(0);
+		} else {
+			return false;
+		}
+		List<EmbeddedEntity> list = mt.getItems();
+		EmbeddedEntity emb = null;
+		for(EmbeddedEntity ee : list) {
+			if(((String)ee.getProperty("workshopID")).equals(String.valueOf(w.getId().getId()))) {
+				list.remove(ee);
+				emb = ee;
+				break;
+			}
+		}
+		if(list.isEmpty()){
+			mt.setStatus(ChequeInvoice.InvoiceStatus.CLEARED.name());
+			list.add(emb);
+			mt.setItems(list);
+			List<ManualTransaction> l1 = mtc.findByTxnRef(mt.getTxnRef(), ChequeInvoice.InvoiceStatus.CLEARED);
+			if(l1 == null || l1.isEmpty()) {
+				mtc.create(mt);
+				addPurchaseHistory(mt);
+			} else {
+				if(l1.size() == 1) {
+					ManualTransaction mt1 = l1.get(0);
+					mt1.getItems().addAll(mt.getItems());
+					mtc.create(mt1);
+					addPurchaseHistory(mt1);
+				}
+			}
+			
+		} else {
+			ManualTransaction cmt = new ManualTransaction(mt);
+			List<EmbeddedEntity> l = new ArrayList<>();
+			l.add(emb);
+			cmt.setItems(l);
+			cmt.setStatus(ChequeInvoice.InvoiceStatus.CLEARED.name());
+			List<ManualTransaction> l1 = mtc.findByTxnRef(cmt.getTxnRef(), ChequeInvoice.InvoiceStatus.CLEARED);
+			if(l1 == null || l1.isEmpty()) {
+				//create using bulk input(already done)
+			} else {
+				if(l1.size() == 1) {
+					ManualTransaction mt1 = l1.get(0);
+					mt1.getItems().addAll(cmt.getItems());
+					cmt = mt1;
+				}
+			}
+			mt.setItems(list);
+			List<ManualTransaction> mts = new ArrayList<>();
+			mts.add(cmt); mts.add(mt);
+			addPurchaseHistory(cmt);
+			mtc.create(mts);
+		}
+		return true;
+	}
+
+	private static void addPurchaseHistory(ManualTransaction mt) {
+		
+		PurchaseHistory ph = Util.manualTransactionToPurchaseHistory(mt);
+		PurchaseHistoryController c = new PurchaseHistoryController();
+		PurchaseHistory ph1 = c.findByTransactionRef(ph.getTxnRef());
+		if(ph1 != null) {
+			ph1.getItems().addAll(ph.getItems());
+			ph = ph1;
+		} 
+		User u = new UserController().findUser(mt.getOwnerKey());
+		UserGeneralInfoController ugc = new UserGeneralInfoController();
+		UserGeneralInfo ugi = ugc.findUserGeneralInfo(u, u.getGeneralInfoId());
+		List<PurchaseHistory> phs = new ArrayList<>();
+		phs.add(ph);
+		ugc.edit(ugi, u.getRegId(), phs);
+		
 	}
 
 }

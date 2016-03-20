@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
@@ -36,16 +37,52 @@ public class ManualTransactionController {
 		txn.commit();
 
 	}
+	
+	public void create(List<ManualTransaction> mts) {
+		List<Entity> ents = new ArrayList<>();
+		for(ManualTransaction mt: mts) {
+			Entity e = Util.ManualTransactionToEntity(mt);
+			ents.add(e);
+		}
+		txn = ds.beginTransaction();
+		ds.put(ents);
+		txn.commit();
 
-	public ManualTransaction findByTxnRef(String txnRef) {
+	}
+
+	public List<ManualTransaction> findByTxnRef(String txnRef, ChequeInvoice.InvoiceStatus status) {
 		Query q = new Query(ManualTransaction.class.getSimpleName());
 		Filter filter = new FilterPredicate("txnRef", FilterOperator.EQUAL,
 				txnRef);
-		q.setFilter(filter);
+		Filter f2 = null;
+		switch (status) {
+		case CLEARED:
+			f2 =  new FilterPredicate("status", FilterOperator.EQUAL,
+					ChequeInvoice.InvoiceStatus.CLEARED.name());
+			break;
+		case OVERDUE: 
+			f2 =  new FilterPredicate("status", FilterOperator.EQUAL,
+					ChequeInvoice.InvoiceStatus.OVERDUE.name());
+			break;
+		case PENDING: 
+			f2 =  new FilterPredicate("status", FilterOperator.EQUAL,
+					ChequeInvoice.InvoiceStatus.PENDING.name());
+		
+		}
+		
+		if(f2==null) {
+			q.setFilter(filter);
+		} else {
+			q.setFilter(CompositeFilterOperator.and(filter,f2));
+		}
+		
 		PreparedQuery pq = ds.prepare(q);
-		Entity e = pq.asSingleEntity();
-
-		return Util.entityToManualTransaction(e);
+		Iterable<Entity> e = pq.asIterable();
+		List<ManualTransaction> list = new  ArrayList<>();
+		for(Entity ee : e) {
+			list.add(Util.entityToManualTransaction(ee));
+		}
+		return list;
 	}
 
 	public List<ManualTransaction> find(List<Key> mtKeys) {

@@ -156,6 +156,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SaveLoyaltyOrganization</servlet-name>
 		<url-pattern>/sm-admin/save-organization</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ClearManualPayment</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.ClearManualPayment</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ClearManualPayment</servlet-name>
+		<url-pattern>/sm-admin/clear-manual-payment</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>UploadCertificate</servlet-name>
