@@ -43,30 +43,33 @@
 					<%@ include file="/WEB-INF/sm/open/workshop"%>
 				</div>
 				<div class="col-md-12 well" style="background-color: white">
-					<h3 class="text-muted" style="text-align: center;padding-bottom: 2%;">Other Workshop Categories</h3>
+					<h3 class="text-muted"
+						style="text-align: center; padding-bottom: 2%;">Other
+						Workshop Categories</h3>
 					<div class="col-sm-12" id="slick">
 
 						<c:forEach var="item" items="${otherCategories}">
 							<div class="col-sm-3">
 								<a
 									href="<c:url value='/sm/open/get-workshop-category?categoryName=${item.name}'/>"><img
-										style="width: 70%; height: auto; margin: 0 auto"
-										alt="${item.name}" src="${item.image}"
-										class="img img-responsive"></a>
-									<p style="text-align: center">
-										<a style="font-family: calibri; font-size: 10pt"
-											href="<c:url value='/sm/open/get-workshop-category?categoryName=${item.name}'/>">
-											<strong><c:out value='${item.name}' /> (<c:out value='${item.noOfWorkshops}' />)
-										</strong>
-										</a>
+									style="width: 70%; height: auto; margin: 0 auto"
+									alt="${item.name}" src="${item.image}"
+									class="img img-responsive"></a>
+								<p style="text-align: center">
+									<a style="font-family: calibri; font-size: 10pt"
+										href="<c:url value='/sm/open/get-workshop-category?categoryName=${item.name}'/>">
+										<strong><c:out value='${item.name}' /> (<c:out
+												value='${item.noOfWorkshops}' />) </strong>
+									</a>
 
-									</p>
+								</p>
 							</div>
 						</c:forEach>
 					</div>
 				</div>
-				<c:if test="${fn:length(workshopCategoryDisplay.cursor.sublist) < 2}">
-					
+				<c:if
+					test="${fn:length(workshopCategoryDisplay.cursor.sublist) < 2}">
+
 					<div class="well col-md-12" style="padding: 0">
 						<h1 style="text-align: center;">
 							<a href="<c:url value='/calendar'/>"><img alt='SalesMaxx'
@@ -103,6 +106,7 @@
 			salesiq : {
 				values : {},
 				ready : function() {
+					$zoho.salesiq.floatbutton.visible('hide');
 				}
 			}
 		};

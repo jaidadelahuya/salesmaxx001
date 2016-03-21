@@ -1046,6 +1046,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Miscelleneous</servlet-name>
 		<url-pattern>/sm-admin/miscelleneous</url-pattern>
 	</servlet-mapping>
+	<servlet>
+		<servlet-name>ChequePaymentPage</servlet-name>
+		<jsp-file>/WEB-INF/cheque-payment.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ChequePaymentPage</servlet-name>
+		<url-pattern>/sm-admin/cheque-payment-page</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>IndexPage</servlet-name>
@@ -1262,17 +1270,6 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<listener>
 		<listener-class>com.salesmaxx.listeners.SalesMaxxSessionListener</listener-class>
 	</listener>
-
-	<security-constraint>
-		<web-resource-collection>
-			<web-resource-name>profile</web-resource-name>
-			<url-pattern>/*</url-pattern>
-		</web-resource-collection>
-		<user-data-constraint>
-			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
-		</user-data-constraint>
-	</security-constraint>
-
 
 	<welcome-file-list>
 		<welcome-file>index.jsp</welcome-file>

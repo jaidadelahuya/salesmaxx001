@@ -3149,4 +3149,22 @@ public class Util {
 		
 	}
 
+	private static void updateManualTransaction(ManualTransaction mt, UserGeneralInfo ugi) {
+		ManualTransactionController mtc = new ManualTransactionController();
+		List<ManualTransaction> omt = mtc.findByTxnRef(mt.getTransactionType(), ChequeInvoice.InvoiceStatus.PENDING);
+		if(omt.size() == 1) {
+			ManualTransaction mt1 = omt.get(0);
+			if(mt1.getItems().size() == mt.getItems().size()) {
+				List<Key> keys = ugi.getPendingOrder();
+				for(Key k : keys) {
+					if(k==mt.getId()) {
+						keys.remove(k);
+					}
+				}
+				//new UserGeneralInfoC
+			}
+		}
+		
+	}
+
 }

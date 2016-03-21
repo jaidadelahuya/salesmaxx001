@@ -36,7 +36,7 @@ public class LinkedInSignIn extends HttpServlet {
 			session.setAttribute("linkedInState", state);
 		}
 		String redirect = resp
-				.encodeRedirectURL("https%3A%2F%2Fsalesmaxx001.appspot.com%2Fsm%2Fopen%2Flinkedin%2Fcallback");
+				.encodeRedirectURL("http://www.salesmaxx.com/sm/open/linkedin/callback");
 
 		URL url = new URL(
 				"https://www.linkedin.com/uas/oauth2/authorization?response_type=code&"

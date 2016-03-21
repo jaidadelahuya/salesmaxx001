@@ -2,6 +2,7 @@ package com.salesmaxx.servlets.admin;
 
 import java.io.IOException;
 
+import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +29,10 @@ public class ClearManualPayment extends HttpServlet {
 		WorkShop w = Util.getWorkshopSchedule(id);
 		if((Util.totalNumberOfSeats - w.getNoEnrolled()) > Long.valueOf(qty)) {
 			boolean b = Util.clearManualPayment(txnRef,w);
-			
+			resp.sendRedirect(resp.encodeRedirectURL("/sm-admin/cheque-payment-page"));
+		} else {
+			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/reschedule-options.jsp");
+			rd.include(req, resp);
 		}
 	}
 

@@ -43,7 +43,8 @@
 			<!-- Wrapper for slides -->
 			<div class="carousel-inner" role="listbox">
 				<div class="item active">
-					<img class="img img-responsive" src="/images/salesmaxx_slider_Consultative-Selling.jpg"
+					<img class="img img-responsive"
+						src="/images/salesmaxx_slider_Consultative-Selling.jpg"
 						alt="slide 1" style="width: 100%">
 					<div class="carousel-caption">
 						<h3></h3>
@@ -70,8 +71,9 @@
 				</div>
 
 				<div class="item">
-					<img class="img img-responsive" src="/images/salesmaxx_slider_yes.jpg"
-						style="width: 100%;" alt="slide 4">
+					<img class="img img-responsive"
+						src="/images/salesmaxx_slider_yes.jpg" style="width: 100%;"
+						alt="slide 4">
 					<div class="carousel-caption">
 						<h3></h3>
 						<p></p>
@@ -212,8 +214,8 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<a href="/tools"><img class="img-responsive" alt="Free Downloads"
-					src="/images/tools.gif"></a>
+				<a href="/tools"><img class="img-responsive"
+					alt="Free Downloads" src="/images/tools.gif"></a>
 			</div>
 		</div>
 
@@ -691,8 +693,7 @@
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=bootcamp'/>"><img
-							class="img-responsive module-image" src="/images/boot.jpg"
-							alt=""></a>
+							class="img-responsive module-image" src="/images/boot.jpg" alt=""></a>
 						<div class="caption" style="text-align: center">
 							<h4>(14)</h4>
 							<p class="module-desc"></p>

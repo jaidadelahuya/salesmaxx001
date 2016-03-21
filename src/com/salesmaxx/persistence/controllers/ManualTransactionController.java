@@ -12,6 +12,7 @@ import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
@@ -44,7 +45,7 @@ public class ManualTransactionController {
 			Entity e = Util.ManualTransactionToEntity(mt);
 			ents.add(e);
 		}
-		txn = ds.beginTransaction();
+		txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
 		ds.put(ents);
 		txn.commit();
 
