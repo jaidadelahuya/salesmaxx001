@@ -2435,7 +2435,18 @@ public class Util {
 			cart.setItems(new ArrayList<EmbeddedEntity>());
 
 			UserController c = new UserController();
-			c.edit(user, cart);
+			UserGeneralInfo ugi = new UserGeneralInfo();
+			ugi.setCertificate(new HashSet<BlobKey>());
+			ugi.setCompletedManualOrder(new ArrayList<Key>());
+			ugi.setCompletedWorkshops(new HashSet<Key>());
+			//ugi.setEnrolledEvents(new HashSet<Long>());
+			ugi.setEnrolledWorkshops(new HashSet<Key>());
+			ugi.setPendingOrder(new ArrayList<Key>());
+			ugi.setPhones(new ArrayList<String>());
+			ugi.setPurchaseHistory(new ArrayList<Key>());
+			ugi.setSalesmaxxHistoryCredits(new ArrayList<Key>());
+	
+			c.edit(user, ugi, cart);
 		}
 
 		Object o = null;
@@ -2485,11 +2496,21 @@ public class Util {
 		su.setNetwork(SocialNetwork.FACEBOOK);
 		JSONTokener jt = new JSONTokener(respString);
 		JSONObject jo = new JSONObject(jt);
-		su.setEmail(jo.getString("email"));
-		su.setFirstName(jo.getString("first_name"));
-		su.setGender(jo.getString("gender"));
-		su.setId(jo.getString("id"));
-		su.setLastName(jo.getString("last_name"));
+		if(respString.contains("email")) {
+			su.setEmail(jo.getString("email"));
+		}
+		if(respString.contains("first_name")) {
+			su.setFirstName(jo.getString("first_name"));
+		}
+		if(respString.contains("gender")) {
+			su.setGender(jo.getString("gender"));
+		}
+		if(respString.contains("id")) {
+			su.setId(jo.getString("id"));
+		}
+		if(respString.contains("last_name")) {
+			su.setLastName(jo.getString("last_name"));
+		}
 		su.setPictureUrl(jo.getJSONObject("picture").getJSONObject("data")
 				.getString("url"));
 		su.setVerified(jo.getBoolean("verified"));

@@ -1,6 +1,7 @@
 package com.salesmaxx.servlets.sm.open;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 
 import javax.servlet.RequestDispatcher;
@@ -10,7 +11,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
-import com.google.appengine.api.urlfetch.HTTPMethod;
 import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
@@ -43,7 +43,7 @@ public class FacebookCallback extends HttpServlet {
 			String clientSecret = getServletContext().getInitParameter(
 					"FacebookClientSecret");
 			String redirect = resp
-					.encodeRedirectURL("https://salesmaxx001.appspot.com/sm/open/facebook/callback");
+					.encodeRedirectURL("http://localhost:8888/sm/open/facebook/callback");
 			HttpSession session = req.getSession();
 			Object o = null;
 			String sstate = null;
@@ -62,8 +62,16 @@ public class FacebookCallback extends HttpServlet {
 									+ "&code=" + code);
 					HTTPRequest r = new HTTPRequest(url);
 					URLFetchService urlfetch = URLFetchServiceFactory
+					
 							.getURLFetchService();
-					HTTPResponse response = urlfetch.fetch(r);
+					HTTPResponse response = null;
+					try {
+						response = urlfetch.fetch(r);
+					} catch (SocketTimeoutException ste) {
+						resp.getWriter().write("Your connection timed out. Try again.");
+						return;
+					}
+					
 					FacebookAccessTokenResponse fatr = Util
 							.toFacebookAccessTokenResponse(new String(response
 									.getContent()));

@@ -88,6 +88,43 @@ public class UserController {
 		}
 	}
 	
+	public boolean edit(User user, UserGeneralInfo ugi, Cart cart) {
+		boolean exists = false;
+		if(user.getUsername() != null) {
+			exists = userExists(user.getUsername());
+		}
+		if (exists) {
+			return false;
+		} else {
+			exists = userExists(user.getRegId());
+			if (exists) {
+				return false;
+			} else {
+				if (cart.getCartKey() == null) {
+					KeyRange range = ds.allocateIds("Cart", 1);
+					Key key = range.getStart();
+					cart.setCartKey(key);
+				}
+				user.setCart(cart.getCartKey());
+				KeyRange range = ds.allocateIds("UserGeneralInfo", 1);
+				Key key = range.getStart();
+				user.setGeneralInfoId(key.getId());
+				ugi.setId(key.getId());
+				Entity ent = Util.UserToEntity(user);
+				Entity ent1 = Util
+						.UserGeneralInfoToEntity(ugi, user.getRegId());
+				Entity ent2 = Util.cartToEntity(cart);
+				txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
+				ds.put(ent);
+				ds.put(ent1);
+				ds.put(ent2);
+				txn.commit();
+				Util.USER_CACHE.clearAll();
+				return true;
+			}
+		}
+	}
+	
 
 
 

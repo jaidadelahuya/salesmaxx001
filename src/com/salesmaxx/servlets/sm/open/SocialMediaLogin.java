@@ -42,14 +42,14 @@ public class SocialMediaLogin extends HttpServlet {
 		User u = null;
 		UserController uc = new UserController();
 
-		u = uc.findUserByUsername(su.getEmail().toLowerCase().trim());
+		if(su.getEmail() != null) {
+			u = uc.findUserByUsername(su.getEmail().toLowerCase().trim());
+		}
 
 		if (u == null) {
 			u = uc.findUserByOpenId(su);
 			if (u == null) {
 				u = Util.userFromSocialUser(su);
-				UserGeneralInfo ugi = new UserGeneralInfo();
-				new UserController().create(u, ugi);
 				Util.logUserIn(u, req, resp, false);
 			} else {
 				Util.logUserIn(u, req, resp, false);

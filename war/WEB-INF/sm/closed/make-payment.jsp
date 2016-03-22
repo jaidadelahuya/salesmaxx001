@@ -37,7 +37,7 @@
 					</div>
 					<div class="col-md-6" style="text-align: right;">
 						<c:if test='${fn:length(cart.cartItems) > 0}'>
-							<a class="btn btn-danger btn-xs"
+							<a class="btn btn-success btn-xs"
 								href="/sm/open/show-all-workshops">Continue Browsing</a>
 							<a class="btn btn-danger btn-xs"
 								href="<c:url value="/sm/open/cart"/>">Back to Cart</a>
@@ -72,7 +72,8 @@
 						style="margin-top: 2%">
 						<table class="table table-striped table-responsive">
 							<thead>
-								<tr>
+								<tr
+									style="background-color: #5bc0de; color: white; border-bottom: none; border-top: 1px #46b8da solid">
 									<th>Item</th>
 									<th>Description</th>
 									<th style="text-align: right">No. of Delegates</th>
@@ -99,8 +100,9 @@
 									</tr>
 								</c:forEach>
 								<tr>
-									<td colspan="2"><i>Service provided by Profiliant Development Resourses</i></td>
-									<th  style="text-align: right;">Sub Total</th>
+									<td colspan="2"><i class="text-primary">Service
+											provided by Profiliant Development Resourses</i></td>
+									<th style="text-align: right;">Sub Total</th>
 									<th style="text-align: right;"><c:out
 											value='${cart.formattedsubTotal}.00' /></th>
 								</tr>
@@ -114,21 +116,24 @@
 									have read the <a href="/sm/open/cancellation-policy"
 									target="_blank">cancellation policy</a></label>
 							</div>
-							<c:set var = "T1" value="web-pay"/>
-							<c:set var = "T2" value="cheque"/>
-							<c:set var = "T3" value="e-transfer"/>
+							<c:set var="T1" value="web-pay" />
+							<c:set var="T2" value="cheque" />
+							<c:set var="T3" value="e-transfer" />
 							<c:choose>
 								<c:when test="${payMethod eq T1}">
-									<input id="make-payment"  type="submit" class="btn btn-success make-payment-interswitch"
+									<input id="make-payment" type="submit"
+										class="btn btn-success make-payment-interswitch"
 										disabled="disabled" value="Pay With WebPay" />
 								</c:when>
-								<c:when  test="${payMethod eq T2}">
+								<c:when test="${payMethod eq T2}">
 									<a id="make-payment" class="btn btn-success"
-										disabled="disabled" href="<c:url value='/sm/closed/init-cheque-invoice' />" >Get Invoice</a>
+										disabled="disabled"
+										href="<c:url value='/sm/closed/init-cheque-invoice' />">Get
+										Invoice</a>
 								</c:when>
 								<c:when test="${payMethod eq T3}">
 									<a id="make-payment" class="btn btn-success"
-										disabled="disabled"  >Get Bank Details</a>
+										disabled="disabled">Get Bank Details</a>
 								</c:when>
 							</c:choose>
 
