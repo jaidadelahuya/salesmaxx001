@@ -141,7 +141,7 @@ public class User implements Serializable {
 
 
 	public User(String firstName, String lastName) {
-		String regCode = newRegCode(firstName,lastName);
+		String regCode = Util.newRegCode(firstName,lastName);
 		this.regId = KeyFactory.createKey(User.class.getSimpleName(), regCode);
 		this.firstName = firstName;
 		this.lastName = lastName;
@@ -151,15 +151,6 @@ public class User implements Serializable {
 	public User() {
 		// TODO Auto-generated constructor stub
 	}
-
-
-	private String newRegCode(String firstName2, String lastName2) {
-		String code = Util.generateRandomCode(100000, 999999);
-		code = firstName2.substring(0,2)+code+lastName2.substring(0,2);
-		return code.toUpperCase();
-	}
-	
-	
 
 	public String getPictureUrl() {
 		if(pictureUrl == null) {

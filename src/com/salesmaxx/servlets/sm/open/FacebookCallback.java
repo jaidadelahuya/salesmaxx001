@@ -36,14 +36,14 @@ public class FacebookCallback extends HttpServlet {
 		String errorDesc = req.getParameter("error_description");
 
 		if (Util.notNull(error)) {
-			// send to error page
+			resp.getWriter().write("An Error has occurred: "+errorReason+";"+errorDesc);
 		} else {
 			String clientId = getServletContext().getInitParameter(
 					"FacebookClientId");
 			String clientSecret = getServletContext().getInitParameter(
 					"FacebookClientSecret");
 			String redirect = resp
-					.encodeRedirectURL("http://localhost:8888/sm/open/facebook/callback");
+					.encodeRedirectURL("http://www.salesmaxx.com/sm/open/facebook/callback");
 			HttpSession session = req.getSession();
 			Object o = null;
 			String sstate = null;

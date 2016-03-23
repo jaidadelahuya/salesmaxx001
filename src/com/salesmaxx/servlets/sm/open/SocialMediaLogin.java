@@ -42,22 +42,29 @@ public class SocialMediaLogin extends HttpServlet {
 		User u = null;
 		UserController uc = new UserController();
 
-		if(su.getEmail() != null) {
+		if (su.getEmail() != null) {
 			u = uc.findUserByUsername(su.getEmail().toLowerCase().trim());
 		}
 
-		if (u == null) {
+		if (u == null) {// user with username does not exists
 			u = uc.findUserByOpenId(su);
 			if (u == null) {
+		
 				u = Util.userFromSocialUser(su);
+				u = uc.createUserFromSocial(u,su);
+				u.setPictureUrl(su.getPictureUrl());
 				Util.logUserIn(u, req, resp, false);
 			} else {
-				Util.logUserIn(u, req, resp, false);
-			}
-		} else {	
+				if (u.getEmails() != null && su.getEmail() != null) {
+					if(!u.getEmails().contains(su.getEmail())) {
+						u.getEmails().add(su.getEmail());
+					}
+					
+				}
 				switch (su.getNetwork()) {
 				case LINKEDIN:
 					u.setLinkedInId(su.getId());
+
 					break;
 				case TWITTER:
 					u.setTwitterId(su.getId());
@@ -69,7 +76,30 @@ public class SocialMediaLogin extends HttpServlet {
 					u.setFacebookId(su.getId());
 					break;
 				}
-		
+				uc.edit(u);
+				u.setPictureUrl(su.getPictureUrl());
+				Util.logUserIn(u, req, resp, false);
+			}
+		} else {// user with username exists
+			if (u.getEmails() != null && su.getEmail() != null) {
+				u.getEmails().add(su.getEmail());
+			}
+			switch (su.getNetwork()) {
+			case LINKEDIN:
+				u.setLinkedInId(su.getId());
+
+				break;
+			case TWITTER:
+				u.setTwitterId(su.getId());
+				break;
+			case GOOGLE:
+				u.setGoogleId(su.getId());
+				break;
+			case FACEBOOK:
+				u.setFacebookId(su.getId());
+				break;
+			}
+			uc.edit(u);
 			u.setPictureUrl(su.getPictureUrl());
 			Util.logUserIn(u, req, resp, false);
 		}

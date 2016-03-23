@@ -55,33 +55,7 @@ public class Interswitch extends HttpServlet {
 	private static final Logger log = Logger.getLogger(Interswitch.class
 			.getName());
 
-	@Override
-	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		HttpSession session = req.getSession();
-		Object o = null;
-		Cart c = null;
-		synchronized (session) {
 
-			o = session.getAttribute("cart");
-		}
-
-		if (o != null) {
-			c = (Cart) o;
-		}
-
-		// addWorkshopToEnrolledWokshops(c, user);
-
-		if (o != null) {
-			c = (Cart) o;
-			Set<CartItem> cartItems = c.getCartItems();
-			c.setItems(new ArrayList<EmbeddedEntity>());
-			session.setAttribute("cart", c);
-			CartController cc = new CartController();
-			cc.edit(c);
-		}
-
-	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)

@@ -31,7 +31,7 @@ public class FacebookSignIn extends HttpServlet {
 		synchronized (session) {
 			session.setAttribute("facebookState", state);
 		}
-		String redirect = resp.encodeRedirectURL("http://localhost:8888/sm/open/facebook/callback");
+		String redirect = resp.encodeRedirectURL("http://www.salesmaxx.com/sm/open/facebook/callback");
 		String uri = "https://www.facebook.com/dialog/oauth?client_id="
 						+ clientId + "&redirect_uri="+redirect+"&state="+state+"&response_type=code&scope=email";
 		resp.sendRedirect(uri);

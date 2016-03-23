@@ -8,7 +8,7 @@
 <html style="height: 100%;">
 <head>
 <meta charset="ISO-8859-1">
-<title>${user.firstName}${user.lastName} | Certificates</title>
+<title>${user.firstName}${user.lastName}| Certificates</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="/style/bootstrap.min.css">
@@ -33,16 +33,16 @@
 	<div class="container-fluid"
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
-			<div class="col-md-3" style="padding: 0;">
+			<div class="col-md-3" style="padding-left: 0px">
 				<%@ include file="/WEB-INF/sm/closed/user-profile-sidebar.html"%>
 			</div>
 			<div class="col-md-9" style="padding-right: 0px">
-
-				<%@ include file="/WEB-INF/sm/closed/certificates-content.html"%>
-
+				<div class="" style="padding: 0;">
+					<%@ include file="/WEB-INF/sm/closed/certificates-content.html"%>
+				</div>
 			</div>
-
 		</div>
+
 
 	</div>
 	<div style="margin-top: 2%;">

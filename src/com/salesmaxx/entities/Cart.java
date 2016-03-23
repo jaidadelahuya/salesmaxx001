@@ -6,7 +6,9 @@ import java.util.Set;
 
 import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyRange;
 import com.salesmaxx.beans.CartItem;
+import com.salesmaxx.persistence.controllers.EMF;
 import com.salesmaxx.util.Util;
 
 public class Cart implements Serializable {
@@ -25,6 +27,11 @@ public class Cart implements Serializable {
 	
 	
 	
+	public Cart() {
+		KeyRange range = EMF.getDs().allocateIds("Cart", 1);
+		cartKey = range.getStart();
+	}
+
 	public String getFormattedsubTotal() {
 		return formattedsubTotal;
 	}

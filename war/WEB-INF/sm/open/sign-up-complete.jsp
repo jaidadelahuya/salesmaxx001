@@ -65,25 +65,24 @@
 					style="width: 40%; margin: 0 auto;">
 			</div>
 
-			<div class="login-div alert alert-success" style="margin-top: 5%;">
+			<div class="login-div well" style="margin-top: 4%; background-color: white;">
 				<h4 style="text-align: center;">Congratulations!</h4>
 				<p>
-					<c:out value="${signUpSuccess}" />
+					<c:out value="${signUpSuccess1}" />
 				</p>
 				<p>
-					<div class="form-group">
-						<a class="btn btn-info" href="/sm/open/login-page">
-							Login
-						</a>
-					</div>
+					<c:out value="${signUpSuccess2}" />
 				</p>
+
+				<div class="form-group" style="text-align: center">
+					<a class="btn btn-info" href="/sm/open/login-page"> Login </a>
+				</div>
+
 			</div>
 
 
 		</div>
 	</div>
-	<div style="margin-top: 2%;">
-		<%@ include file="/WEB-INF/footer.html"%>
-	</div>
+
 </body>
 </html>

@@ -102,7 +102,7 @@
 					<div class="form-group" style="margin: 2%;">
 
 						<input type="submit" class="form-control btn btn-success"
-							style="margin-top: 4%;" value="Create your SalesMaxx account" />
+							style="margin-top: 4%;" value="Create Your SalesMaxx Account" />
 					</div>
 					<div class="form-group" style="margin: 2%; font-size: 9pt">
 						<p>
@@ -114,8 +114,8 @@
 				</form>
 				<div class="divider form-group">
 					<p>Already have an account? <a href="/sm/open/login-page">Sign in</a></p>
-					<p><strong>Or Login with</strong> <!--  <a href="#">Facebook</a> or --> <a
-						href="#">LinkedIn</a></p>
+					<strong>You may also login with</strong>  <a href="/sm/open/facebook-signin">Facebook</a> or <a
+						href="/sm/open/linkedin-signin">LinkedIn</a>
 				</div>
 
 			</div>

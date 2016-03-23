@@ -18,8 +18,6 @@
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <style type="text/css">
-
-
 @media screen and (max-width: 1200px) {
 	.login-div {
 		width: 25%;
@@ -72,8 +70,8 @@
 				<p>
 					An email with a verification code has been sent to <i
 						class="text-success"><c:out value='${signUp.username}' /></i>. If
-					you don't recieve this email, please check your junk folder or
-					contact our support for asistance.
+					you don't receive this email, please check your junk folder or
+					contact our support for assistance.
 				</p>
 				<p>Copy the verification code and paste it in the input field
 					below then click verify.</p>
@@ -92,7 +90,8 @@
 					</div>
 				</form>
 				<div class="form-group" style="margin: 2%;">
-					<a href="<c:url value='/sm/open/resend-confirmation-code' />">Resend Code</a>
+					<a href="<c:url value='/sm/open/resend-confirmation-code' />">Resend
+						Code</a>
 				</div>
 				<c:choose>
 					<c:when test="${fromSignUp}">
@@ -101,10 +100,9 @@
 								Already have an account? <a href="/sm/open/login-page">Sign
 									in</a>
 							</p>
-							<p>
-								<strong>Or Login with</strong><!--  <a href="#">Facebook</a> or --> <a
-									href="#">LinkedIn</a>
-							</p>
+							<strong>You may also login with</strong> <a
+								href="/sm/open/facebook-signin">Facebook</a> or <a
+								href="/sm/open/linkedin-signin">LinkedIn</a>
 						</div>
 					</c:when>
 					<c:otherwise>
@@ -132,6 +130,6 @@
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

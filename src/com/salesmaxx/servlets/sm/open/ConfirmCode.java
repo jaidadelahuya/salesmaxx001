@@ -20,62 +20,80 @@ public class ConfirmCode extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1166086325908626071L;
+
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String code = req.getParameter("confirmation-code");
 		boolean ok = Util.notNull(code);
 		HttpSession session = req.getSession();
-		if(ok) {
-			
+		if (ok) {
+
 			Object o = null;
 			synchronized (session) {
-				o= session.getAttribute("signUp");
+				o = session.getAttribute("signUp");
 			}
-			
-			if(o == null) {
-				session.setAttribute("verificationError","The verification code "+code+" is not correct.");
-				resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+
+			if (o == null) {
+				session.setAttribute(
+						"verificationError",
+						"We cannot verify you at this time. Please try again or Login with your social media");
+				resp.sendRedirect(resp
+						.encodeRedirectURL("/sm/open/enter-verification-code"));
 				return;
 			} else {
 				SignUp su = (SignUp) o;
-				if(su.getConfirmationCode().equalsIgnoreCase(code.trim())) {
+				if (su.getConfirmationCode().equalsIgnoreCase(code.trim())) {
 					User user = Util.signUpToUser(su);
-					UserController cont = new UserController();
-					cont.create(user);
 					Object oo = null;
 					synchronized (session) {
 						session.removeAttribute("verificationError");
 						oo = session.getAttribute("fromSignUp");
 					}
-					
-					if(oo == null) {
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/change-password-user-page"));
+					if (oo == null) {
+						resp.sendRedirect(resp
+								.encodeRedirectURL("/sm/open/change-password-user-page"));
 					} else {
-						synchronized (session) {
+						UserController cont = new UserController();
+						User u = cont.createUser(user);
+						if (u!=null) {
+							synchronized (session) {
+								session.setAttribute(
+										"signUpSuccess1",
+										"Your SalesMaxx account has been created successfully and you have recieved 150.00 SalesMaxx Credits. ");
+								session.setAttribute("signUpSuccess2","You can login with either your username("
+												+ u.getUsername()
+												+ ") or your registration ID "
+												+ u.getRegId().getName() );
+								session.removeAttribute("fromSignUp");
+							}
+							resp.sendRedirect("/sm/open/sign-up-complete");
+						} else {
 							session.setAttribute(
-									"signUpSuccess", "Your SalesMaxx account has been created successfully. You can login with either your username("+user.getUsername()+") or your registration ID "+user.getRegId().getName());
+									"verificationError",
+									"The Verification Code your is okay but it seems we have duplicate records of your email, Please sign in with a social media or contact our support.");
+							resp.sendRedirect(resp
+									.encodeRedirectURL("/sm/open/enter-verification-code"));
 						}
-							UserGeneralInfo ugi = new UserGeneralInfo();
-							ugi = Util.initUserGeneralInfo(ugi);
-							UserController c = new UserController();
-							c.create(user, ugi);
-						
-						resp.sendRedirect("/sm/open/sign-up-complete");
-						session.removeAttribute("fromSignUp");
+
 					}
 					return;
-				}else {
-					session.setAttribute("verificationError","The verification code "+code+" is not correct.");
-					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+				} else {
+					session.setAttribute("verificationError",
+							"The verification code " + code
+									+ " is not correct.");
+					resp.sendRedirect(resp
+							.encodeRedirectURL("/sm/open/enter-verification-code"));
 					return;
 				}
 			}
-		}else {
-			session.setAttribute("verificationError","You have to enter the verification code sent to your email address.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+		} else {
+			session.setAttribute("verificationError",
+					"You have to enter the verification code sent to your email address.");
+			resp.sendRedirect(resp
+					.encodeRedirectURL("/sm/open/enter-verification-code"));
 			return;
-			
+
 		}
 	}
 

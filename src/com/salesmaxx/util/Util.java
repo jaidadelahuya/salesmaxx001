@@ -98,6 +98,7 @@ import com.salesmaxx.entities.Review;
 import com.salesmaxx.entities.SalesMarketingTemplate;
 import com.salesmaxx.entities.SalesMarketingTemplateCategory;
 import com.salesmaxx.entities.SalesTemplateFormat;
+import com.salesmaxx.entities.SalesmaxxCreditHistory;
 import com.salesmaxx.entities.SkillLevel;
 import com.salesmaxx.entities.Tag;
 import com.salesmaxx.entities.Testimonial;
@@ -140,6 +141,7 @@ public class Util {
 			.getMemcacheService("discussions");
 	public static final MemcacheService TestimonialCache = MemcacheServiceFactory
 			.getMemcacheService("latest-testimonials");
+	public static final double NEW_ACCOUNT_CREDITS = 150;
 
 	public static String generateRandomCode(int minVal, int maxVal) {
 		Random ran = new Random();
@@ -1409,6 +1411,12 @@ public class Util {
 		u.setPassword(su.getPassword());
 		return u;
 	}
+	
+	public static String newRegCode(String firstName2, String lastName2) {
+		String code = Util.generateRandomCode(100000, 999999);
+		code = firstName2.substring(0,2)+code+lastName2.substring(0,2);
+		return code.toUpperCase();
+	}
 
 	public static SignUp toSignUpUser(User user) {
 		SignUp su = new SignUp();
@@ -1575,7 +1583,12 @@ public class Util {
 	}
 
 	public static Entity cartToEntity(Cart c) {
-		Entity e = new Entity(c.getCartKey());
+		Entity e = null;
+		if(c.getCartKey() == null) {
+			e = new Entity("cart");
+		} else {
+			e = new Entity(c.getCartKey());
+		}
 		e.setUnindexedProperty("items", c.getItems());
 		return e;
 	}
@@ -2135,6 +2148,9 @@ public class Util {
 	public static List<PurchaseHistoryBean> manualTransactionToPurchaseHistoryBean(
 			List<ManualTransaction> mts) {
 		List<PurchaseHistoryBean> phbs = new ArrayList<>();
+		if(mts == null) {
+			return new ArrayList<PurchaseHistoryBean>();
+		}
 		for (ManualTransaction mt : mts) {
 			PurchaseHistoryBean phb = new PurchaseHistoryBean();
 			List<PurchaseableItem> items = new ArrayList<>();
@@ -2340,7 +2356,7 @@ public class Util {
 			String[] ss = s.split(":");
 			if (ss[0].trim().equalsIgnoreCase("emailAddress")) {
 				if (ss.length > 1) {
-					su.setEmail(ss[1]);
+					su.setEmail(ss[1].trim());
 				}
 
 			} else if (ss[0].trim().equalsIgnoreCase("firstName")) {
@@ -2355,7 +2371,7 @@ public class Util {
 
 			} else if (ss[0].trim().equalsIgnoreCase("id")) {
 				if (ss.length > 1) {
-					su.setId(ss[1]);
+					su.setId(ss[1].trim());
 				}
 
 			} else if (ss[0].trim().equalsIgnoreCase("lastName")) {
@@ -2434,23 +2450,11 @@ public class Util {
 
 			cart.setItems(new ArrayList<EmbeddedEntity>());
 
-			UserController c = new UserController();
-			UserGeneralInfo ugi = new UserGeneralInfo();
-			ugi.setCertificate(new HashSet<BlobKey>());
-			ugi.setCompletedManualOrder(new ArrayList<Key>());
-			ugi.setCompletedWorkshops(new HashSet<Key>());
-			//ugi.setEnrolledEvents(new HashSet<Long>());
-			ugi.setEnrolledWorkshops(new HashSet<Key>());
-			ugi.setPendingOrder(new ArrayList<Key>());
-			ugi.setPhones(new ArrayList<String>());
-			ugi.setPurchaseHistory(new ArrayList<Key>());
-			ugi.setSalesmaxxHistoryCredits(new ArrayList<Key>());
-	
-			c.edit(user, ugi, cart);
 		}
 
 		Object o = null;
 		synchronized (session) {
+			session.setAttribute("user", user);
 			session.setAttribute("user", user);
 			session.setAttribute("cart", cart);
 			o = session.getAttribute("requestURI");
@@ -2907,10 +2911,7 @@ public class Util {
 		return smtc;
 	}
 
-	public static UserGeneralInfo initUserGeneralInfo(UserGeneralInfo ugi) {
-
-		return ugi;
-	}
+	
 
 	public static Entity ManualTransactionToEntity(ManualTransaction mt) {
 		Entity e = null;
@@ -3186,6 +3187,36 @@ public class Util {
 			}
 		}
 		
+	}
+
+	public static Cart getNewCart() {
+		Cart c = new Cart();
+		c.setItems(new ArrayList<EmbeddedEntity>());
+		return c;
+	}
+
+	public static UserGeneralInfo getNewUserGeneralInfo() {
+		UserGeneralInfo ugi = new UserGeneralInfo();
+		ugi.setCertificate(new HashSet<BlobKey>());
+		ugi.setCompletedManualOrder(new ArrayList<Key>());
+		ugi.setCompletedWorkshops(new HashSet<Key>());
+		//ugi.setEnrolledEvents(new HashSet<Long>());
+		ugi.setEnrolledWorkshops(new HashSet<Key>());
+		ugi.setPendingOrder(new ArrayList<Key>());
+		ugi.setPhones(new ArrayList<String>());
+		ugi.setPurchaseHistory(new ArrayList<Key>());
+		ugi.setSalesmaxxHistoryCredits(new ArrayList<Key>());
+		return ugi;
+	}
+
+	public static Entity salesmaxxCreditHistoryToEntity(
+			SalesmaxxCreditHistory smch) {
+		Entity e = new Entity(smch.getId());
+		e.setUnindexedProperty("amountPaid", smch.getAmount());
+		e.setUnindexedProperty("creditsRecieved", smch.getCreditRecieved());
+		e.setUnindexedProperty("date", smch.getExpiryDate());
+		e.setUnindexedProperty("title", smch.getTitle());
+		return e;
 	}
 
 }

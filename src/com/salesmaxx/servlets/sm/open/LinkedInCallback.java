@@ -1,6 +1,7 @@
 package com.salesmaxx.servlets.sm.open;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.logging.Logger;
 
@@ -27,7 +28,8 @@ public class LinkedInCallback extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -7148967060202889830L;
-	private static final Logger log = Logger.getLogger(LinkedInCallback.class.getName());
+	private static final Logger log = Logger.getLogger(LinkedInCallback.class
+			.getName());
 
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
@@ -64,31 +66,55 @@ public class LinkedInCallback extends HttpServlet {
 							.encodeRedirectURL("http://www.salesmaxx.com/sm/open/linkedin/callback");
 					String payload = "grant_type=authorization_code&code="
 							+ code + "&redirect_uri=" + redirect
-							+ "&client_id="+clientId+"&client_secret="+clientSecret;
+							+ "&client_id=" + clientId + "&client_secret="
+							+ clientSecret;
 					URL url = new URL(
 							"https://www.linkedin.com/uas/oauth2/accessToken");
 					HTTPRequest r = new HTTPRequest(url, HTTPMethod.POST);
-					r.addHeader(new HTTPHeader("content-type", "application/x-www-form-urlencoded"));
+					r.addHeader(new HTTPHeader("content-type",
+							"application/x-www-form-urlencoded"));
 					r.setPayload(payload.getBytes());
-					URLFetchService urlfetch = URLFetchServiceFactory.getURLFetchService();
-					HTTPResponse response = urlfetch.fetch(r);
-					LinkedInAccessTokenResponse latr = Util.toLinkedInAccessToken(new String(response.getContent()));
+					URLFetchService urlfetch = URLFetchServiceFactory
+							.getURLFetchService();
+					HTTPResponse response = null;
+					try {
+						response = urlfetch.fetch(r);
+					} catch (SocketTimeoutException ste) {
+						resp.getWriter().write(
+								"Your connection timed out. Try again");
+						return;
+					}
+
+					LinkedInAccessTokenResponse latr = Util
+							.toLinkedInAccessToken(new String(response
+									.getContent()));
 					synchronized (session) {
 						session.setAttribute("latr", latr);
 					}
-					url = new URL("https://api.linkedin.com/v1/people/~:(id,firstName,headline,lastName,picture-url,email-address)?format=json");
+					url = new URL(
+							"https://api.linkedin.com/v1/people/~:(id,firstName,headline,lastName,picture-url,email-address)?format=json");
 					r = new HTTPRequest(url);
 					r.addHeader(new HTTPHeader("Connection", "Keep-Alive"));
-					r.addHeader(new HTTPHeader("Authorization", "Bearer "+latr.getAccessToken()));
+					r.addHeader(new HTTPHeader("Authorization", "Bearer "
+							+ latr.getAccessToken()));
 					urlfetch = URLFetchServiceFactory.getURLFetchService();
-					response = urlfetch.fetch(r);
-					SocialUser su = Util.toLinkedInSocialUser(new String(response.getContent()));
-					//resp.getWriter().write(su.toString());
-					RequestDispatcher rd = req.getRequestDispatcher("/sm/open/social-media-login");
+					try {
+						response = urlfetch.fetch(r);
+					} catch (SocketTimeoutException ste) {
+						resp.getWriter().write(
+								"Your connection timed out. Try again");
+						return;
+					}
+
+					SocialUser su = Util.toLinkedInSocialUser(new String(
+							response.getContent()));
+					// resp.getWriter().write(su.toString());
+					RequestDispatcher rd = req
+							.getRequestDispatcher("/sm/open/social-media-login");
 					synchronized (session) {
 						session.setAttribute("socialUser", su);
 					}
-					
+
 					rd.forward(req, resp);
 
 				} else {
