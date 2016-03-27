@@ -1,6 +1,7 @@
 package com.salesmaxx.servlets.sm.closed;
 
 import java.io.IOException;
+import java.util.Collections;
 import java.util.List;
 
 import javax.servlet.RequestDispatcher;
@@ -89,6 +90,7 @@ public class InitCurrentUserProfile extends HttpServlet {
 				if(phKeys != null) {
 					phs = new PurchaseHistoryController().find(phKeys);
 				}
+				Collections.sort(phs);
 				List<PurchaseHistoryBean> phbs = Util.getPurchaseHistoryBeans(phs);
 				synchronized (session) {
 					session.setAttribute("purchaseHistorys",phbs);

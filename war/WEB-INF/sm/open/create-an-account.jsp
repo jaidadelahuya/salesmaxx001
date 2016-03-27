@@ -18,7 +18,6 @@
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <style type="text/css">
-
 @media screen and (max-width: 1200px) {
 	.login-div {
 		width: 25%;
@@ -51,7 +50,9 @@
 </style>
 </head>
 <body class="login-body">
-<%session.removeAttribute("loginError"); %>
+	<%
+		session.removeAttribute("loginError");
+	%>
 
 	<div class="container-fluid">
 		<div class="row">
@@ -68,7 +69,7 @@
 						</p>
 					</div>
 				</c:when>
-				
+
 			</c:choose>
 			<div class="login-div login-input-div" style="margin-top: 1%;">
 				<h1>Create account</h1>
@@ -100,6 +101,11 @@
 							class="form-control" name="pass2" />
 					</div>
 					<div class="form-group" style="margin: 2%;">
+						<label>Phone Number <small class="text-danger">(For
+								fast notifications)</small></label> <input type="text" class="form-control"
+							name="phone" value="${signUp.phone}" />
+					</div>
+					<div class="form-group" style="margin: 2%;">
 
 						<input type="submit" class="form-control btn btn-success"
 							style="margin-top: 4%;" value="Create Your SalesMaxx Account" />
@@ -113,14 +119,17 @@
 					</div>
 				</form>
 				<div class="divider form-group">
-					<p>Already have an account? <a href="/sm/open/login-page">Sign in</a></p>
-					<strong>You may also login with</strong>  <a href="/sm/open/facebook-signin">Facebook</a> or <a
+					<p>
+						Already have an account? <a href="/sm/open/login-page">Sign in</a>
+					</p>
+					<strong>You may also login with</strong> <a
+						href="/sm/open/facebook-signin">Facebook</a> or <a
 						href="/sm/open/linkedin-signin">LinkedIn</a>
 				</div>
 
 			</div>
 		</div>
 	</div>
-	
+
 </body>
 </html>

@@ -1,141 +1,163 @@
 <div class="discussion-sidebar" style="background-color: white;">
 
-<div class="col-md-7">
-	<div class="col-md-12">
-		<h2>
-			REG ID :
-			<c:out value="${profileBean.regId}" />
-		</h2>
-	</div>
-
-	<form id="edit-profile-form">
-		<div id="edit-profile-div" class="row">
-			<div class="col-md-12" id="edit-profile-msg-div"></div>
-			<div class="col-md-6 form-group">
-				<input id="first-name" required="required" name="first-name"
-					class="form-control"
-					value="${profileBean.firstName}"
-					placeholder="First Name">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="last-name" required="required" name="last-name"
-					class="form-control"
-					value="${profileBean.lastName}"
-					placeholder="Last Name">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="headline" name="headline" class="form-control"
-					value="${profileBean.headline}"
-					placeholder="Headline">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="dob" name="dob" type="date" class="form-control"
-					placeholder="Date of birth">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="phone" name="phone" class="form-control"
-					value="${profileBean.phones}"
-					placeholder="Phone Number">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="website" name="website" class="form-control"
-					placeholder="Website" value="${profileBean.website}">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="street" name="street" class="form-control"
-					placeholder="Street"
-					value="${profileBean.address.street}">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="city" name="city" class="form-control" placeholder="City"
-					value="${profileBean.address.city}">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="state" name="state" class="form-control"
-					placeholder="${profileBean.address.state}"
-					value="">
-			</div>
-			<div class="col-md-6 form-group">
-				<input id="country" name="country" class="form-control"
-					placeholder="Country"
-					value="">
-			</div>
-			<div class="col-md-12 form-group">
-				<input id="facebook" name="facebook" class="form-control"
-					placeholder="facebook link"
-					value="${profileBean.facebook}">
-			</div>
-			<div class="col-md-12 form-group">
-				<input id="linkedin" name="linkedin" class="form-control"
-					placeholder="LinkedIn link"
-					value="${profileBean.linkedin}">
-			</div>
-			<div class="col-md-12 form-group">
-				<input id="googleplus" name="google" class="form-control"
-					placeholder="Google Plus link"
-					value="${profileBean.google}">
-			</div>
-			<div class="col-md-12 form-group">
-				<input id="tweeter" name="tweeter" class="form-control"
-					placeholder="Tweeter Link"
-					value="${profileBean.tweeter}">
-			</div>
-			<div class="col-md-4 form-group">
-				<input type="button" value='Save'
-					class="btn btn-danger form-control" id="edit-profile-save-button" />
-			</div>
+	<div class="col-md-7">
+		<div class="col-md-12">
+			<h2>
+				REG ID :
+				<c:out value="${profileBean.regId}" />
+			</h2>
 		</div>
-	</form>
+
+		<form id="edit-profile-form">
+			<div id="edit-profile-div" class="row">
+				<div class="col-md-12" id="edit-profile-msg-div"></div>
+				<div class="col-md-6 form-group">
+					<input id="first-name" required="required" name="first-name"
+						class="form-control" value="${profileBean.firstName}"
+						placeholder="First Name">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="last-name" required="required" name="last-name"
+						class="form-control" value="${profileBean.lastName}"
+						placeholder="Last Name">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="headline" name="headline" class="form-control"
+						value="${profileBean.headline}" placeholder="Headline">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="dob" name="dob" type="date" class="form-control"
+						placeholder="Date of birth">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="phone" name="phone" class="form-control"
+						value="${profileBean.primaryPhone}" placeholder="Phone Number">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="website" name="website" class="form-control"
+						placeholder="Website" value="${profileBean.website}">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="street" name="street" class="form-control"
+						placeholder="Street" value="${profileBean.address.street}">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="city" name="city" class="form-control"
+						placeholder="City" value="${profileBean.address.city}">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="state" name="state" class="form-control"
+						value="${profileBean.address.state}" placeholder="State">
+				</div>
+				<div class="col-md-6 form-group">
+					<input id="country" name="country" class="form-control"
+						placeholder="Country" value="">
+				</div>
+				<div class="col-md-12 form-group">
+					<input id="facebook" name="facebook" class="form-control"
+						placeholder="facebook link" value="${profileBean.facebook}">
+				</div>
+				<div class="col-md-12 form-group">
+					<input id="linkedin" name="linkedin" class="form-control"
+						placeholder="LinkedIn link" value="${profileBean.linkedin}">
+				</div>
+				<div class="col-md-12 form-group">
+					<input id="googleplus" name="google" class="form-control"
+						placeholder="Google Plus link" value="${profileBean.google}">
+				</div>
+				<div class="col-md-12 form-group">
+					<input id="tweeter" name="tweeter" class="form-control"
+						placeholder="Tweeter Link" value="${profileBean.tweeter}">
+				</div>
+				<div class="col-md-4 form-group">
+					<input type="button" value='Save Changes'
+						class="btn btn-success form-control" id="edit-profile-save-button" />
+				</div>
+			</div>
+		</form>
 
 
 
-</div>
-<div class="col-md-5" style="padding: 2% 5%;">
-	<div class="well" style="z-index: 4">
-		<h4 style="text-align: center">Change Your Password</h4>
-		<div id="user-change-password-div">
-			<form action="/sm/open/change-password"
-				id="user-change-password-form">
-				<div id="user-change-password-msg-div"></div>
-				<div class="form-group">
-					<input type="password" id="old-pass" name="old-pass"
-						class="form-control" placeholder="Your old Password">
-				</div>
-				<div class="form-group">
-					<input type="password" id="pass1" name="pass1" class="form-control"
-						placeholder="Your new password">
-				</div>
-				<div class="form-group">
-					<input type="password" id="pass2" name="pass2" class="form-control"
-						placeholder="Re-type new password">
-				</div>
-				<div class="form-group">
-					<input type="button" id="user-change-password-button"
-						class="form-control btn btn-danger" value="Change Password">
-				</div>
-			</form>
-		</div>
 	</div>
-
-	<div class="well" style="z-index: 4">
-		<h4 style="text-align: center">Change Your EMail</h4>
-		<div id="change-email-div">
-			<form action="">
-				<div id="change-email-msg-div"></div>
-				<p style="font-size: 10pt">A confirmation code will be sent to
-					this email</p>
-				<div class="form-group">
-					<input type="email" id="email" name="email" class="form-control"
-						placeholder="Your EMail Address" value="${profileBean.email}">
+	<div class="col-md-5" style="padding: 2% 5%;">
+		<ul>
+			<li><a href="#" id="change-password-link">Change Your
+					Password</a></li>
+			<li id="change-your-password-div" style="display: none">
+				<div class="discussion-sidebar" style="z-index: 4">
+					<div id="user-change-password-div">
+						<form action="/sm/open/change-password"
+							id="user-change-password-form">
+							<div id="user-change-password-msg-div"></div>
+							<div class="form-group">
+								<input type="password" id="old-pass" name="old-pass"
+									class="form-control" placeholder="Your old Password">
+							</div>
+							<div class="form-group">
+								<input type="password" id="pass1" name="pass1"
+									class="form-control" placeholder="Your new password">
+							</div>
+							<div class="form-group">
+								<input type="password" id="pass2" name="pass2"
+									class="form-control" placeholder="Re-type new password">
+							</div>
+							<div class="form-group">
+								<input type="button" id="user-change-password-button"
+									class="form-control btn btn-success" value="Change Password">
+							</div>
+						</form>
+					</div>
 				</div>
+			</li>
+			<li><a href="/change-email" id="change-email-link">Change
+					Your Email</a></li>
+			<li id="change-your-email-div" style="display: none;">
+				<div class="discussion-sidebar" style="z-index: 4">
+					<div id="change-email-div">
+						<form action="">
+							<div id="change-email-msg-div"></div>
+							<p style="font-size: 10pt">A verification code will be sent
+								to this email</p>
+							<div class="form-group">
+								<input type="email" id="email" name="email" class="form-control"
+									placeholder="Your EMail Address" value="${profileBean.email}">
+							</div>
 
-				<div class="form-group">
-					<input type="button" id="change-email-button"
-						class="form-control btn btn-danger" value="Submit">
+							<div class="form-group">
+								<input type="button" id="change-email-button"
+									class="form-control btn btn-success" value="Submit">
+							</div>
+						</form>
+					</div>
 				</div>
-			</form>
-		</div>
+			</li>
+			<li id="verify-phone-link"><a href="/verify-phone">Verify
+					Your Phone Number</a></li>
+			<li id="verify-your-phone-div" style="display: none;">
+				<div class="discussion-sidebar" style="z-index: 4">
+					<div id="verify-phone-div">
+						<form action="<c:url value='/sm/open/send-sms'/>">
+							<div id="verify-phone-msg-div"></div>
+							<p style="font-size: 10pt">An SMS with a verification code will be sent to your phone</p>
+							<div class="form-group">
+								<input type="phone" id="phone-verify" name="phone" class="form-control"
+									placeholder="Your Phone Number" value="${profileBean.primaryPhone}">
+							</div>
+
+							<div class="form-group">
+								<input type="submit" id="verify-phone-button"
+									class="form-control btn btn-success" value="Send Code">
+							</div>
+						</form>
+					</div>
+				</div>
+			</li>
+			<li><a>Merge Your Accounts</a></li>
+			<li><a>Change Your Picture</a></li>
+		</ul>
+
+
+
 	</div>
-</div>
 
 </div>

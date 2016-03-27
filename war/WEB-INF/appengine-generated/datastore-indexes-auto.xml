@@ -1,4 +1,12 @@
-<!-- Indices written at Wed, 23 Mar 2016 17:29:00 UTC -->
+<!-- Indices written at Sun, 27 Mar 2016 19:27:38 UTC -->
 
-<datastore-indexes/>
+<datastore-indexes>
 
+    <!-- Used 3 times in query history -->
+    <datastore-index kind="Discussion" ancestor="false" source="auto">
+        <property name="category" direction="asc"/>
+        <property name="privacy" direction="asc"/>
+        <property name="views" direction="desc"/>
+    </datastore-index>
+
+</datastore-indexes>

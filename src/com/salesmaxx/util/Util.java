@@ -35,6 +35,9 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import org.apache.http.NameValuePair;
+import org.apache.http.message.BasicNameValuePair;
+
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
@@ -128,6 +131,9 @@ import com.salesmaxx.persistence.controllers.WorkshopController;
 import com.salesmaxx.persistence.controllers.WorkshopTemplateController;
 import com.salesmaxx.util.json.JSONObject;
 import com.salesmaxx.util.json.JSONTokener;
+import com.twilio.sdk.TwilioRestClient;
+import com.twilio.sdk.TwilioRestException;
+import com.twilio.sdk.resource.factory.MessageFactory;
 
 public class Util {
 
@@ -143,9 +149,29 @@ public class Util {
 			.getMemcacheService("latest-testimonials");
 	public static final double NEW_ACCOUNT_CREDITS = 150;
 
+	public static final String TWILIO_TOKEN = "9c53ae718c376fd272ef424d1dc3032b";
+	public static final String TWILIO_SID = "AC0c9c2afac2a4b9ea3880e6a9d5fdff3c";
+
 	public static String generateRandomCode(int minVal, int maxVal) {
 		Random ran = new Random();
 		return new Integer(minVal + ran.nextInt(maxVal)).toString();
+	}
+
+	public static void sendSMS(String to, String msg)
+			throws TwilioRestException {
+		TwilioRestClient client = new TwilioRestClient(TWILIO_SID, TWILIO_TOKEN);
+
+		List<NameValuePair> params = new ArrayList<NameValuePair>();
+		params.add(new BasicNameValuePair("Body", msg));
+		params.add(new BasicNameValuePair("To", "+2347051212230"));
+		params.add(new BasicNameValuePair("From", "+14696082006"));
+
+		MessageFactory messageFactory = client.getAccount().getMessageFactory();
+		com.twilio.sdk.resource.instance.Message message = null;
+
+		message = messageFactory.create(params);
+
+		System.out.println(message.getSid());
 	}
 
 	@SuppressWarnings("unchecked")
@@ -166,6 +192,8 @@ public class Util {
 		user.setGoogleId((String) e.getProperty("twitterId"));
 		user.setTwitterId((String) e.getProperty("googleId"));
 		List<String> ems = (List<String>) e.getProperty("emails");
+		user.setPrimaryPhone((String) e.getProperty("primaryPhone"));
+		user.setPhoneVerified((Boolean) e.getProperty("phoneVerified"));
 		Set<String> emails = new HashSet<>();
 		if (ems != null) {
 			emails.addAll(ems);
@@ -239,6 +267,8 @@ public class Util {
 		ent.setIndexedProperty("googleId", user.getGoogleId());
 		ent.setIndexedProperty("twitterId", user.getTwitterId());
 		ent.setIndexedProperty("emails", user.getEmails());
+		ent.setIndexedProperty("primaryPhone", user.getPrimaryPhone());
+		ent.setUnindexedProperty("phoneVerified", user.isPhoneVerified());
 
 		if (user.getRole() != null) {
 			ent.setUnindexedProperty("role", user.getRole().name());
@@ -1175,6 +1205,7 @@ public class Util {
 				getWorkshopTemplateFromCache(),
 				String.valueOf(w.getId().getId()));
 		if (wst != null) {
+			s.setCatalogueLink(wst.getCatalogueLink());
 			s.setImageUrl(wst.getImageUrl());
 			s.setDescription(wst.getShortDescription().getValue());
 			s.setWorkshopCode(wst.getWorkshopId().getName());
@@ -1372,8 +1403,6 @@ public class Util {
 						.substring(1));
 			}
 
-			System.out.println("Hex format : " + sb.toString());
-
 		} catch (NoSuchAlgorithmException e) { // TODO Auto-generated catch
 												// block
 			e.printStackTrace();
@@ -1396,8 +1425,6 @@ public class Util {
 						.substring(1));
 			}
 
-			System.out.println("Hex format : " + sb.toString());
-
 		} catch (NoSuchAlgorithmException e) { // TODO Auto-generated catch
 												// block
 			e.printStackTrace();
@@ -1409,12 +1436,13 @@ public class Util {
 		User u = new User(su.getFirstName(), su.getLastName());
 		u.setUsername(su.getUsername());
 		u.setPassword(su.getPassword());
+		u.setPrimaryPhone(su.getPhone());
 		return u;
 	}
-	
+
 	public static String newRegCode(String firstName2, String lastName2) {
 		String code = Util.generateRandomCode(100000, 999999);
-		code = firstName2.substring(0,2)+code+lastName2.substring(0,2);
+		code = firstName2.substring(0, 2) + code + lastName2.substring(0, 2);
 		return code.toUpperCase();
 	}
 
@@ -1424,6 +1452,7 @@ public class Util {
 		su.setLastName(user.getLastName());
 		su.setPassword(user.getPassword());
 		su.setUsername(user.getUsername());
+		su.setPhone(user.getPrimaryPhone());
 		return su;
 	}
 
@@ -1440,7 +1469,7 @@ public class Util {
 			name = "";
 		}
 		return "<body><div style='width: 40%; margin: 0 auto'>"
-				+ "<img alt='SalesMaxx' src='https://salesmaxx001.appspot.com/images/salesmaxx-logo.jpg'/>"
+				+ "<img alt='SalesMaxx' src='http://www.salesmaxx.com/images/salesmaxx-logo.jpg'/>"
 				+ "</div><div><h4 style='padding-bottom: 3%;'>Hello "
 				+ name
 				+ ",</h4>"
@@ -1455,7 +1484,7 @@ public class Util {
 			name = "";
 		}
 		return "<body><div style='width: 40%; margin: 0 auto'>"
-				+ "<img alt='SalesMaxx' src='https://salesmaxx001.appspot.com/images/salesmaxx-logo.jpg'/>"
+				+ "<img alt='SalesMaxx' src='http://www.salesmaxx.com/images/salesmaxx-logo.jpg'/>"
 				+ "</div><div><h4 style='padding-bottom: 3%;'>Hello "
 				+ name
 				+ ",</h4>"
@@ -1584,7 +1613,7 @@ public class Util {
 
 	public static Entity cartToEntity(Cart c) {
 		Entity e = null;
-		if(c.getCartKey() == null) {
+		if (c.getCartKey() == null) {
 			e = new Entity("cart");
 		} else {
 			e = new Entity(c.getCartKey());
@@ -1845,7 +1874,7 @@ public class Util {
 			pb.setDob(new SimpleDateFormat("dd-MMM").format(ugi
 					.getDateOfBirth()));
 		}
-
+		pb.setPrimaryPhone(user.getPrimaryPhone());
 		pb.setEmail(user.getUsername());
 		pb.setFirstName(user.getFirstName());
 		pb.setLastName(user.getLastName());
@@ -1854,16 +1883,8 @@ public class Util {
 		pb.setWebsite(ugi.getWebsite());
 		pb.setHeadline(user.getHeadline());
 		String phones = "";
-		List<String> phs = ugi.getPhones();
-		if (phs != null) {
-			for (int i = 0; i < phs.size(); i++) {
-				phones += phs.get(i);
-				if (i != phs.size() - 1) {
-					phones += ", ";
-				}
-			}
-			pb.setPhones(phones);
-		}
+		
+		pb.setPhoneVerified(user.isPhoneVerified());
 		pb.setPicture(user.getPictureUrl());
 		if (ugi.getBiography() != null) {
 			pb.setBiography(ugi.getBiography().getValue());
@@ -2148,7 +2169,7 @@ public class Util {
 	public static List<PurchaseHistoryBean> manualTransactionToPurchaseHistoryBean(
 			List<ManualTransaction> mts) {
 		List<PurchaseHistoryBean> phbs = new ArrayList<>();
-		if(mts == null) {
+		if (mts == null) {
 			return new ArrayList<PurchaseHistoryBean>();
 		}
 		for (ManualTransaction mt : mts) {
@@ -2186,8 +2207,9 @@ public class Util {
 
 		return phbs;
 	}
-	
-	public static PurchaseHistory manualTransactionToPurchaseHistory(ManualTransaction mt) {
+
+	public static PurchaseHistory manualTransactionToPurchaseHistory(
+			ManualTransaction mt) {
 		PurchaseHistory ph = new PurchaseHistory();
 		ph.setPurchaseDate(mt.getIssueDate());
 		ph.setPurchaseType(mt.getTransactionType());
@@ -2500,19 +2522,19 @@ public class Util {
 		su.setNetwork(SocialNetwork.FACEBOOK);
 		JSONTokener jt = new JSONTokener(respString);
 		JSONObject jo = new JSONObject(jt);
-		if(respString.contains("email")) {
+		if (respString.contains("email")) {
 			su.setEmail(jo.getString("email"));
 		}
-		if(respString.contains("first_name")) {
+		if (respString.contains("first_name")) {
 			su.setFirstName(jo.getString("first_name"));
 		}
-		if(respString.contains("gender")) {
+		if (respString.contains("gender")) {
 			su.setGender(jo.getString("gender"));
 		}
-		if(respString.contains("id")) {
+		if (respString.contains("id")) {
 			su.setId(jo.getString("id"));
 		}
-		if(respString.contains("last_name")) {
+		if (respString.contains("last_name")) {
 			su.setLastName(jo.getString("last_name"));
 		}
 		su.setPictureUrl(jo.getJSONObject("picture").getJSONObject("data")
@@ -2832,13 +2854,18 @@ public class Util {
 
 	public static void sendEmailNotification(List<String> emailsToNotify,
 			String title, String body) {
-		Queue q = QueueFactory.getDefaultQueue();
-		for (String email : emailsToNotify) {
-			q.add(TaskOptions.Builder
-					.withUrl("/sm/open/send-notification-email")
-					.param("email", email).param("body", body)
-					.param("title", title));
+		if (emailsToNotify == null) {
+			return;
+		} else {
+			Queue q = QueueFactory.getDefaultQueue();
+			for (String email : emailsToNotify) {
+				q.add(TaskOptions.Builder
+						.withUrl("/sm/open/send-notification-email")
+						.param("email", email).param("body", body)
+						.param("title", title));
+			}
 		}
+
 	}
 
 	public static void sendEmailNotification(String email, String title,
@@ -2910,8 +2937,6 @@ public class Util {
 		smtc.setTemplates((List<Key>) e.getProperty("templates"));
 		return smtc;
 	}
-
-	
 
 	public static Entity ManualTransactionToEntity(ManualTransaction mt) {
 		Entity e = null;
@@ -3018,7 +3043,7 @@ public class Util {
 				WorkShop w = Util
 						.getWorkshopSchedule(String.valueOf(ci.getId()));
 				pwb.setDate(sdf.format(w.getStartDate()));
-				
+
 				ScheduleWorkshopDisplay swd = Util.toScheduleWorkshopDisplay(w);
 				pwb.setScheduleID(swd.getId());
 				pwb.setLocation(swd.getVenue());
@@ -3095,50 +3120,54 @@ public class Util {
 
 	public static boolean clearManualPayment(String txnRef, WorkShop w) {
 		ManualTransactionController mtc = new ManualTransactionController();
-		List<ManualTransaction> mtss = mtc.findByTxnRef(txnRef, ChequeInvoice.InvoiceStatus.PENDING);
+		List<ManualTransaction> mtss = mtc.findByTxnRef(txnRef,
+				ChequeInvoice.InvoiceStatus.PENDING);
 		ManualTransaction mt = null;
-		if(mtss.size() == 1) {
+		if (mtss.size() == 1) {
 			mt = mtss.get(0);
 		} else {
 			return false;
 		}
 		List<EmbeddedEntity> list = mt.getItems();
 		EmbeddedEntity emb = null;
-		for(EmbeddedEntity ee : list) {
-			if(((String)ee.getProperty("workshopID")).equals(String.valueOf(w.getId().getId()))) {
+		for (EmbeddedEntity ee : list) {
+			if (((String) ee.getProperty("workshopID")).equals(String.valueOf(w
+					.getId().getId()))) {
 				list.remove(ee);
 				emb = ee;
 				break;
 			}
 		}
-		if(list.isEmpty()){
+		if (list.isEmpty()) {
 			mt.setStatus(ChequeInvoice.InvoiceStatus.CLEARED.name());
 			list.add(emb);
 			mt.setItems(list);
-			List<ManualTransaction> l1 = mtc.findByTxnRef(mt.getTxnRef(), ChequeInvoice.InvoiceStatus.CLEARED);
-			if(l1 == null || l1.isEmpty()) {
+			List<ManualTransaction> l1 = mtc.findByTxnRef(mt.getTxnRef(),
+					ChequeInvoice.InvoiceStatus.CLEARED);
+			if (l1 == null || l1.isEmpty()) {
 				mtc.create(mt);
 				addPurchaseHistory(mt);
 			} else {
-				if(l1.size() == 1) {
+				if (l1.size() == 1) {
 					ManualTransaction mt1 = l1.get(0);
 					mt1.getItems().addAll(mt.getItems());
 					mtc.create(mt1);
 					addPurchaseHistory(mt1);
 				}
 			}
-			
+
 		} else {
 			ManualTransaction cmt = new ManualTransaction(mt);
 			List<EmbeddedEntity> l = new ArrayList<>();
 			l.add(emb);
 			cmt.setItems(l);
 			cmt.setStatus(ChequeInvoice.InvoiceStatus.CLEARED.name());
-			List<ManualTransaction> l1 = mtc.findByTxnRef(cmt.getTxnRef(), ChequeInvoice.InvoiceStatus.CLEARED);
-			if(l1 == null || l1.isEmpty()) {
-				//create using bulk input(already done)
+			List<ManualTransaction> l1 = mtc.findByTxnRef(cmt.getTxnRef(),
+					ChequeInvoice.InvoiceStatus.CLEARED);
+			if (l1 == null || l1.isEmpty()) {
+				// create using bulk input(already done)
 			} else {
-				if(l1.size() == 1) {
+				if (l1.size() == 1) {
 					ManualTransaction mt1 = l1.get(0);
 					mt1.getItems().addAll(cmt.getItems());
 					cmt = mt1;
@@ -3146,7 +3175,8 @@ public class Util {
 			}
 			mt.setItems(list);
 			List<ManualTransaction> mts = new ArrayList<>();
-			mts.add(cmt); mts.add(mt);
+			mts.add(cmt);
+			mts.add(mt);
 			addPurchaseHistory(cmt);
 			mtc.create(mts);
 		}
@@ -3154,39 +3184,41 @@ public class Util {
 	}
 
 	private static void addPurchaseHistory(ManualTransaction mt) {
-		
+
 		PurchaseHistory ph = Util.manualTransactionToPurchaseHistory(mt);
 		PurchaseHistoryController c = new PurchaseHistoryController();
 		PurchaseHistory ph1 = c.findByTransactionRef(ph.getTxnRef());
-		if(ph1 != null) {
+		if (ph1 != null) {
 			ph1.getItems().addAll(ph.getItems());
 			ph = ph1;
-		} 
+		}
 		User u = new UserController().findUser(mt.getOwnerKey());
 		UserGeneralInfoController ugc = new UserGeneralInfoController();
 		UserGeneralInfo ugi = ugc.findUserGeneralInfo(u, u.getGeneralInfoId());
 		List<PurchaseHistory> phs = new ArrayList<>();
 		phs.add(ph);
 		ugc.edit(ugi, u.getRegId(), phs);
-		
+
 	}
 
-	private static void updateManualTransaction(ManualTransaction mt, UserGeneralInfo ugi) {
+	private static void updateManualTransaction(ManualTransaction mt,
+			UserGeneralInfo ugi) {
 		ManualTransactionController mtc = new ManualTransactionController();
-		List<ManualTransaction> omt = mtc.findByTxnRef(mt.getTransactionType(), ChequeInvoice.InvoiceStatus.PENDING);
-		if(omt.size() == 1) {
+		List<ManualTransaction> omt = mtc.findByTxnRef(mt.getTransactionType(),
+				ChequeInvoice.InvoiceStatus.PENDING);
+		if (omt.size() == 1) {
 			ManualTransaction mt1 = omt.get(0);
-			if(mt1.getItems().size() == mt.getItems().size()) {
+			if (mt1.getItems().size() == mt.getItems().size()) {
 				List<Key> keys = ugi.getPendingOrder();
-				for(Key k : keys) {
-					if(k==mt.getId()) {
+				for (Key k : keys) {
+					if (k == mt.getId()) {
 						keys.remove(k);
 					}
 				}
-				//new UserGeneralInfoC
+				// new UserGeneralInfoC
 			}
 		}
-		
+
 	}
 
 	public static Cart getNewCart() {
@@ -3200,7 +3232,7 @@ public class Util {
 		ugi.setCertificate(new HashSet<BlobKey>());
 		ugi.setCompletedManualOrder(new ArrayList<Key>());
 		ugi.setCompletedWorkshops(new HashSet<Key>());
-		//ugi.setEnrolledEvents(new HashSet<Long>());
+		// ugi.setEnrolledEvents(new HashSet<Long>());
 		ugi.setEnrolledWorkshops(new HashSet<Key>());
 		ugi.setPendingOrder(new ArrayList<Key>());
 		ugi.setPhones(new ArrayList<String>());
@@ -3217,6 +3249,12 @@ public class Util {
 		e.setUnindexedProperty("date", smch.getExpiryDate());
 		e.setUnindexedProperty("title", smch.getTitle());
 		return e;
+	}
+
+	public static void sendWebPayPurchaseSuccessSMS(String primaryPhone) throws TwilioRestException {
+		String msg = "Your transaction has been successful and your seat has been reserved. Check your email for detailed information.Thank you for choose SalesMaxx";
+		
+		Util.sendSMS(primaryPhone, msg);
 	}
 
 }

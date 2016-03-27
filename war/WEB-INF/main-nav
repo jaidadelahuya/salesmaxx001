@@ -1,6 +1,6 @@
 <nav class="navbar navbar-default"
-	style="margin-top: 2%; margin-bottom: 1%;">
-	<div class="container-fluid" style="width: 80%; margin: 0 auto;">
+	style="padding-top: 1%; padding-bottom: 1%; background-color:#d9edf7; border-radius:0px; -moz-border-radius:0px; -webkit-border-radius:0px;  color:black; border: 1px #bce8f1 solid; margin-bottom:0px">
+	<div class="container-fluid" style="width: 95%; margin: 0 auto;">
 		<div class="navbar-header">
 			<button type="button" class="navbar-toggle" data-toggle="collapse"
 				data-target="#myNavbar">

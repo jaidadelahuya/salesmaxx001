@@ -11,7 +11,7 @@
 		style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0;padding-left:2%">
 			<c:out value="${workshopCategoryDisplay.categoryName}" /> ( <c:out
 				value="${fn:length(workshopCategoryDisplay.workshops)}" /> )
-	</strong></a> <a href="<c:url value="workshopCategoryDisplay.catalogueLink" />"><strong
+	</strong></a> <a target="_blank" href="<c:url value="${workshopCategoryDisplay.catalogueLink}" />"><strong
 		class="pull-right"
 		style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0;padding-right:2%">Catalogue</strong></a>
 </div>

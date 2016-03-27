@@ -1,9 +1,9 @@
 
-<div class="well"
-	style="background-color: white; border-color: gray; overflow: auto; padding-left: 0px; padding-right: 0px; padding-bottom: 0px">
+<div class="discussion-sidebar"
+	style="background-color: white; overflow: auto; padding-left: 0px; padding-right: 0px; padding-bottom: 0px">
 	<div class="form-group col-sm-12"
 		style="text-align: right; margin-bottom: 0px">
-		<a href="<c:url value='/coaching' />" class="btn btn-danger btn-xs"
+		<a href="<c:url value='/coaching' />" class="btn btn-success btn-xs"
 			style="margin-bottom: 1px;">View Coaching Categories</a> <a
 			href="<c:url value='/sm/open/start-discussion?category=${discussionPageBean.category}' />"
 			class="btn btn-danger btn-xs" style="margin-bottom: 1px;">Start a
@@ -29,7 +29,7 @@
 	</div>
 	<div class="col-sm-12"
 		style="font-family: arial; line-height: 1.5; margin-bottom: 2%;">
-		<c:out value="${singleDiscussionPageBean.body}" />
+		${singleDiscussionPageBean.body}
 	</div>
 	<div class="col-sm-12" style="padding: 0px">
 		<div class="col-sm-6">
@@ -70,33 +70,33 @@
 		</div>
 	</div>
 	<div class="col-sm-12"
-		style="padding: 0px; background-color: #e9eaed; border-top: 1px #d8d9dc solid; overflow: auto">
+		style="padding: 0px; background-color: #f6f6f6; border-top: 1px #d8d9dc solid; overflow: auto">
 
 		<c:choose>
 			<c:when test="${empty user}">
 				<img alt="" src="/images/unknown-user.jpg"
 					class="img img-responsive"
-					style="width: 2em; height: auto; float: left; margin: 2%;">
+					style="width: 3em; height: auto; float: left; margin: 2%;">
 			</c:when>
 			<c:otherwise>
 				<img alt="" src="${user.pictureUrl}" class="img img-responsive"
-					style="width: 2em; height: auto; float: left; margin: 2%; margin-right: 0px">
+					style="width: 3em; height: auto; float: left; margin: 2%; margin-right: 0px">
 			</c:otherwise>
 		</c:choose>
 		<div
-			style="float: left; width: 90%; margin-left: 0.2em; padding-bottom: 2%;">
+			style="float: left; width: 90%; margin-left: 0.2em; padding-bottom: 2%; padding-top: 2%">
 			<form id="post-comment-form" method="post"
 				action="<c:url value='/sm/closed/post-comment'/>">
 				<input type="hidden" value="${singleDiscussionPageBean.webkey}"
 					name="webkey">
-				<textarea rows="1" cols="" name="comment"
-					class="post-comment-textarea"
+				<textarea rows="5 cols="" name="comment"
+					class="post-comment-textarea" id="comment-msg"
 					style="float: left; padding: 1%; width: 100%; margin-top: 2%;"
 					placeholder="Write a comment..."></textarea>
 				<span style="font-family: calibri; font-size: 0.85em"
 					class="form-group">
 					<button type="submit" id="post-comment-btn" style="margin: 2px;"
-						class="btn btn-xs btn-danger pull-right">Post comment</button>
+						class="btn btn-xs btn-success pull-right">Post comment</button>
 				</span>
 			</form>
 		</div>

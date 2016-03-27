@@ -55,7 +55,7 @@
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
 	<div class="container-fluid"
-		style="width: 80%; margin: 0 auto; height: 100%;">
+		style="width: 95%; margin: 0 auto; height: 100%;">
 		<div class="row">
 			<div class="col-md-9" style="padding-left: 0px">
 				<%@ include file="/WEB-INF/sm/open/view-discussion.html"%>
@@ -72,11 +72,19 @@
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
+	<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
 	<script src="/js/jquery.webui-popover.min.js"></script>
 	<script type="text/javascript" src="/js/waitMe.js"></script>
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-rating.min.js"></script>
-	
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#tools-menu").addClass("active");
+			tinymce.init({
+				selector : '#comment-msg'
+			});
+		});
+	</script>
 
 </body>
 </html>

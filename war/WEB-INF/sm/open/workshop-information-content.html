@@ -17,7 +17,7 @@
 			href="<c:url value='/sm/open/get-workshop-category?categoryName=${workshopCategory.name.name}'/>">
 			<c:out value="${workshopCategory.name.name}" />
 	</h5>
-	</a> <a target="_blank" href="<c:url value=" ${category.catalogueLink}" />">
+	</a> <a target="_blank" href="<c:url value=" ${workshopCategory.catalogueLink}" />">
 	<h5 class="pull-right"
 		style="display: inline-block; font-weight: bolder; padding: 1%; margin-top: 0; margin-bottom: 0">Catalogue</h5>
 	</a>
@@ -63,7 +63,7 @@
 			<p style="font-family: calibri">
 				<span style="padding-right: 2%;"><a
 					class="btn btn-xs btn-success" href="#schedules" id="to-schedule">Enroll
-						Now</a></span><span><a class="btn btn-xs btn-primary">Download
+						Now</a></span><span><a href="${workshopTemplate.catalogueLink}" class="btn btn-xs btn-primary">Download
 						Brochure</a></span>
 			</p>
 

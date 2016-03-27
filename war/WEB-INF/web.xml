@@ -4,6 +4,10 @@
 	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee
 http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	version="2.5">
+	<session-config>
+		<session-timeout>1800</session-timeout>
+	</session-config>
+	
 	<servlet>
 		<servlet-name>bouncehandler</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.BounceHandlerServlet</servlet-class>
@@ -609,6 +613,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>LinkedInSignIn</servlet-name>
 		<url-pattern>/sm/open/linkedin-signin</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ConfirmSMSCode</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.ConfirmSMSCode</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ConfirmSMSCode</servlet-name>
+		<url-pattern>/sm/open/confirm-sms-code</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>FacebookSignIn</servlet-name>
@@ -780,6 +793,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ForgotPasswordPage</servlet-name>
 		<url-pattern>/sm/open/forgot-password-page</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>SendSMS</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.SendSMS</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SendSMS</servlet-name>
+		<url-pattern>/sm/open/send-sms</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>SubmitDiscussion</servlet-name>
@@ -866,6 +888,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SignUpSuccess</servlet-name>
 		<url-pattern>/sm/open/create-an-account</url-pattern>
 	</servlet-mapping>
+	
 	<servlet>
 		<servlet-name>ChangePasswordUserPage</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/change-password.jsp</jsp-file>
@@ -924,7 +947,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ToolsPage</servlet-name>
 		<url-pattern>/tools</url-pattern>
 	</servlet-mapping>
-
+	<servlet>
+		<servlet-name>SMSVerification</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/sms-verification.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SMSVerification</servlet-name>
+		<url-pattern>/sm/open/sms-verification-page</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>InterswitchTransactionPage</servlet-name>
 		<jsp-file>/WEB-INF/interswitch-transaction-log.jsp</jsp-file>

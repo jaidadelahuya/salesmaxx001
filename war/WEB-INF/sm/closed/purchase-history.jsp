@@ -36,7 +36,7 @@
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
 	<div class="container-fluid"
-		style="width: 80%; margin: 0 auto; height: 100%;">
+		style="width: 95%; margin: 0 auto; height: 100%;">
 		<div class="row">
 			<div class="col-md-3" style="padding-left: 0px">
 				<%@ include file="/WEB-INF/sm/closed/user-profile-sidebar.html"%>

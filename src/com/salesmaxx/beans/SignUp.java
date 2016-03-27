@@ -13,7 +13,7 @@ public class SignUp implements Serializable {
 	 */
 	private static final long serialVersionUID = 743244297729061083L;
 
-	private String username,password,confirmationCode,firstName,lastName;
+	private String username,password,confirmationCode,firstName,lastName,phone;
 	
 	
 
@@ -54,8 +54,14 @@ public class SignUp implements Serializable {
 				+ firstName + ", lastName=" + lastName + "]";
 	}
 
+	
 
-
+	public String getPhone() {
+		return phone;
+	}
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
 	public String getConfirmationCode() {
 		return confirmationCode;
 	}

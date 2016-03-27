@@ -30,7 +30,7 @@
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
 	<div class="container-fluid"
-		style="width: 80%; margin: 0 auto; height: 100%;">
+		style="width: 95%; margin: 0 auto; height: 100%;">
 		<div class="row">
 			<div class="panel panel-default col-md-3" style="padding: 0">
 				<%@ include file="/WEB-INF/sm/open/workshop-sidebar"%>

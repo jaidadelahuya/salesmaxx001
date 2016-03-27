@@ -8,7 +8,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>${profileBean.firstName} ${profileBean.lastName}</title>
+<title>${profileBean.firstName}${profileBean.lastName}</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="/style/bootstrap.min.css">
@@ -30,14 +30,15 @@
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
 	<div class="container-fluid"
-		style="width: 80%; margin: 0 auto; height: 100%;">
+		style="width: 95%; margin: 0 auto; height: 100%;">
 		<div class="row">
 			<div class="col-md-3" style="padding-left: 0px">
 				<%@ include file="/WEB-INF/sm/closed/user-profile-sidebar.html"%>
 			</div>
 			<div class="col-md-9" style="padding-right: 0px">
 				<div class="" style="padding: 0;">
-					<%@ include file="/WEB-INF/sm/closed/edit-user-profile-content.html"%>
+					<%@ include
+						file="/WEB-INF/sm/closed/edit-user-profile-content.html"%>
 				</div>
 			</div>
 		</div>
@@ -68,6 +69,21 @@
 		s.src = 'https://salesiq.zoho.com/profiliantngr/float.ls?embedname=speaktoaconsultant';
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
+
+		$(document).ready(function() {
+			$("#change-password-link").click(function(e) {
+				e.preventDefault();
+				$("#change-your-password-div").slideToggle();
+			});
+			$("#change-email-link").click(function(e) {
+				e.preventDefault();
+				$("#change-your-email-div").slideToggle();
+			});
+			$("#verify-phone-link").click(function(e) {
+				e.preventDefault();
+				$("#verify-your-phone-div").slideToggle();
+			});
+		});
 	</script>
 
 </body>

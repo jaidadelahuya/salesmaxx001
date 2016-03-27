@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Key;
 
-public class PurchaseHistory implements Serializable {
+public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory>{
 
 	/**
 	 * 
@@ -133,6 +133,11 @@ public class PurchaseHistory implements Serializable {
 		} else if (!txnRef.equals(other.txnRef))
 			return false;
 		return true;
+	}
+
+	@Override
+	public int compareTo(PurchaseHistory o) {
+		return this.purchaseDate.compareTo(o.getPurchaseDate());
 	}
 
 }

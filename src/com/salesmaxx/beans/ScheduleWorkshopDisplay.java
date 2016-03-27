@@ -10,7 +10,7 @@ public class ScheduleWorkshopDisplay implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = -5207890116202518776L;
-	private String id,startDate,name,format,type,flyer,venue,imageUrl,workshopCode,description,formattedPrice,formattedTotalPrice;
+	private String id,startDate,catalogueLink,name,format,type,flyer,venue,imageUrl,workshopCode,description,formattedPrice,formattedTotalPrice;
 	private Address location;
 	private long qty;
 	private long seatsLeft;
@@ -18,6 +18,12 @@ public class ScheduleWorkshopDisplay implements Serializable {
 	
 	
 	
+	public String getCatalogueLink() {
+		return catalogueLink;
+	}
+	public void setCatalogueLink(String catalogueLink) {
+		this.catalogueLink = catalogueLink;
+	}
 	public long getSeatsLeft() {
 		return seatsLeft;
 	}

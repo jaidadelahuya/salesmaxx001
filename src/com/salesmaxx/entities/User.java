@@ -3,29 +3,23 @@ package com.salesmaxx.entities;
 import java.io.Serializable;
 import java.util.List;
 import java.util.Set;
-
-import javax.persistence.Basic;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
-import javax.persistence.Id;
-import javax.persistence.Transient;
-
-import org.datanucleus.api.jpa.annotations.Extension;
-
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.salesmaxx.util.Util;
 
-@Entity
 public class User implements Serializable {
 
-	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 443818419178265061L;
+
 	private Key regId;
 
 	private String username;
+	
+	private String primaryPhone;
 
 	private String password;
 	
@@ -39,37 +33,45 @@ public class User implements Serializable {
 	
 	private Set<String> emails;
 	
-	@Transient
 	private boolean authenticated;
+	
+	private boolean phoneVerified;
 
 	private String lastName;
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private String headline;
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private BlobKey picture;
-
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private String gender;
-
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private double salesmaxxCredit;
-
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private UserRole role;
-
-	@Basic
-	@Extension(vendorName = "datanucleus", key = "gae.unindexed", value = "true")
 	private List<User> users;// for organisation
 	
-	@Transient
 	private String pictureUrl = "/images/unknown-user.jpg";
 	
 	private Key cart;
 	
+	public String getPrimaryPhone() {
+		return primaryPhone;
+	}
 	
 	
+
+	public boolean isPhoneVerified() {
+		return phoneVerified;
+	}
+
+
+
+	public void setPhoneVerified(boolean phoneVerified) {
+		this.phoneVerified = phoneVerified;
+	}
+
+
+
+	public void setPrimaryPhone(String primaryPhone) {
+		this.primaryPhone = primaryPhone;
+	}
+
+
 	public Set<String> getEmails() {
 		return emails;
 	}

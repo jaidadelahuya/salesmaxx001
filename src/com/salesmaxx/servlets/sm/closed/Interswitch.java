@@ -45,6 +45,7 @@ import com.salesmaxx.persistence.controllers.WorkshopController;
 import com.salesmaxx.persistence.controllers.WorkshopTemplateController;
 import com.salesmaxx.util.InterswitchResponse;
 import com.salesmaxx.util.Util;
+import com.twilio.sdk.TwilioRestException;
 
 public class Interswitch extends HttpServlet {
 
@@ -130,6 +131,15 @@ public class Interswitch extends HttpServlet {
 
 			Util.sendEmailNotification(toEmail, "Your Transaction Details",
 					body);
+			if(user.getPrimaryPhone() != null && user.isPhoneVerified()) {
+				try {
+					Util.sendWebPayPurchaseSuccessSMS(user.getPrimaryPhone());
+				} catch (TwilioRestException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			}
+			
 		}
 
 		List<ProductPaidFor> ppfs = null;

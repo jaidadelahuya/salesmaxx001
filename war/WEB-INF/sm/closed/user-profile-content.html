@@ -32,10 +32,18 @@
 						<strong>Phone:</strong>
 					</div>
 					<div class="col-sm-8">
-						<c:forEach var="item" items="${profileBean.phones}">
-							<span style="margin-right: 2%;"><c:out value="${item}" /></span>
-						</c:forEach>
-
+						<span style="margin-right: 2%;"><c:out
+								value="${profileBean.primaryPhone}" /></span>
+						<c:choose>
+							<c:when test='${profileBean.phoneVerified}'>
+								<strong class="text-success">(Verified)</strong>
+							</c:when>
+							<c:otherwise>
+								<c:if test="${not empty profileBean.primaryPhone}">
+									<strong class="text-danger">(Not Verified)</strong>
+								</c:if>
+							</c:otherwise>
+						</c:choose>
 					</div>
 				</td>
 			</tr>

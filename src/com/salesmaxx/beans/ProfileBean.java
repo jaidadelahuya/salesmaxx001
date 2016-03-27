@@ -12,24 +12,49 @@ public class ProfileBean implements Serializable {
 	private static final long serialVersionUID = 1035370995373726888L;
 	private String firstName, lastName, regId, email, dob, website,
 			salesmaxxCredits, headline, phones, picture, facebook, linkedin,
-			tweeter, google, biography;
+			tweeter, google, biography, primaryPhone;
 	private Address address;
+	private boolean phoneVerified;
 
-	
 
 	@Override
 	public String toString() {
 		return "ProfileBean [firstName=" + firstName + ", lastName=" + lastName
-				+ ", regId=" + regId + ", email=" + email + ", address="
-				+ address + ", dob=" + dob + ", website=" + website
-				+ ", salesmaxxCredits=" + salesmaxxCredits + ", headline="
-				+ headline + ", phones=" + phones + ", picture=" + picture
-				+ ", facebook=" + facebook + ", linkedin=" + linkedin
-				+ ", tweeter=" + tweeter + ", google=" + google
-				+ ", biography=" + biography + "]";
+				+ ", regId=" + regId + ", email=" + email + ", dob=" + dob
+				+ ", website=" + website + ", salesmaxxCredits="
+				+ salesmaxxCredits + ", headline=" + headline + ", phones="
+				+ phones + ", picture=" + picture + ", facebook=" + facebook
+				+ ", linkedin=" + linkedin + ", tweeter=" + tweeter
+				+ ", google=" + google + ", biography=" + biography
+				+ ", primaryPhone=" + primaryPhone + ", address=" + address
+				+ ", phoneVerified=" + phoneVerified + "]";
 	}
-	
-	
+
+
+
+	public boolean isPhoneVerified() {
+		return phoneVerified;
+	}
+
+
+
+	public void setPhoneVerified(boolean phoneVerified) {
+		this.phoneVerified = phoneVerified;
+	}
+
+
+
+	public String getPrimaryPhone() {
+		return primaryPhone;
+	}
+
+
+
+	public void setPrimaryPhone(String primaryPhone) {
+		this.primaryPhone = primaryPhone;
+	}
+
+
 
 	public String getPicture() {
 		return picture;

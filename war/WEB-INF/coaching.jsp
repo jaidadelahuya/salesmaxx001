@@ -30,7 +30,7 @@ li {
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
-	<div class="container-fluid" style="width: 80%; margin: 0 auto;">
+	<div class="container-fluid" style="width: 95%; margin: 0 auto;">
 		<div class="row">
 				<%@ include file="/WEB-INF/coaching-content.html"%>
 		</div>

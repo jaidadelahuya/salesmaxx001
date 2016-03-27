@@ -91,6 +91,9 @@ public class PostComment extends HttpServlet {
 				lc = new ArrayList<Key>();
 			}
 			lc.add(0, comment.getId());
+			if(d.getEmailsToNotify() == null) {
+				d.setEmailsToNotify(new ArrayList<String>());
+			}
 			if(!d.getEmailsToNotify().contains(u.getUsername())) {
 				d.getEmailsToNotify().add(u.getUsername());
 			}

@@ -76,13 +76,7 @@ public class EditUserProfile extends HttpServlet {
 		}
 
 		if (Util.notNull(phone)) {
-			List<String> phones = ugi.getPhones();
-			if (phones == null) {
-				phones = new ArrayList<>();
-			} else if(!phone.contains(phone)) {
-				phones.add(phone);
-			}
-			ugi.setPhones(phones);
+			u.setPrimaryPhone(phone);
 
 		}
 

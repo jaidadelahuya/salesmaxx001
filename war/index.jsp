@@ -30,7 +30,7 @@
 	<div id="carousel-wrapper" class="container-fluid">
 
 		<div id="myCarousel" class="carousel slide row hidden-xs"
-			data-ride="carousel" style="width: 80%; margin: 0 auto;">
+			data-ride="carousel" >
 
 			<!-- Indicators -->
 			<ol class="carousel-indicators">
@@ -98,7 +98,7 @@
 
 	<div id="main-wrapper" class="container-fluid">
 		<div class="row" id="tools-div" style="width: 80%; margin: 0 auto;">
-			<div class="col-md-8 well">
+			<div class="col-md-8 discussion-sidebar">
 				<h3 class="text-danger"
 					style="text-align: center; margin-top: 2%; margin-bottom: 2%; font-weight: bolder;">Find
 					the right workshop for you</h3>

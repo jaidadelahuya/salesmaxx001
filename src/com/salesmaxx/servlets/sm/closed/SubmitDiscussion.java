@@ -75,7 +75,7 @@ public class SubmitDiscussion extends HttpServlet {
 			String title = "Private coaching request from SalesMaxx";
 			String webkey = KeyFactory.keyToString(d.getId());
 			String body = "<p>Hello,</p>"
-					+ "<p>We have a private coaching request. Click <a href='https://salesmaxx001.appspot.com/sm/open/get-discussion?webkey="
+					+ "<p>We have a private coaching request. Click <a href='http://www.salesmaxx.com/sm/open/get-discussion?webkey="
 					+ webkey + "&privacy=private'>here to view</a></p>";
 			req.setAttribute("privateMsgSent", true);
 			System.out.println(body);

@@ -12,6 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.salesmaxx.beans.SignUp;
+import com.salesmaxx.entities.User;
 import com.salesmaxx.persistence.controllers.UserController;
 import com.salesmaxx.util.Util;
 
@@ -32,12 +33,14 @@ public class RegisterUser extends HttpServlet {
 		String email = req.getParameter("email");
 		String pass1 = req.getParameter("pass1");
 		String pass2 = req.getParameter("pass2");
+		String phone = req.getParameter("phone");
 		
 		SignUp su = new SignUp();
 		su.setUsername(email.trim().toLowerCase());
 		su.setPassword(pass1);
 		su.setFirstName(firstName);
 		su.setLastName(lastName);
+		su.setPhone(phone);
 		
 	
 		HttpSession session = req.getSession();
@@ -110,9 +113,11 @@ public class RegisterUser extends HttpServlet {
 			String body = Util.getConfirmationCodeEmailBody(su.getConfirmationCode(), su.getFirstName());
 			Util.sendConfirmationCodeEmail(email.trim().toLowerCase(),body);
 			System.out.println(su.getConfirmationCode());
+			User u = Util.signUpToUser(su);
 			synchronized (session) {
 				session.removeAttribute("signUpError");
 				session.setAttribute("fromSignUp", true);
+				session.setAttribute("user", u);
 			}
 			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
 		} catch (AddressException e) {

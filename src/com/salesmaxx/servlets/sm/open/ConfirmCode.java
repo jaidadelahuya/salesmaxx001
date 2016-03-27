@@ -44,11 +44,13 @@ public class ConfirmCode extends HttpServlet {
 			} else {
 				SignUp su = (SignUp) o;
 				if (su.getConfirmationCode().equalsIgnoreCase(code.trim())) {
-					User user = Util.signUpToUser(su);
+					User user = null;
 					Object oo = null;
 					synchronized (session) {
+						user= (User) session.getAttribute("user");
 						session.removeAttribute("verificationError");
 						oo = session.getAttribute("fromSignUp");
+						session.setAttribute("user", user);
 					}
 					if (oo == null) {
 						resp.sendRedirect(resp
@@ -59,12 +61,9 @@ public class ConfirmCode extends HttpServlet {
 						if (u!=null) {
 							synchronized (session) {
 								session.setAttribute(
-										"signUpSuccess1",
-										"Your SalesMaxx account has been created successfully and you have recieved 150.00 SalesMaxx Credits. ");
-								session.setAttribute("signUpSuccess2","You can login with either your username("
-												+ u.getUsername()
-												+ ") or your registration ID "
-												+ u.getRegId().getName() );
+										"regid",
+										u.getRegId().getName());
+								
 								session.removeAttribute("fromSignUp");
 							}
 							resp.sendRedirect("/sm/open/sign-up-complete");
