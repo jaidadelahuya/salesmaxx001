@@ -1,12 +1,21 @@
 package com.salesmaxx.persistence.controllers;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 
 import com.google.appengine.api.datastore.DatastoreService;
+import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
 import com.salesmaxx.entities.SalesmaxxCreditHistory;
 import com.salesmaxx.entities.exception.RollbackFailureException;
+import com.salesmaxx.util.Util;
 
 public class SalesmaxxCreditHistoryController {
 
@@ -81,5 +90,18 @@ public class SalesmaxxCreditHistoryController {
 		} finally {
 			em.close();
 		}
+	}
+
+	public List<SalesmaxxCreditHistory> findALL(
+			List<Key> salesmaxxHistoryCredits) {
+		Map<Key,Entity> e = ds.get(salesmaxxHistoryCredits);
+		List<SalesmaxxCreditHistory> l = new ArrayList<>();
+		Set<Key> keys = e.keySet();
+		for(Key k : keys) {
+			SalesmaxxCreditHistory s = Util.entityToSalesMaxxCreditHistory(e.get(k));
+			l.add(s);
+			Collections.sort(l);
+		}
+		return l;
 	}
 }

@@ -26,6 +26,7 @@
 <link rel="stylesheet" type="text/css" href="/style/slick.css" />
 <link rel="stylesheet" type="text/css" href="/style/slick-theme.css" />
 <link rel="stylesheet" type="text/css" href="/style/datepicker.css">
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>

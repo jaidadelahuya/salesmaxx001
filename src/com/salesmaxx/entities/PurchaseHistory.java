@@ -137,7 +137,7 @@ public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory
 
 	@Override
 	public int compareTo(PurchaseHistory o) {
-		return this.purchaseDate.compareTo(o.getPurchaseDate());
+		return o.getPurchaseDate().compareTo(purchaseDate);
 	}
 
 }

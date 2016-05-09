@@ -22,6 +22,7 @@
 <link rel="stylesheet" type="text/css"
 	href="/style/bootstrap-rating.css">
 <link rel="stylesheet" type="text/css" href="/style/datepicker.css">
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -32,7 +33,7 @@
 
 			<div class="col-md-9" style="padding-left: 0px">
 				<div class="panel panel-default col-md-12" style="padding: 0">
-					
+
 					<div class="col-md-12" style="text-align: center; padding: 5%;">
 						<img alt="SalesMaxx" src="/images/salesmaxx-logo.jpg" />
 						<h4>QUALITY AND AFFORDABLE SALES TRAININGS</h4>
@@ -76,56 +77,6 @@
 			<div class="col-md-3" style="padding: 0">
 				<div class="discussion-sidebar">
 					<h4>
-						<a href="/sm/open/sales-and-marketing-templates">Sales &
-							Marketing Templates</a>
-					</h4>
-					<div class="col-sm-12 no-padding-div" style="padding-bottom: 2%;">
-						<div class="col-sm-2 no-padding-div">
-							<a href="/sm/open/sales-and-marketing-templates?format=ms-wordl"><img
-								alt="" src="/images/word.png" class="img img-responsive"></a>
-						</div>
-						<div class="col-sm-10" style="padding-top: 2%;">
-							<a href="/sm/open/sales-and-marketing-templates?format=ms-word">MS-Word
-								templates</a>
-						</div>
-					</div>
-					<div class="col-sm-12 no-padding-div" style="padding-bottom: 2%;">
-						<div class="col-sm-2 no-padding-div" style="padding-right: 0px">
-							<a href="/sm/open/sales-and-marketing-templates?format=excel"><img
-								alt="" src="/images/excel.png" class="img img-responsive"></a>
-						</div>
-						<div class="col-sm-10" style="padding-top: 2%;">
-							<a href="/sm/open/sales-and-marketing-templates?format=excel">Excel
-								templates</a>
-						</div>
-					</div>
-					<div class="col-sm-12 no-padding-div" style="padding-bottom: 2%;">
-						<div class="col-sm-2 no-padding-div" style="padding-right: 0px">
-							<a
-								href="/sm/open/sales-and-marketing-templates?format=power-point"><img
-								alt="" src="/images/powerpoint.png" class="img img-responsive"></a>
-						</div>
-						<div class="col-sm-10" style="padding-top: 2%;">
-							<a
-								href="/sm/open/sales-and-marketing-templates?format=power-point">Power
-								Point templates</a>
-						</div>
-					</div>
-
-					<div class="col-sm-12 no-padding-div" style="padding-bottom: 2%;">
-						<div class="col-sm-2 no-padding-div" style="padding-right: 0px">
-							<a href="/sm/open/sales-and-marketing-templates?format=pdf"><img
-								alt="" src="/images/pdf.png" class="img img-responsive"></a>
-						</div>
-						<div class="col-sm-10" style="padding-top: 2%;">
-							<a href="/sm/open/sales-and-marketing-templates?format=pdf">PDF
-								templates</a>
-						</div>
-					</div>
-				</div>
-
-				<div class="discussion-sidebar">
-					<h4>
 						<a href="/coaching">Coaching Categories</a>
 					</h4>
 					<ul>
@@ -140,13 +91,32 @@
 								Performance Coaching</a></li>
 					</ul>
 				</div>
-				<div style="margin-bottom: 4%">
-					<a href='/calendar'><img class="img img-responsive"
-						src="/images/calender.jpg" alt="Calendar" /></a>
+				<div class="discussion-sidebar">
+					<h4>
+						<a href="/calendar">Workshops by Month</a>
+					</h4>
+					<span class="workshop-by-month"><a href="/calendar#jan">JAN</a></span>
+					<span class="workshop-by-month"><a href="/calendar#feb">FEB</a></span>
+					<span class="workshop-by-month"><a href="/calendar#mar">MAR</a></span>
+					<span class="workshop-by-month"><a href="/calendar#apr">APR</a></span>
+					<span class="workshop-by-month"><a href="/calendar#may">MAY</a></span>
+					<span class="workshop-by-month"><a href="/calendar#jun">JUN</a></span>
+					<span class="workshop-by-month"><a href="/calendar#jul">JUL</a></span>
+					<span class="workshop-by-month"><a href="/calendar#aug">AUG</a></span>
+					<span class="workshop-by-month"><a href="/calendar#sep">SEP</a></span>
+					<span class="workshop-by-month"><a href="/calendar#oct">OCT</a></span>
+					<span class="workshop-by-month"><a href="/calendar#nov">NOV</a></span>
+					<span class="workshop-by-month"><a href="/calendar#dec">DEC</a></span>
 				</div>
-
-
+				<div style="position: relative;">
+					<iframe src="/images/tools_or_luck_internal/tools_or_luck_internal.html"
+						width="310" height="255" scrolling="no" frameBorder='0'></iframe>
+					<a href="/tools"
+						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
 			</div>
+
+
 		</div>
 
 	</div>
@@ -184,6 +154,13 @@
 		s.src = 'https://salesiq.zoho.com/profiliantngr/float.ls?embedname=speaktoaconsultant';
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".main-menu-item").removeClass("active");
+			$(".main-menu-item").removeClass("menu-active");
+			$("#about-menu").addClass("menu-active");
+		});
 	</script>
 </body>
 </html>

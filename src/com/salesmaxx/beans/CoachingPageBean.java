@@ -8,6 +8,10 @@ import com.salesmaxx.entities.Testimonial;
 
 public class CoachingPageBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 7266517453402081817L;
 	private List<SingleDiscussionPageBean> dis;
 	private List<Testimonial> t1;
 	private List<FeaturedCoach> fc;

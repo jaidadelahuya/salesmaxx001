@@ -58,6 +58,7 @@
 	border-bottom: solid #d43f3a 1px
 }
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>

@@ -24,6 +24,7 @@ public class ChequePayment extends HttpServlet {
 		String category = req.getParameter("category");
 		String currentPage = req.getParameter("current-page");
 		String numberOfEntries = req.getParameter("no-of-entries");
+	
 		
 		HttpSession session = req.getSession();
 		ChequePaymentBean ocpb = null;

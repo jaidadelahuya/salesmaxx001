@@ -55,10 +55,7 @@ public class WorkshopController {
 
 	}
 
-	public void edit(WorkShop workShop) throws RollbackFailureException,
-			Exception {
-		// create(workShop);
-	}
+	
 
 	public void destroy(Key key) throws RollbackFailureException, Exception {
 		EntityManager em = null;
@@ -120,6 +117,7 @@ public class WorkshopController {
 		txn = ds.beginTransaction();
 		ds.put(ents);
 		txn.commit();
+		Util.WORKSHOP_CACHE.clearAll();
 		
 		
 	}

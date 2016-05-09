@@ -26,6 +26,7 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -43,93 +44,8 @@
 		</div>
 
 	</div>
-	<div class="container-fluid" style="margin-top: 2%;">
-		<div id="footer-div" style="font-family: calibri; font-size: 9pt">
-			<div class="row"
-				style="padding: 1%; background-color: #d9edf7; border-color: #bce8f1">
-				<div class="col-md-2">
-					<img alt="SalesMaxx" src="/images/salesmaxx-logo.jpg"
-						class="img-responsive"
-						style="width: auto; height: 2em; margin: 0 auto; margin-bottom: 2%;">
-					<p style="text-align: left">SalesMaxx is the leading provider
-						of multi-platform Sales capability development workshops for sales
-						people at different levels of proficiency, across multiple sales
-						expertise domains, and for many industry verticals.</p>
-				</div>
-				<div class="col-md-2" style="text-align: center">
-					<strong style="font-size: 10pt; font-weight: bolder;">Other
-						Sites</strong>
-					<div class="col-md-12" style="padding: 2%; margin: 2%;">
-						<a href="http://www.profiliant.com/"><img alt="Profiliant"
-							src="/images/logoPNG.png" class="img img-responsive"></a>
-					</div>
-					<div class="col-md-12" style="padding: 2%; margin: 2%;">
-						<a href="http://pdr1.servername.com/~bqadmin/"><img
-							alt="Best Qualified" src="/images/bq.png"
-							class="img img-responsive"></a>
-					</div>
-					<div class="col-md-12" style="padding: 2%; margin: 2%;">
-						<a href="http://www.forsaleseducation.org/"><img alt="FSED"
-							src="/images/logo-horizontal.jpg" class="img img-responsive"></a>
-					</div>
-				</div>
-				<div class="col-md-3">
-					<div style="margin-bottom: 4%">
-						<a href='/calendar'><img class="img img-responsive"
-							src="/images/calender.jpg" alt="Calendar" /></a>
-					</div>
-				</div>
-				<div class="col-md-2" style="text-align: center">
-					<strong style="font-size: 10pt; font-weight: bold;">Contact
-						Us</strong>
-					<h5 style="text-align: left">
-						<span class="glyphicon glyphicon-phone-alt text-danger"></span>
-						+234-702-111-222
-					</h5>
-					<h5 style="text-align: left">
-						<span class="glyphicon glyphicon-envelope text-danger"></span><a
-							href="mailto:enquiry@salesmaxx.com"> enquiry@salesmaxx.com</a>
-					</h5>
-				</div>
-				<div class="col-md-3" style="text-align: center;">
-					<div style="margin-bottom: 4%">
-						<a><img class="img img-responsive"
-							src="/images/download-howtobuy.jpg"
-							alt="How to buy sales training" /></a>
-					</div>
-				</div>
-			</div>
-			<div class="row text-danger"
-				style="background-color: #5bc0de; border-color: #46b8da">
-				<div class="col-md-6"
-					style="text-align: left; font-weight: bold; padding: 1%; padding-bottom: 0px">
-					<p>
-						&#169; SalesMaxx<br />An imprint of Profiliant
-				</div>
-				<div class="col-md-offset-4 col-md-2">
-					<div class="col-xs-3 col-sm-3"
-						style="padding: 0; margin: 0; margin-top: 4%;">
-						<a href="https://www.facebook.com/salesmaxxng/"><img
-							class="img-responsive facebook" alt=""></a>
-					</div>
-					<div class="col-xs-3 col-sm-3"
-						style="padding: 0; margin: 0; margin-top: 4%;">
-						<a href="https://www.linkedin.com/nhome/"><img
-							class="img-responsive linkedin" alt=""></a>
-					</div>
-					<div class="col-xs-3 col-sm-3"
-						style="padding: 0; margin: 0; margin-top: 4%;">
-						<a href="https://plus.google.com/u/0/"><img
-							class="img-responsive googleplus" alt=""></a>
-					</div>
-					<div class="col-xs-3 col-sm-3"
-						style="padding: 0; margin: 0; margin-top: 4%;">
-						<a href="https://twitter.com/SalesMaxx"><img
-							class="img-responsive twitter" alt=""></a>
-					</div>
-				</div>
-			</div>
-		</div>
+	<div style="margin-top: 2%;">
+		<%@ include file="/WEB-INF/footer.html"%>
 	</div>
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
@@ -144,7 +60,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".main-menu-item").removeClass("active");
-			$("#contact-menu").addClass("active");
+			$(".main-menu-item").removeClass("menu-active");
+			$("#contact-menu").addClass("menu-active");
 		});
 	</script>
 	<script type='text/javascript'>

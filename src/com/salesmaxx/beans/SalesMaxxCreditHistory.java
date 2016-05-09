@@ -1,6 +1,9 @@
 package com.salesmaxx.beans;
 
 import java.io.Serializable;
+import java.util.List;
+
+import com.salesmaxx.entities.SalesmaxxCreditHistory;
 
 public class SalesMaxxCreditHistory implements Serializable {
 
@@ -9,7 +12,17 @@ public class SalesMaxxCreditHistory implements Serializable {
 	 */
 	private static final long serialVersionUID = -709158932382467034L;
 	
+	private List<SalesmaxxCreditHistory> his;
 	private double total, pending;
+
+	
+	public List<SalesmaxxCreditHistory> getHis() {
+		return his;
+	}
+
+	public void setHis(List<SalesmaxxCreditHistory> his) {
+		this.his = his;
+	}
 
 	public double getTotal() {
 		return total;
@@ -29,8 +42,8 @@ public class SalesMaxxCreditHistory implements Serializable {
 
 	@Override
 	public String toString() {
-		return "SalesMaxxCreditHistory [total=" + total + ", pending="
-				+ pending + "]";
+		return "SalesMaxxCreditHistory [his=" + his + ", total=" + total
+				+ ", pending=" + pending + "]";
 	}
 	
 	

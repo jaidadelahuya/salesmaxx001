@@ -3,13 +3,15 @@ package com.salesmaxx.entities;
 import java.io.Serializable;
 import java.util.Date;
 
+import org.datanucleus.ImplementationCreator;
+
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyRange;
 import com.salesmaxx.persistence.controllers.EMF;
 
 
 
-public class SalesmaxxCreditHistory implements Serializable {
+public class SalesmaxxCreditHistory implements Serializable, Comparable<SalesmaxxCreditHistory> {
 
 	/**
 	 * 
@@ -22,7 +24,7 @@ public class SalesmaxxCreditHistory implements Serializable {
 	private double amount;
 	private double creditRecieved;
 	
-	private Date ExpiryDate;//now used as date
+	private Date expiryDate;//now used as date
 
 	
 	public SalesmaxxCreditHistory() {
@@ -64,18 +66,23 @@ public class SalesmaxxCreditHistory implements Serializable {
 	}
 
 	public Date getExpiryDate() {
-		return ExpiryDate;
+		return expiryDate;
 	}
 
 	public void setExpiryDate(Date expiryDate) {
-		ExpiryDate = expiryDate;
+		this.expiryDate = expiryDate;
 	}
 
 	@Override
 	public String toString() {
 		return "SalesmaxxCreditHistory [id=" + id + ", title=" + title
 				+ ", amount=" + amount + ", creditRecieved=" + creditRecieved
-				+ ", ExpiryDate=" + ExpiryDate + "]";
+				+ ", ExpiryDate=" + expiryDate + "]";
+	}
+
+	@Override
+	public int compareTo(SalesmaxxCreditHistory o) {
+		return this.expiryDate.compareTo(o.getExpiryDate());
 	}
 	
 	

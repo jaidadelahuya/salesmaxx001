@@ -504,6 +504,41 @@ $(document).ready(function() {
 		});
 	});
 	
+	$("#save-bank-details-btn").click(function() {
+		var accName = $("#acc-name").val();
+		var accNumber = $("#acc-number").val();
+		var bankName = $("#bank-name").val();
+		$("#acc-details-form-div").waitMe({
+			effect : 'ios',
+			color : '#b1010c',
+			sizeW : '15',
+			sizeH : '15'
+		});
+		
+		$.ajax({
+			url: $("#acc-details-form").prop('action'),
+			data : $("#acc-details-form").serialize(),
+			type: "POST",
+			success: function(data) {
+				console.log(data);
+			},
+			error : function(xhr) {
+				var status = xhr.status;
+				if(status === 800) {
+					addError($("#save-bank-details-msg"),"You have to enter your account name.");
+				} else if(status === 801) {
+					addError($("#save-bank-details-msg"),"You have to enter your account number.");
+				} else if(status === 802) {
+					addError($("#save-bank-details-msg"),"You have to enter your bank name.");
+				}
+			},
+			complete: function() {
+				$("#acc-details-form-div").waitMe('hide');
+				
+			}
+		});
+	});
+	
 	$('[data-toggle="tooltip"]').tooltip();
 	
 	$("#add-mailing-list").click(function(e) {
@@ -651,23 +686,7 @@ $(document).ready(function() {
 		$(this).closest("td").find(".increment-qty-btn").show();
 	});
 	
-	$(".increment-qty-btn").click(function() {
-		var v = $(this).closest("td").prop("id");
-		var qty = $(this).closest("td").find(".increment-qty").prop('value');
-		$.ajax({
-			url : "/sm/open/clear-cart",
-			type : "POST",
-			data: {
-				"id":v,
-				"qty":qty
-			},
-			success : function() {
-				window.location.assign("/sm/open/add-to-cart");
-			},
-			error : function() {
-			}
-		});
-	});
+	
 	
 	$(".add-to-cart").click(function(e) {
 		e.preventDefault();

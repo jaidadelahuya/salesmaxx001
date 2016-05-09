@@ -1,6 +1,7 @@
 package com.salesmaxx.servlets.sm.closed;
 
 import java.io.IOException;
+import java.net.SocketTimeoutException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Date;
@@ -88,8 +89,14 @@ public class Interswitch extends HttpServlet {
 				.getInterswitchHash(txnRef)));
 		URLFetchService urlfetch = URLFetchServiceFactory.getURLFetchService();
 		HTTPResponse response = null;
-		// try {
+		try {
 		response = urlfetch.fetch(r);
+		} catch (SocketTimeoutException ste) {
+			RequestDispatcher rd = req
+					.getRequestDispatcher("/WEB-INF/sm/closed/interswitch-response.jsp");
+			rd.include(req, resp);
+			return;
+		}
 		String respString = new String(response.getContent());
 		InterswitchResponse ir = Util.parseInterswitchResponse(respString,
 				txnRef);
@@ -103,9 +110,8 @@ public class Interswitch extends HttpServlet {
 			Long id = user.getGeneralInfoId();
 			UserGeneralInfoController cont = new UserGeneralInfoController();
 			UserGeneralInfo ugi = cont.findUserGeneralInfo(user, id);
-			ugi = addWorkshopToEnrolledWokshops(c, ugi, user);
-
 			List<PurchaseHistory> phs = getPurchaseHistory(c,  ir);
+			ugi = Util.addWorkshopToEnrolledWokshops(ugi,phs);
 			UserGeneralInfoController c1 = new UserGeneralInfoController();
 			c1.edit(ugi, user.getRegId(), phs);
 			List<CartItem> ciss = new ArrayList<>();
@@ -225,34 +231,7 @@ public class Interswitch extends HttpServlet {
 
 	}
 
-	private UserGeneralInfo addWorkshopToEnrolledWokshops(Cart c,
-			UserGeneralInfo ugi, User user) {
 
-		Set<CartItem> cis = c.getCartItems();
-		Set<Key> workshopKeys = new HashSet<>();
-		for (CartItem ci : cis) {
-			WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(
-					Util.getWorkshopTemplateFromCache(),
-					String.valueOf(ci.getId()));
-			Key key = KeyFactory.createKey(wt.getWorkshopId(), "WorkShop",
-					ci.getId());
-			workshopKeys.add(key);
-		}
-
-		Set<Key> enrolled = null;
-		if (ugi != null) {
-			enrolled = ugi.getEnrolledWorkshops();
-			if (enrolled == null) {
-				enrolled = new HashSet<Key>();
-			}
-			enrolled.addAll(workshopKeys);
-
-		}
-
-		ugi.setEnrolledWorkshops(enrolled);
-		return ugi;
-
-	}
 	
 	private void updateWorkshops(List<CartItem> items, Key userKey) {
 		

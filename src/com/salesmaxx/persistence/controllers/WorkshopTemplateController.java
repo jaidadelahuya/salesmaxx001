@@ -112,6 +112,7 @@ public class WorkshopTemplateController {
 		txn = ds.beginTransaction();
 		ds.put(ents);
 		txn.commit();
+		Util.WORKSHOP_CACHE.clearAll();
 		
 	}
 }

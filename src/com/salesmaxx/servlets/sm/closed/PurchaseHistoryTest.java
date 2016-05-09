@@ -181,7 +181,7 @@ public class PurchaseHistoryTest extends HttpServlet {
 
 		Set<Key> enrolled = null;
 		if (ugi != null) {
-			enrolled = ugi.getEnrolledWorkshops();
+			//enrolled = ugi.getEnrolledWorkshops();
 			if (enrolled == null) {
 				enrolled = new HashSet<Key>();
 			}
@@ -189,7 +189,7 @@ public class PurchaseHistoryTest extends HttpServlet {
 
 		}
 
-		ugi.setEnrolledWorkshops(enrolled);
+		//ugi.setEnrolledWorkshops(enrolled);
 		return ugi;
 
 	}

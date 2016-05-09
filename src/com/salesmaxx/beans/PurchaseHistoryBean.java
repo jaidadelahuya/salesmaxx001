@@ -1,11 +1,12 @@
 package com.salesmaxx.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.google.appengine.api.datastore.Key;
 
-public class PurchaseHistoryBean implements Serializable {
+public class PurchaseHistoryBean implements Serializable, Comparable<PurchaseHistoryBean>{
 
 	/**
 	 * 
@@ -15,6 +16,16 @@ public class PurchaseHistoryBean implements Serializable {
 	private Key key;
 	private String formattedDate,txnRef, formattedTotalPrice, formattedUnitPrice;
 	List<ScheduleWorkshopDisplay> list;
+	private Date date;
+	
+	
+	
+	public Date getDate() {
+		return date;
+	}
+	public void setDate(Date date) {
+		this.date = date;
+	}
 	public Key getKey() {
 		return key;
 	}
@@ -58,6 +69,11 @@ public class PurchaseHistoryBean implements Serializable {
 				+ ", formattedTotalPrice=" + formattedTotalPrice
 				+ ", formattedUnitPrice=" + formattedUnitPrice + ", list="
 				+ list + "]";
+	}
+	@Override
+	public int compareTo(PurchaseHistoryBean o) {
+		
+		return this.date.compareTo(o.getDate());
 	}
 	
 	

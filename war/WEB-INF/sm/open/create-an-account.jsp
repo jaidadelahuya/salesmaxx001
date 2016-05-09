@@ -48,6 +48,7 @@
 	}
 }
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 <body class="login-body">
 	<%

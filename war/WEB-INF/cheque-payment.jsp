@@ -32,6 +32,7 @@
 	border: 1px #aaaaaa solid
 }
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 <body style="padding-top: 50px">
 	<%@ include file="/WEB-INF/nav"%>
@@ -142,25 +143,43 @@
 								<td><c:out value='${x.issueDate}' /></td>
 								<td><c:out value='${x.overdueDate}' /></td>
 								<td><c:out value='${x.customerName}' /></td>
-								<td style="text-align: right"><c:out value='${x.totalAmount}' /></td>
-								<td style="text-align: center"><a class="display-cheque-component"><span class="glyphicon glyphicon-circle-arrow-down"></span></a></td>
+								<td style="text-align: right"><c:out
+										value='${x.totalAmount}' /></td>
+								<td style="text-align: center"><a
+									class="display-cheque-component" style="cursor: pointer;"><span
+										class="glyphicon glyphicon-circle-arrow-down"></span></a></td>
 							</tr>
-							<tr id="${x.txnRef}">
+							<tr class="xxxx" style="display: none;">
 
-								<td colspan="6" style=""><c:forEach var="y" items="${x.pwbs}">
-										<div class="row" style="font-family: calibri; margin-top: 1%;">
+								<td colspan="6" style="padding-top: 0px; padding-bottom: 0px"><c:forEach var="y"
+										items="${x.pwbs}">
+										<div class="row"
+											style="font-family: calibri; padding-top: 1%; background-color: #eeeeee">
 											<div class="col-sm-6">
-												<p style="margin-bottom: 0px"><c:out value='${y.workshopName}' /> ( <c:out value='${y.workshopCode}' /> )</p>
-												<p style="margin-bottom: 0px"><strong>Workshop date:</strong><span style="margin-right: 3%;"> <c:out value='${y.date}' /> </span>  <strong>Location: </strong><c:out value='${y.location}' /></p>
+												<p style="margin-bottom: 0px">
+													<c:out value='${y.workshopName}' />
+													(
+													<c:out value='${y.workshopCode}' />
+													)
+												</p>
+												<p style="margin-bottom: 0px">
+													<strong>Workshop date:</strong><span
+														style="margin-right: 3%;"> <c:out value='${y.date}' />
+													</span> <strong>Location: </strong>
+													<c:out value='${y.location}' />
+												</p>
 											</div>
 											<div class="col-sm-2">
-												<strong>No of Delegates:</strong> <c:out value='${y.qty}' />
+												<strong>No of Delegates:</strong>
+												<c:out value='${y.qty}' />
 											</div>
 											<div class="col-sm-3">
-												<strong>Amount Paid:</strong> <c:out value='${y.totalPrice}' />
+												<strong>Amount Paid:</strong>
+												<c:out value='${y.totalPrice}' />
 											</div>
 											<div class="col-sm-1">
-												<a href="<c:url value='/sm-admin/clear-manual-payment?txnRef=${x.txnRef}&id=${y.scheduleID}&qty=${y.qty}' />">Clear</a>
+												<a
+													href="<c:url value='/sm-admin/clear-manual-payment?txnRef=${x.txnRef}&id=${y.scheduleID}&qty=${y.qty}' />">Clear</a>
 											</div>
 										</div>
 									</c:forEach></td>
@@ -182,6 +201,15 @@
 	<script type="text/javascript" src="/js/waitMe.js"></script>
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/validate.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".display-cheque-component").click(function(e) {
+				e.preventDefault();
+				parent = $(this).parent().parent();
+				parent.next(".xxxx").slideToggle();
+			});
+		});
+	</script>
 
 </body>
 </html>

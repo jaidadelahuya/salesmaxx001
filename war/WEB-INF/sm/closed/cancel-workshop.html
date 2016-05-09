@@ -1,0 +1,107 @@
+<div class="discussion-sidebar col-md-12"
+	style="background-color: white">
+	<h4 class="text-primary">
+		<c:choose>
+			<c:when test='${cancelWorkshop.reschedule}'>Reschedule</c:when>
+			<c:otherwise>Cancel</c:otherwise>
+		</c:choose>
+		Workshop <small class="text-muted pull-right"><c:out
+				value='${cancelWorkshop.formattedCanceledDate}' /></small>
+	</h4>
+
+	<div class="alert alert-warning">
+		<h5 class="text-muted" style="font-size: medium;">
+			You are about to
+			<c:choose>
+				<c:when test='${cancelWorkshop.reschedule}'>reschedule</c:when>
+				<c:otherwise>cancel</c:otherwise>
+			</c:choose>
+			a workshop.
+		</h5>
+		<div class="row">
+			<div class="col-sm-4">
+				<img alt="${cancelWorkshop.workshopName}"
+					src="${cancelWorkshop.imageUrl}" class="img img-responsive">
+			</div>
+			<div class="col-sm-8">
+				<p>
+					<strong>Workshop Name: </strong><span><c:out
+							value='${cancelWorkshop.workshopName}' /></span>
+				</p>
+				<p>
+					<strong>Workshop Date: </strong><span><c:out
+							value='${cancelWorkshop.workshopDate}' /></span>
+				</p>
+				<p>
+					<strong>Workshop Location: </strong><span><c:out
+							value='${cancelWorkshop.workshopLocation}' /></span>
+				</p>
+
+				<div style="font-family: calibri">
+					<a href="/sm/open/cancellation-policy" target="_blank"
+						class="pull-right">Cancelation Policy</a>
+				</div>
+			</div>
+		</div>
+
+
+	</div>
+	<form
+		<c:choose>
+			<c:when test='${cancelWorkshop.reschedule}'>action="<c:url
+					value='/sm/closed/continue-reschedule' />"</c:when>
+			<c:otherwise>action="<c:url
+					value='/sm/closed/continue-cancel' />"</c:otherwise>
+		</c:choose>
+		method="post">
+		<div style="margin-bottom: 2%;">
+
+			<label>Number of delegates : </label> <input type="number"
+				max="${cancelWorkshop.noOfDelegates}" min="1" id="no-of-delegates"
+				value="${cancelWorkshop.noOfDelegates}" name="seats">
+
+		</div>
+		<div>
+			<label>Tell us why you want to <c:choose>
+					<c:when test='${cancelWorkshop.reschedule}'>reschedule</c:when>
+					<c:otherwise>cancel</c:otherwise>
+				</c:choose> this workshop
+			</label> <br />
+			<textarea name="reason" rows="3" maxlength="160" style="width: 60%;"></textarea>
+		</div>
+
+		<div>
+			<a href="<c:url value='/sm/closed/profile/my-workshops' />"
+				class="btn btn-danger btn-sm"> Go Back</a> <input type="submit"
+				class="btn btn-danger btn-sm" value="Continue">
+		</div>
+	</form>
+</div>
+
+<div style="padding: 1%; padding-bottom: 2%; background-color: white;"
+	class="discussion-sidebar col-md-12">
+	<div class="col-md-12" style="text-align: center;">
+		<h3 class="text-primary" style="padding: 2%;">Check out our
+			Bootcamps</h3>
+		<div class="col-md-12" id="slick">
+			<c:forEach var='item' items='${bootcamps}'>
+				<div class="col-sm-3" style="font-family: calibri">
+					<a
+						href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+						style="width: 80%; height: auto; margin: 0 auto"
+						alt="${item.workshopName}" src="${item.imageUrl}"
+						class="img img-responsive"></a> <a
+						href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+							value='${item.workshopName}' /></a>
+					<p>
+						<input type="hidden" class="rating" data-readonly
+							data-fractions="5" value="rating" style='display: block' /> (
+						<c:out value="${fn:length(item.reviews)}" />
+						) reviews
+					</p>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+
+</div>

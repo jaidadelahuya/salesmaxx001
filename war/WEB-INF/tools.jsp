@@ -25,6 +25,7 @@
 	cursor: pointer;
 }
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -35,6 +36,12 @@
 				<%@ include file="/WEB-INF/tools-content.html"%>
 			</div>
 			<div class="col-md-3" style="padding: 0">
+				<div style="position: relative;">
+					<iframe src="/images/bootcamp_internal/bootcamp_int.html" width="310"
+						height="255" scrolling="no" frameBorder='0'></iframe>
+					<a href="/sm/open/get-workshop-category?categoryName=Bootcamp"
+						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
 				<div class="discussion-sidebar">
 					<h4>Coaching Categories</h4>
 					<ul>
@@ -84,7 +91,8 @@
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".main-menu-item").removeClass("active");
-			$("#tools-menu").addClass("active");
+			$(".main-menu-item").removeClass("menu-active");
+			$("#tools-menu").addClass("menu-active");
 		});
 
 		$(".template-div").click(function() {

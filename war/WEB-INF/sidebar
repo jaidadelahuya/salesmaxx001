@@ -63,7 +63,7 @@
 		</c:if>
 
 		<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
-			<li><a href='<c:url value="/sm-admin/add-workshop"/>'><img
+			<li><a href='<c:url value="/sm-admin/add-workshop?mod=new"/>'><img
 					src="/images/small-icons/add-workshop.png" /> Workshops</a></li>
 		</c:if>
 

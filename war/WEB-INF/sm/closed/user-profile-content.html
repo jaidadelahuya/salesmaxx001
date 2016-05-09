@@ -1,112 +1,102 @@
 <div class="discussion-sidebar" style="background-color: white;">
-	<div class="col-sm-8 no-padding-div">
-		<div class="col-sm-12 no-padding-div">
-			<h3 style="text-align: center">
-				<c:out value="${profileBean.firstName} ${profileBean.lastName}" />
-			</h3>
-		</div>
-		<table class="table table-striped table-responsive">
-			<tr>
-				<td>
-					<div class="col-sm-4" style="text-align: right">
-						<strong>Registration ID: </strong>
-					</div>
-					<div class="col-sm-8">
-						<c:out value="${profileBean.regId}" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="col-sm-4" style="text-align: right">
-						<strong>EMail Address:</strong>
-					</div>
-					<div class="col-sm-8">
-						<c:out value="${profileBean.email}" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="col-sm-4" style="text-align: right">
-						<strong>Phone:</strong>
-					</div>
-					<div class="col-sm-8">
-						<span style="margin-right: 2%;"><c:out
-								value="${profileBean.primaryPhone}" /></span>
-						<c:choose>
-							<c:when test='${profileBean.phoneVerified}'>
-								<strong class="text-success">(Verified)</strong>
-							</c:when>
-							<c:otherwise>
-								<c:if test="${not empty profileBean.primaryPhone}">
-									<strong class="text-danger">(Not Verified)</strong>
-								</c:if>
-							</c:otherwise>
-						</c:choose>
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="col-sm-4" style="text-align: right">
-						<strong>Address:</strong>
-					</div>
-					<div class="col-sm-8">
-						<c:if test="${not empty address}">
-							<c:out value="${address.street}" />, <c:out
-								value="${address.state}" />,  <c:out value="${address.country}" />
-						</c:if>
+	<div class="col-sm-12">
+		<h3>
+			<c:out value="${profileBean.firstName} ${profileBean.lastName}" />
+			<small class="text-muted"><i><c:out
+						value='${profileBean.headline}' /></i></small>
+		</h3>
 
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="col-sm-4" style="text-align: right">
-						<strong>Date of birth:</strong>
-					</div>
-					<div class="col-sm-8">
-						<c:out value="${profileBean.dob}" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="col-sm-4" style="text-align: right">
-						<strong>Website:</strong>
-					</div>
-					<div class="col-sm-8">
-						<c:out value="${profileBean.website}" />
-					</div>
-				</td>
-			</tr>
-			<tr>
-				<td>
-					<div class="col-sm-4" style="text-align: right">
-						<strong>SalesMaxx credits:</strong>
-					</div>
-					<div class="col-sm-8">
-						<c:out value="${profileBean.salesmaxxCredits}" />
-						SL
-					</div>
-				</td>
-			</tr>
-		</table>
+	</div>
+	<div class="col-sm-8" style="border: 1px #dddddd dotted; padding: 1%;">
+		<div class="col-sm-12" style="text-align: right">
+			<a href="<c:url value='/sm/closed/profile/edit-user-profile' />">EDIT</a>
+		</div>
+		<ul>
+			<li class="col-sm-12"><div class="col-sm-4 ">
+					<strong>Registration ID</strong>
+				</div>
+				<div class="col-sm-8 ">
+					<c:out value="${profileBean.regId}" />
+				</div></li>
+			<li class="col-sm-12"><div class="col-sm-4 ">
+					<strong>EMail Address</strong>
+				</div>
+				<div class="col-sm-8 ">
+					<c:out value="${profileBean.email}" />
+				</div></li>
+			<li class="col-sm-12">
+				<div class="col-sm-4 ">
+					<strong>Phone</strong>
+				</div>
+				<div class="col-sm-8 ">
+					<span style="margin-right: 2%;"><c:out
+							value="${profileBean.primaryPhone}" /></span>
+					<c:choose>
+						<c:when test='${profileBean.phoneVerified}'>
+							<strong class="text-success">(Verified)</strong>
+						</c:when>
+						<c:otherwise>
+							<c:if test="${not empty profileBean.primaryPhone}">
+								<strong class="text-danger">(Not Verified)</strong>
+							</c:if>
+						</c:otherwise>
+					</c:choose>
+				</div>
+			</li>
+			<li class="col-sm-12">
+				<div class="col-sm-4 ">
+					<strong>Date of birth</strong>
+				</div>
+				<div class="col-sm-8 ">
+					<c:out value="${profileBean.dob}" />
+				</div>
+			</li>
+
+			<li class="col-sm-12">
+				<div class="col-sm-4 ">
+					<strong>Website</strong>
+				</div>
+				<div class="col-sm-8 ">
+					<c:out value="${profileBean.website}" />
+				</div>
+			</li>
+
+			<li class="col-sm-12">
+				<div class="col-sm-4">
+					<strong>SalesMaxx credits</strong>
+				</div>
+				<div class="col-sm-8 ">
+					<c:out value="${profileBean.salesmaxxCredits}" />
+					SL
+				</div>
+			</li>
+		</ul>
 	</div>
 	<div class="col-sm-4">
 
 		<div class="col-sm-12">
-			<img alt="" src="${profileBean.picture}" class="img img-responsive"
-				style="width: 80%; margin: 0 auto; border: 1px #eee solid;">
+			<h4 class="text-success">Try Something New</h4>
+			<ul>
+				<li><a href="<c:url value='/sm/open/show-all-workshops' />">Browse
+						workshops</a></li>
+				<li><a href="<c:url value='/tools' />">Find sales and
+						marketing tools</a></li>
+				<li><a href="<c:url value='/coaching#categories' />">View
+						discussion categories</a></li>
+				<li><a
+					href="<c:url value='/sm/open/start-discussion?category=Interview%20Coaching' />">Start
+						an interview Discussion</a></li>
+				<li><a
+					href="<c:url value='/sm/open/start-discussion?category=Excecutive%20Coaching' />">Start
+						an executive Discussion</a></li>
+				<li><a
+					href="<c:url value='/sm/open/start-discussion?category=Sales%20Performance%20Coaching' />">Start
+						a sales performance Discussion</a></li>
+			</ul>
 		</div>
 
-		<div class="col-sm-12">
-			<h5 style="text-align: center" class="text-muted">
-				<i><c:out value='${profileBean.headline}' /></i>
-			</h5>
-		</div>
-		<div class="col-sm-12">
+		<!-- 
+		<div class="col-sm-12" style="">
 			<c:if test="${not empty profileBean.facebook}">
 				<div class="col-xs-3 col-sm-3" style="padding: 0; margin: 0;">
 					<a href="${profileBean.facebook}"><img
@@ -131,7 +121,7 @@
 						class="img-responsive twitter" alt="" style="margin: 0 auto;"></a>
 				</div>
 			</c:if>
-		</div>
+		</div> -->
 	</div>
 	<c:if test="${not empty profileBean.biography}">
 		<div class="col-sm-12">
@@ -142,4 +132,145 @@
 		</div>
 	</c:if>
 
+</div>
+<div class="col-sm-6">
+	<div class="discussion-sidebar" style="background-color: white;">
+		<h4 class="text-danger">Settings</h4>
+
+		<ul>
+			<li><a href="#" id="change-password-link">Change Your
+					Password</a></li>
+			<li id="change-your-password-div" class="row" style="display: none">
+				<div class="discussion-sidebar"
+					style="z-index: 4; margin-left: 2%; margin-right: 2%;">
+					<div id="user-change-password-div">
+						<form action="/sm/open/change-password"
+							id="user-change-password-form">
+							<div id="user-change-password-msg-div"></div>
+							<div class="form-group">
+								<input type="password" id="old-pass" name="old-pass"
+									class="form-control" placeholder="Your old Password">
+							</div>
+							<div class="form-group">
+								<input type="password" id="pass1" name="pass1"
+									class="form-control" placeholder="Your new password">
+							</div>
+							<div class="form-group">
+								<input type="password" id="pass2" name="pass2"
+									class="form-control" placeholder="Re-type new password">
+							</div>
+							<div class="form-group">
+								<input type="button" id="user-change-password-button"
+									class="form-control btn btn-success" value="Change Password">
+							</div>
+						</form>
+					</div>
+				</div>
+			</li>
+			<li><a href="/change-email" id="change-email-link">Change
+					Your Email</a></li>
+			<li id="change-your-email-div" class="row" style="display: none;">
+				<div class="discussion-sidebar"
+					" style="z-index: 4; margin-left: 2%; margin-right: 2%;">
+					<div id="change-email-div">
+						<form action="">
+							<div id="change-email-msg-div"></div>
+							<p style="font-size: 10pt">A verification code will be sent
+								to this email</p>
+							<div class="form-group">
+								<input type="email" id="email" name="email" class="form-control"
+									placeholder="Your EMail Address" value="${profileBean.email}">
+							</div>
+
+							<div class="form-group">
+								<input type="button" id="change-email-button"
+									class="form-control btn btn-success" value="Submit">
+							</div>
+						</form>
+					</div>
+				</div>
+			</li>
+			<li id="verify-phone-link"><a href="/verify-phone">Verify
+					Your Phone Number</a></li>
+			<li id="verify-your-phone-div" class="row" style="display: none;">
+				<div class="discussion-sidebar"
+					" style="z-index: 4; margin-left: 2%; margin-right: 2%;">
+					<div id="verify-phone-div">
+						<form action="<c:url value='/sm/open/send-sms'/>">
+							<div id="verify-phone-msg-div"></div>
+							<p style="font-size: 10pt">An SMS with a verification code
+								will be sent to your phone</p>
+							<div class="form-group">
+								<input type="phone" id="phone-verify" name="phone"
+									class="form-control" placeholder="Your Phone Number"
+									value="${profileBean.primaryPhone}">
+							</div>
+
+							<div class="form-group">
+								<input type="submit" id="verify-phone-button"
+									class="form-control btn btn-success" value="Send Code">
+							</div>
+						</form>
+					</div>
+				</div>
+			</li>
+			<li><a>Merge Your Accounts</a></li>
+			<li><a>Change Your Picture</a></li>
+		</ul>
+
+	</div>
+</div>
+<div class="col-sm-6">
+	<div class="discussion-sidebar" style="background-color: white;">
+		<h4 class="text-danger">Bank Account Details</h4>
+		<div>
+			<c:choose>
+				<c:when test='${not empty profileBean.bankAccountDetails}'>
+					<p style="font-family: calibri">This bank account will
+						be used whenever we need to make refunds in events such as
+						cancelation of a transaction.</p>
+					<p style="text-transform: capitalize; font-size: 13pt;">
+						<span id="id="bank-account-name"><c:out
+								value="${profileBean.bankAccountDetails.bankName}" /></span> <span
+							class="pull-right"> <a href="#" class="show-acc-details"><span
+							class="glyphicon glyphicon-pencil"></span> </a><span
+							class="glyphicon glyphicon-trash"></span>
+						</span>
+					</p>
+				</c:when>
+				<c:otherwise>
+					<p style="font-family: calibri">You need to add your bank
+						account details to enable us make refunds in events such as
+						cancelation of a transaction.</p>
+					<p>
+						<a class="show-acc-details" href="#">Add Bank Acccount Details</a>
+					</p>
+
+				</c:otherwise>
+			</c:choose>
+			<div id="acc-details-form-div" style="margin: 2%; display: none;">
+				<div id="save-bank-details-msg"></div>
+				<form id="acc-details-form" method="post"
+					action="<c:url value='/sm/closed/save-bank-details' />">
+					<div class="form-group">
+						<label>Account Name *</label> <input name="acc-name" value="${profileBean.bankAccountDetails.accName}"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Account Number *</label> <input name="acc-number" value="${profileBean.bankAccountDetails.accNumber}"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<label>Bank Name *</label> <input name="bank-name" value="${profileBean.bankAccountDetails.bankName}"
+							class="form-control">
+					</div>
+					<div class="form-group">
+						<input type="button" id="save-bank-details-btn"
+							class="btn btn-success form-control"
+							value="Save Bank Account Details">
+					</div>
+				</form>
+			</div>
+		</div>
+	</div>
 </div>

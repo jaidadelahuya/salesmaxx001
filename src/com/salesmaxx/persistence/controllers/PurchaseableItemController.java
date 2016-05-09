@@ -22,7 +22,7 @@ public class PurchaseableItemController {
 	public boolean create(List<Entity> ents) {
 		txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
 		ds.put(ents);
-		txn.commit();
+		txn.commitAsync();
 		return true;
 		
 	}

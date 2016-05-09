@@ -42,6 +42,12 @@ public class GetInvoice extends HttpServlet {
 
 				for (PurchaseHistoryBean phb : phbs) {
 					if (phb.getTxnRef().equals(txn)) {
+						try {
+							Thread.sleep(20*100);
+						} catch (InterruptedException e) {
+							// TODO Auto-generated catch block
+							e.printStackTrace();
+						}
 						ib = getInvoiceBean(phb);
 						break;
 					}

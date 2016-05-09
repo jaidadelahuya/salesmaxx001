@@ -33,7 +33,7 @@ p {
 
 
 </style>
-
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>

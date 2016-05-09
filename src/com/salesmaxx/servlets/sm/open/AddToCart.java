@@ -60,7 +60,6 @@ public class AddToCart extends HttpServlet {
 					.getRequestDispatcher("/WEB-INF/sm/open/cart.jsp");
 			rd.include(req, resp);
 		} else {
-			WorkShop w = Util.getWorkshopSchedule(id);
 			
 			Object o = null;
 			Object o1 = null;

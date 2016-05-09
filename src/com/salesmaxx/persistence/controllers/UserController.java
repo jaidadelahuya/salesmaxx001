@@ -80,7 +80,7 @@ public class UserController {
 			smch.setCreditRecieved(Util.NEW_ACCOUNT_CREDITS);
 			smch.setExpiryDate(new Date());
 			user.setCart(c.getCartKey());
-			UserGeneralInfo ugi = Util.getNewUserGeneralInfo();
+			UserGeneralInfo ugi = new UserGeneralInfo();
 			ugi.getSalesmaxxHistoryCredits().add(smch.getId());
 			edit(user, ugi, c, smch);
 			return user;
@@ -119,7 +119,7 @@ public class UserController {
 				smch.setCreditRecieved(Util.NEW_ACCOUNT_CREDITS);
 				smch.setExpiryDate(new Date());
 				user.setCart(c.getCartKey());
-				UserGeneralInfo ugi = Util.getNewUserGeneralInfo();
+				UserGeneralInfo ugi = new UserGeneralInfo();
 				ugi.getSalesmaxxHistoryCredits().add(smch.getId());
 				edit(user, ugi, c, smch);
 				return user;

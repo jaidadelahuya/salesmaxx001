@@ -1,0 +1,102 @@
+<div class="discussion-sidebar col-md-12"
+	style="background-color: white">
+	<h4 class="text-primary">Reschedule Summary</h4>
+
+	<h5 style="text-align: center" class="text-muted">
+		<strong>Current Workshop Schedule</strong>
+	</h5>
+	<div class="alert alert-warning col-sm-12">
+		<div class="col-sm-3">
+			<img class="img img-responsive" alt=""
+				src="${rescheduleSummaryBean.oldWorkshop.imageUrl}">
+		</div>
+		<div class="col-sm-9">
+			<p>
+				<c:out value='${rescheduleSummaryBean.oldWorkshop.name}' />
+				(
+				<c:out value='${rescheduleSummaryBean.oldWorkshop.workshopCode}' />
+				)
+			</p>
+			<p>
+				<strong>Date:</strong>
+				<c:out value='${rescheduleSummaryBean.oldWorkshop.startDate}' />
+			</p>
+			<p>
+				<strong>Location:</strong>
+				<c:out value='${rescheduleSummaryBean.oldWorkshop.location.state}' />
+				,
+				<c:out value='${rescheduleSummaryBean.oldWorkshop.location.country}' />
+			</p>
+		</div>
+	</div>
+	<h5 style="text-align: center" class="text-muted">
+		<strong>Rescheduling to this workshop</strong>
+	</h5>
+	<div class="alert alert-success col-sm-12">
+		<div class="col-sm-3">
+			<img class="img img-responsive" alt=""
+				src="${rescheduleSummaryBean.newWorkshop.imageUrl}">
+		</div>
+		<div class="col-sm-9">
+			<p>
+				<c:out value='${rescheduleSummaryBean.newWorkshop.name}' />
+				(
+				<c:out value='${rescheduleSummaryBean.newWorkshop.workshopCode}' />
+				)
+			</p>
+			<p>
+				<strong>Date:</strong>
+				<c:out value='${rescheduleSummaryBean.newWorkshop.startDate}' />
+			</p>
+			<p>
+				<strong>Location:</strong>
+				<c:out value='${rescheduleSummaryBean.newWorkshop.location.state}' />
+				,
+				<c:out value='${rescheduleSummaryBean.newWorkshop.location.country}' />
+			</p>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<h5 style="text-align: center" class="text-muted">
+			<strong>Payment Details</strong>
+		</h5>
+		<div style="border: 1px #666 dotted; padding: 2%;">
+			
+			<ul>
+				<li style="display: block; list-style: none;">No. of Delegates:
+					<c:out value='${rescheduleSummaryBean.noDelegates}' />
+				</li>
+				<li style="display: block; list-style: none;">Cost Per
+					Delegate: <c:out value='${rescheduleSummaryBean.costPerDelegates}' />
+					NGN
+				</li>
+				<li style="display: block; list-style: none; font-weight: bold;">Total:
+					<c:out
+						value='${rescheduleSummaryBean.costPerDelegates * rescheduleSummaryBean.noDelegates}' />
+					NGN
+				</li>
+			</ul>
+		</div>
+	</div>
+	<div class="col-sm-6">
+		<h5 style="text-align: center" class="text-muted">
+			<strong>Payment Options</strong>
+		</h5>
+		<div style="border: 1px #666 dotted; padding: 2%;">
+			<div class="radio">
+				<label><input name="webpay" id="webpay-radio" type="radio" >Web
+					Pay</label> <input id="webpay-btn" class="btn btn-success" type="submit" value="Pay Now" style="display: none;"><div><img alt="interswitch" src="/images/interswitch-logo.png"
+									style="width: 60%"></div>
+			</div>
+			<div class="radio">
+				<label><input name="webpay" type="radio" id="electronic-radio">Electronic/Bank
+					Transfer</label> <input id="electronic-btn" style="display: none;" class="btn btn-success" type="submit" value="Get Invoice">
+			</div>
+		</div>
+	</div>
+
+
+
+
+
+</div>

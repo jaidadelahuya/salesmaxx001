@@ -1,4 +1,24 @@
-
+<div style="position: relative;">
+					<iframe src="/images/zoho-campaign/index.html" width="310"
+						height="255" scrolling="no" frameBorder='0'></iframe>
+					<a href="/sm/open/sales-and-marketing-automation#campaigns"
+						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
+				<div class="discussion-sidebar">
+					<h4><a href="/calendar">Workshops by Month</a></h4>
+					<span class="workshop-by-month"><a href="/calendar#jan">JAN</a></span>
+					<span class="workshop-by-month"><a href="/calendar#feb">FEB</a></span>
+					<span class="workshop-by-month"><a href="/calendar#mar">MAR</a></span>
+					<span class="workshop-by-month"><a href="/calendar#apr">APR</a></span>
+					<span class="workshop-by-month"><a href="/calendar#may">MAY</a></span>
+					<span class="workshop-by-month"><a href="/calendar#jun">JUN</a></span>
+					<span class="workshop-by-month"><a href="/calendar#jul">JUL</a></span>
+					<span class="workshop-by-month"><a href="/calendar#aug">AUG</a></span>
+					<span class="workshop-by-month"><a href="/calendar#sep">SEP</a></span>
+					<span class="workshop-by-month"><a href="/calendar#oct">OCT</a></span>
+					<span class="workshop-by-month"><a href="/calendar#nov">NOV</a></span>
+					<span class="workshop-by-month"><a href="/calendar#dec">DEC</a></span>
+				</div>
 
 		<div class="discussion-sidebar">
 	<h4>Coaching Categories</h4>
@@ -59,26 +79,9 @@
 					</div>
 				</div>
 
-		<div class="discussion-sidebar">
-					<h4><a href="/calendar">Workshops by Month</a></h4>
-					<span class="workshop-by-month"><a href="/calendar#jan">JAN</a></span>
-					<span class="workshop-by-month"><a href="/calendar#feb">FEB</a></span>
-					<span class="workshop-by-month"><a href="/calendar#mar">MAR</a></span>
-					<span class="workshop-by-month"><a href="/calendar#apr">APR</a></span>
-					<span class="workshop-by-month"><a href="/calendar#may">MAY</a></span>
-					<span class="workshop-by-month"><a href="/calendar#jun">JUN</a></span>
-					<span class="workshop-by-month"><a href="/calendar#jul">JUL</a></span>
-					<span class="workshop-by-month"><a href="/calendar#aug">AUG</a></span>
-					<span class="workshop-by-month"><a href="/calendar#sep">SEP</a></span>
-					<span class="workshop-by-month"><a href="/calendar#oct">OCT</a></span>
-					<span class="workshop-by-month"><a href="/calendar#nov">NOV</a></span>
-					<span class="workshop-by-month"><a href="/calendar#dec">DEC</a></span>
-				</div>
+		
 	
-		<div style="margin-bottom: 4%">
-			<a><img class="img img-responsive" src="/images/download-howtobuy.jpg"
-				alt="How to buy sales training" /></a>
-		</div>
+		
 	
 		
 		

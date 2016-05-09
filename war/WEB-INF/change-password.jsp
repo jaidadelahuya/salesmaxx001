@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="/style/waitMe.css">
 <style type="text/css">
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 <body style="padding: 50px">
 	<%@ include file="/WEB-INF/nav"%>

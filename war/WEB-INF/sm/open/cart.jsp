@@ -29,17 +29,7 @@
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
 <style type="text/css">
-.increment-qty-btn {
-	color: #fff;
-	background-color: #5cb85c;
-	border-color: #4cae4c
-}
 
-.increment-qty-btn:hover {
-	color: #fff;
-	background-color: #449d44;
-	border-color: #398439
-}
 @media screen and (max-width: 1200px) {
 	#payment-mode-div {
 		width: 30%;
@@ -70,6 +60,7 @@
 	}
 }
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 
 <body>
@@ -137,6 +128,23 @@
 	<script type="text/javascript" src="/js/bootstrap-rating.min.js"></script>
 	<script type="text/javascript">
 		$(document).ready(function() {
+			$(".increment-qty-btn").click(function() {
+				var v = $(this).closest("td").prop("id");
+				var qty = $(this).closest("td").find(".increment-qty").prop('value');
+				$.ajax({
+					url : "/sm/open/clear-cart",
+					type : "POST",
+					data: {
+						"id":v,
+						"qty":qty
+					},
+					success : function() {
+						window.location.assign("/sm/open/add-to-cart");
+					},
+					error : function() {
+					}
+				});
+			});
 			$(".main-menu-item").removeClass("active");
 			//$("#workshop-menu").addClass("active");
 		});

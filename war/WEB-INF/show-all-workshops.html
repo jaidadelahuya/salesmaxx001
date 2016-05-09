@@ -1,0 +1,30 @@
+<c:choose>
+	<c:when test="${workshop.sort eq sort1}">
+		<c:forEach var='item' items="${workshop.workshopTemplate}">
+			<div class="row">
+				<div class="col-sm-12">
+					<div class="col-sm-12 temp-div" 
+						style="border: 1px green solid; cursor: pointer; margin-bottom: 1%; padding-top: 1%; padding-bottom: 1%;">
+						<c:out value='${item.name}' />
+						(
+						<c:out value='${item.code}' />
+						) <span class="glyphicon glyphicon-triangle-bottom pull-right"
+							id="enrolled-workshop-triangle"></span>
+					</div>
+					<div class="col-sm-12 temp-details" style="display: none">
+						<span style="margin-right: 2%;"><strong>Previous Workshops: </strong><c:out value='${item.schPassed}' /></span>
+						<span style="margin-right: 2%;"><strong>Future Workshops: </strong><c:out value='${item.schLeft}' /></span>
+					</div>
+					<c:forEach var='x' items="${item.schedules}">
+						<div class="col-sm-12 discussion-sidebar temp-details" style="display: none">
+							<div class="col-sm-4"><strong>Workshop Date: </strong><c:out value='${x.startDate}' /></div>
+							<div class="col-sm-4"><strong>City: </strong><c:out value='${x.location.state}' /></div>
+							<div class="col-sm-4"><strong>No of Seats Left: </strong><c:out value='${x.seatsLeft}' /></div>
+						</div>
+					</c:forEach>
+				</div>
+				<div class="col-sm-12"></div>
+			</div>
+		</c:forEach>
+	</c:when>
+</c:choose>

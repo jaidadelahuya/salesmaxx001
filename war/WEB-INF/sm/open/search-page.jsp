@@ -28,12 +28,13 @@
 <link rel="stylesheet" type="text/css" href="/style/datepicker.css"><script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
+	<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
 	<div class="container-fluid"
-		style="width: 80%; margin: 0 auto; height: 100%;">
+		style="width: 90%; margin: 0 auto; height: 100%;">
 		<div class="row">
 			<div class="panel panel-default col-md-3" style="padding: 0">
 				<%@ include file="/WEB-INF/sm/open/workshop-sidebar"%>

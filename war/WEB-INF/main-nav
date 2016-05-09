@@ -7,7 +7,7 @@
 				<span class="icon-bar"></span> <span class="icon-bar"></span> <span
 					class="icon-bar"></span>
 			</button>
-			<img src="/images/salesmaxx-logo1.jpg" alt="SalesMaxx"
+			<img src="/images/salesmaxx-logo.png" alt="SalesMaxx"
 				style="height: 4.5em; width: auto" />
 		</div>
 		<div class="collapse navbar-collapse" id="myNavbar">
@@ -90,14 +90,14 @@
 				<c:out value="${cart.noOfItems}" default="0" />
 				)</a>
 			</div>
-			<ul class="nav navbar-nav">
-				<li class="active main-menu-item"><a href="/index">Home</a></li>
-				<li class="main-menu-item" id='workshop-menu'><a
+			<ul class="nav navbar-nav" style="margin-left:3px">
+				<li class="main-menu-item" id="home-menu"><a href="/index" style="padding-bottom: 5px">Home</a></li>
+				<li class="main-menu-item" id='workshop-menu'><a style="padding-bottom: 5px"
 					href="/sm/open/show-all-workshops">Workshops</a></li>
-				<li class="main-menu-item" id="tools-menu"><a href="/tools">Tools</a></li>
-				<li class="main-menu-item" id="coaching-menu"><a href="/coaching">Coaching</a></li>
-				<li class="main-menu-item" id="about-menu"><a href="/about">About Us</a></li>
-				<li class="main-menu-item" id="contact-menu"><a href="/contact">Contact Us</a></li>
+				<li class="main-menu-item" id="tools-menu"><a style="padding-bottom: 5px" href="/tools">Tools</a></li>
+				<li class="main-menu-item" id="coaching-menu"><a style="padding-bottom: 5px" href="/coaching">Coaching</a></li>
+				<li class="main-menu-item" id="about-menu"><a style="padding-bottom: 5px" href="/about">About Us</a></li>
+				<li class="main-menu-item" id="contact-menu"><a style="padding-bottom: 5px" href="/contact">Contact Us</a></li>
 				<!--<li><a href="">Shop</a></li>-->
 
 			</ul>

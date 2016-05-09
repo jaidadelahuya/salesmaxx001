@@ -1,18 +1,23 @@
-<div class="well col-md-12" style="background-color: white">
-	<h1 class="text-primary">SalesMaxx Credits History</h1>
+<div class="discussion-sidebar col-md-12" style="background-color: white">
+	<h4 class="text-primary">SalesMaxx Credits History</h4>
 	<table class="table table-responsive table-striped">
 		<thead class="text-muted" style="font-family: calibri">
 			<th>Title</th>
-			<th>Amount Paid</th>
-			<th>Credits Recieved</th>
 			<th>Date</th>
+			<th style="text-align: right">Amount Paid (NGN)</th>
+			<th style="text-align: right">Credits Recieved (SL)</th>
+			
 		</thead>
 		<tbody style="color: black; font-family: calibri; font-size: 10pt">
 			<c:choose>
 				<c:when test="${fn:length(ugi.salesmaxxHistoryCredits) > 0}">
-					<c:forEach var='item' items='${ugi.salesmaxxHistoryCredits}'>
+					<c:forEach var='item' items='${smch.his}'>
 						<tr>
-
+							<td><c:out value='${item.title}' /></td>
+							<td><c:out value='${item.expiryDate}' /></td>
+							<td style="text-align: right"><c:out value='${item.amount}' /></td>
+							<td style="text-align: right"><c:out value='${item.creditRecieved}' /></td>
+							
 						</tr>
 					</c:forEach>
 				</c:when>
@@ -25,6 +30,8 @@
 
 		</tbody>
 	</table>
+	<p><strong>Available Balance: </strong> <c:out value="${smch.total}" />
+		0SL</p>
 	<p>
 		<strong>Pending :</strong>
 		<c:out value="${smch.pending}" />
@@ -45,7 +52,7 @@
 </div>
 
 <div style="padding: 1%; padding-bottom: 2%; background-color: white;"
-	class="well col-md-12">
+	class="discussion-sidebar col-md-12">
 	<div class="col-md-12" style="text-align: center;">
 		<h3 class="text-primary" style="padding: 2%;">Check out our
 			Bootcamps</h3>

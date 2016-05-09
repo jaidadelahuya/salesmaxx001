@@ -1,7 +1,9 @@
 package com.salesmaxx.entities;
 
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -30,11 +32,11 @@ public class UserGeneralInfo implements Serializable {
 	private Date dateOfBirth;
 	private Key notification;
 	private List<Key> purchaseHistory;
-	private Set<Key> completedWorkshops;
-	private Set<Key> enrolledWorkshops;
-	private Set<Long> wishListEvent;
-	private Set<Long> attendedEvents;
-	private Set<Long> enrolledEvents;
+	private List<Key> completedWorkshops;
+	private List<Key> enrolledWorkshops;
+	private List<Key> wishListEvent;
+	private List<Key> attendedEvents;
+	private List<Key> enrolledEvents;
 	private Key address;
 	private List<String> phones;
 	private String website;
@@ -47,8 +49,26 @@ public class UserGeneralInfo implements Serializable {
 	private Text biography;
 	private List<Key> pendingOrder;
 	private List<Key> completedManualOrder;
+	private Key bankDetails;
+	private List<Key> canceledWorkshops;
 	
-	
+
+	public Key getBankDetails() {
+		return bankDetails;
+	}
+
+	public void setBankDetails(Key bankDetails) {
+		this.bankDetails = bankDetails;
+	}
+
+	public List<Key> getCanceledWorkshops() {
+		return canceledWorkshops;
+	}
+
+	public void setCanceledWorkshops(List<Key> canceledWorkshops) {
+		this.canceledWorkshops = canceledWorkshops;
+	}
+
 	public List<Key> getPendingOrder() {
 		return pendingOrder;
 	}
@@ -113,44 +133,50 @@ public class UserGeneralInfo implements Serializable {
 		this.purchaseHistory = purchaseHistory;
 	}
 
-	public Set<Key> getCompletedWorkshops() {
+	
+
+	public List<Key> getCompletedWorkshops() {
 		return completedWorkshops;
 	}
 
-	public void setCompletedWorkshops(Set<Key> completedWorkshops) {
+	public void setCompletedWorkshops(List<Key> completedWorkshops) {
 		this.completedWorkshops = completedWorkshops;
 	}
 
-	public Set<Key> getEnrolledWorkshops() {
+	public List<Key> getEnrolledWorkshops() {
 		return enrolledWorkshops;
 	}
 
-	public void setEnrolledWorkshops(Set<Key> enrolledWorkshops) {
+	public void setEnrolledWorkshops(List<Key> enrolledWorkshops) {
 		this.enrolledWorkshops = enrolledWorkshops;
 	}
 
-	public Set<Long> getWishListEvent() {
+	public List<Key> getWishListEvent() {
 		return wishListEvent;
 	}
 
-	public void setWishListEvent(Set<Long> wishListEvent) {
+	public void setWishListEvent(List<Key> wishListEvent) {
 		this.wishListEvent = wishListEvent;
 	}
 
-	public Set<Long> getAttendedEvents() {
+	public List<Key> getAttendedEvents() {
 		return attendedEvents;
 	}
 
-	public void setAttendedEvents(Set<Long> attendedEvents) {
+	public void setAttendedEvents(List<Key> attendedEvents) {
 		this.attendedEvents = attendedEvents;
 	}
 
-	public Set<Long> getEnrolledEvents() {
+	public List<Key> getEnrolledEvents() {
 		return enrolledEvents;
 	}
 
-	public void setEnrolledEvents(Set<Long> enrolledEvents) {
+	public void setEnrolledEvents(List<Key> enrolledEvents) {
 		this.enrolledEvents = enrolledEvents;
+	}
+
+	public static long getSerialversionuid() {
+		return serialVersionUID;
 	}
 
 	public Key getAddress() {
@@ -221,16 +247,37 @@ public class UserGeneralInfo implements Serializable {
 	public String toString() {
 		return "UserGeneralInfo [id=" + id + ", dateOfBirth=" + dateOfBirth
 				+ ", notification=" + notification + ", purchaseHistory="
-				+ purchaseHistory
-				+ ", completedWorkshops=" + completedWorkshops
-				+ ", enrolledWorkshops=" + enrolledWorkshops
-				+ ", wishListEvent=" + wishListEvent + ", attendedEvents="
-				+ attendedEvents + ", enrolledEvents=" + enrolledEvents
-				+ ", address=" + address + ", phones=" + phones + ", website="
-				+ website + ", socialMedia=" + socialMedia + ", cart=" + cart
-				+ ", cancelWorkshop=" + cancelWorkshop + ", SIG=" + SIG
-				+ ", certificate=" + certificate + ", salesmaxxHistoryCredits="
-				+ salesmaxxHistoryCredits + "]";
+				+ purchaseHistory + ", completedWorkshops="
+				+ completedWorkshops + ", enrolledWorkshops="
+				+ enrolledWorkshops + ", wishListEvent=" + wishListEvent
+				+ ", attendedEvents=" + attendedEvents + ", enrolledEvents="
+				+ enrolledEvents + ", address=" + address + ", phones="
+				+ phones + ", website=" + website + ", socialMedia="
+				+ socialMedia + ", cart=" + cart + ", cancelWorkshop="
+				+ cancelWorkshop + ", SIG=" + SIG + ", certificate="
+				+ certificate + ", salesmaxxHistoryCredits="
+				+ salesmaxxHistoryCredits + ", biography=" + biography
+				+ ", pendingOrder=" + pendingOrder + ", completedManualOrder="
+				+ completedManualOrder + ", bankDetails=" + bankDetails
+				+ ", canceledWorkshops=" + canceledWorkshops + "]";
 	}
+
+	public UserGeneralInfo() {
+	
+		setCertificate(new HashSet<BlobKey>());
+		setCompletedManualOrder(new ArrayList<Key>());
+		setCompletedWorkshops(new ArrayList<Key>());
+		// ugi.setEnrolledEvents(new HashSet<Long>());
+		setEnrolledWorkshops(new ArrayList<Key>());
+		setPendingOrder(new ArrayList<Key>());
+		setPhones(new ArrayList<String>());
+		setPurchaseHistory(new ArrayList<Key>());
+		setSalesmaxxHistoryCredits(new ArrayList<Key>());
+		setEnrolledEvents(new ArrayList<Key>());
+		setAttendedEvents(new ArrayList<Key>());
+		setWishListEvent(new ArrayList<Key>());
+	}
+	
+	
 
 }

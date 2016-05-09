@@ -71,6 +71,10 @@ function validate() {
 }
 
 $(document).ready(function() {
+	
+	$(".temp-div").click(function() {
+		$(this).parent().find(".temp-details").slideToggle();
+	});
 	myForm.on('submit', function(e) {
 		console.log("jhdgdg");
 		var x = $(this).attr('action');

@@ -1,0 +1,70 @@
+<div class="discussion-sidebar col-md-12"
+	style="background-color: white">
+	<h4 class="text-primary">
+		Cancelation Details <small class="text-muted pull-right"><c:out
+				value='${cancelWorkshop.formattedCanceledDate}' /></small>
+	</h4>
+
+	<div class="alert alert-success">
+		<h5 class="text-muted" style="font-size: medium;">You have canceled this workshop.</h5>
+		<div class="row">
+			<div class="col-sm-4">
+				<img alt="${cancelWorkshop.workshopName}"
+					src="${cancelWorkshop.imageUrl}" class="img img-responsive">
+			</div>
+			<div class="col-sm-8">
+				<p>
+					<strong>Workshop Name: </strong><span><c:out
+							value='${cancelWorkshop.workshopName}' /></span>
+				</p>
+				<p>
+					<strong>Workshop Date: </strong><span><c:out
+							value='${cancelWorkshop.workshopDate}' /></span>
+				</p>
+				<p>
+					<strong>Workshop Location: </strong><span><c:out
+							value='${cancelWorkshop.workshopLocation}' /></span>
+				</p>
+				<p>
+					<strong>Number of Delegates: </strong><span><c:out
+							value='${cancelWorkshop.noOfDelegates}' /></span>
+				</p>
+
+				<div style="font-family: calibri">
+					<a href="<c:url value='/calendar'/>" class="btn btn-xs btn-danger">View Calendar</a>
+					<a href="<c:url value='/tools'/>" class="btn btn-xs btn-danger">Find Tools</a>
+					<a href="<c:url value='/sm/open/show-all-workshops'/>" class="btn btn-xs btn-danger">Browse Workshops</a>
+					<a href="<c:url value='/coaching#categories'/>" class="btn btn-xs btn-danger">Join a Discussion</a>
+				</div>
+			</div>
+		</div>
+	</div>
+</div>
+
+<div style="padding: 1%; padding-bottom: 2%; background-color: white;"
+	class="discussion-sidebar col-md-12">
+	<div class="col-md-12" style="text-align: center;">
+		<h3 class="text-primary" style="padding: 2%;">Check out our
+			Bootcamps</h3>
+		<div class="col-md-12" id="slick">
+			<c:forEach var='item' items='${bootcamps}'>
+				<div class="col-sm-3" style="font-family: calibri">
+					<a
+						href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><img
+						style="width: 80%; height: auto; margin: 0 auto"
+						alt="${item.workshopName}" src="${item.imageUrl}"
+						class="img img-responsive"></a> <a
+						href="<c:url value='/sm/open/workshop-information?id=${item.workshopId.name}'/>"><c:out
+							value='${item.workshopName}' /></a>
+					<p>
+						<input type="hidden" class="rating" data-readonly
+							data-fractions="5" value="rating" style='display: block' /> (
+						<c:out value="${fn:length(item.reviews)}" />
+						) reviews
+					</p>
+				</div>
+			</c:forEach>
+		</div>
+	</div>
+
+</div>

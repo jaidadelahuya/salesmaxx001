@@ -105,30 +105,31 @@ ul {
 
 .facebook {
 	background-image: url("/images/social-icons.png");
-	width: 33px;
-	height: 33px;
-	background-position: 36px -46px;
+	width: 30px;
+	height: 30px;
+	background-position: 33px -46px;
+	border: none !important;
 }
 
 .linkedin {
 	background-image: url("/images/social-icons.png");
-	width: 33px;
-	height: 33px;
-	background-position: 0px -46px;
+	width: 30px;
+	height: 30px;
+	background-position: -3px -46px;
 }
 
 .googleplus {
 	background-image: url("/images/social-icons.png");
-	width: 33px;
-	height: 33px;
-	background-position: 77px -4px;
+	width: 30px;
+	height: 30px;
+	background-position: 74px -4px;
 }
 
 .twitter {
 	background-image: url("/images/social-icons.png");
-	width: 33px;
-	height: 33px;
-	background-position: 117px -4px;
+	width: 30px;
+	height: 30px;
+	background-position: 114px -4px;
 	border: none;
 }
 

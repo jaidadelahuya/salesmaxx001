@@ -19,9 +19,11 @@ import com.salesmaxx.beans.MyWorkshopsBean;
 import com.salesmaxx.entities.Cart;
 import com.salesmaxx.entities.ManualTransaction;
 import com.salesmaxx.entities.ProductPaidFor;
+import com.salesmaxx.entities.PurchaseableItem;
 import com.salesmaxx.entities.User;
 import com.salesmaxx.entities.WorkShop;
 import com.salesmaxx.persistence.controllers.CartController;
+import com.salesmaxx.persistence.controllers.PurchaseableItemController;
 import com.salesmaxx.persistence.controllers.UserController;
 import com.salesmaxx.util.InterswitchResponse;
 import com.salesmaxx.util.Util;
@@ -38,7 +40,8 @@ public class ClosedUtil {
 		// TODO Auto-generated method stub
 		Date d = new Date();
 		Long l = d.getTime();
-		String code = u.getFirstName().substring(0, 2)+l+u.getLastName().substring(0, 2);
+		String code = u.getFirstName().substring(0, 2) + l
+				+ u.getLastName().substring(0, 2);
 		return code.toUpperCase();
 	}
 
@@ -69,33 +72,45 @@ public class ClosedUtil {
 				.getAttribute("interswitch");
 		User u = (User) session.getAttribute("user");
 		String pre = "<html><link rel='stylesheet' href='https://salesmaxx001.appspot.com/style/bootstrap.min.css'>"
-					+"<head><style type='text/css'>.col-centered {float: none;margin: 0 auto;overflow: auto;}</style></head>"
-					+"<body><div class='container'><div class='row'><div class='col-sm-12' style='text-align: center;'>"
-					+"<img alt='SalesMaxx' class='img img-responsive'src='https://salesmaxx001.appspot.com/images/salesmaxx-logo.jpg' />"
-					+"</div></div><div class='row'><div class='col-sm-12'><strong>Hello "+u.getFirstName()+",</strong></div></div>"
-					+"<div class='row'><div class='col-sm-12' style='text-align: center;'>"
-					+"<h3 class='text-info'>Your Have Completed Your Transaction Successfully</h3>"
-					+"<h4 style='color: color: #777'>Thank you for choosing <strong style='color: #a94442'>SalesMaxx</strong></h4></div></div>"
-					+"<div class='row'><div class='col-xs-12 col-sm-10 col-md-8 alert alert-info col-centered'><div class='col-sm-12'>"
-					+"<strong>TRANSACTION REFERENCE: </strong> <strong style='color: #a94442'>"+ir.getTxnRef() + "</strong></div>";
-		
+				+ "<head><style type='text/css'>.col-centered {float: none;margin: 0 auto;overflow: auto;}</style></head>"
+				+ "<body><div class='container'><div class='row'><div class='col-sm-12' style='text-align: center;'>"
+				+ "<img alt='SalesMaxx' class='img img-responsive'src='https://salesmaxx001.appspot.com/images/salesmaxx-logo.jpg' />"
+				+ "</div></div><div class='row'><div class='col-sm-12'><strong>Hello "
+				+ u.getFirstName()
+				+ ",</strong></div></div>"
+				+ "<div class='row'><div class='col-sm-12' style='text-align: center;'>"
+				+ "<h3 class='text-info'>Your Have Completed Your Transaction Successfully</h3>"
+				+ "<h4 style='color: color: #777'>Thank you for choosing <strong style='color: #a94442'>SalesMaxx</strong></h4></div></div>"
+				+ "<div class='row'><div class='col-xs-12 col-sm-10 col-md-8 alert alert-info col-centered'><div class='col-sm-12'>"
+				+ "<strong>TRANSACTION REFERENCE: </strong> <strong style='color: #a94442'>"
+				+ ir.getTxnRef() + "</strong></div>";
+
 		String end = "</div></div><div class='row'><div class='col-sm-12'>"
-					+"<p>Follow us on <a>Twitter</a></p>"
-					+"<p>Become a fan on <a>FaceBook</a></p>"
-					+"<p>Connect with us on <a>LinkedIn</a></p>"
-					+"<p>Hang out with us on <a>Google Plus</a></p></div>"
-					+"</div><div class='row'><div class='col-sm-12'>"
-					+"<p>Regards,</p><p>SalesMaxx Team.</p></div>"
-					+"</div></div></body></html>";
+				+ "<p>Follow us on <a>Twitter</a></p>"
+				+ "<p>Become a fan on <a>FaceBook</a></p>"
+				+ "<p>Connect with us on <a>LinkedIn</a></p>"
+				+ "<p>Hang out with us on <a>Google Plus</a></p></div>"
+				+ "</div><div class='row'><div class='col-sm-12'>"
+				+ "<p>Regards,</p><p>SalesMaxx Team.</p></div>"
+				+ "</div></div></body></html>";
 
 		for (CartItem s : ci) {
-			pre += "<div class='col-sm-12'><strong>WORKSHOP NAME: </strong>"+s.getName()+"</div>"
-					+ "<div class='col-sm-6'><strong>Workshop Code: </strong>"+s.getWorkshopCode()+"</div>"
-					+ "<div class='col-sm-6'><strong>Workshop Date: </strong>"+s.getDate()+"</div>"
+			pre += "<div class='col-sm-12'><strong>WORKSHOP NAME: </strong>"
+					+ s.getName()
+					+ "</div>"
+					+ "<div class='col-sm-6'><strong>Workshop Code: </strong>"
+					+ s.getWorkshopCode()
+					+ "</div>"
+					+ "<div class='col-sm-6'><strong>Workshop Date: </strong>"
+					+ s.getDate()
+					+ "</div>"
 					+ "<div class='col-sm-6'><strong>Time: </strong>9am - 5pm</div>"
-					+ "<div class='col-sm-6'><strong>Location: </strong>"+s.getLocation()+"</div>"
+					+ "<div class='col-sm-6'><strong>Location: </strong>"
+					+ s.getLocation()
+					+ "</div>"
 					+ "<div class='col-sm-6'><strong>Credit Hours: </strong>8hrs</div>"
-					+ "<div class='col-sm-6'><strong>No. of Delegates: </strong>"+s.getQty()+"</div>";
+					+ "<div class='col-sm-6'><strong>No. of Delegates: </strong>"
+					+ s.getQty() + "</div>";
 
 		}
 		pre += end;
@@ -116,18 +131,28 @@ public class ClosedUtil {
 	}
 
 	public static MyWorkshopsBean createWorkshopBean(
-			Set<Key> enrolledWorkshops, Set<Key> completedWorkshops, Key cart) {
+			List<Key> enrolledWorkshops,
+			List<Key> completedWorkshops, Key cart) {
 		MyWorkshopsBean mwb = new MyWorkshopsBean();
+		PurchaseableItemController pc = new PurchaseableItemController();
 		if (enrolledWorkshops != null) {
+			List<PurchaseableItem> ew = pc.findAll(enrolledWorkshops);
 			List<Key> keys = new ArrayList<>();
-			keys.addAll(enrolledWorkshops);
-			mwb.setEnrolled(Util.toScheduleWorkshopDisplay(Util.getScheduledWorkshops(keys)));
+			for (PurchaseableItem pi : ew) {
+				keys.add(pi.getItemKey());
+			}
+			mwb.setEnrolled(Util.toScheduleWorkshopDisplay(Util
+					.getScheduledWorkshops(keys),ew));
 		}
 
 		if (completedWorkshops != null) {
+			List<PurchaseableItem> ew = pc.findAll(enrolledWorkshops);
 			List<Key> keys = new ArrayList<>();
-			keys.addAll(completedWorkshops);
-			mwb.setCompleted(Util.toScheduleWorkshopDisplay(Util.getScheduledWorkshops(keys)));
+			for (PurchaseableItem pi : ew) {
+				keys.add(pi.getItemKey());
+			}
+			mwb.setCompleted(Util.toScheduleWorkshopDisplay(Util
+					.getScheduledWorkshops(keys)));
 		}
 
 		if (cart != null) {
@@ -151,39 +176,38 @@ public class ClosedUtil {
 		SimpleDateFormat sm = new SimpleDateFormat("E, dd MMM yyyy");
 		cq.setDate(sm.format(mt.getIssueDate()));
 		Calendar date = Calendar.getInstance();
-	    date.setTime(mt.getIssueDate());
-	    date.add(Calendar.DAY_OF_MONTH,5);
-	    if(date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
-	    	date.add(Calendar.DAY_OF_MONTH, 2);
-	    } else if(date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
-	    	date.add(Calendar.DAY_OF_MONTH, 1);
-	    }
+		date.setTime(mt.getIssueDate());
+		date.add(Calendar.DAY_OF_MONTH, 5);
+		if (date.get(Calendar.DAY_OF_WEEK) == Calendar.SATURDAY) {
+			date.add(Calendar.DAY_OF_MONTH, 2);
+		} else if (date.get(Calendar.DAY_OF_WEEK) == Calendar.SUNDAY) {
+			date.add(Calendar.DAY_OF_MONTH, 1);
+		}
 		cq.setDueDate(sm.format(date.getTime()));
 		User u = new UserController().findUser(mt.getOwnerKey());
-		if(u != null) {
-			cq.setName(u.getFirstName()+" "+u.getLastName());
-			if(u.getUsername() != null) {
+		if (u != null) {
+			cq.setName(u.getFirstName() + " " + u.getLastName());
+			if (u.getUsername() != null) {
 				cq.setEmail(u.getUsername());
 			} else {
-				if(u.getEmails() != null && u.getEmails().isEmpty()) {
-					for(String s : u.getEmails()) {
+				if (u.getEmails() != null && u.getEmails().isEmpty()) {
+					for (String s : u.getEmails()) {
 						cq.setEmail(s);
 						break;
 					}
 				}
 			}
-			
+
 		}
-		
+
 		cq.setItems(Util.getCartItems(mt.getItems()));
 		double subTotal = 0;
-		for(CartItem ci : cq.getItems()) {
-			subTotal += (ci.getPrice()*ci.getQty());
+		for (CartItem ci : cq.getItems()) {
+			subTotal += (ci.getPrice() * ci.getQty());
 		}
 		cq.setSubTotal(Util.formatPrice(subTotal));
 		cq.setTxnRef(mt.getTxnRef());
-		
-		
+
 		return cq;
 	}
 }

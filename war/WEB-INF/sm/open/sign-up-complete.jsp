@@ -55,6 +55,7 @@
 	}
 }
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 <body class="login-body">
 
@@ -87,11 +88,12 @@
 				</div>
 				<div class="row">
 					<div class="col-sm-12">
-						<p>To get free SMS alerts when you blah blah blah blah blah
-							blah blah blah blah blah blah blah...</p>
-						<p>We will verify that you own this number by sending you an
-							SMS containing a code you will be asked to enter in the next
-							prompt</p>
+						<p>In order to get free SMS alerts on upcoming events &
+							workshops, payment notifications & alerts, receive general
+							information on all account related issues and protect the
+							security of your account, please add your phone number</p>
+						<p>We will send you a text message with a verification code
+							that you will need to enter in the next screen.</p>
 						<form action="<c:url value='/sm/open/send-sms'/>">
 							<div class="form-group">
 								<input type="text" placeholder="Enter your phone number"

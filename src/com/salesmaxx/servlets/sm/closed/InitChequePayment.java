@@ -135,7 +135,7 @@ public class InitChequePayment extends HttpServlet {
 					+ "<p>An invoice has been created for a transaction with ref "
 					+ mt.getTxnRef()
 					+ ".</p>"
-					+ "<p><a href='https://salesmaxx001.appspot.com/sm/open/get-cheque-invoice?admin=admin&txnRef="
+					+ "<p><a href='http://www.salesmaxx.com/sm/open/get-cheque-invoice?admin=admin&txnRef="
 					+ mt.getTxnRef() + "'>Click here</a> to view</p>"+"<p>SalesMaxx<p>";
 			String title = "New Invoice created: Transaction Ref "+mt.getTxnRef();
 			String to = "stephen_ubogu@outlook.com";

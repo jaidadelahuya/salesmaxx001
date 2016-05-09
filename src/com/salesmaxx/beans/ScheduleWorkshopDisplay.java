@@ -1,6 +1,7 @@
 package com.salesmaxx.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 
 import com.salesmaxx.entities.Address;
 
@@ -13,11 +14,18 @@ public class ScheduleWorkshopDisplay implements Serializable {
 	private String id,startDate,catalogueLink,name,format,type,flyer,venue,imageUrl,workshopCode,description,formattedPrice,formattedTotalPrice;
 	private Address location;
 	private long qty;
+	private Date sDate;
 	private long seatsLeft;
 	
 	
 	
 	
+	public Date getsDate() {
+		return sDate;
+	}
+	public void setsDate(Date sDate) {
+		this.sDate = sDate;
+	}
 	public String getCatalogueLink() {
 		return catalogueLink;
 	}

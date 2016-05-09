@@ -21,6 +21,7 @@
 	href="/style/bootstrap-rating.css">
 <link rel="stylesheet" type="text/css"
 	href="/style/bootstrap-datepicker3.standalone.min.css">
+	<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -101,7 +102,7 @@
 								</c:forEach>
 								<tr>
 									<td colspan="2"><i class="text-primary">Service
-											provided by Profiliant Development Resourses</i></td>
+											provided by Profiliant Development Resources</i></td>
 									<th style="text-align: right;">Sub Total</th>
 									<th style="text-align: right;"><c:out
 											value='${cart.formattedsubTotal}.00' /></th>

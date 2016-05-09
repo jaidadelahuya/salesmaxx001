@@ -43,10 +43,13 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.KeyRange;
 import com.google.appengine.api.datastore.Text;
+import com.google.appengine.api.datastore.Transaction;
+import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
@@ -64,6 +67,7 @@ import com.salesmaxx.beans.CoachingPost;
 import com.salesmaxx.beans.CommentBean;
 import com.salesmaxx.beans.DiscussionPageBean;
 import com.salesmaxx.beans.FacebookAccessTokenResponse;
+import com.salesmaxx.beans.FeaturedCoach;
 import com.salesmaxx.beans.GoogleDiscoveryDocument;
 import com.salesmaxx.beans.LinkedInAccessTokenResponse;
 import com.salesmaxx.beans.ManualPaymentBean;
@@ -79,9 +83,12 @@ import com.salesmaxx.beans.SocialUser;
 import com.salesmaxx.beans.SocialUser.SocialNetwork;
 import com.salesmaxx.beans.WorkshopDisplay;
 import com.salesmaxx.beans.WorkshopSideBarItem;
+import com.salesmaxx.beans.WorkshopTemplateBean;
 import com.salesmaxx.entities.Address;
 import com.salesmaxx.entities.Alumnus;
 import com.salesmaxx.entities.Article;
+import com.salesmaxx.entities.BankAccountDetails;
+import com.salesmaxx.entities.CanceledWorkshop;
 import com.salesmaxx.entities.Cart;
 import com.salesmaxx.entities.Category;
 import com.salesmaxx.entities.Comment;
@@ -112,18 +119,21 @@ import com.salesmaxx.entities.Video;
 import com.salesmaxx.entities.WhitePaper;
 import com.salesmaxx.entities.WorkShop;
 import com.salesmaxx.entities.WorkshopTemplate;
+import com.salesmaxx.entities.exception.RollbackFailureException;
 import com.salesmaxx.persistence.controllers.AddressController;
 import com.salesmaxx.persistence.controllers.CartController;
 import com.salesmaxx.persistence.controllers.CategoryController;
 import com.salesmaxx.persistence.controllers.CommentController;
 import com.salesmaxx.persistence.controllers.DiscussionController;
 import com.salesmaxx.persistence.controllers.EMF;
+import com.salesmaxx.persistence.controllers.FacilitatorController;
 import com.salesmaxx.persistence.controllers.IndustryController;
 import com.salesmaxx.persistence.controllers.JobRoleController;
 import com.salesmaxx.persistence.controllers.ManualTransactionController;
 import com.salesmaxx.persistence.controllers.PurchaseHistoryController;
 import com.salesmaxx.persistence.controllers.PurchaseableItemController;
 import com.salesmaxx.persistence.controllers.ReviewController;
+import com.salesmaxx.persistence.controllers.SalesmaxxCreditHistoryController;
 import com.salesmaxx.persistence.controllers.TestimonialController;
 import com.salesmaxx.persistence.controllers.UserController;
 import com.salesmaxx.persistence.controllers.UserGeneralInfoController;
@@ -147,6 +157,8 @@ public class Util {
 			.getMemcacheService("discussions");
 	public static final MemcacheService TestimonialCache = MemcacheServiceFactory
 			.getMemcacheService("latest-testimonials");
+	public static final MemcacheService facilitatorCache = MemcacheServiceFactory
+			.getMemcacheService("facilitators");
 	public static final double NEW_ACCOUNT_CREDITS = 150;
 
 	public static final String TWILIO_TOKEN = "9c53ae718c376fd272ef424d1dc3032b";
@@ -326,6 +338,10 @@ public class Util {
 				userGeneralInfo.getPendingOrder());
 		ent.setUnindexedProperty("completedManualOrder",
 				userGeneralInfo.getCompletedManualOrder());
+		ent.setUnindexedProperty("canceledWorkshops",
+				userGeneralInfo.getCanceledWorkshops());
+		ent.setUnindexedProperty("bankDetails",
+				userGeneralInfo.getBankDetails());
 		return ent;
 	}
 
@@ -541,7 +557,7 @@ public class Util {
 	}
 
 	public static Entity facilitatorToEntity(Facilitator facilitator) {
-		Entity ent = new Entity(Facilitator.class.getSimpleName());
+		Entity ent = new Entity(facilitator.getId());
 		ent.setIndexedProperty("firstName", facilitator.getFirstName());
 		ent.setIndexedProperty("lastName", facilitator.getLastName());
 		ent.setUnindexedProperty("education", facilitator.getEducation());
@@ -844,7 +860,7 @@ public class Util {
 		fac.setCertification((List<String>) result.getProperty("certification"));
 		fac.setEducation((List<String>) result.getProperty("education"));
 		fac.setFirstName((String) result.getProperty("firstName"));
-		fac.setId(result.getKey().getId());
+		fac.setId(result.getKey());
 		fac.setLastName((String) result.getProperty("lastName"));
 		fac.setPicture((BlobKey) result.getProperty("picture"));
 		fac.setProfile((Text) result.getProperty("profile"));
@@ -1200,6 +1216,7 @@ public class Util {
 		Address a = c.findAddress(w.getLocation());
 		s.setId(String.valueOf(w.getId().getId()));
 		s.setLocation(a);
+		s.setsDate(w.getStartDate());
 		s.setSeatsLeft(25 - w.getNoEnrolled());
 		WorkshopTemplate wst = getWorkshopTemplateFromScheduleId(
 				getWorkshopTemplateFromCache(),
@@ -1386,6 +1403,23 @@ public class Util {
 			users = (List<User>) o;
 		}
 		return users;
+	}
+	
+	public static List<Facilitator> getFacilitatorsFromCache(List<Key> kys) {
+		List<Facilitator> facs = new ArrayList<>();
+		for(Key k : kys) {
+			Object o =  Util.facilitatorCache.get(k);
+			if (o == null) {
+				FacilitatorController cont = new FacilitatorController();
+				Facilitator f = cont.findFacilitator(k);
+				WORKSHOP_CACHE.put(k, f);
+				facs.add(f);
+			} else {
+				Facilitator f = (Facilitator) o;
+				facs.add(f);
+			}
+		}
+		return facs;
 	}
 
 	public static String toSHA256(String str) {
@@ -1827,17 +1861,18 @@ public class Util {
 	public static UserGeneralInfo EntityToUserGeneralInfo(Entity e) {
 		UserGeneralInfo ugi = new UserGeneralInfo();
 		ugi.setAddress((Key) e.getProperty("address"));
-		ugi.setAttendedEvents((Set<Long>) e.getProperty("attendedEvents"));
+		ugi.setAttendedEvents((List<Key>) e.getProperty("attendedEvents"));
 		if (e.getProperty("cancelWorkshop") == null) {
 			ugi.setCancelWorkshop(false);
 		} else {
 			ugi.setCancelWorkshop((boolean) e.getProperty("cancelWorkshop"));
 		}
-
+		ugi.setBankDetails((Key) e.getProperty("bankDetails"));
+		ugi.setCanceledWorkshops((List<Key>) e.getProperty("canceledWorkshops"));
 		ugi.setCertificate((Set<BlobKey>) e.getProperty("certificate"));
-		ugi.setCompletedWorkshops((Set<Key>) e
+		ugi.setCompletedWorkshops((List<Key>) e
 				.getProperty("completedWorkshops"));
-		Set<Key> s = new HashSet<>();
+		List<Key> s = new ArrayList<Key>();
 		Object o = e.getProperty("enrolledWorkshops");
 		if (o != null) {
 			List<Key> l = (List<Key>) o;
@@ -1848,7 +1883,7 @@ public class Util {
 				.getProperty("completedManualOrder"));
 		ugi.setPendingOrder((List<Key>) e.getProperty("pendingOrder"));
 		ugi.setDateOfBirth((Date) e.getProperty("dateOfBirth"));
-		ugi.setEnrolledEvents((Set<Long>) e.getProperty("enrolledEvents"));
+		ugi.setEnrolledEvents((List<Key>) e.getProperty("enrolledEvents"));
 		ugi.setId(e.getKey().getId());
 		ugi.setNotification((Key) e.getProperty("notification"));
 		ugi.setPhones((List<String>) e.getProperty("phones"));
@@ -1858,7 +1893,7 @@ public class Util {
 		ugi.setSIG((List<Long>) e.getProperty("SIG"));
 		ugi.setSocialMedia((List<EmbeddedEntity>) e.getProperty("socialMedia"));
 		ugi.setWebsite((String) e.getProperty("website"));
-		ugi.setWishListEvent((Set<Long>) e.getProperty("wishListEvent"));
+		ugi.setWishListEvent((List<Key>) e.getProperty("wishListEvent"));
 		ugi.setBiography((Text) e.getProperty("biography"));
 		return ugi;
 	}
@@ -1874,6 +1909,11 @@ public class Util {
 			pb.setDob(new SimpleDateFormat("dd-MMM").format(ugi
 					.getDateOfBirth()));
 		}
+		if (ugi.getBankDetails() != null) {
+			Entity e = Util.fetch(ugi.getBankDetails());
+			BankAccountDetails bad = Util.entityToBankAccountDetails(e);
+			pb.setBankAccountDetails(bad);
+		}
 		pb.setPrimaryPhone(user.getPrimaryPhone());
 		pb.setEmail(user.getUsername());
 		pb.setFirstName(user.getFirstName());
@@ -1883,7 +1923,7 @@ public class Util {
 		pb.setWebsite(ugi.getWebsite());
 		pb.setHeadline(user.getHeadline());
 		String phones = "";
-		
+
 		pb.setPhoneVerified(user.isPhoneVerified());
 		pb.setPicture(user.getPictureUrl());
 		if (ugi.getBiography() != null) {
@@ -2142,10 +2182,8 @@ public class Util {
 
 	public static Entity purchaseableItemToEntity(
 			PurchaseableItem purchaseableItem) {
-		KeyRange range = EMF.getDs().allocateIds(
-				PurchaseableItem.class.getSimpleName(), 1);
-		Key key = range.getStart();
-		Entity e = new Entity(key);
+
+		Entity e = new Entity(purchaseableItem.getId());
 		e.setUnindexedProperty("itemKey", purchaseableItem.getItemKey());
 		e.setUnindexedProperty("unitPrice", purchaseableItem.getUnitPrice());
 		e.setUnindexedProperty("qty", purchaseableItem.getQty());
@@ -2178,7 +2216,7 @@ public class Util {
 			Set<CartItem> cis = Util.getCartItems(mt.getItems());
 			double total = 0;
 			if (cis == null) {
-				return null;
+				continue;
 			}
 			for (CartItem ci : cis) {
 				PurchaseableItem pi = new PurchaseableItem();
@@ -2280,6 +2318,7 @@ public class Util {
 
 	private static PurchaseableItem toPurchaseableItem(Entity e) {
 		PurchaseableItem p = new PurchaseableItem();
+		p.setId(e.getKey());
 		p.setItemKey((Key) e.getProperty("itemKey"));
 		p.setQty((Long) e.getProperty("qty"));
 		p.setUnitPrice((Double) e.getProperty("unitPrice"));
@@ -2494,7 +2533,8 @@ public class Util {
 			}
 		} else {
 			if (o == null) {
-				resp.sendRedirect(resp.encodeRedirectURL("/index"));
+				resp.sendRedirect(resp
+						.encodeRedirectURL("/sm/closed/profile/user-profile"));
 				return;
 
 			} else {
@@ -3118,72 +3158,117 @@ public class Util {
 		return items;
 	}
 
-	public static boolean clearManualPayment(String txnRef, WorkShop w) {
+	public static boolean clearManualPayment(String txnRef, WorkShop w,
+			String qty) {
 		ManualTransactionController mtc = new ManualTransactionController();
 		List<ManualTransaction> mtss = mtc.findByTxnRef(txnRef,
 				ChequeInvoice.InvoiceStatus.PENDING);
 		ManualTransaction mt = null;
+
 		if (mtss.size() == 1) {
 			mt = mtss.get(0);
 		} else {
 			return false;
 		}
 		List<EmbeddedEntity> list = mt.getItems();
-		EmbeddedEntity emb = null;
-		for (EmbeddedEntity ee : list) {
-			if (((String) ee.getProperty("workshopID")).equals(String.valueOf(w
-					.getId().getId()))) {
-				list.remove(ee);
-				emb = ee;
-				break;
-			}
-		}
-		if (list.isEmpty()) {
+		User u = new UserController().findUser(mt.getOwnerKey());
+		UserGeneralInfoController ugc = new UserGeneralInfoController();
+		UserGeneralInfo ugi = ugc.findUserGeneralInfo(u, u.getGeneralInfoId());
+		if (list.size() == 1) {
+			List<Key> mtKeys = ugi.getPendingOrder();
+			mtKeys.remove(mt.getId());
+			addPurchaseHistory(mt, ugi, u, ugc);
 			mt.setStatus(ChequeInvoice.InvoiceStatus.CLEARED.name());
-			list.add(emb);
-			mt.setItems(list);
-			List<ManualTransaction> l1 = mtc.findByTxnRef(mt.getTxnRef(),
-					ChequeInvoice.InvoiceStatus.CLEARED);
-			if (l1 == null || l1.isEmpty()) {
-				mtc.create(mt);
-				addPurchaseHistory(mt);
-			} else {
-				if (l1.size() == 1) {
-					ManualTransaction mt1 = l1.get(0);
-					mt1.getItems().addAll(mt.getItems());
-					mtc.create(mt1);
-					addPurchaseHistory(mt1);
+			mtc.create(mt);
+			updateWorkshop(w, u.getRegId(), qty);
+
+			ScheduleWorkshopDisplay swd = toScheduleWorkshopDisplay(w);
+			String x = (Long.parseLong(qty) > 1) ? "seats" : "seat";
+			String y = (swd.getName().contains("shop")) ? "" : "workshop";
+			String body = "Your payment for " + qty + " " + x + " at the' "
+					+ swd.getName() + " " + y + " taking place on "
+					+ swd.getStartDate() + " in "
+					+ swd.getLocation().getState() + " has been confirmed.";
+			if (u.getPrimaryPhone() != null && u.isPhoneVerified()) {
+
+				try {
+					Util.sendSMS(u.getPrimaryPhone(), body);
+				} catch (TwilioRestException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
 				}
+			}
+			String email = u.getUsername();
+			if (email == null && !u.getEmails().isEmpty()) {
+				for (String em : u.getEmails()) {
+					email = em;
+					break;
+				}
+			}
+			String msg = getPaymentConfirmationEmailMsg(body, u.getFirstName());
+			try {
+				Util.sendEmail(Util.SERVICE_ACCOUNT, email,
+						"Confirmation of Payment", msg);
+			} catch (AddressException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			} catch (MessagingException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
 			}
 
+			// send email/sms
+			return true;
 		} else {
-			ManualTransaction cmt = new ManualTransaction(mt);
-			List<EmbeddedEntity> l = new ArrayList<>();
-			l.add(emb);
-			cmt.setItems(l);
-			cmt.setStatus(ChequeInvoice.InvoiceStatus.CLEARED.name());
-			List<ManualTransaction> l1 = mtc.findByTxnRef(cmt.getTxnRef(),
-					ChequeInvoice.InvoiceStatus.CLEARED);
-			if (l1 == null || l1.isEmpty()) {
-				// create using bulk input(already done)
-			} else {
-				if (l1.size() == 1) {
-					ManualTransaction mt1 = l1.get(0);
-					mt1.getItems().addAll(cmt.getItems());
-					cmt = mt1;
-				}
-			}
-			mt.setItems(list);
-			List<ManualTransaction> mts = new ArrayList<>();
-			mts.add(cmt);
-			mts.add(mt);
-			addPurchaseHistory(cmt);
-			mtc.create(mts);
+
+			return true;
 		}
-		return true;
 	}
 
-	private static void addPurchaseHistory(ManualTransaction mt) {
+	private static void updateWorkshop(WorkShop w, Key regId, String qty) {
+		WorkshopTemplate wt = getWorkshopTemplateFromScheduleId(
+				Util.getWorkshopTemplateFromCache(),
+				String.valueOf(w.getId().getId()));
+		wt.setNoEnrolled(wt.getNoEnrolled() + Long.parseLong(qty));
+		if (w.getNoEnrolled() < 25) {
+			w.setNoEnrolled(w.getNoEnrolled() + Long.parseLong(qty));
+			List<Key> keys = w.getStudents();
+			if (keys == null) {
+				keys = new ArrayList<>();
+			}
+			keys.add(regId);
+			w.setStudents(keys);
+		}
+
+		WorkshopController wc = new WorkshopController();
+		List<WorkShop> l = new ArrayList<>();
+		l.add(w);
+		wc.edit(l);
+		WorkshopTemplateController wtc = new WorkshopTemplateController();
+		try {
+			wtc.edit(wt);
+		} catch (RollbackFailureException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	private static String getPaymentConfirmationEmailMsg(String body,
+			String name) {
+		return "<body><div style='width: 40%; margin: 0 auto'>"
+				+ "<img alt='SalesMaxx' src='http://www.salesmaxx.com/images/salesmaxx-logo.jpg'/>"
+				+ "</div><div><h4 style='padding-bottom: 3%;'>Hello " + name
+				+ ",</h4>"
+				+ "<h3 style='color:#d9534f'>Payment Confirmation</h3><p>"
+				+ body + "</p>" + "<p>Regards,</p>" + "<p>SalesMaxx Admin</p>";
+	}
+
+	private static void addPurchaseHistory(ManualTransaction mt,
+			UserGeneralInfo ugi, User u, UserGeneralInfoController ugc) {
 
 		PurchaseHistory ph = Util.manualTransactionToPurchaseHistory(mt);
 		PurchaseHistoryController c = new PurchaseHistoryController();
@@ -3192,11 +3277,11 @@ public class Util {
 			ph1.getItems().addAll(ph.getItems());
 			ph = ph1;
 		}
-		User u = new UserController().findUser(mt.getOwnerKey());
-		UserGeneralInfoController ugc = new UserGeneralInfoController();
-		UserGeneralInfo ugi = ugc.findUserGeneralInfo(u, u.getGeneralInfoId());
+
 		List<PurchaseHistory> phs = new ArrayList<>();
 		phs.add(ph);
+		Set<CartItem> cis = Util.getCartItems(mt.getItems());
+		ugi = addWorkshopToEnrolledWokshops(ugi, phs);
 		ugc.edit(ugi, u.getRegId(), phs);
 
 	}
@@ -3227,20 +3312,6 @@ public class Util {
 		return c;
 	}
 
-	public static UserGeneralInfo getNewUserGeneralInfo() {
-		UserGeneralInfo ugi = new UserGeneralInfo();
-		ugi.setCertificate(new HashSet<BlobKey>());
-		ugi.setCompletedManualOrder(new ArrayList<Key>());
-		ugi.setCompletedWorkshops(new HashSet<Key>());
-		// ugi.setEnrolledEvents(new HashSet<Long>());
-		ugi.setEnrolledWorkshops(new HashSet<Key>());
-		ugi.setPendingOrder(new ArrayList<Key>());
-		ugi.setPhones(new ArrayList<String>());
-		ugi.setPurchaseHistory(new ArrayList<Key>());
-		ugi.setSalesmaxxHistoryCredits(new ArrayList<Key>());
-		return ugi;
-	}
-
 	public static Entity salesmaxxCreditHistoryToEntity(
 			SalesmaxxCreditHistory smch) {
 		Entity e = new Entity(smch.getId());
@@ -3251,10 +3322,172 @@ public class Util {
 		return e;
 	}
 
-	public static void sendWebPayPurchaseSuccessSMS(String primaryPhone) throws TwilioRestException {
-		String msg = "Your transaction has been successful and your seat has been reserved. Check your email for detailed information.Thank you for choose SalesMaxx";
-		
+	public static void sendWebPayPurchaseSuccessSMS(String primaryPhone)
+			throws TwilioRestException {
+		String msg = "Your transaction has been successful and your seat has been reserved. Check your email for detailed information.Thank you for choosing SalesMaxx";
+
 		Util.sendSMS(primaryPhone, msg);
 	}
 
+	public static List<SalesmaxxCreditHistory> getSalesMaxxCreditHistory(
+			List<Key> salesmaxxHistoryCredits) {
+		List<SalesmaxxCreditHistory> l = new SalesmaxxCreditHistoryController()
+				.findALL(salesmaxxHistoryCredits);
+		return l;
+	}
+
+	public static SalesmaxxCreditHistory entityToSalesMaxxCreditHistory(Entity e) {
+		SalesmaxxCreditHistory sm = new SalesmaxxCreditHistory();
+		sm.setAmount((double) e.getProperty("amountPaid"));
+		sm.setCreditRecieved((double) e.getProperty("creditsRecieved"));
+		sm.setExpiryDate((Date) e.getProperty("date"));
+		sm.setId(e.getKey());
+		sm.setTitle((String) e.getProperty("title"));
+		return sm;
+	}
+
+	public static UserGeneralInfo addWorkshopToEnrolledWokshops(
+			UserGeneralInfo ugi, List<PurchaseHistory> phs) {
+		if (ugi != null) {
+			List<Key> keys = ugi.getEnrolledWorkshops();
+			if (keys == null) {
+				keys = new ArrayList<>();
+			}
+			if (phs != null) {
+				for (PurchaseHistory ph : phs) {
+					for (Key k : ph.getItems()) {
+						keys.add(k);
+					}
+				}
+				ugi.setEnrolledWorkshops(keys);
+			}
+			return ugi;
+		} else {
+			return null;
+		}
+	}
+
+	public static Entity canceledWorkshopToEntity(CanceledWorkshop cw) {
+		Entity e = new Entity(cw.getId());
+		e.setUnindexedProperty("amount", cw.getAmount());
+		e.setUnindexedProperty("cancelDate", cw.getCancelDate());
+		e.setUnindexedProperty("noOfDelegates", cw.getNoOfDelegates());
+		e.setUnindexedProperty("reason", cw.getReason());
+		e.setUnindexedProperty("owner", cw.getUserid());
+		e.setUnindexedProperty("workshopScheduleId", cw.getWorkshopId());
+		e.setUnindexedProperty("cleared", cw.isCleared());
+		return e;
+	}
+
+	public static List<WorkshopTemplateBean> getAllWorkshopTemplateBeans() {
+		List<WorkshopTemplateBean> wtbs = new ArrayList<>();
+		List<WorkshopTemplate> wts = Util.getWorkshopTemplateFromCache();
+		for (WorkshopTemplate wt : wts) {
+			WorkshopTemplateBean wtb = new WorkshopTemplateBean();
+			wtb.setCode(wt.getWorkshopId().getName());
+			wtb.setName(wt.getWorkshopName());
+			List<WorkShop> ws = Util.getScheduledWorkshops(wt.getSchedules());
+			int schPassed = 0;
+			int schLeft = 0;
+			List<ScheduleWorkshopDisplay> swds = new ArrayList<>();
+			Date d = new Date();
+			for (WorkShop w : ws) {
+				if (w.getStartDate().before(d)) {
+					schPassed++;
+				} else {
+					schLeft++;
+				}
+				ScheduleWorkshopDisplay swd = Util.toScheduleWorkshopDisplay(w);
+				swds.add(swd);
+			}
+			wtb.setSchLeft(schLeft);
+			wtb.setSchPassed(schPassed);
+			wtb.setSchedules(swds);
+			Comparator<ScheduleWorkshopDisplay> c = new Comparator<ScheduleWorkshopDisplay>() {
+
+				@Override
+				public int compare(ScheduleWorkshopDisplay o1,
+						ScheduleWorkshopDisplay o2) {
+					return o2.getsDate().compareTo(o1.getsDate());
+				}
+			};
+			Collections.sort(swds, c);
+			wtbs.add(wtb);
+		}
+
+		return wtbs;
+	}
+
+	public static CanceledWorkshop entityToCancelWorkshop(Entity e) {
+		CanceledWorkshop cw = new CanceledWorkshop((Key) e.getProperty("owner"));
+		cw.setAmount((double) e.getProperty("amount"));
+		cw.setCancelDate((Date) e.getProperty("cancelDate"));
+		cw.setCleared((boolean) e.getProperty("cleared"));
+		cw.setId(e.getKey());
+		cw.setNoOfDelegates((long) e.getProperty("noOfDelegates"));
+		cw.setReason((Text) e.getProperty("reason"));
+		return cw;
+	}
+
+	public static Entity bankAccountDetailsToEntity(BankAccountDetails bad) {
+		Entity e = new Entity(bad.getId());
+		e.setIndexedProperty("accNumber", bad.getAccNumber());
+		e.setUnindexedProperty("accName", bad.getAccName());
+		e.setUnindexedProperty("bankName", bad.getBankName());
+		e.setUnindexedProperty("userKey", bad.getUserKey());
+		return e;
+	}
+
+	public static BankAccountDetails entityToBankAccountDetails(Entity e) {
+		BankAccountDetails bad = new BankAccountDetails();
+		bad.setId(e.getKey());
+		bad.setAccName((String) e.getProperty("accName"));
+		bad.setAccNumber((String) e.getProperty("accNumber"));
+		bad.setBankName((String) e.getProperty("bankName"));
+		bad.setUserKey((Key) e.getProperty("userKey"));
+		return bad;
+	}
+
+	public static void create(Entity e) {
+		DatastoreService ds = EMF.getDs();
+		Transaction txn = ds.beginTransaction();
+		ds.put(e);
+		txn.commitAsync();
+
+	}
+
+	public static void create(List<Entity> e) {
+		DatastoreService ds = EMF.getDs();
+		Transaction txn = ds.beginTransaction(TransactionOptions.Builder
+				.withXG(true));
+		ds.put(e);
+		txn.commitAsync();
+
+	}
+
+	public static Map<Key, Entity> fetch(List<Key> keys) {
+		return EMF.getDs().get(keys);
+	}
+
+	public static Entity fetch(Key key) {
+		try {
+			return EMF.getDs().get(key);
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+	}
+
+	public static List<FeaturedCoach> toFeaturedCoach(List<Facilitator> facs) {
+		List<FeaturedCoach> fcs = new ArrayList<>();
+		for(Facilitator f: facs) {
+			FeaturedCoach fc = new FeaturedCoach();
+			fc.setCoachName(f.getFirstName()+" "+f.getLastName());
+			fc.setPicture(Util.getImageUrl(f.getPicture()));
+			fc.setWebkey(KeyFactory.keyToString(f.getId()));
+			fcs.add(fc);
+		}
+		return fcs;
+	}
 }

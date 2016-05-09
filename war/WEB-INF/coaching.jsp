@@ -26,6 +26,7 @@ li {
 	margin-bottom: 3%;
 }
 </style>
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -86,6 +87,15 @@ li {
 			// instead of a settings object
 			]
 		});
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".main-menu-item").removeClass("active");
+			$(".main-menu-item").removeClass("menu-active");
+			$("#coaching-menu").addClass("menu-active");
+		});
+
+		
 	</script>
 	<script type='text/javascript'>
 var $zoho= $zoho || {salesiq:{values:{},ready:function(){$zoho.salesiq.floatbutton.visible('hide');}}}; var d=document; s=d.createElement('script'); s.type='text/javascript'; s.defer=true; s.src='https://salesiq.zoho.com/profiliantngr/float.ls?embedname=speaktoaconsultant'; t=d.getElementsByTagName('script')[0]; t.parentNode.insertBefore(s,t);

@@ -72,7 +72,7 @@
 </div>
 <div class="col-sm-12 col-md-9"
 	style="padding-right: 0px; padding-left: 0px">
-	<h4 style="font-family: arial" class="text-muted">Coaching
+	<h4 id="categories" style="font-family: arial" class="text-muted">Coaching
 		Categories</h4>
 	<table class="table table-responsive table-striped table-condensed">
 		<tr>
@@ -175,33 +175,18 @@
 	<div class="col-sm-12">
 		<h4 class="text-muted">Featured Coach</h4>
 	</div>
-	<table class="table table-responsive table-striped">
-		<tr>
-			<td>
+	<div class="col-sm-12">
+		<c:forEach var="item" items="${coachingPageBean.fc}">
+			<div class="col-sm-3">
 				<div class="col-sm-12">
-					<div class="col-sm-3">
-						<img alt="" src="/images/coach.jpg"
-							class="img img-responsive img-circle">
-					</div>
-					<div class="col-sm-9">
-						<div class="col-sm-12">
-							<h4 style="font-family: arial">
-								<a href="#">FirstName LastName</a>
-							</h4>
-							<p style="font-family: calibri">Lorem ipsum dolor sit amet,
-								proin tincidunt a metus sagittis, pulvinar tellus eu nullam eros
-								feugiat, id justo maecenas non id, orci tincidunt aliquam ante
-								bibendum.</p>
-							<div style="font-family: cambria">
-								<a href="#" style="padding-right: 2%;">Read more</a> <a href="#">Send
-									a message</a>
-							</div>
-						</div>
-					</div>
+					<img class="img img-responsive img-circle" src= "${item.picture}"/>
 				</div>
-			</td>
-		</tr>
-	</table>
+				<div class="col-sm-12" style="text-align: center">
+					<c:out value='${item.coachName}' />
+				</div>
+			</div>
+		</c:forEach>
+	</div>
 	<div class="col-sm-12">
 		<h4 class="text-muted">Testimonials</h4>
 	</div>
@@ -263,6 +248,12 @@
 	<c:choose>
 		<c:when
 			test="${empty coachingPageBean.dis or fn:length(coachingPageBean.dis) < 10}">
+			<div style="position: relative;">
+					<iframe src="/images/sales-iq/index.html" width="310"
+						height="255" scrolling="no" frameBorder='0'></iframe>
+					<a href="/sm/open/sales-and-marketing-automation#sales-iq"
+						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
 			<div class="discussion-sidebar">
 				<h4>
 					<a href="/sm/open/sales-and-marketing-templates">Sales &
@@ -312,22 +303,7 @@
 					</div>
 				</div>
 			</div>
-			<div class="discussion-sidebar">
-				<h4>
-					<a href="/coaching">Coaching Categories</a>
-				</h4>
-				<ul>
-					<li><a
-						href="/sm/open/view-all-discussion?category=Interview Coaching">Interview
-							Coaching</a></li>
-					<li><a
-						href="/sm/open/view-all-discussion?category=Excecutive Coaching">Executive
-							Coaching</a></li>
-					<li><a
-						href="/sm/open/view-all-discussion?category=Sales Performance Coaching">Sales
-							Performance Coaching</a></li>
-				</ul>
-			</div>
+			
 
 			<div class="discussion-sidebar">
 				<h4>
@@ -346,6 +322,12 @@
 				<span class="workshop-by-month"><a href="/calendar#nov">NOV</a></span>
 				<span class="workshop-by-month"><a href="/calendar#dec">DEC</a></span>
 			</div>
+			<div style="position: relative;">
+					<iframe src="/images/bootcamp_internal/bootcamp_int.html" width="310"
+						height="255" scrolling="no" frameBorder='0'></iframe>
+					<a href="/sm/open/get-workshop-category?categoryName=Bootcamp"
+						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
 
 		</c:when>
 		<c:otherwise>

@@ -38,7 +38,7 @@
 	font-family: arial
 }
 </style>
-
+<%@ include file="/js/google-analytics"%>
 </head>
 
 

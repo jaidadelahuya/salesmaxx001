@@ -12,6 +12,8 @@ import javax.servlet.http.HttpSession;
 
 import com.salesmaxx.beans.CoachingPageBean;
 import com.salesmaxx.beans.SingleDiscussionPageBean;
+import com.salesmaxx.entities.Facilitator;
+import com.salesmaxx.persistence.controllers.FacilitatorController;
 import com.salesmaxx.util.Util;
 
 public class CoachingServlet extends HttpServlet {
@@ -31,6 +33,8 @@ public class CoachingServlet extends HttpServlet {
 		
 		CoachingPageBean cpd = new CoachingPageBean();
 		cpd.setDis(list2);
+		List<Facilitator> facs = Util.getFacilitatorsFromCache(new FacilitatorController().getFacilitatorsKeys());
+		cpd.setFc(Util.toFeaturedCoach(facs));
 		HttpSession session = req.getSession();
 		synchronized (session) {
 			session.setAttribute("coachingPageBean", cpd);

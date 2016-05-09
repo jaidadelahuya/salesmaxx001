@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
-
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 
@@ -30,7 +30,7 @@
 	<div id="carousel-wrapper" class="container-fluid">
 
 		<div id="myCarousel" class="carousel slide row hidden-xs"
-			data-ride="carousel" >
+			data-ride="carousel">
 
 			<!-- Indicators -->
 			<ol class="carousel-indicators">
@@ -63,7 +63,16 @@
 
 				<div class="item">
 					<img class="img img-responsive" style="width: 100%;"
-						src="/images/salesmaxx_slider_starting.jpg" alt="slide 3">
+						src="/images/slide5.jpg" alt="slide 3">
+					<div class="carousel-caption">
+						<h3>Acing The Sales Target</h3>
+						<p>Pipeline Management Workshop</p>
+					</div>
+				</div>
+
+				<div class="item">
+					<img class="img img-responsive" style="width: 100%;"
+						src="/images/slide6.jpg" alt="slide 3">
 					<div class="carousel-caption">
 						<h3>Acing The Sales Target</h3>
 						<p>Pipeline Management Workshop</p>
@@ -214,8 +223,13 @@
 				</form>
 			</div>
 			<div class="col-md-4">
-				<a href="/tools"><img class="img-responsive"
-					alt="Free Downloads" src="/images/tools.gif"></a>
+				<div style="position: relative;">
+					<iframe src="/images/zoho-crm/index.html" width="336" height="280"
+						scrolling="no" frameBorder='0'></iframe>
+					<a href="/sm/open/sales-and-marketing-automation#crm"
+						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
+
 			</div>
 		</div>
 
@@ -804,21 +818,26 @@
 
 			</div>
 		</div>
-		<div id="ad-2" class="row" style="background-color: gray">
-			<img alt="Workshop" src="/images/salesmaxx-banner-sales.png"
-				class="img img-responsive" style="width: 80%; margin: 0 auto;" />
+		<div id="ad-2" class="row" style="background-color: #484848">
+			<a href="/sm/open/get-workshop-category?categoryName=Negotiation"><img
+				alt="Workshop" src="/images/salesmaxx-banner-sales.jpg"
+				class="img img-responsive" style="width: 100%; margin: 0 auto;" /></a>
 		</div>
 
 		<div class="row" style="width: 80%; margin: 0 auto; margin-top: 2%;">
-			<div class="col-sm-4">
-				<img alt="Download" src="/images/download-howtobuy.jpg"
-					style="margin-top: 2%;" class="img-responsive" />
-			</div>
 			<div class="col-sm-4">
 				<a
 					href='<c:out value='/sm/open/search-for-workshop?format=online' />'><img
 					style="margin-top: 2%;" alt="Download" src="/images/e-learning.jpg"
 					class="img-responsive" /></a>
+			</div>
+			<div class="col-sm-4">
+				<div style="position: relative;">
+					<iframe src="/images/zoho-social/index.html" width="336"
+						height="255" scrolling="no" frameBorder='0'></iframe>
+					<a href="/sm/open/sales-and-marketing-automation#social"
+						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
 			</div>
 			<div class="col-sm-4">
 				<a href="/calendar"><img alt="Download Whitepaper"
@@ -863,7 +882,13 @@
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
 	</script>
-
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$(".main-menu-item").removeClass("active");
+			$(".main-menu-item").removeClass("menu-active");
+			$("#home-menu").addClass("menu-active");
+		});
+	</script>
 
 </body>
 </html>

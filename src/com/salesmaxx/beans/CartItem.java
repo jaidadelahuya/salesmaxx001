@@ -8,7 +8,7 @@ import com.salesmaxx.util.Util;
 public class CartItem implements Serializable {
 
 	public enum ItemType {
-		WORKSHOP,EVENT,GIFT;
+		WORKSHOP,EVENT,GIFT, RESCHEDULE;
 	}
 	/**
 	 * 

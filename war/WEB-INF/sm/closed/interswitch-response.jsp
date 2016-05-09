@@ -16,6 +16,7 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -43,8 +44,11 @@
 
 						<br />
 						<p>
-							<a href="/sm/open/cart" class="btn btn-xs btn-danger">&#x2190;
-								Try again</a>
+							<a href="<c:url value='/sm/open/cart' />"
+								class="btn btn-xs btn-danger">&#x2190; Try again</a> <a
+								href="<c:url value='/sm/closed/proceed-to-checkout?pay-method=cheque' />"
+								class="btn btn-xs btn-danger">Pay with Cheque or Electronic
+								Transfer</a>
 						</p>
 					</div>
 				</c:when>
@@ -62,20 +66,21 @@
 									value="${toEmail}" /></i>
 						</p>
 						<p style="font-family: calibri">
-							<strong>Transaction ID: </strong><c:out value='${interswitch.txnRef}' /></span>
+							<strong>Transaction ID: </strong>
+							<c:out value='${interswitch.txnRef}' />
+							</span>
 						</p>
-						<div style="padding-top: 4%;" >
-							<a
-								class="btn btn-danger btn-xs"
+						<div style="padding-top: 4%;">
+							<a class="btn btn-danger btn-xs"
 								href="<c:url value="/sm/open/show-all-workshops"/>">Continue
-								Browsing</a>
-							<a href="<c:url value='/sm/closed/profile/purchase-history' />"
+								Browsing</a> <a
+								href="<c:url value='/sm/closed/profile/purchase-history' />"
 								class="btn btn-xs btn-danger">View Purchase History</a> <a
 								href="<c:url value='/sm/closed/profile/my-workshops' />"
-								class="btn btn-xs btn-danger">View your workshops</a> 
-								<a
+								class="btn btn-xs btn-danger">View your workshops</a> <a
 								class="btn btn-danger btn-xs"
-								href="<c:url value='/sm/closed/get-invoice?&txnRef=${interswitch.txnRef}' />">Print Receipt</a>
+								href="<c:url value='/sm/closed/get-invoice?&txnRef=${interswitch.txnRef}' />">Print
+								Receipt</a>
 						</div>
 					</div>
 				</c:when>
@@ -84,8 +89,8 @@
 						style="background-color: white">
 						<div class="alert alert-danger">
 							<h4>
-								<span class="glyphicon glyphicon-remove"></span> Your Transaction
-								was not successful.
+								<span class="glyphicon glyphicon-remove"></span> Your
+								Transaction was not successful.
 							</h4>
 						</div>
 						<p>
@@ -104,7 +109,10 @@
 						<br />
 						<p>
 							<a href="/sm/open/cart" class="btn btn-xs btn-danger">&#x2190;
-								Try again</a>
+								Try again</a> <a
+								href="<c:url value='/sm/closed/proceed-to-checkout?pay-method=cheque' />"
+								class="btn btn-xs btn-danger">Pay with Cheque or Electronic
+								Transfer</a>
 						</p>
 
 					</div>

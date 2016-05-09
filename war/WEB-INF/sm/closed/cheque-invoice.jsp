@@ -20,6 +20,7 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<div class="container" style="margin-bottom: 2%;">
@@ -141,8 +142,8 @@
 		<div class="row">
 			<div class="col-sm-12" style="border: 1px #ddd solid; margin-top: 4%">
 				<div class="col-sm-12" style="padding-top: 2%;">
-					<strong style="color: red;">Please ensure that
-						you indicate your transaction ID when making payment for tracking.</strong>
+					<strong style="color: red;">Please ensure that you
+						indicate your transaction ID when making payment for tracking.</strong>
 				</div>
 				<div class="col-sm-12">
 					<h4>Bank Details</h4>
@@ -166,9 +167,17 @@
 			</div>
 		</div>
 		<div class="row">
-			<div class="col-sm-12" style="text-align: center; margin-top:1%;">
-				<a href="<c:url value='/sm/closed/profile/pending-orders' />"><strong>Go To Purchase History</strong></a>
-			</div>
+			<ul style="margin-top: 2%;">
+				<li style="display: inline; margin-right: 2%;"><a id="print"
+					href="#"><strong>Print</strong></a></li>
+				<li style="display: inline; margin-right: 2%;"><a href="#"><strong>Save</strong></a></li>
+				<li style="display: inline; margin-right: 2%;"><a
+					href="mailto:${user.username}?Subject=Invoice%20for%20SalesMaxx%20workshop&Body=Hi,%0AI%20just%20requested%20this%20invoice%20from%20http://www.SalesMaxx.com.%0AHere%20is%20the%20link%20http://www.salesmaxx.com/sm/open/get-cheque-invoice?admin=admin&txnRef=${chequeInvoice.txnRef}"><strong>Mail</strong></a></li>
+				<li style="display: inline; margin-right: 2%;"><a
+					href="<c:url value='/sm/closed/profile/pending-orders' />"><strong>Go
+							To Purchase History</strong></a></li>
+			</ul>
+
 		</div>
 
 	</div>
@@ -184,8 +193,7 @@
 				e.preventDefault();
 				window.print();
 			});
-			$(".main-menu-item").removeClass("active");
-			//$("#workshop-menu").addClass("active");
+
 		});
 	</script>
 

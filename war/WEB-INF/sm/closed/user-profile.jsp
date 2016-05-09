@@ -25,6 +25,7 @@
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
+	<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -68,6 +69,25 @@
 		s.src = 'https://salesiq.zoho.com/profiliantngr/float.ls?embedname=speaktoaconsultant';
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
+		$(document).ready(function() {
+			$("#change-password-link").click(function(e) {
+				e.preventDefault();
+				$("#change-your-password-div").slideToggle();
+			});
+			$("#change-email-link").click(function(e) {
+				e.preventDefault();
+				$("#change-your-email-div").slideToggle();
+			});
+			$("#verify-phone-link").click(function(e) {
+				e.preventDefault();
+				$("#verify-your-phone-div").slideToggle();
+			});
+			
+			$(".show-acc-details").click(function(e) {
+				e.preventDefault();
+				$("#acc-details-form-div").slideToggle();
+			});
+		});
 	</script>
 
 </body>

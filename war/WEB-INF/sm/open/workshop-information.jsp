@@ -26,10 +26,11 @@
 <link rel="stylesheet" type="text/css"
 	href="/style/bootstrap-rating.css">
 <link rel="canonical"
-	href="https://salesmaxx001.appspot.com/sm/open/workshop-information?id=${workshopTemplate.workshopId.name}">
+	href="http://www.salesmaxx.com/sm/open/workshop-information?id=${workshopTemplate.workshopId.name}">
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
+	<%@ include file="/js/google-analytics"%>
 </head>
 <body>
 	<div id="fb-root"></div>

@@ -10,6 +10,18 @@ a:hover {
 	text-decoration: none;
 }
 
+.increment-qty-btn {
+	color: #fff;
+	background-color: #5cb85c;
+	border-color: #4cae4c
+}
+
+.increment-qty-btn:hover {
+	color: #fff;
+	background-color: #449d44;
+	border-color: #398439
+}
+
 
 li {
 	list-style-type: none;
@@ -374,4 +386,13 @@ nav ul li a img {
 	.side-bar-element {
 		width: 100%;
 	}
+}
+
+.menu-active {
+	
+	border-bottom: 1px #d9534f solid
+}
+
+.menu-active a {
+	color: #d9534f !important;
 }

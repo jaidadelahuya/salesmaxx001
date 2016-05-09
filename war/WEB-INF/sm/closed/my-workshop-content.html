@@ -14,9 +14,8 @@
 				style="font-family: calibri; font-size: 11pt">
 				<p>You have not enrolled for any workshop.</p>
 				<p>
-					You can <a href="/sm/open/show-all-workshops"
-						class="btn btn-xs btn-danger">Find a Workshop</a> or <a
-						class="btn btn-xs btn-danger">Speak to a consultant</a>
+					<a href="/sm/open/show-all-workshops" class="btn btn-xs btn-danger">Find
+						a Workshop</a>
 				</p>
 			</div>
 		</c:when>
@@ -39,6 +38,7 @@
 						<th>Workshop Code</th>
 						<th>Date</th>
 						<th>Location</th>
+						<th style="text-align: center;">Delegates</th>
 						<th></th>
 						<th></th>
 					</tr>
@@ -51,16 +51,18 @@
 									value="${item.name}" /></td>
 							<td><c:out value="${item.workshopCode}" /></td>
 							<td><c:out value="${item.startDate}" /></td>
-							<td><c:out value="${item.location.state}" />, <c:out
-									value="${item.location.country}" /></td>
+							<td><c:out value="${item.location.state}" /></td>
+							<td style="text-align: center;"><c:out value="${item.qty}" /></td>
 							<td><div class="form-group">
-									<input type="button" value="Reschedule"
-										class="btn btn-xs btn-danger" />
+									<a href="<c:url
+											value='/sm/closed/cancel-workshop?id=${item.id}&seats=${item.qty}&mode=reschedule' />"
+										class="btn btn-xs btn-danger">Reschedule</a>
 								</div></td>
 							<td>
 								<div class="form-group">
-									<input type="button" value="Cancel"
-										class="btn btn-xs btn-danger" />
+									<a
+										href="<c:url value='/sm/closed/cancel-workshop?id=${item.id}&seats=${item.qty}' />"
+										class="btn btn-xs btn-danger">Cancel</a>
 								</div>
 							</td>
 						</tr>
@@ -87,8 +89,7 @@
 			<p>
 				You can <a href="/sm/open/show-all-workshops"
 					class="btn btn-xs btn-danger">Find a Workshop</a> if you haven't
-				enrolled for one or <a class="btn btn-xs btn-danger">Speak to a
-					consultant</a>
+				enrolled for one
 			</p>
 		</div>
 

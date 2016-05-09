@@ -50,7 +50,7 @@ public class ProceedToCheckout extends HttpServlet {
 
 			if (payMethod.equals("web-pay")) {
 				String redirectUrl = resp
-						.encodeURL("http://localhost:8888/sm/closed/interswitch-callback");
+						.encodeURL("http://www.salesmaxx.com/sm/closed/interswitch-callback");
 				String txnRef = ClosedUtil.getTransactionRef(u);
 				String interHash = ClosedUtil.getInterswitchHash(txnRef,
 						String.valueOf(c.getSubTotal() * 100), redirectUrl);

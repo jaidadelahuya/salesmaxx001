@@ -53,7 +53,7 @@ public class RescheduleWorkshop2 extends HttpServlet {
 				} else {
 					ugi = (UserGeneralInfo) o2;
 				}
-				Set<Key> keys = ugi.getEnrolledWorkshops();
+				Set<Key> keys = null;//ugi.getEnrolledWorkshops();
 				
 				for(Key k : keys) {
 					if(k.equals(oldId)) {
@@ -64,7 +64,7 @@ public class RescheduleWorkshop2 extends HttpServlet {
 				
 				Key newKey = KeyFactory.createKey(oldId.getParent(), WorkShop.class.getSimpleName(), Long.parseLong(id));
 				keys.add(newKey);
-				ugi.setEnrolledWorkshops(keys);
+				///ugi.setEnrolledWorkshops(keys);
 				c.edit(ugi, user.getRegId());
 				synchronized (session) {
 					session.setAttribute("ügi",ugi);

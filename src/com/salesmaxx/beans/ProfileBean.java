@@ -1,8 +1,10 @@
 package com.salesmaxx.beans;
 
 import java.io.Serializable;
+import java.util.List;
 
 import com.salesmaxx.entities.Address;
+import com.salesmaxx.entities.BankAccountDetails;
 
 public class ProfileBean implements Serializable {
 
@@ -14,8 +16,8 @@ public class ProfileBean implements Serializable {
 			salesmaxxCredits, headline, phones, picture, facebook, linkedin,
 			tweeter, google, biography, primaryPhone;
 	private Address address;
+	private BankAccountDetails bankAccountDetails;
 	private boolean phoneVerified;
-
 
 	@Override
 	public String toString() {
@@ -27,7 +29,20 @@ public class ProfileBean implements Serializable {
 				+ ", linkedin=" + linkedin + ", tweeter=" + tweeter
 				+ ", google=" + google + ", biography=" + biography
 				+ ", primaryPhone=" + primaryPhone + ", address=" + address
+				+ ", bankAccountDetails=" + bankAccountDetails
 				+ ", phoneVerified=" + phoneVerified + "]";
+	}
+
+	
+
+	public BankAccountDetails getBankAccountDetails() {
+		return bankAccountDetails;
+	}
+
+
+
+	public void setBankAccountDetails(BankAccountDetails bankAccountDetails) {
+		this.bankAccountDetails = bankAccountDetails;
 	}
 
 
