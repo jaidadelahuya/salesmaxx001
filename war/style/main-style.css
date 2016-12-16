@@ -6,6 +6,44 @@ body {
 	margin: 0;
 }
 
+/* The side navigation menu */
+.sidenav {
+    height: 100%; /* 100% Full-height */
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 1; /* Stay on top */
+    top: 0;
+    left: 0;
+    background-color: #b1010c; /* Black*/
+    overflow-x: hidden; /* Disable horizontal scroll */
+    padding-top: 60px; /* Place content 60px from the top */
+    transition: 0.5s; /* 0.5 second transition effect to slide in the sidenav */
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 4px 8px 4px 32px;
+    text-decoration: none;
+    font-size: 16px;
+    color: #fff;
+    display: block;
+    transition: 0.3s
+}
+
+/* When you mouse over the navigation links, change their color */
+.sidenav a:hover, .offcanvas a:focus{
+    color: #f1f1f1;
+}
+
+/* Position and style the close button (top right corner) */
+.sidenav .closebtn {
+    position: absolute;
+    top: 0;
+    right: 25px;
+    font-size: 36px;
+    margin-left: 50px;
+}
+
 a:hover {
 	text-decoration: none;
 }
@@ -353,6 +391,10 @@ nav ul li a img {
 .carousel-control.right       { background-image: none; }
 .carousel-inner .item         { background: white;      }
 
+#tools-div {
+		width: 80%
+}
+
 @media screen and (max-width: 1200px) {
 	
 }
@@ -363,6 +405,14 @@ nav ul li a img {
 }
 
 @media screen and (max-width: 767px) {
+	
+	.workshop-image {
+		width:240px;
+		height: auto; 
+	}
+	.control-label {
+		margin: 5px 15px
+	}
 	.side-bar-element {
 		width: 60%;
 		margin: 0 auto;
@@ -371,12 +421,27 @@ nav ul li a img {
 }
 
 @media screen and (max-width: 580px) {
+	#tools-div {
+		width: 95% !important
+	}
+	
+	#categories {
+		width: 90% !important
+	}
 	.side-bar-element {
 		width: 75%;
 	}
 }
 
 @media screen and (max-width: 480px) {
+	
+	#categories {
+		width: 96% !important
+	}
+	
+	#tools-div {
+		width: 100% !important
+	}
 	.side-bar-element {
 		width: 85%;
 	}

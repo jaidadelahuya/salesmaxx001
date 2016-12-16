@@ -1,6 +1,7 @@
 package com.salesmaxx.beans;
 
 import java.io.Serializable;
+import java.util.List;
 import java.util.Set;
 
 public class SearchBean implements Serializable {
@@ -10,12 +11,40 @@ public class SearchBean implements Serializable {
 	 */
 	private static final long serialVersionUID = -8100309401625687100L;
 	
-	private String date;
+	private String date, nextCursor, prevCursor, queryString;
 	private Set<String> location,industry,experience,jobRole,type,format;
 	private int pageStart, pageEnd,pagination,currentDisplay;
+	private long resultsFound;
+	private List<String> previousCursors;
 	
 	
 	
+	public List<String> getPreviousCursors() {
+		return previousCursors;
+	}
+	public void setPreviousCursors(List<String> previousCursors) {
+		this.previousCursors = previousCursors;
+	}
+	public String getQueryString() {
+		return queryString;
+	}
+	public void setQueryString(String queryString) {
+		this.queryString = queryString;
+	}
+	public String getNextCursor() {
+		return nextCursor;
+	}
+	public void setNextCursor(String nextCursor) {
+		
+		this.nextCursor = nextCursor;
+	}
+	public String getPrevCursor() {
+		return prevCursor;
+	}
+	public void setPrevCursor(String prevCursor) {
+		
+		this.prevCursor = prevCursor;
+	}
 	public int getCurrentDisplay() {
 		return currentDisplay;
 	}
@@ -93,6 +122,12 @@ public class SearchBean implements Serializable {
 				+ format + ", pageStart=" + pageStart + ", pageEnd=" + pageEnd
 				+ ", pagination=" + pagination + ", currentDisplay="
 				+ currentDisplay + "]";
+	}
+	public long getResultsFound() {
+		return resultsFound;
+	}
+	public void setResultsFound(long resultsFound) {
+		this.resultsFound = resultsFound;
 	}
 	
 	

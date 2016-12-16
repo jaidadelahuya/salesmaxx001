@@ -49,11 +49,11 @@ public class ForgotPasswordInit extends HttpServlet {
 			
 			session.setAttribute("capthaResult", String.valueOf(c));
 			session.setAttribute("captha", op);
-			session.removeAttribute("loginError");
+			session.removeAttribute("forgotPasswordError");
+			session.removeAttribute("forgotPasswordID");
 		}
 		
-		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/sm/open/forgot-password.jsp");
-		rd.include(req, resp);
+		resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 
 	}
 

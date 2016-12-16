@@ -70,14 +70,14 @@
 						<strong style="margin-right: -15px" class="pull-right"><c:out
 								value="" /></strong><br />
 						<a
-							class="btn btn-info btn-sm navbar-right navbar-btn" href="/sm/open/login-page">Sign In
+							class="btn btn-info btn-sm navbar-right navbar-btn" href="/sm/open/i/login">Sign In
 						</a>
 					</div>
 				</c:otherwise>
 			</c:choose>
 			<c:if test="${!user.authenticated}">
 				<div>
-					<a href="/sm/open/create-an-account"
+					<a href="/sm/open/account/init/new"
 						class="btn btn-danger btn-sm navbar-right navbar-btn"
 						style="margin-right: 1%">Create Account</a>
 				</div>
@@ -95,10 +95,12 @@
 				<li class="main-menu-item" id='workshop-menu'><a style="padding-bottom: 5px"
 					href="/sm/open/show-all-workshops">Workshops</a></li>
 				<li class="main-menu-item" id="tools-menu"><a style="padding-bottom: 5px" href="/tools">Tools</a></li>
+				<li class="main-menu-item" id="calendar-menu"><a style="padding-bottom: 5px" href="/calendar">Calendar</a></li>
 				<li class="main-menu-item" id="coaching-menu"><a style="padding-bottom: 5px" href="/coaching">Coaching</a></li>
 				<li class="main-menu-item" id="about-menu"><a style="padding-bottom: 5px" href="/about">About Us</a></li>
+				<li class="main-menu-item" id="reading-list"><a style="padding-bottom: 5px" href="/readinglist">Reading List</a></li>
 				<li class="main-menu-item" id="contact-menu"><a style="padding-bottom: 5px" href="/contact">Contact Us</a></li>
-				<!--<li><a href="">Shop</a></li>-->
+				
 
 			</ul>
 

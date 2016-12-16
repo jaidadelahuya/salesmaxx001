@@ -74,10 +74,10 @@ public class GetInvoice extends HttpServlet {
 	
 	private static InvoiceBean getInvoiceBean(PurchaseHistoryBean phb) {
 		InvoiceBean ib = new InvoiceBean();
-		ib.setDate(phb.getFormattedDate());
+		ib.setDate(phb.getDate());
 		ib.setItems(phb.getList());
 		ib.setTxnRef(phb.getTxnRef());
-		ib.setTotal(phb.getFormattedTotalPrice());
+		ib.setTotal(phb.getTotal());
 		return ib;
 	}
 

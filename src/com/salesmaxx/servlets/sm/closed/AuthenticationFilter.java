@@ -51,7 +51,7 @@ public class AuthenticationFilter implements Filter {
 					session.setAttribute("payMethod", req.getParameter("pay-method"));
 				}
 				
-				resp.sendRedirect(resp.encodeRedirectURL("/sm/open/login-page"));
+				resp.sendRedirect(resp.encodeRedirectURL("/sm/open/i/login"));
 				return;
 			} else if(req.getRequestURI().contains("get-cheque-invoice")) {
 				String admin = req.getParameter("admin");
@@ -67,7 +67,7 @@ public class AuthenticationFilter implements Filter {
 						session.setAttribute("requestURI", req.getRequestURI());
 						session.setAttribute("chequeTxnRef", req.getParameter("txnRef"));
 					}
-					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/login-page"));
+					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/i/login"));
 					return;
 				}
 			}else if (req.getRequestURI().contains(
@@ -87,7 +87,7 @@ public class AuthenticationFilter implements Filter {
 				cp.setPrivacy(privacy);
 				cp.setTags(tags);
 				session.setAttribute("coachingPost", cp);
-				resp.sendRedirect("/sm/open/login-page");
+				resp.sendRedirect("/sm/open/i/login");
 			} else if (req.getRequestURI().contains(
 					"sm/closed/post-comment")) {
 				String body = req.getParameter("comment");
@@ -98,17 +98,17 @@ public class AuthenticationFilter implements Filter {
 					session.setAttribute("requestURI", req.getRequestURI());
 				}
 				
-				resp.sendRedirect("/sm/open/login-page");
+				resp.sendRedirect("/sm/open/i/login");
 			} else if(req.getRequestURI().contains("/save-testimonial")) {
 				String statement = req.getParameter("statement");
 				synchronized (session) {
 					session.setAttribute("testimonialStatement", statement);
 					session.setAttribute("requestURI", req.getRequestURI());
 				}
-				resp.sendRedirect("/sm/open/login-page");
+				resp.sendRedirect("/sm/open/i/login");
 			} else {
 				session.setAttribute("requestURI", req.getRequestURI());
-				resp.sendRedirect("/sm/open/login-page");
+				resp.sendRedirect("/sm/open/i/login");
 			}
 
 		} else {

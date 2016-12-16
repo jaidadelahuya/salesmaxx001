@@ -170,9 +170,9 @@
 			<ul style="margin-top: 2%;">
 				<li style="display: inline; margin-right: 2%;"><a id="print"
 					href="#"><strong>Print</strong></a></li>
-				<li style="display: inline; margin-right: 2%;"><a href="#"><strong>Save</strong></a></li>
+				
 				<li style="display: inline; margin-right: 2%;"><a
-					href="mailto:${user.username}?Subject=Invoice%20for%20SalesMaxx%20workshop&Body=Hi,%0AI%20just%20requested%20this%20invoice%20from%20http://www.SalesMaxx.com.%0AHere%20is%20the%20link%20http://www.salesmaxx.com/sm/open/get-cheque-invoice?admin=admin&txnRef=${chequeInvoice.txnRef}"><strong>Mail</strong></a></li>
+					href="mailto:${user.username}?Subject=Invoice%20for%20SalesMaxx%20workshop&Body=Hi%2C%0AI%20just%20requested%20this%20invoice%20from%20SalesMaxx.%0AHere%20is%20the%20link%20http%3A%2F%2Fwww.salesmaxx.com%2Fsm%2Fopen%2Fget-cheque-invoice%3Fadmin%3Dadmin%26txnRef%3D%0A${chequeInvoice.txnRef}"><strong>Mail</strong></a></li>
 				<li style="display: inline; margin-right: 2%;"><a
 					href="<c:url value='/sm/closed/profile/pending-orders' />"><strong>Go
 							To Purchase History</strong></a></li>

@@ -51,7 +51,7 @@ public class RegisterUser extends HttpServlet {
 		if (!ok) {
 			session.setAttribute("signUpError",
 					"You have to enter your first Name.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 			
 		}
@@ -60,7 +60,7 @@ public class RegisterUser extends HttpServlet {
 		if (!ok) {
 			session.setAttribute("signUpError",
 					"You have to enter your last Name.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 			
 		}
@@ -69,7 +69,7 @@ public class RegisterUser extends HttpServlet {
 		if (!ok) {
 			session.setAttribute("signUpError",
 					"You have to enter your email address.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 			
 		}
@@ -78,13 +78,13 @@ public class RegisterUser extends HttpServlet {
 		if (!ok) {
 			session.setAttribute("signUpError",
 					"You have to enter a password with at least six characters.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 		} else {
 			if(pass1.length() < 6) {
 				session.setAttribute("signUpError",
 						"You have to enter a password with at least six characters.");
-				resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+				resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 				return;
 			}
 		}
@@ -93,7 +93,7 @@ public class RegisterUser extends HttpServlet {
 			
 			session.setAttribute("signUpError",
 					"The passwords do not match");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 			
 		}
@@ -103,7 +103,7 @@ public class RegisterUser extends HttpServlet {
 		if (ok) {
 			session.setAttribute("signUpError",
 					"The email " + email + " already exists. If this is your email, please login");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 		}
 		
@@ -119,14 +119,14 @@ public class RegisterUser extends HttpServlet {
 				session.setAttribute("fromSignUp", true);
 				session.setAttribute("user", u);
 			}
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/init/verification"));
 		} catch (AddressException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 			session.setAttribute("signUpError",
 					"The email address " + email
 					+ " is either invalid or does not exist.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 			
 		} catch (MessagingException e) {
@@ -135,7 +135,7 @@ public class RegisterUser extends HttpServlet {
 			session.setAttribute("signUpError",
 					"We could not send a confirmation code to " + email
 					+ ". Please try again later.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/create-an-account"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/account/new"));
 			return;
 			
 		}

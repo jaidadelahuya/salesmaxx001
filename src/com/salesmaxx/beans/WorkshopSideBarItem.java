@@ -13,7 +13,7 @@ public class WorkshopSideBarItem implements Serializable {
 	
 	public WorkshopSideBarItem(String name, String href, int freq) {
 		super();
-		this.name = name;
+		this.name = name.toLowerCase();
 		this.href = href;
 		this.freq = freq;
 	}

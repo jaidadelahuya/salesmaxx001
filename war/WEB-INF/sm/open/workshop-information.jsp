@@ -25,12 +25,24 @@
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <link rel="stylesheet" type="text/css"
 	href="/style/bootstrap-rating.css">
-<link rel="canonical"
-	href="http://www.salesmaxx.com/sm/open/workshop-information?id=${workshopTemplate.workshopId.name}">
+
+
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
 	<%@ include file="/js/google-analytics"%>
+<meta property="fb:app_id" content="1134790883222273" />
+<meta property="og:title" content="${workshopTemplate.workshopName}" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://www.salesmaxx.com/sm/open/workshop-information?id=${workshopTemplate.workshopId.name}" />
+<meta property="og:image" content="${workshopTemplate.imageUrl}" />
+<meta property="og:description" content="${workshopTemplate.shortDescription.value}" />
+<meta property="og:site_name" content="SalesMaxx" />
+<meta name="twitter:card" content="Summary" />
+<meta name="twitter:title" content="${workshopTemplate.workshopName}" />
+<meta name="twitter:description" content="${workshopTemplate.shortDescription.value}" />
+<meta name="twitter:image" content="${workshopTemplate.imageUrl}" />
+<meta name="twitter:url" content="http://www.salesmaxx.com/sm/open/workshop-information?id=${workshopTemplate.workshopId.name}" />
 </head>
 <body>
 	<div id="fb-root"></div>

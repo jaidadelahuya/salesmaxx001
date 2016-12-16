@@ -1,9 +1,49 @@
+<div class="row">
+	<ul class="col-sm-6 sort" style="text-align: right">
+		<c:if test="${workshop.module eq mod2}">
+			<c:set var="sort1" scope="session" value="name" />
+			<c:set var="sort2" scope="session" value="month" />
+			<c:set var="sort3" scope="session" value="city" />
+			<li><strong class="text-muted">View By: </strong></li>
+			<c:choose>
+				<c:when test='${workshop.sort eq sort1}'>
+					<li><a class="sort-active"
+						href="<c:url value='/sm-admin/add-workshop?mod=all&sort=name'/>">Name</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a
+						href="<c:url value='/sm-admin/add-workshop?mod=all&sort=name'/>">Name</a></li>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test='${workshop.sort eq sort2}'>
+					<li><a class="sort-active"
+						href="<c:url value='/sm-admin/add-workshop?mod=all&sort=month'/>">Month</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a
+						href="<c:url value='/sm-admin/add-workshop?mod=all&sort=month'/>">Month</a></li>
+				</c:otherwise>
+			</c:choose>
+			<c:choose>
+				<c:when test='${workshop.sort eq sort3}'>
+					<li><a class="sort-active"
+						href="<c:url value='/sm-admin/add-workshop?mod=all&sort=city'/>">City</a></li>
+				</c:when>
+				<c:otherwise>
+					<li><a
+						href="<c:url value='/sm-admin/add-workshop?mod=all&sort=city'/>">City</a></li>
+				</c:otherwise>
+			</c:choose>
+		</c:if>
+	</ul>
+</div>
 <c:choose>
-	<c:when test="${workshop.sort eq sort1}">
+	<c:when test='${workshop.sort eq sort1}'>
 		<c:forEach var='item' items="${workshop.workshopTemplate}">
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="col-sm-12 temp-div" 
+					<div class="col-sm-12 temp-div"
 						style="border: 1px green solid; cursor: pointer; margin-bottom: 1%; padding-top: 1%; padding-bottom: 1%;">
 						<c:out value='${item.name}' />
 						(
@@ -12,14 +52,26 @@
 							id="enrolled-workshop-triangle"></span>
 					</div>
 					<div class="col-sm-12 temp-details" style="display: none">
-						<span style="margin-right: 2%;"><strong>Previous Workshops: </strong><c:out value='${item.schPassed}' /></span>
-						<span style="margin-right: 2%;"><strong>Future Workshops: </strong><c:out value='${item.schLeft}' /></span>
+						<span style="margin-right: 2%;"><strong>Previous
+								Workshops: </strong> <c:out value='${item.schPassed}' /></span> <span
+							style="margin-right: 2%;"><strong>Future
+								Workshops: </strong> <c:out value='${item.schLeft}' /></span>
 					</div>
 					<c:forEach var='x' items="${item.schedules}">
-						<div class="col-sm-12 discussion-sidebar temp-details" style="display: none">
-							<div class="col-sm-4"><strong>Workshop Date: </strong><c:out value='${x.startDate}' /></div>
-							<div class="col-sm-4"><strong>City: </strong><c:out value='${x.location.state}' /></div>
-							<div class="col-sm-4"><strong>No of Seats Left: </strong><c:out value='${x.seatsLeft}' /></div>
+						<div class="col-sm-12 discussion-sidebar temp-details"
+							style="display: none">
+							<div class="col-sm-4">
+								<strong>Workshop Date: </strong>
+								<c:out value='${x.startDate}' />
+							</div>
+							<div class="col-sm-4">
+								<strong>City: </strong>
+								<c:out value='${x.location.state}' />
+							</div>
+							<div class="col-sm-4">
+								<strong>No of Seats Left: </strong>
+								<c:out value='${x.seatsLeft}' />
+							</div>
 						</div>
 					</c:forEach>
 				</div>

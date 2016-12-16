@@ -23,8 +23,9 @@
 <link rel="stylesheet" type="text/css"
 	href="/style/jquery.webui-popover.min.css">
 <link rel="stylesheet" type="text/css" href="/style/waitMe.css">
+<script src="/js/sidebar.js"></script>
 </head>
-<body style="padding-top: 50px">
+<body>
 	<%
 		FacilitatorController cont = new FacilitatorController();
 		List<Facilitator> facs = cont.findAllFacilitators();
@@ -66,7 +67,7 @@
 								</select>
 							</div>
 
-							<div class="col-md-12 form-group">
+						<!-- 	<div class="col-md-12 form-group">
 								<label for="venue">Venue:</label> <input type="text" id="venue"
 									name="venue" class="form-control" />
 							</div>
@@ -78,7 +79,7 @@
 							<div class="col-md-6 form-group">
 								<label for="city">City:</label> <input type="text" name="city"
 									id="city" class="form-control" />
-							</div>
+							</div> -->
 							<div class="col-md-6 form-group">
 								<label for="state">State:</label> <input list="states"
 									id="state" name="state" class="form-control" />
@@ -151,7 +152,7 @@
 								</select>
 							</div>
 						</div>
-						<div class="col-md-6">
+					<!-- 	<div class="col-md-6">
 							<div class="col-md-12 form-group">
 								<label for="flyer">Flyer:</label> <input type="file" id="flyer"
 									name="flyer" class="form-control" required="required">
@@ -162,11 +163,11 @@
 									multiple="multiple">
 									<c:forEach var="fac" items="${facilitators}">
 										<option value="fac.id"><c:out
-												value="${fac.firstName} ${fac.lastName}" /></option>
+												value="${fac.firstName} ${fac.lastName}"/></option>
 									</c:forEach>
 								</select>
 							</div>
-						</div>
+						</div>  -->
 						<div class="form-group col-sm-12">
 							<hr />
 							<input type="button"
@@ -232,21 +233,6 @@
 
 		});
 	</script>
-	<script type='text/javascript'>
-		var $zoho = $zoho || {
-			salesiq : {
-				values : {},
-				ready : function() {
-				}
-			}
-		};
-		var d = document;
-		s = d.createElement('script');
-		s.type = 'text/javascript';
-		s.defer = true;
-		s.src = 'https://salesiq.zoho.com/profiliantngr/float.ls?embedname=speaktoaconsultant';
-		t = d.getElementsByTagName('script')[0];
-		t.parentNode.insertBefore(s, t);
-	</script>
+	
 </body>
 </html>

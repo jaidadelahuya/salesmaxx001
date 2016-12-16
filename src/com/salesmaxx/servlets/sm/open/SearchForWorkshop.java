@@ -1,11 +1,8 @@
 package com.salesmaxx.servlets.sm.open;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Calendar;
+import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -17,10 +14,15 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
+import com.google.appengine.api.search.Cursor;
+import com.google.appengine.api.search.QueryOptions;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SortExpression;
+import com.google.appengine.api.search.SortExpression.SortDirection;
+import com.google.appengine.api.search.SortOptions;
 import com.salesmaxx.beans.ScheduleWorkshopDisplay;
 import com.salesmaxx.beans.SearchBean;
-import com.salesmaxx.entities.WorkShop;
-import com.salesmaxx.entities.WorkshopTemplate;
 import com.salesmaxx.util.Util;
 
 public class SearchForWorkshop extends HttpServlet {
@@ -42,64 +44,153 @@ public class SearchForWorkshop extends HttpServlet {
 		String[] format = req.getParameterValues("format");
 		String[] type = req.getParameterValues("type");
 		String expNo = req.getParameter("experience-no");
-		
+
 		HttpSession session = req.getSession(false);
 		Object o = null;
-		
-		String searchString  = "";
-		
+
+		String searchString = " ";
+
 		synchronized (session) {
-			o = session.getAttribute("searchBean");
+			o = session.getAttribute("sb");
 		}
 		SearchBean sb = null;
-		if(o==null) {
+		if (o == null) {
 			sb = new SearchBean();
 		} else {
 			sb = (SearchBean) o;
 		}
 
-		List<WorkshopTemplate> temps = null;
-		
+		if (Util.notNull(date)) {
+			Date d = Util.WebtoDate1(date);
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+			String dt = sdf.format(d);
+			searchString += "date >= " + dt + " ";
+			sb.setDate(date);
+		}else {
+			sb.setDate("");
+		}
 
-		boolean ok = Util.notNullArray(industries);
-		if (ok) {
-			temps = Util.getWorkshopByIndustry(industries);
-			Set<String> i = sb.getIndustry();
-			if(i==null) {
-				i = new HashSet<>();
-			}
-			for(String s: industries) {
-				if(s.startsWith("-")){
-					s = s.replace("-", "").trim();
-					i.remove(s);
-				}else {
-					i.add(s);
-				}
-			}
+		if (Util.notNullArray(locations)) {
+			Set<String> l = new HashSet<>();
 			
-			sb.setIndustry(i);
+			String ls = "location = (";
+			for (int i = 0; i < locations.length; i++) {
+				l.add(locations[i]);
+				ls = ls.concat(locations[i]);
+				if (i < locations.length - 1) {
+					ls = ls.concat(" OR ");
+				} else {
+					ls = ls.concat(")");
+				}
+
+			}
+			sb.setLocation(l);
+			searchString += ls + " ";
+		}else {
+			sb.setLocation(null);
 		}
 
-		ok = Util.notNullArray(experience);
-		if (ok) {
-			temps = Util.getWorkshopByExperience(temps, experience);
-			Set<String> i = sb.getExperience();
-			if(i==null) {
-				i = new HashSet<>();
-			}
-			for(String s: experience) {
-				if(s.startsWith("-")){
-					s = s.replace("-", "").trim();
-					i.remove(s);
-				}else {
-					i.add(s);
+		if (Util.notNullArray(industries)) {
+			Set<String> l = new HashSet<>();
+			
+			String ls = "industry = (";
+			for (int i = 0; i < industries.length; i++) {
+				l.add(industries[i]);
+				ls = ls.concat(industries[i]);
+				if (i < industries.length - 1) {
+					ls = ls.concat(" OR ");
+				} else {
+					ls = ls.concat(")");
 				}
+
 			}
-			sb.setExperience(i);
+			sb.setIndustry(l);
+			searchString += ls + " ";
+		}else {
+			sb.setIndustry(null);
 		}
-		
-		ok = Util.notNull(expNo);
-		if (ok) {
+
+		if (Util.notNullArray(roles)) {
+			Set<String> l = new HashSet<>();
+			
+			String ls = "profession = (";
+			for (int i = 0; i < roles.length; i++) {
+				l.add(roles[i]);
+				ls = ls.concat(roles[i]);
+				if (i < roles.length - 1) {
+					ls = ls.concat(" OR ");
+				} else {
+					ls = ls.concat(")");
+				}
+
+			}
+			sb.setJobRole(l);
+			searchString += ls + " ";
+		}else {
+			sb.setJobRole(null);
+		}
+
+		if (Util.notNullArray(experience)) {
+			Set<String> l = new HashSet<>();
+			
+			String ls = "experience = (";
+			for (int i = 0; i < experience.length; i++) {
+				l.add(experience[i]);
+				ls = ls.concat(experience[i]);
+				if (i < experience.length - 1) {
+					ls = ls.concat(" OR ");
+				} else {
+					ls = ls.concat(")");
+				}
+
+			}
+			sb.setExperience(l);
+			searchString += ls + " ";
+		}else {
+			sb.setExperience(null);
+		}
+
+		if (Util.notNullArray(format)) {
+			Set<String> l = new HashSet<>();
+			
+			String ls = "format = (";
+			for (int i = 0; i < format.length; i++) {
+				l.add(format[i]);
+				ls = ls.concat(format[i]);
+				if (i < format.length - 1) {
+					ls = ls.concat(" OR ");
+				} else {
+					ls = ls.concat(")");
+				}
+
+			}
+			sb.setFormat(l);
+			searchString += ls + " ";
+		}else {
+			sb.setFormat(null);
+		}
+
+		if (Util.notNullArray(type)) {
+			Set<String> l = new HashSet<>();
+			
+			String ls = "forSale = (";
+			for (int i = 0; i < type.length; i++) {
+				l.add(type[i]);
+				ls = ls.concat(type[i]);
+				if (i < type.length - 1) {
+					ls = ls.concat(" OR ");
+				} else {
+					ls = ls.concat(")");
+				}
+
+			}
+			sb.setType(l);
+			searchString += ls + " ";
+		}else {
+			sb.setType(null);
+		}
+
+		if (Util.notNull(expNo)) {
 			int i = 0;
 			try {
 				i = Integer.parseInt(expNo);
@@ -118,171 +209,43 @@ public class SearchForWorkshop extends HttpServlet {
 				exp = "Advanced";
 			}
 
-			temps = Util.getWorkshopByExperience(exp, temps);
-			Set<String> set = new HashSet<>();
-			set.add(exp);
-			sb.setExperience(set);
+			exp = "experience = " + exp;
+			searchString += exp + " ";
 		}
 
-		ok = Util.notNullArray(roles);
-		if (ok) {
-			temps = Util.getWorkshopByJobRole(temps, roles);
-			Set<String> i = sb.getJobRole();
-			if(i==null) {
-				i = new HashSet<>();
-			}
-			for(String s: roles) {
-				if(s.startsWith("-")){
-					s = s.replace("-", "").trim();
-					i.remove(s);
-				}else {
-					i.add(s);
-				}
-			}
-			sb.setJobRole(i);
-		}
-
-		List<WorkShop> list = Util.getAllScheduleWorkshopFromTemplate(temps);
-
-		ok = Util.notNullArray(locations);
-		if (ok) {
-			list = Util.findWorkshopByLocation(list, locations);
-			Set<String> i = sb.getLocation();
-			if(i==null) {
-				i = new HashSet<>();
-			}
-			for(String s: locations) {
-				if(s.startsWith("-")){
-					s = s.replace("-", "").trim();
-					i.remove(s);
-				}else {
-					i.add(s);
-				}
-			}
-			sb.setLocation(i);
-		}
-
-		ok = Util.notNull(date);
-
-		if (ok) {
-
-			Date d = Util.WebtoDate1(date);
-			List<WorkShop> nl = new ArrayList<>();
-			for (WorkShop w : list) {
-				if (w.getStartDate().equals(d)) {
-					nl.add(w);
-				}
-			}
-
-	
-				Calendar c = new GregorianCalendar();
-				c.setTime(d);
-				for (WorkShop w : list) {
-					Calendar c1 = new GregorianCalendar();
-					c1.setTime(w.getStartDate());
-					if (c.get(Calendar.MONTH) == c1.get(Calendar.MONTH)
-							&& c.get(Calendar.YEAR) == c1.get(Calendar.YEAR)) {
-						nl.add(w);
-					}
-				}
-			
-			list = nl;
-			sb.setDate(date);
-		}
-
-		ok = Util.notNullArray(type);
-		if (ok) {
-			if (type.length == 1) {
-				for (String s : type) {
-
-					if (s.equalsIgnoreCase("free")) {
-						list = Util.getFreeWorkshops(list);
-					} else if (s.equalsIgnoreCase("paid")) {
-						list = Util.getPaidWorkshops(list);
-					}
-				}
-			}
-			Set<String> i = sb.getType();
-			if(i==null) {
-				i = new HashSet<>();
-			}
-			for(String s: type) {
-				if(s.startsWith("-")){
-					s = s.replace("-", "").trim();
-					i.remove(s);
-				}else {
-					i.add(s);
-				}
-			}
-			sb.setType(i);
-		}
-
-		ok = Util.notNullArray(format);
-		if (ok) {
-			if (format.length == 1) {
-				for (String s : format) {
-
-					if (s.equalsIgnoreCase("instructor-led")) {
-						list = Util.getInstructorLedWorkshops(list);
-					} else if (s.equalsIgnoreCase("online")) {
-						list = Util.getOnlineWorkshops(list);
-					}
-				}
-			}
-			
-			Set<String> i = sb.getFormat();
-			if(i==null) {
-				i = new HashSet<>();
-			}
-			for(String s: format) {
-				if(s.startsWith("-")){
-					s = s.replace("-", "").trim();
-					i.remove(s);
-				}else {
-					i.add(s);
-				}
-			}
-			sb.setFormat(i);
-		}
-
-		List<ScheduleWorkshopDisplay> swds = Util
-				.toScheduleWorkshopDisplay(list);
+		SortOptions sortOptions = SortOptions
+				.newBuilder()
+				.addSortExpression(
+						SortExpression.newBuilder().setExpression("date")
+								.setDirection(SortDirection.ASCENDING))
+				.build();
+		QueryOptions qOptions = QueryOptions
+				.newBuilder()
+				.setLimit(3)
+				.setFieldsToReturn("workshopName", "image", "description",
+						"date", "location", "workshopID", "catalogueLink")
+				.setCursor(Cursor.newBuilder().build())
+				.setSortOptions(sortOptions).build();
+		Results<ScoredDocument> results = Util.searchIndex("WORKSHOPS",
+				searchString, qOptions);
 		
+		List<ScheduleWorkshopDisplay> swd = Util.scoredDocumentToScheduleWorkshopDisplay(results);
+		if(results.getCursor()!=null) {
+			sb.setNextCursor(results.getCursor().toWebSafeString());
+		}else {
+			sb.setNextCursor(null);
+		}
+		sb.setResultsFound(results.getNumberFound());
+		sb.setQueryString(searchString);
 		Util.initWorkshopLayout(session, resp);
-		
-		Set<ScheduleWorkshopDisplay> swdss = new HashSet<>();
-		swdss.addAll(swds);
-		if(swdss.size() > 3) {
-			sb.setPageEnd(3);
-		} else {
-			sb.setPageEnd(swdss.size()-1);
-		}
-		sb.setPageStart(0);
-		int p = 0;
-		if(swdss.size()%4 == 0) {
-			p = (int)Math.floor(swdss.size()/4);
-		} else {
-			p = (int)Math.floor(swdss.size()/4)+1;
-		}
-		
-		sb.setPagination(p);
-		sb.setCurrentDisplay(1);
 		synchronized (session) {
-			session.setAttribute("workshopSchedules", swdss);
-			session.setAttribute("searchBean", sb);
-			session.setAttribute("searchBeanX", sb);
-			
+			session.setAttribute("sb", sb);
+			session.setAttribute("workshopSchedules", swd);
 		}
-		
-		
-
 		RequestDispatcher rd = req
 				.getRequestDispatcher("/WEB-INF/sm/open/find-workshop-by-prop.jsp");
 		rd.include(req, resp);
 
 	}
 
-	
-
-	
 }

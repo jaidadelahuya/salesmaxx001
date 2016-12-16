@@ -20,6 +20,7 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+<link rel="stylesheet" type="text/css" media="print" href="/style/bootstrap.min.css"> 
 <%@ include file="/js/google-analytics"%>
 </head>
 <body>
@@ -61,7 +62,7 @@
 			<div class="col-sm-12">
 				<div class="col-sm-12"
 					style="border: 2px black solid; padding-top: 1%; padding-bottom: 1%;border-bottom: none;">
-					<div class="col-md-8">
+					<div class="col-sm-8">
 						<strong>Items Ordered</strong>
 					</div>
 					<div class="col-sm-2" style="text-align: right;">

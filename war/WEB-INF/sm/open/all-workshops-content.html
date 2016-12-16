@@ -18,14 +18,13 @@
 				class="pull-right"
 				style="display: inline-block; font-weight: bold; margin-top: 0; margin-bottom: 0; padding-right: 2%">Catalogue</strong></a>
 		</div>
-		<div class="row">
-			<div class="col-md-3">
+		<div class="row" style="padding: 1%">
+			<div class="col-sm-3">
 				<a
 					href="<c:url value='/sm/open/get-workshop-category?categoryName=${cd.categoryName}'/>"><img
-					class="img img-responsive img-rounded" src="${cd.imageUrl}"
-					style="margin: 3%; margin-left: 5%"></a>
+					class="img img-responsive img-rounded workshop-image" src="${cd.imageUrl}"></a>
 			</div>
-			<div class="col-md-9" style="font-family: calibri">
+			<div class="col-sm-9" style="font-family: calibri">
 				<ul class="list-group">
 					<c:forEach var="wd" items="${cd.workshops}">
 						<li class="list-group-item" style="border: none;"><a

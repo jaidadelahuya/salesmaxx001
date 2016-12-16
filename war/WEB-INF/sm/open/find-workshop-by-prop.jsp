@@ -43,7 +43,7 @@
 					<%@ include
 						file="/WEB-INF/sm/open/find-workshop-by-prop-content.html"%>
 				</div>
-				<c:if test="${(searchBeanX.pageEnd - searchBeanX.pageStart) < 3}">
+				<c:if test="${sb.resultsFound < 3}">
 					<c:if test="${(searchBeanX.pageEnd - searchBeanX.pageStart) < 2}">
 						<div class="panel panel-default col-md-12" style="padding: 0">
 							<h1 class="text-muted" style="text-align: center;">
@@ -66,10 +66,36 @@
 			</div> -->
 		</div>
 
+		<table id="t-row" style="display: none;">
+			<tr>
+				<td><h4>
+						<a class="workshop-name"></a>
+					</h4>
+					<h5>
+						<strong>Workshop Code :</strong> <a class="workshop-code"></a>
+					</h5>
+					<div style="font-family: calibri" class="row">
+						<div class="col-md-3">
+							<a class="workshop-img-link"><img
+								class="img img-rounded img-responsive workshop-img"></a>
+						</div>
+						<div class="col-md-9">
+							<p class="workshop-desc"></p>
+						</div>
+					</div>
+					<p style="padding-top: 1%;">
+						<strong>Date:</strong> <span class="workshop-date"
+							style="font-family: georgia"></span> <strong>Location:</strong> <span
+							class="workshop-state"></span> , <span class="workshop-country"></span>
+						<a class="btn btn-xs btn-danger add-to-cart">Enroll Now</a> <a
+							class="btn btn-xs btn-danger brochure" target="_blank">Download
+							Brochure</a>
+					</p></td>
+			</tr>
+		</table>
+
 	</div>
-	<div style="margin-top: 2%;">
-		<%@ include file="/WEB-INF/footer.html"%>
-	</div>
+
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script src="/js/bootstrap.min.js"></script>
 	<script src="//code.jquery.com/ui/1.11.4/jquery-ui.js"></script>
@@ -79,9 +105,43 @@
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/bootstrap-rating.min.js"></script>
 	<script type="text/javascript">
+	function addResult(data) {
+		$row = $("#t-row").clone();
+		$tr = $row.find("tr");
+		$tr.css("display", "block");
+		$tr.find(".workshop-name").prop("href","/sm/open/get-workshop-template-by-schedule-workshop?id="+data.id);
+		$tr.find(".workshop-name").text(data.name);
+		$tr.find(".workshop-code").prop("href","/sm/open/get-workshop-template-by-schedule-workshop?id="+data.id);
+		$tr.find(".workshop-code").text(data.workshopCode);
+		$tr.find(".workshop-img-link").prop("href","/sm/open/get-workshop-template-by-schedule-workshop?id="+data.id);
+		$tr.find(".workshop-img").prop("src",data.imageUrl);
+		$tr.find(".workshop-desc").text(data.description);
+		$tr.find(".workshop-date").text(data.startDate);
+		$tr.find(".workshop-state").text(data.location.state);
+		$tr.find(".workshop-country").text(data.location.country);
+		$tr.find(".add-to-cart").prop("href","/sm/open/add-to-cart?id="+data.id+"&qty=1");
+		$tr.find(".brochure").prop("href",data.catalogueLink);
+		
+		$("#result-list").append($tr);
+	}
+		window.onscroll = function(ev) {
+			if ((window.innerHeight + window.scrollY) >= document.body.offsetHeight) {
+				$.ajax({
+					url : "/sm/open/workshop/search/next",
+					dataType : "json",
+					success : function(data) {
+						console.log(data[0]);
+						for(i=0; data.length; i++) {
+							addResult(data[i]);
+						}
+					}
+				});
+			}
+		};
 		$(document).ready(function() {
 			$(".main-menu-item").removeClass("active");
 			//$("#workshop-menu").addClass("active");
+
 		});
 	</script>
 	<script type='text/javascript'>

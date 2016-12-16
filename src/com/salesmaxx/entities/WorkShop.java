@@ -13,6 +13,7 @@ import org.datanucleus.api.jpa.annotations.Extension;
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.salesmaxx.persistence.controllers.EMF;
 
 @Entity
 public class WorkShop implements Serializable {
@@ -40,6 +41,10 @@ public class WorkShop implements Serializable {
 	
 	
 	
+	public WorkShop() {
+		this.id = EMF.getDs().allocateIds(WorkShop.class.getSimpleName(), 1).getStart();
+	}
+
 	public List<Key> getStudents() {
 		return students;
 	}

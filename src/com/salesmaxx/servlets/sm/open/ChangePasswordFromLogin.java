@@ -90,7 +90,7 @@ public class ChangePasswordFromLogin extends HttpServlet {
 				try {
 					Util.sendEmail(Util.SERVICE_ACCOUNT, u.getUsername(),
 							"Your password has been changed", body);
-					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/login-page"));
+					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/login"));
 				} catch (AddressException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();

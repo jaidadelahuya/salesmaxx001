@@ -97,49 +97,67 @@ public class InitChequePayment extends HttpServlet {
 			mt.setTransactionType(ManualTransaction.TransactionType.CHEQUE
 					.name());
 
-			KeyRange range = EMF.getDs().allocateIds(ManualTransaction.class.getSimpleName(), 1);
+			KeyRange range = EMF.getDs().allocateIds(
+					ManualTransaction.class.getSimpleName(), 1);
 			mt.setId(range.getStart());
-			
+
 			synchronized (session) {
 				session.setAttribute("chequeInvoice", cq);
 			}
-			
+
 			UserGeneralInfo ugi = null;
 			Object object = null;
 			synchronized (session) {
 				object = req.getAttribute("ugi");
 			}
-			
-			if(object == null) {
-				ugi = new UserGeneralInfoController().findUserGeneralInfo(u,u.getGeneralInfoId());
-				if(ugi == null) {
+
+			if (object == null) {
+				ugi = new UserGeneralInfoController().findUserGeneralInfo(u,
+						u.getGeneralInfoId());
+				if (ugi == null) {
 					ugi = new UserGeneralInfo();
 				}
 			} else {
 				ugi = (UserGeneralInfo) o;
 			}
-			
-			if(ugi.getPendingOrder() == null) {
+
+			if (ugi.getPendingOrder() == null) {
 				List<Key> kkk = new ArrayList<>();
 				kkk.add(mt.getId());
 				ugi.setPendingOrder(kkk);
 			} else {
 				ugi.getPendingOrder().add(mt.getId());
 			}
-			
+
 			c.setItems(new ArrayList<EmbeddedEntity>());
 			synchronized (session) {
 				session.setAttribute("cart", c);
+			}
+			String userMsg = Util.getInvoiceEmail(u.getFirstName(),
+					"http://www.salesmaxx.com/sm/open/get-cheque-invoice?admin=admin&txnRef="
+							+ mt.getTxnRef());
+			String email = u.getUsername();
+			if(email == null || !email.contains("@")) {
+				Set<String> emails = u.getEmails();
+				if(emails!=null && !emails.isEmpty()) {
+					email = emails.iterator().next();
+				}
 			}
 			String body = "<p>Hello,</p>"
 					+ "<p>An invoice has been created for a transaction with ref "
 					+ mt.getTxnRef()
 					+ ".</p>"
 					+ "<p><a href='http://www.salesmaxx.com/sm/open/get-cheque-invoice?admin=admin&txnRef="
-					+ mt.getTxnRef() + "'>Click here</a> to view</p>"+"<p>SalesMaxx<p>";
-			String title = "New Invoice created: Transaction Ref "+mt.getTxnRef();
+					+ mt.getTxnRef() + "'>Click here</a> to view</p>"
+					+ "<p>SalesMaxx<p>";
+			String title = "New Invoice created: Transaction Ref "
+					+ mt.getTxnRef();
 			String to = "stephen_ubogu@outlook.com";
 			try {
+				
+				if(email!=null && email.contains("@")) {
+					Util.sendEmail(Util.SERVICE_ACCOUNT, email, "SalesMaxx Invoice", userMsg);
+				}
 				Util.sendEmail(Util.SERVICE_ACCOUNT, to, title, body);
 				CartController cint = new CartController();
 				cint.edit(c);
@@ -152,13 +170,11 @@ public class InitChequePayment extends HttpServlet {
 				e.printStackTrace();
 			}
 
-			RequestDispatcher rd = req
-					.getRequestDispatcher("/WEB-INF/sm/closed/cheque-invoice.jsp");
-			rd.forward(req, resp);
+			resp.sendRedirect(resp
+					.encodeRedirectURL("/sm/open/get-cheque-invoice?admin=admin&txnRef="
+							+ mt.getTxnRef()));
 		}
 
 	}
-	
-	
 
 }

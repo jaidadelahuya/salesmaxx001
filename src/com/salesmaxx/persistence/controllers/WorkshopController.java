@@ -1,6 +1,8 @@
 package com.salesmaxx.persistence.controllers;
 
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 import javax.persistence.EntityManager;
@@ -13,6 +15,9 @@ import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyRange;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
 import com.salesmaxx.entities.Address;
@@ -33,18 +38,16 @@ public class WorkshopController {
 
 	public void create(WorkShop workShop, Address address,
 			WorkshopTemplate template) {
-		KeyRange range = ds.allocateIds(WorkShop.class.getSimpleName(), 1);
-		Key key = range.getStart();
-		workShop.setId(key);
+	
 		List<Key> schedules = template.getSchedules();
 		if (schedules == null) {
 			schedules = new ArrayList<>();
 		}
 		Entity ent3 = Util.WorkshopTemplateToEntity(template);
-		Entity ent = Util.workshopToEntity(workShop, ent3.getKey());
+		Entity ent = Util.workshopToEntity(workShop);
 		schedules.add(ent.getKey());
 		ent3.setUnindexedProperty("schedules", schedules);
-		Entity ent2 = Util.addressToEntity(address, key);
+		Entity ent2 = Util.addressToEntity(address, workShop.getId());
 		ent.setUnindexedProperty("location", ent2.getKey());
 		txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
 		ds.put(ent);
@@ -54,8 +57,6 @@ public class WorkshopController {
 		Util.WORKSHOP_CACHE.clearAll();
 
 	}
-
-	
 
 	public void destroy(Key key) throws RollbackFailureException, Exception {
 		EntityManager em = null;
@@ -108,17 +109,42 @@ public class WorkshopController {
 		return temps;
 	}
 
+	public List<WorkShop> getWorkshops(Date start, Date end) {
+		Query q = new Query(WorkShop.class.getSimpleName());
+		q.addSort("startDate");
+		Filter f1 = new Query.FilterPredicate("startDate",
+				FilterOperator.GREATER_THAN, start);
+		Filter f2 = new Query.FilterPredicate("startDate",
+				FilterOperator.LESS_THAN, end);
+		List<Filter> filters = new ArrayList<>();
+		filters.add(f1);
+		filters.add(f2);
+		Filter f3 = new Query.CompositeFilter(CompositeFilterOperator.AND,
+				filters);
+		q.setFilter(f3);
+		q.setKeysOnly();
+		PreparedQuery pq = ds.prepare(q);
+		Iterator<Entity> ents = pq.asIterator();
+		List<WorkShop> workshops = new ArrayList<>();
+		while (ents.hasNext()) {
+			workshops.add(Util.getWorkshopSchedule(String.valueOf(ents.next()
+					.getKey().getId())));
+		}
+
+		return workshops;
+	}
+
 	public void edit(List<WorkShop> schedules) {
 		List<Entity> ents = new ArrayList<>();
-		for(WorkShop w : schedules) {
-			WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(Util.getWorkshopTemplateFromCache(), String.valueOf(w.getId().getId()));
-			ents.add(Util.workshopToEntity(w, wt.getWorkshopId()));
+		for (WorkShop w : schedules) {
+			
+			ents.add(Util.workshopToEntity(w));
+			Util.WORKSHOP_CACHE.put(w.getId(), w);
 		}
 		txn = ds.beginTransaction();
 		ds.put(ents);
 		txn.commit();
-		Util.WORKSHOP_CACHE.clearAll();
 		
-		
+
 	}
 }

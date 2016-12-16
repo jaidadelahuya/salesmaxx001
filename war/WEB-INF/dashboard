@@ -1,5 +1,5 @@
 
-<div class="col-sm-10 col-centered" style="padding-top: 4%;">
+<div class="col-sm-12" >
 
 	<c:set var="ADMIN" value="<%=UserRole.ADMIN%>" />
 	<c:set var="SYSADMIN" value="<%=UserRole.SYSADMIN%>" />
@@ -195,12 +195,12 @@
 	<c:if test='${user.role eq ADMIN or user.role eq SYSADMIN }'>
 		<div class="dashboard-module">
 			<a class="module to-pointer"
-				href='<c:url value="/sm-admin/add-workshop?mod=new"/>'><img
+				href='<c:url value="/sm-admin/workshop/new"/>'><img
 				class="img-responsive module-image"
 				src="/images/icons/add-workshop.png" alt="Add workshop"></a>
 			<div class="caption" style="text-align: center;">
 				<a class="module to-pointer"
-					href='<c:url value="/sm-admin/add-workshop?mod=new"/>'>Workshops</a>
+					href='<c:url value="/sm-admin/workshop/new"/>'>Workshops</a>
 			</div>
 		</div>
 	</c:if>

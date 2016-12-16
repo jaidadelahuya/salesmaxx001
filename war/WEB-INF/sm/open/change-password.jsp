@@ -57,7 +57,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="login-div" style="text-align: center">
-				<img alt="" src="/images/salesmaxx-logo.jpg"
+				<img alt="" src="/images/salesmaxx-logo.png"
 					style="width: 40%; margin: 0 auto;">
 			</div>
 			<c:if test="${not empty changePasswordError}">

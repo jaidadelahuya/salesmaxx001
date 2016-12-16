@@ -23,7 +23,7 @@
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <%@ include file="/js/google-analytics"%>
 </head>
-<body>
+<body style="overflow-x:hidden">
 
 
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -106,7 +106,7 @@
 
 
 	<div id="main-wrapper" class="container-fluid">
-		<div class="row" id="tools-div" style="width: 80%; margin: 0 auto;">
+		<div class="row" id="tools-div" style="margin: 0 auto;">
 			<div class="col-md-8 discussion-sidebar">
 				<h3 class="text-danger"
 					style="text-align: center; margin-top: 2%; margin-bottom: 2%; font-weight: bolder;">Find
@@ -207,9 +207,9 @@
 							<input type="text" class="form-control date-picker" name="date"
 								placeholder="mm/dd/yyyy">
 						</div>
-						<label class="control-label col-sm-2" for="role"
+						<label class="control-label col-xs-4 col-sm-2" for="role"
 							style="font-family: calibri; padding-right: 0px">Type:</label>
-						<div class="col-sm-4">
+						<div class="col-xs-8 col-sm-4">
 							<label class="checkbox-inline"><input type="checkbox"
 								value="free" name="type">Free</label> <label
 								class="checkbox-inline"><input type="checkbox"
@@ -222,7 +222,7 @@
 					</div>
 				</form>
 			</div>
-			<div class="col-md-4">
+			<div class="hidden-xs hidden-sm col-md-4">
 				<div style="position: relative;">
 					<iframe src="/images/zoho-crm/index.html" width="336" height="280"
 						scrolling="no" frameBorder='0'></iframe>
@@ -697,13 +697,13 @@
 
 
 		<div id="categories" class="row"
-			style="width: 80%; margin: 0 auto; margin-top: 2%;">
-			<h2 class="well text-primary" style="text-align: center;">CHECK
-				OUT OUR COLLECTION OF SALES CAPABILITY DEVELOPMENT WORKSHOPS</h2>
+			style="margin: 0 auto; margin-top: 2%;">
+			<h2 class="well text-primary" style="text-align: center;">Check
+				out our collection of sales capability development workshops</h2>
 			<h3 style="text-align: center; margin-bottom: 2%;">Whatever your
 				job type, as long as you are in sales, we've got you covered.</h3>
 			<div class="col-sm-10 col-centered">
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=bootcamp'/>"><img
@@ -714,7 +714,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Channel and Distribution Sales'/>"><img
@@ -727,7 +727,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Negotiation'/>"><img
@@ -739,7 +739,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Presentation'/>"><img
@@ -751,7 +751,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Professional Selling Skills'/>"><img
@@ -763,7 +763,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Relationship Management'/>"><img
@@ -776,7 +776,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Sales Management'/>"><img
@@ -789,7 +789,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Training For Every Account Manager'/>"><img
@@ -802,7 +802,7 @@
 						</div>
 					</div>
 				</div>
-				<div class="col-sm-4">
+				<div class="col-sm-6 col-md-4">
 					<div class="thumbnail index-mod">
 						<a
 							href="<c:url value='/sm/open/get-workshop-category?categoryName=Technology and Telco Sales'/>"><img
@@ -825,13 +825,13 @@
 		</div>
 
 		<div class="row" style="width: 80%; margin: 0 auto; margin-top: 2%;">
-			<div class="col-sm-4">
+			<div class="col-sm-6 col-md-4">
 				<a
 					href='<c:out value='/sm/open/search-for-workshop?format=online' />'><img
 					style="margin-top: 2%;" alt="Download" src="/images/e-learning.jpg"
 					class="img-responsive" /></a>
 			</div>
-			<div class="col-sm-4">
+			<div class="hidden-xs hidden-sm col-md-4">
 				<div style="position: relative;">
 					<iframe src="/images/zoho-social/index.html" width="336"
 						height="255" scrolling="no" frameBorder='0'></iframe>
@@ -839,7 +839,7 @@
 						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
 				</div>
 			</div>
-			<div class="col-sm-4">
+			<div class="col-sm-6 col-md-4">
 				<a href="/calendar"><img alt="Download Whitepaper"
 					style="margin-top: 2%;" src="/images/calender.jpg"
 					class="img-responsive" /></a>

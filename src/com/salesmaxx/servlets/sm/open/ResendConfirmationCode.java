@@ -43,19 +43,19 @@ public class ResendConfirmationCode extends HttpServlet {
 				session.removeAttribute("verificationError");
 			}
 			
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/init/verification"));
 		} catch (AddressException e) {
 			e.printStackTrace();
 			session.setAttribute("verificationError","The email address " + su.getUsername()
 					+ " is either invalid or does not exist.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/verification"));
 			return;
 
 		} catch (MessagingException e) {
 			e.printStackTrace();
 			session.setAttribute("verificationError","We could not send a confirmation code to " + su.getUsername()
 					+ ". Please try again later.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/verification"));
 			return;
 			
 		}

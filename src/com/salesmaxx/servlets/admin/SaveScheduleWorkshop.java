@@ -45,7 +45,7 @@ public class SaveScheduleWorkshop extends HttpServlet {
 		String type = req.getParameter("type");
 		String[] facilitators = req.getParameterValues("facilitators");
 
-		boolean ok = Util.notNull(workshopName, venue, street, city, state,
+		boolean ok = Util.notNull(workshopName, state,
 				country, startDate, format, type);
 		if (!ok) {
 			resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
@@ -62,6 +62,7 @@ public class SaveScheduleWorkshop extends HttpServlet {
 				key = keys.get(0);
 			}
 			WorkShop wk = new WorkShop();
+			wk.setFlyer(key);
 			wk.setWorkshopType(format);
 			wk.setVenue(venue);
 			ok = Util.notNull(endDate);
@@ -80,9 +81,7 @@ public class SaveScheduleWorkshop extends HttpServlet {
 			wk.setStartDate(Util.WebtoDate(startDate));
 			Calendar c = new GregorianCalendar();
 			c.setTime(wk.getStartDate());
-			int d = c.get(Calendar.DAY_OF_MONTH);
-			int m = c.get(Calendar.MONTH);
-			int y = c.get(Calendar.YEAR);
+			
 			wk.setWorkshopType(format);
 			//wk.setFlyer(key);
 
@@ -90,7 +89,14 @@ public class SaveScheduleWorkshop extends HttpServlet {
 			Key ky = KeyFactory.stringToKey(workshopName);
 			WorkshopTemplate temp = Util.getWorkshopFromList(ky.getName(),
 					temps);
-
+			try {
+				Util.addWorkshopToIndex(wk,add,temp);
+			} catch (InterruptedException e) {
+				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
+						"Document has not been added to index.");
+				return;
+				
+			}
 			if (temp != null) {
 				WorkshopController cont = new WorkshopController();
 				cont.create(wk, add, temp);

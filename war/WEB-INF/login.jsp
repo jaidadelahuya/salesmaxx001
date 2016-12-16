@@ -58,7 +58,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="login-div" style="text-align: center">
-				<img alt="" src="/images/salesmaxx-logo.jpg"
+				<img alt="" src="/images/salesmaxx-logo.png"
 					style="width: 40%; margin: 0 auto;">
 			</div>
 			<c:choose>
@@ -84,11 +84,11 @@
 				<form id="login-form"
 					action='<c:url value="/sm/open/non-ajax-login"/>' method="post">
 					<div class="form-group" style="margin: 2%;">
-						<label>Email or Registration ID</label> <input type="text"
+						<label>Email or Registration ID</label> <input type="text" value="${loginID}"
 							class="form-control" name="username" />
 					</div>
 					<div class="form-group" style="margin: 2%;">
-						<label>Password</label> <a href="/sm/open/forgot-password-page"
+						<label>Password</label> <a href="<c:url value='/sm/open/i/forgot/password' />"
 							class="pull-right">Forgot your password?</a> <input
 							type="password" class="form-control" name="password" />
 					</div>
@@ -108,7 +108,7 @@
 					</h5>
 				</div>
 				<div class="form-group" style="margin: 2%;">
-					<a class="form-control btn btn-primary" href="<c:url value='/sm/open/create-an-account' />"
+					<a class="form-control btn btn-primary" href="<c:url value='/sm/open/account/init/new' />"
 						style="margin-top: 4%;" >Create an account</a>
 				</div>
 				<div class="form-group" style="margin: 2%; font-size: 9pt">

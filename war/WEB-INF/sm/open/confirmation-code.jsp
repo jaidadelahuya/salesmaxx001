@@ -17,6 +17,7 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+<link rel="stylesheet" type="text/css" href="/style/font-awesome.min.css">
 <style type="text/css">
 @media screen and (max-width: 1200px) {
 	.login-div {
@@ -55,7 +56,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="login-div" style="text-align: center">
-				<img alt="" src="/images/salesmaxx-logo.jpg"
+				<img alt="" src="/images/salesmaxx-logo.png"
 					style="width: 40%; margin: 0 auto;">
 			</div>
 			<c:if test="${not empty verificationError}">
@@ -71,8 +72,8 @@
 				<p>
 					An email with a verification code has been sent to <i
 						class="text-success"><c:out value='${signUp.username}' /></i>. If
-					you don't receive this email, please check your junk folder or
-					contact our support for assistance.
+					you do not find this email in your inbox, please check your junk
+					folder or contact our support for assistance.
 				</p>
 				<p>Copy the verification code and paste it in the input field
 					below then click verify.</p>
@@ -96,14 +97,17 @@
 				</div>
 				<c:choose>
 					<c:when test="${fromSignUp}">
-						<div class="divider form-group">
+						<div
+							style="margin-left: -15px; margin-right: -15px; padding: 10px 15px; text-align: center"
+							class="divider form-group">
 							<p>
-								Already have an account? <a href="/sm/open/login-page">Sign
-									in</a>
+								Already have an account? <a href="/sm/open/i/login">Sign in</a>
+								or login with a social network
 							</p>
-							<strong>You may also login with</strong> <a
-								href="/sm/open/facebook-signin">Facebook</a> or <a
-								href="/sm/open/linkedin-signin">LinkedIn</a>
+							<a href="/sm/open/facebook-signin"><i
+								class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></a> <a
+								href="/sm/open/linkedin-signin"><i
+								class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i></a>
 						</div>
 					</c:when>
 					<c:otherwise>
@@ -114,7 +118,7 @@
 						</div>
 						<div class="form-group" style="margin: 2%;">
 							<a class="form-control btn btn-primary"
-								href="<c:url value='/sm/open/create-an-account' />"
+								href="<c:url value='/sm/open/account/init/new' />"
 								style="margin-top: 4%;">Create an account</a>
 						</div>
 						<div class="form-group" style="margin: 2%; font-size: 9pt">

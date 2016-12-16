@@ -13,63 +13,53 @@ public class PurchaseHistoryBean implements Serializable, Comparable<PurchaseHis
 	 */
 	private static final long serialVersionUID = -417762141277212901L;
 	
-	private Key key;
-	private String formattedDate,txnRef, formattedTotalPrice, formattedUnitPrice;
+	
+	private String txnRef, webKey;
 	List<ScheduleWorkshopDisplay> list;
 	private Date date;
+	private double unitPrice, total;
 	
 	
 	
+	public String getWebKey() {
+		return webKey;
+	}
+	public void setWebKey(String webKey) {
+		this.webKey = webKey;
+	}
+	public double getUnitPrice() {
+		return unitPrice;
+	}
+	public void setUnitPrice(double unitPrice) {
+		this.unitPrice = unitPrice;
+	}
+	public double getTotal() {
+		return total;
+	}
+	public void setTotal(double total) {
+		this.total = total;
+	}
 	public Date getDate() {
 		return date;
 	}
 	public void setDate(Date date) {
 		this.date = date;
 	}
-	public Key getKey() {
-		return key;
-	}
-	public void setKey(Key key) {
-		this.key = key;
-	}
-	public String getFormattedDate() {
-		return formattedDate;
-	}
-	public void setFormattedDate(String formattedDate) {
-		this.formattedDate = formattedDate;
-	}
+	
 	public String getTxnRef() {
 		return txnRef;
 	}
 	public void setTxnRef(String txnRef) {
 		this.txnRef = txnRef;
 	}
-	public String getFormattedTotalPrice() {
-		return formattedTotalPrice;
-	}
-	public void setFormattedTotalPrice(String formattedTotalPrice) {
-		this.formattedTotalPrice = formattedTotalPrice;
-	}
-	public String getFormattedUnitPrice() {
-		return formattedUnitPrice;
-	}
-	public void setFormattedUnitPrice(String formattedUnitPrice) {
-		this.formattedUnitPrice = formattedUnitPrice;
-	}
+	
 	public List<ScheduleWorkshopDisplay> getList() {
 		return list;
 	}
 	public void setList(List<ScheduleWorkshopDisplay> list) {
 		this.list = list;
 	}
-	@Override
-	public String toString() {
-		return "PurchaseHistoryBean [key=" + key + ", formattedDate="
-				+ formattedDate + ", txnRef=" + txnRef
-				+ ", formattedTotalPrice=" + formattedTotalPrice
-				+ ", formattedUnitPrice=" + formattedUnitPrice + ", list="
-				+ list + "]";
-	}
+	
 	@Override
 	public int compareTo(PurchaseHistoryBean o) {
 		

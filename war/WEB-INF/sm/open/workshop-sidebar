@@ -11,7 +11,7 @@
 	<ul class="list-group">
 		<li class="list-group-item" style="border:none">
 		<input type="text" class="form-control control-elem-date date-picker" name="date"
-								placeholder="mm/dd/yyyy" value="${searchBean.date}" >	</li>
+								placeholder="mm/dd/yyyy" value="${sb.date}" >	</li>
 
 	</ul>
 	<div style="background-color: #d9edf7; padding: 0; text-align:center">
@@ -22,26 +22,26 @@
 	<ul class="list-group">
 
 		<c:choose>
-			<c:when test='${pn:contains(searchBean.location,"abuja")}'>
+			<c:when test='${pn:contains(sb.location,"abuja")}'>
 				<li class="list-group-item checkbox" style="margin-top: 0; border:none"><label><input
 						type="checkbox" value="abuja" name="location" class="control-elem"
-						checked="checked">ABUJA</label></li>
+						checked="checked">Abuja</label></li>
 			</c:when>
 			<c:otherwise>
 				<li class="list-group-item checkbox" style="margin-top: 0; border:none"><label><input
-						type="checkbox" value="abuja" name="location" class="control-elem">ABUJA</label></li>
+						type="checkbox" value="abuja" name="location" class="control-elem">Abuja</label></li>
 			</c:otherwise>
 		</c:choose>
 
 		<c:choose>
-			<c:when test='${pn:contains(searchBean.location,"lagos")}'>
+			<c:when test='${pn:contains(sb.location,"lagos")}'>
 				<li class="list-group-item checkbox" style='border:none'><label><input
 						type="checkbox" value="lagos" name="location" class="control-elem"
-						checked="checked">LAGOS</label></li>
+						checked="checked">Lagos</label></li>
 			</c:when>
 			<c:otherwise>
 				<li class="list-group-item checkbox" style='border:none'><label><input
-						type="checkbox" value="lagos" name="location" class="control-elem">LAGOS</label></li>
+						type="checkbox" value="lagos" name="location" class="control-elem">Lagos</label></li>
 			</c:otherwise>
 		</c:choose>
 
@@ -55,20 +55,19 @@
 	<ul class="list-group">
 		<c:forEach var="item" items="${experienceItems}">
 			<c:choose>
-				<c:when test='${pn:contains(searchBean.experience,item.name)}'>
+				<c:when test='${pn:contains(sb.experience,item.name)}'>
 					<li class="list-group-item" style='border:none'>
 							<label style="font-weight: normal;"><input
 								type="checkbox" value="${item.name}" name="experience"
-								class="control-elem" checked="checked"> <c:out
-									value="${item.name}" /> (<c:out value="${item.freq}" />)</label>
+								class="control-elem" checked="checked"><span style="text-transform: capitalize;"><c:out
+									value="${item.name}" /></span> </label>
 					</li>
 				</c:when>
 				<c:otherwise>
 					<li class="list-group-item" style='border:none'>
 							<label style="font-weight: normal;"><input
 								type="checkbox" value="${item.name}" name="experience"
-								class="control-elem"> <c:out value="${item.name}" /> (<c:out
-									value="${item.freq}" />)</label>
+								class="control-elem"><span style="text-transform: capitalize;"> <c:out value="${item.name}" /></span></label>
 					</li>
 				</c:otherwise>
 			</c:choose>
@@ -82,18 +81,17 @@
 	<ul class="list-group" style="height: 10em; overflow: auto;">
 		<c:forEach var="item" items="${industryItems}">
 			<c:choose>
-				<c:when test='${pn:contains(searchBean.industry,item.name)}'>
+				<c:when test='${pn:contains(sb.industry,item.name)}'>
 					<li class="list-group-item" style='border:none'><label
 						style="font-weight: normal;"><input type="checkbox"
 							value="${item.name}" name="industry" class="control-elem"
-							checked="checked"> <c:out value="${item.name}" /> (<c:out
-								value="${item.freq}" />)</label></li>
+							checked="checked"><span style="text-transform: capitalize;"> <c:out value="${item.name}" /> </span></label></li>
 				</c:when>
 				<c:otherwise>
 					<li class="list-group-item" style='border:none'><label
 						style="font-weight: normal;"><input type="checkbox"
 							value="${item.name}" name="industry" class="control-elem">
-							<c:out value="${item.name}" /> (<c:out value="${item.freq}" />)</label></li>
+							<span style="text-transform: capitalize;"><c:out value="${item.name}" /> </span></label></li>
 				</c:otherwise>
 			</c:choose>
 
@@ -108,20 +106,19 @@
 
 		<c:forEach var="item" items="${jobRoleItems}">
 			<c:choose>
-				<c:when test='${pn:contains(searchBean.jobRole,item.name)}'>
+				<c:when test='${pn:contains(sb.jobRole,item.name)}'>
 					<li class="list-group-item" style='border:none'>
 							<label style="font-weight: normal;"><input
 								type="checkbox" value="${item.name}" name="job-role"
-								class="control-elem" checked="checked"> <c:out
-									value="${item.name}" /> (<c:out value="${item.freq}" />)</label>
+								class="control-elem" checked="checked"><span style="text-transform: capitalize;"> <c:out
+									value="${item.name}" /></span> </label>
 					</li>
 				</c:when>
 				<c:otherwise>
 					<li class="list-group-item" style='border:none'>
 							<label style="font-weight: normal;"><input
 								type="checkbox" value="${item.name}" name="job-role"
-								class="control-elem"> <c:out value="${item.name}" /> (<c:out
-									value="${item.freq}" />)</label>
+								class="control-elem"><span style="text-transform: capitalize;"> <c:out value="${item.name}" /></span> </label>
 					</li>
 				</c:otherwise>
 			</c:choose>
@@ -134,27 +131,27 @@
 	</div>
 	<ul class="list-group">
 		<c:choose>
-			<c:when test='${pn:contains(searchBean.format,"instructor-led")}'>
+			<c:when test='${pn:contains(sb.format,"instructor-led")}'>
 				<li class="list-group-item checkbox" style="margin-top: 0;border:none"><label><input
 						type="checkbox" value="instructor-led" name="format"
-						class="control-elem" checked="checked">INSTRUCTOR-LED</label></li>
+						class="control-elem" checked="checked">Instructor Led</label></li>
 			</c:when>
 			<c:otherwise>
 				<li class="list-group-item checkbox" style="margin-top: 0;border:none"><label><input
 						type="checkbox" value="instructor-led" name="format"
-						class="control-elem">INSTRUCTOR-LED</label></li>
+						class="control-elem">Instructor Led</label></li>
 			</c:otherwise>
 		</c:choose>
 
 		<c:choose>
-			<c:when test='${pn:contains(searchBean.format,"online")}'>
+			<c:when test='${pn:contains(sb.format,"online")}'>
 				<li class="list-group-item checkbox" style='border:none'><label><input
 						type="checkbox" value="online" name="format" class="control-elem"
-						checked="checked">ONLINE</label></li>
+						checked="checked">Online</label></li>
 			</c:when>
 			<c:otherwise>
 				<li class="list-group-item checkbox" style='border:none'><label><input
-						type="checkbox" value="online" name="format" class="control-elem">ONLINE</label></li>
+						type="checkbox" value="online" name="format" class="control-elem">Online</label></li>
 			</c:otherwise>
 		</c:choose>
 
@@ -168,7 +165,7 @@
 
 	<ul class="list-group">
 		<c:choose>
-			<c:when test='${pn:contains(searchBean.format,"free")}'>
+			<c:when test='${pn:contains(sb.type,"free")}'>
 				<li class="list-group-item checkbox" style="margin-top: 0;border:none"><label><input
 						type="checkbox" value="free" name="type" class="control-elem"
 						checked="checked">Free</label></li>
@@ -180,7 +177,7 @@
 		</c:choose>
 
 		<c:choose>
-			<c:when test='${pn:contains(searchBean.format,"paid")}'>
+			<c:when test='${pn:contains(sb.type,"paid")}'>
 				<li class="list-group-item checkbox" style='border:none'><label><input
 						type="checkbox" value="paid" name="type" class="control-elem" checked="checked">Paid</label></li>
 			</c:when>

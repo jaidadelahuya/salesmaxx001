@@ -15,6 +15,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
@@ -47,6 +48,7 @@ import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.KeyRange;
+import com.google.appengine.api.datastore.QueryResultList;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
@@ -56,6 +58,19 @@ import com.google.appengine.api.images.ServingUrlOptions;
 import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
+import com.google.appengine.api.search.Document;
+import com.google.appengine.api.search.Field;
+import com.google.appengine.api.search.Index;
+import com.google.appengine.api.search.IndexSpec;
+import com.google.appengine.api.search.PutException;
+import com.google.appengine.api.search.Query;
+import com.google.appengine.api.search.QueryOptions;
+import com.google.appengine.api.search.Results;
+import com.google.appengine.api.search.ScoredDocument;
+import com.google.appengine.api.search.SearchException;
+import com.google.appengine.api.search.SearchServiceFactory;
+import com.google.appengine.api.search.SortOptions;
+import com.google.appengine.api.search.StatusCode;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
@@ -978,10 +993,9 @@ public class Util {
 
 	}
 
-	public static Entity workshopToEntity(WorkShop workShop, Key key) {
+	public static Entity workshopToEntity(WorkShop workShop) {
 
-		Entity ent = new Entity(WorkShop.class.getSimpleName(), workShop
-				.getId().getId(), key);
+		Entity ent = new Entity(workShop.getId());
 		ent.setUnindexedProperty("facilitators", workShop.getFacilitators());
 		ent.setIndexedProperty("startDate", workShop.getStartDate());
 		ent.setIndexedProperty("endDate", workShop.getEndDate());
@@ -1136,6 +1150,7 @@ public class Util {
 	@SuppressWarnings("unchecked")
 	public static WorkShop entityToWorkshop(Entity result) {
 		WorkShop ws = new WorkShop();
+		ws.setId(result.getKey());
 		ws.setEndDate((Date) result.getProperty("endDate"));
 		ws.setFacilitators((List<String>) result.getProperty("facilitators"));
 		ws.setFlyer((BlobKey) result.getProperty("flyer"));
@@ -1404,11 +1419,11 @@ public class Util {
 		}
 		return users;
 	}
-	
+
 	public static List<Facilitator> getFacilitatorsFromCache(List<Key> kys) {
 		List<Facilitator> facs = new ArrayList<>();
-		for(Key k : kys) {
-			Object o =  Util.facilitatorCache.get(k);
+		for (Key k : kys) {
+			Object o = Util.facilitatorCache.get(k);
 			if (o == null) {
 				FacilitatorController cont = new FacilitatorController();
 				Facilitator f = cont.findFacilitator(k);
@@ -1497,6 +1512,21 @@ public class Util {
 		Util.sendEmail(Util.SERVICE_ACCOUNT, to, title, body);
 		// Util.sendEmailNotification( to, title, body);
 	}
+	
+	public static String getInvoiceEmail(String name, String url) {
+		if (name == null) {
+			name = "";
+		}
+		return "<body><div style='width: 40%; margin: 0 auto'>"
+				+ "<img alt='SalesMaxx' src='http://www.salesmaxx.com/images/salesmaxx-logo.jpg'/>"
+				+ "</div><div><h4 style='padding-bottom: 3%;'>Hello "
+				+ name
+				+ ",</h4>"
+				+ "<h3 style='color:#d9534f'>Your Invoice</h3><p>You have generated an invoice on SalesMaxx.</p>"
+				+ "<p>Follow the link below or copy and paste it on your browser address bar to view your invoice.</p>"
+				+ "<p>"+url+"</p><br>"
+				+ "<p>Regards,</p><p>SalesMaxx Team</p></div></body>";
+	}
 
 	public static String getConfirmationCodeEmailBody(String code, String name) {
 		if (name == null) {
@@ -1507,8 +1537,8 @@ public class Util {
 				+ "</div><div><h4 style='padding-bottom: 3%;'>Hello "
 				+ name
 				+ ",</h4>"
-				+ "<h3 style='color:#d9534f'>SalesMaxx Confirmation Code</h3><p>Your new account is almost ready.</p>"
-				+ "<p>Before you can login you have to confirm your email by entering this code: <strong style='color:#d9534f'>"
+				+ "<h3 style='color:#d9534f'>SalesMaxx Verification Code</h3><p>Your new account is almost ready.</p>"
+				+ "<p>Before you can login you have to verify your email by entering this code: <strong style='color:#d9534f'>"
 				+ code + "</strong></p>"
 				+ "<p>Regards,</p><p>SalesMaxx Team</p></div></body>";
 	}
@@ -2227,10 +2257,9 @@ public class Util {
 				total += (ci.getPrice() * ci.getQty());
 				items.add(pi);
 			}
-			phb.setFormattedDate(new SimpleDateFormat("dd-MMM-yyyy").format(
-					mt.getIssueDate()).toUpperCase());
-			phb.setFormattedTotalPrice(new DecimalFormat("#,###.00")
-					.format(total));
+			phb.setDate(mt.getIssueDate());
+			phb.setTotal(total);
+
 			phb.setTxnRef(mt.getTxnRef());
 			List<Key> kys = new ArrayList<>();
 			for (PurchaseableItem p : items) {
@@ -2283,13 +2312,12 @@ public class Util {
 			return null;
 		}
 		PurchaseHistoryBean phb = new PurchaseHistoryBean();
-		phb.setFormattedDate(ph.getFormattedDate());
-		phb.setFormattedTotalPrice(ph.getFormattedAmount());
+		phb.setDate(ph.getPurchaseDate());
+		phb.setTotal(ph.getTotal());
 		phb.setTxnRef(ph.getTxnRef());
-		phb.setFormattedUnitPrice(new DecimalFormat("#,###.00").format(ph
-				.getTotal() / ph.getItems().size()));
-		phb.setKey(KeyFactory.createKey(PurchaseHistory.class.getSimpleName(),
-				ph.getTxnRef()));
+		phb.setUnitPrice(99999);
+		phb.setWebKey(KeyFactory.keyToString(ph.getId()));
+
 		List<Key> keys = ph.getItems();
 		PurchaseableItemController c = new PurchaseableItemController();
 		List<PurchaseableItem> pis = c.findAll(keys);
@@ -3006,43 +3034,25 @@ public class Util {
 		return mt;
 	}
 
-	public static ChequePaymentBean getChequePaymentBean(String category,
-			String currentPage, String numberOfEntries, ChequePaymentBean oCpb) {
-		ChequePaymentBean cpb = new ChequePaymentBean();
-		if (notNull(category) | oCpb == null) {
-			if (notNull(category)) {
-				cpb.setCategory(category);
-			} else {
-				cpb.setCategory("pending");
-			}
-
-			if (notNull(currentPage)) {
-				cpb.setCurrentPage(Integer.parseInt(currentPage));
-			} else {
-				cpb.setCurrentPage(1);
-			}
-			if (notNull(numberOfEntries)) {
-				cpb.setNoOfEntries(Integer.parseInt(numberOfEntries));
-			} else {
-				cpb.setNoOfEntries(10);
-			}
-
-			ManualTransactionController mtc = new ManualTransactionController();
-			cpb = mtc.addManualTransactions(cpb);
-
-		} else {
-
-			if (notNull(currentPage)) {
-				oCpb.setCurrentPage(Integer.parseInt(currentPage));
-			}
-			if (notNull(numberOfEntries)) {
-				oCpb.setNoOfEntries(Integer.parseInt(numberOfEntries));
-				ManualTransactionController mtc = new ManualTransactionController();
-				oCpb = mtc.addManualTransactions(oCpb);
-			}
-			cpb = oCpb;
+	public static Map<String, Object> getChequePaymentBean(String category,
+			String cursor) {
+		
+		Map<String,Object> map = new HashMap<>();
+		ManualTransactionController mtc = new ManualTransactionController();
+		QueryResultList<Entity> qrl= mtc.addManualTransactions(category,cursor);
+		List<ManualTransaction> mts = new ArrayList<>();
+		if(qrl.getCursor()!=null) {
+			String c = qrl.getCursor().toWebSafeString();
+			map.put("c", c);
 		}
-		return cpb;
+		for (Entity e : qrl) {
+			ManualTransaction mt = Util.entityToManualTransaction(e);
+			mts.add(mt);
+		}
+		List<ManualPaymentBean> mpb = Util.toManualPaymentBean(mts);
+		map.put("beans", mpb);
+		return map;
+
 	}
 
 	public static List<ManualPaymentBean> toManualPaymentBean(
@@ -3481,13 +3491,164 @@ public class Util {
 
 	public static List<FeaturedCoach> toFeaturedCoach(List<Facilitator> facs) {
 		List<FeaturedCoach> fcs = new ArrayList<>();
-		for(Facilitator f: facs) {
+		for (Facilitator f : facs) {
 			FeaturedCoach fc = new FeaturedCoach();
-			fc.setCoachName(f.getFirstName()+" "+f.getLastName());
+			fc.setCoachName(f.getFirstName() + " " + f.getLastName());
 			fc.setPicture(Util.getImageUrl(f.getPicture()));
 			fc.setWebkey(KeyFactory.keyToString(f.getId()));
 			fcs.add(fc);
 		}
 		return fcs;
+	}
+
+	public static void addWorkshopToIndex(WorkShop wk, Address add,
+			WorkshopTemplate temp) throws InterruptedException {
+		String desc = (temp.getShortDescription() == null) ? "" : temp
+				.getShortDescription().getValue();
+		String forSale = (wk.isForSale()) ? "paid" : "free";
+		Document.Builder bd = Document
+				.newBuilder()
+				.setId(KeyFactory.keyToString(wk.getId()))
+				.addField(
+						Field.newBuilder().setName("workshopName")
+								.setText(temp.getWorkshopName()))
+				.addField(
+						Field.newBuilder().setName("image")
+								.setAtom(temp.getImageUrl()))
+				.addField(
+						Field.newBuilder().setName("description").setText(desc))
+				.addField(
+						Field.newBuilder().setName("date")
+								.setDate(wk.getStartDate()))
+				.addField(
+						Field.newBuilder().setName("forSale").setAtom(forSale))
+				.addField(
+						Field.newBuilder().setName("format")
+								.setAtom(temp.getFormat()))
+				.addField(
+						Field.newBuilder().setName("location")
+								.setAtom(add.getState()))
+				.addField(
+						Field.newBuilder().setName("workshopID")
+								.setAtom(temp.getWorkshopId().getName()))
+				.addField(
+						Field.newBuilder().setName("catalogueLink")
+								.setAtom(temp.getCatalogueLink()));
+
+		for (String s : temp.getIndustries()) {
+			bd.addField(Field.newBuilder().setName("industry").setAtom(s));
+		}
+
+		for (String s : temp.getProfessions()) {
+			bd.addField(Field.newBuilder().setName("profession").setAtom(s));
+		}
+
+		for (String s : temp.getSkillLevel()) {
+			bd.addField(Field.newBuilder().setName("experience").setAtom(s));
+		}
+
+		Document doc = bd.build();
+		indexADocument("WORKSHOPS", doc);
+	}
+
+	public static void indexADocument(String indexName, Document document)
+			throws InterruptedException {
+		IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
+		Index index = SearchServiceFactory.getSearchService().getIndex(
+				indexSpec);
+
+		final int maxRetry = 3;
+		int attempts = 0;
+		int delay = 2;
+		while (true) {
+			try {
+				index.put(document);
+			} catch (PutException e) {
+				if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult()
+						.getCode()) && ++attempts < maxRetry) { // retrying
+					Thread.sleep(delay * 1000);
+					delay *= 2; // easy exponential backoff
+					continue;
+				} else {
+					throw e; // otherwise throw
+				}
+			}
+			break;
+		}
+	}
+
+	public static String theMonth(int month) {
+		String[] monthNames = { "January", "February", "March", "April", "May",
+				"June", "July", "August", "September", "October", "November",
+				"December" };
+		return monthNames[month];
+	}
+
+	public static Results<ScoredDocument> searchIndex(String indexName,
+			String queryString, QueryOptions qOptions) {
+		IndexSpec indexSpec = IndexSpec.newBuilder().setName(indexName).build();
+		Index index = SearchServiceFactory.getSearchService().getIndex(
+				indexSpec);
+
+		Query q = null;
+		if (qOptions != null) {
+			q = Query.newBuilder().setOptions(qOptions).build(queryString);
+		} else {
+			q = Query.newBuilder().build(queryString);
+		}
+		Results<ScoredDocument> results = null;
+		final int maxRetry = 3;
+		int attempts = 0;
+		int delay = 2;
+		while (true) {
+			try {
+				results = index.search(q);
+			} catch (SearchException e) {
+				if (StatusCode.TRANSIENT_ERROR.equals(e.getOperationResult()
+						.getCode()) && ++attempts < maxRetry) {
+					// retry
+					try {
+						Thread.sleep(delay * 1000);
+					} catch (InterruptedException e1) {
+						// ignore
+					}
+					delay *= 2; // easy exponential backoff
+					continue;
+				} else {
+					throw e;
+				}
+			}
+			break;
+		}
+		return results;
+	}
+
+	public static List<ScheduleWorkshopDisplay> scoredDocumentToScheduleWorkshopDisplay(
+			Results<ScoredDocument> results) {
+		List<ScheduleWorkshopDisplay> swds = new ArrayList<>();
+		for (ScoredDocument sd : results) {
+			ScheduleWorkshopDisplay swd = Util
+					.scoredDocumentToScheduleWorkshopDisplay(sd);
+			swds.add(swd);
+		}
+		return swds;
+	}
+
+	private static ScheduleWorkshopDisplay scoredDocumentToScheduleWorkshopDisplay(
+			ScoredDocument sd) {
+		ScheduleWorkshopDisplay swd = new ScheduleWorkshopDisplay();
+		swd.setDescription(sd.getOnlyField("description").getText());
+		swd.setImageUrl(sd.getOnlyField("image").getAtom());
+		swd.setName(sd.getOnlyField("workshopName").getText());
+		swd.setStartDate(new SimpleDateFormat("yyyy-MM-dd").format(sd
+				.getOnlyField("date").getDate()));
+		Address a = new Address(null);
+		a.setState(sd.getOnlyField("location").getAtom());
+		a.setCountry("Nigeria");
+		swd.setLocation(a);
+		swd.setWorkshopCode(sd.getOnlyField("workshopID").getAtom());
+		swd.setId(String.valueOf(KeyFactory.stringToKey(sd.getId()).getId()));
+		swd.setCatalogueLink(sd.getOnlyField("catalogueLink").getAtom());
+		return swd;
 	}
 }

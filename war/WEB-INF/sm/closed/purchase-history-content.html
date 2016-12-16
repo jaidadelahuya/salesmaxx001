@@ -54,7 +54,8 @@
 							PLACED</div>
 						<div class="col-sm-12"
 							style="font-size: 9pt; margin: 0; padding: 0">
-							<c:out value="${item.formattedDate}" />
+							<fmt:formatDate type="date" value="${item.date}" />
+
 						</div>
 					</div>
 					<div class="col-sm-3">
@@ -63,7 +64,9 @@
 							(NGN)</div>
 						<div class="col-sm-12"
 							style="font-size: 9pt; margin: 0; padding: 0">
-							<c:out value="${item.formattedTotalPrice}" />
+							<fmt:formatNumber type="number" pattern="###,###,###.##"
+								value="${item.total}" />
+
 						</div>
 					</div>
 					<div class="col-sm-6">
@@ -87,7 +90,7 @@
 									</c:when>
 									<c:otherwise>
 										<a target="_blank"
-											href="<c:url value='/sm/closed/get-invoice?mode=in&txnRef=${item.txnRef}' />">Reciept</a>
+											href="<c:url value='/sm/closed/get-invoice?mode=in&txnRef=${item.txnRef}' />">Receipt</a>
 									</c:otherwise>
 								</c:choose>
 

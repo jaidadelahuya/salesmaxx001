@@ -17,11 +17,11 @@
 <link rel="stylesheet" type="text/css"
 	href="/style/jquery.webui-popover.min.css">
 <link rel="stylesheet" type="text/css" href="/style/waitMe.css">
-
+<script src="/js/sidebar.js"></script>
 </head>
-<body style="padding-top: 50px">
+<body>
 	<%@ include file="/WEB-INF/nav"%>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
 			<c:choose>
 				<c:when test="${authorized}">

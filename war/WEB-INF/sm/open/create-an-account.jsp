@@ -13,10 +13,10 @@
 <link rel="stylesheet" type="text/css"
 	href="/style/jquery.webui-popover.min.css">
 <link rel="stylesheet" type="text/css" href="/style/jquery-ui.css">
-<link rel="stylesheet" type="text/css" href="/style/waitMe.css">
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+<link rel="stylesheet" type="text/css" href="/style/font-awesome.min.css">
 <style type="text/css">
 @media screen and (max-width: 1200px) {
 	.login-div {
@@ -51,14 +51,11 @@
 <%@ include file="/js/google-analytics"%>
 </head>
 <body class="login-body">
-	<%
-		session.removeAttribute("loginError");
-	%>
-
+	
 	<div class="container-fluid">
 		<div class="row">
 			<div class="login-div" style="text-align: center">
-				<img alt="" src="/images/salesmaxx-logo.jpg"
+				<img alt="" src="/images/salesmaxx-logo.png"
 					style="width: 40%; margin: 0 auto;">
 			</div>
 			<c:choose>
@@ -119,13 +116,13 @@
 						</p>
 					</div>
 				</form>
-				<div class="divider form-group">
+				<div style="margin-left: -15px; margin-right: -15px; padding: 10px 15px; text-align: center" class="divider form-group">
 					<p>
-						Already have an account? <a href="/sm/open/login-page">Sign in</a>
+						Already have an account? <a href="/sm/open/i/login">Sign in</a> or login with a social network
 					</p>
-					<strong>You may also login with</strong> <a
-						href="/sm/open/facebook-signin">Facebook</a> or <a
-						href="/sm/open/linkedin-signin">LinkedIn</a>
+					<a
+						href="/sm/open/facebook-signin"><i class="fa fa-facebook-square fa-2x" aria-hidden="true"></i></a>  <a
+						href="/sm/open/linkedin-signin"><i class="fa fa-linkedin-square fa-2x" aria-hidden="true"></i></a>
 				</div>
 
 			</div>

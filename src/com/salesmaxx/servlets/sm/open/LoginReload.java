@@ -34,8 +34,12 @@ public class LoginReload extends HttpServlet {
 				session.setAttribute("loginError",
 						"Please enter your email or registration ID.");
 			}
-			resp.sendRedirect("/sm/open/login-page");
+			resp.sendRedirect("/sm/open/login");
 			return;
+		}else {
+			synchronized (session) {
+				session.setAttribute("loginID", username);
+			}
 		}
 		ok = Util.notNull(password);
 		if (!ok) {
@@ -43,7 +47,7 @@ public class LoginReload extends HttpServlet {
 				session.setAttribute("loginError",
 						"Please enter your password.");
 			}
-			resp.sendRedirect("/sm/open/login-page");
+			resp.sendRedirect("/sm/open/login");
 			return;
 		}
 
@@ -58,7 +62,7 @@ public class LoginReload extends HttpServlet {
 					session.setAttribute("loginError",
 							"The username/password do not match.");
 				}
-				resp.sendRedirect("/sm/open/login-page");
+				resp.sendRedirect("/sm/open/login");
 				return;
 			} else {
 				synchronized (session) {
@@ -78,7 +82,7 @@ public class LoginReload extends HttpServlet {
 					session.setAttribute("loginError", "The Registration ID "
 							+ username + " does not exist.");
 				}
-				resp.sendRedirect("/sm/open/login-page");
+				resp.sendRedirect("/sm/open/login");
 				return;
 
 			} else {
@@ -92,7 +96,7 @@ public class LoginReload extends HttpServlet {
 						session.setAttribute("loginError",
 								"The username/password do not match.");
 					}
-					resp.sendRedirect("/sm/open/login-page");
+					resp.sendRedirect("/sm/open/login");
 					return;
 				}
 			}

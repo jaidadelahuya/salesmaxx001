@@ -30,41 +30,44 @@ public class ForgotPassword extends HttpServlet {
 		String username = req.getParameter("username");
 		String result = req.getParameter("result");
 		HttpSession session = req.getSession();
-		boolean ok = Util.notNull(result);
-		if(!ok) {
-			session.setAttribute("forgotPasswordError",
-					"Please enter the result of the Captha");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
-			return;
-		} else {
-			synchronized (session) {
-				Object o = session.getAttribute("capthaResult");
-				if(o != null) {
-					String r = (String) o;
-					if(!result.equalsIgnoreCase(r)) {
-						session.setAttribute("forgotPasswordError",
-								"You entered a wrong result for the captha. Click reload captha");
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
-						return;
-					}
-				} else {
-					session.setAttribute("forgotPasswordError",
-							"An error has occured. Please try again later.");
-					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
-					return;
-				}
-				
-			}
-		}
-		ok = Util.notNull(username);
+		boolean ok = Util.notNull(username);
 		
 		
 		if (!ok) {
 			session.setAttribute("forgotPasswordError",
 					"Please enter your email or registration ID.");
-			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
+			resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 			return;
 		} else {
+			synchronized (session) {
+				session.setAttribute("forgotPasswordID",username);
+			}
+			ok = Util.notNull(result);
+			if(!ok) {
+				session.setAttribute("forgotPasswordError",
+						"Please enter the result of the Captha");
+				resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
+				return;
+			} else {
+				synchronized (session) {
+					Object o = session.getAttribute("capthaResult");
+					if(o != null) {
+						String r = (String) o;
+						if(!result.equalsIgnoreCase(r)) {
+							session.setAttribute("forgotPasswordError",
+									"You entered a wrong result for the captha. Click reload captha");
+							resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
+							return;
+						}
+					} else {
+						session.setAttribute("forgotPasswordError",
+								"An error has occured. Please try again later.");
+						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
+						return;
+					}
+					
+				}
+			}
 			boolean usingEmail = username.contains("@");
 			UserController cont = new UserController();
 			User user = null;
@@ -74,7 +77,7 @@ public class ForgotPassword extends HttpServlet {
 				if (user == null) {
 					session.setAttribute("forgotPasswordError", "The email " + username
 							+ " is not associated with any account.");
-					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
+					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 					return;
 				} else {
 					
@@ -87,18 +90,19 @@ public class ForgotPassword extends HttpServlet {
 						Util.sendConfirmationCodeEmail(su.getUsername(), body);
 						synchronized (session) {
 							session.removeAttribute("forgotPasswordError");
+							session.removeAttribute("forgotPasswordID");
 							session.setAttribute("signUp", su);
 							session.setAttribute("user", user);
 						}
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/init/verification"));
 						return;
 					} catch (AddressException e) {
 						session.setAttribute("forgotPasswordError", "We could not send an email to you at this time. Please try again later");
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
+						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 						return;
 					} catch (MessagingException e) {
 						session.setAttribute("forgotPasswordError", "We could not send an email to you at this time. Please try again later");
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
+						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 						return;
 					}
 				}
@@ -108,7 +112,7 @@ public class ForgotPassword extends HttpServlet {
 				if (user == null) {
 					session.setAttribute("forgotPasswordError",  "The ID " + username
 							+ " is not associated with any account.");
-					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
+					resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 					return;
 					
 				} else {
@@ -122,18 +126,19 @@ public class ForgotPassword extends HttpServlet {
 						synchronized (session) {
 							session.removeAttribute("forgotPasswordError");
 							session.removeAttribute("loginSuccess");
+							session.removeAttribute("forgotPasswordID");
 							session.setAttribute("signUp", su);
 							session.setAttribute("user", user);
 						}
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/enter-verification-code"));
+						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/init/verification"));
 						return;
 					} catch (AddressException e) {
 						session.setAttribute("forgotPasswordError", "We could not send an email to you at this time. Please try again later");
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
+						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 						return;
 					} catch (MessagingException e) {
 						session.setAttribute("forgotPasswordError", "We could not send an email to you at this time. Please try again later");
-						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot-password-page"));
+						resp.sendRedirect(resp.encodeRedirectURL("/sm/open/forgot/password"));
 						return;
 					}
 				}

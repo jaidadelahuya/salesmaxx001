@@ -38,10 +38,10 @@ public class ManualTransactionController {
 		txn.commit();
 
 	}
-	
+
 	public void create(List<ManualTransaction> mts) {
 		List<Entity> ents = new ArrayList<>();
-		for(ManualTransaction mt: mts) {
+		for (ManualTransaction mt : mts) {
 			Entity e = Util.ManualTransactionToEntity(mt);
 			ents.add(e);
 		}
@@ -51,36 +51,37 @@ public class ManualTransactionController {
 
 	}
 
-	public List<ManualTransaction> findByTxnRef(String txnRef, ChequeInvoice.InvoiceStatus status) {
+	public List<ManualTransaction> findByTxnRef(String txnRef,
+			ChequeInvoice.InvoiceStatus status) {
 		Query q = new Query(ManualTransaction.class.getSimpleName());
 		Filter filter = new FilterPredicate("txnRef", FilterOperator.EQUAL,
 				txnRef);
 		Filter f2 = null;
 		switch (status) {
 		case CLEARED:
-			f2 =  new FilterPredicate("status", FilterOperator.EQUAL,
+			f2 = new FilterPredicate("status", FilterOperator.EQUAL,
 					ChequeInvoice.InvoiceStatus.CLEARED.name());
 			break;
-		case OVERDUE: 
-			f2 =  new FilterPredicate("status", FilterOperator.EQUAL,
+		case OVERDUE:
+			f2 = new FilterPredicate("status", FilterOperator.EQUAL,
 					ChequeInvoice.InvoiceStatus.OVERDUE.name());
 			break;
-		case PENDING: 
-			f2 =  new FilterPredicate("status", FilterOperator.EQUAL,
+		case PENDING:
+			f2 = new FilterPredicate("status", FilterOperator.EQUAL,
 					ChequeInvoice.InvoiceStatus.PENDING.name());
-		
+
 		}
-		
-		if(f2==null) {
+
+		if (f2 == null) {
 			q.setFilter(filter);
 		} else {
-			q.setFilter(CompositeFilterOperator.and(filter,f2));
+			q.setFilter(CompositeFilterOperator.and(filter, f2));
 		}
-		
+
 		PreparedQuery pq = ds.prepare(q);
 		Iterable<Entity> e = pq.asIterable();
-		List<ManualTransaction> list = new  ArrayList<>();
-		for(Entity ee : e) {
+		List<ManualTransaction> list = new ArrayList<>();
+		for (Entity ee : e) {
 			list.add(Util.entityToManualTransaction(ee));
 		}
 		return list;
@@ -97,61 +98,38 @@ public class ManualTransactionController {
 		return l;
 	}
 
-	public ChequePaymentBean addManualTransactions(ChequePaymentBean cpb) {
-		
-		String category = cpb.getCategory();
-		int fetchSize = cpb.getNoOfEntries();
-		String cur = cpb.getCursor();
-		
-		if(fetchSize == 0) {
-			fetchSize = 10;
-		}
+	public QueryResultList<Entity> addManualTransactions(String category,
+			String cursor) {
+
+		int fetchSize = 10;
 		FetchOptions fetchOptions = FetchOptions.Builder.withLimit(fetchSize);
-		Cursor cursor = null;
-		if(Util.notNull(cur)) {
-			cursor = Cursor.fromWebSafeString(cur);
-			fetchOptions.startCursor(cursor);
+		Cursor c = null;
+		if (Util.notNull(cursor)) {
+			c = Cursor.fromWebSafeString(cursor);
+			fetchOptions.startCursor(c);
 		}
-		List<ManualTransaction> mts = new ArrayList<>();
+		
 		Query q = new Query(ManualTransaction.class.getSimpleName());
 		q.addSort("issueDate", SortDirection.DESCENDING);
 		if (category.equalsIgnoreCase(ChequeInvoice.InvoiceStatus.PENDING
 				.name())
 				| category.equalsIgnoreCase(ChequeInvoice.InvoiceStatus.CLEARED
 						.name())) {
-			Filter statusFilter =
-					  new FilterPredicate("status",
-					                      FilterOperator.EQUAL,
-					                      category.toUpperCase());
+			Filter statusFilter = new FilterPredicate("status",
+					FilterOperator.EQUAL, category.toUpperCase());
+			q.setFilter(statusFilter);
+		} else if (category
+				.equalsIgnoreCase(ChequeInvoice.InvoiceStatus.OVERDUE.name())) {
+			Filter statusFilter = new FilterPredicate("issueDate",
+					FilterOperator.LESS_THAN, new Date());
 			q.setFilter(statusFilter);
 		}
-		if (category.equalsIgnoreCase(ChequeInvoice.InvoiceStatus.OVERDUE
-				.name())) {
-			Filter statusFilter =
-					  new FilterPredicate("issueDate",
-					                      FilterOperator.LESS_THAN,
-					                      new Date());
-			q.setFilter(statusFilter);
-		}
-		if (category.equalsIgnoreCase(ManualTransaction.TransactionType.CHEQUE
-				.name())
-				| category.equalsIgnoreCase(ManualTransaction.TransactionType.ELECTRONIC
-						.name())) {
-			Filter typeFilter =
-					  new FilterPredicate("transactionType",
-					                      FilterOperator.EQUAL,
-					                      category.toUpperCase());
-			q.setFilter(typeFilter);
-		}
+
 		PreparedQuery pq = ds.prepare(q);
 		QueryResultList<Entity> ents = pq.asQueryResultList(fetchOptions);
-		cpb.setCursor(ents.getCursor().toWebSafeString());
-		for(Entity e : ents) {
-			ManualTransaction mt = Util.entityToManualTransaction(e);
-			mts.add(mt);
-		}
-		List<ManualPaymentBean> mpb = Util.toManualPaymentBean(mts);
-		cpb.setMpbs(mpb);
-		return cpb;
+		return ents;
+		
+		
+		
 	}
 }

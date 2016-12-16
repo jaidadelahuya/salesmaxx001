@@ -55,7 +55,7 @@
 	<div class="container-fluid">
 		<div class="row">
 			<div class="login-div" style="text-align: center">
-				<img alt="" src="/images/salesmaxx-logo.jpg"
+				<img alt="" src="/images/salesmaxx-logo.png"
 					style="width: 40%; margin: 0 auto;">
 			</div>
 			<c:if test="${not empty forgotPasswordError}">
@@ -73,15 +73,15 @@
 					Copy it, you will be asked to paste it in the next prompt.</p>
 				<form id="forgot-password-form"
 					action='<c:url value="/sm/open/forgot-password"/>' method="post">
-					<div class="form-group" style="margin: 2%;">
-						<label>Email or Registration ID</label> <input type="text"
+					<div class="form-group" style="margin: 2%;"> 
+						<label>Email or Registration ID</label> <input type="text" value="${forgotPasswordID}"
 							class="form-control" name="username" />
 					</div>
 					<div class="form-group" style="margin: 2%; font-size: 12pt">
 						<h5 class="text-danger">Let us know you are not a robot.</h5>
 						<span style="padding-right: 5%;"><c:out value="${captha}" /></span>
 						<input name="result" type="text" style="width: 3em" /><a
-							href="<c:url value="/sm/open/forgot-password-page" />">
+							href="<c:url value="/sm/open/i/forgot/password" />">
 							Reload Captha</a>
 					</div>
 
@@ -102,7 +102,7 @@
 				</div>
 				<div class="form-group" style="margin: 2%;">
 					<a class="form-control btn btn-primary"
-						href="<c:url value='/sm/open/create-an-account' />"
+						href="<c:url value='/sm/open/account/init/new' />"
 						style="margin-top: 4%;">Create an account</a>
 				</div>
 				<div class="form-group" style="margin: 2%; font-size: 9pt">

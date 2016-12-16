@@ -1,3 +1,5 @@
+
+
 function required($input) {
 	var val = $input.val();
 	if (!(val === null)) {

@@ -6,6 +6,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Id;
+
 import com.google.appengine.api.datastore.Key;
 
 public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory>{
@@ -14,6 +16,9 @@ public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory
 	 * 
 	 */
 	private static final long serialVersionUID = 5797568935189979260L;
+	
+	@Id
+	private Key id;
 
 	private String txnRef;
 
@@ -24,12 +29,29 @@ public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory
 	private Date purchaseDate;
 
 	private String purchaseType;
-
-	private String formattedDate;
-
-	private String formattedAmount;
 	
 	private List<Key> items;
+
+	
+	
+	
+	public Key getId() {
+		return id;
+	}
+
+	public void setId(Key id) {
+		this.id = id;
+	}
+	
+	
+
+	public void setTotal(double total) {
+		this.total = total;
+	}
+
+	public void setPurchaseDate(Date purchaseDate) {
+		this.purchaseDate = purchaseDate;
+	}
 
 	public List<Key> getItems() {
 		return items;
@@ -39,21 +61,7 @@ public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory
 		this.items = items;
 	}
 
-	public String getFormattedAmount() {
-		return formattedAmount;
-	}
-
-	public void setFormattedAmount(String formattedAmount) {
-		this.formattedAmount = formattedAmount;
-	}
-
-	public String getFormattedDate() {
-		return formattedDate;
-	}
-
-	public void setFormattedDate(String formattedDate) {
-		this.formattedDate = formattedDate;
-	}
+	
 
 	public String getStatus() {
 		return status;
@@ -75,21 +83,13 @@ public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory
 		return total;
 	}
 
-	public void setTotal(double total) {
-		this.total = total;
-		this.formattedAmount = new DecimalFormat("#,###.00")
-				.format(total / 100);
-	}
+	
 
 	public Date getPurchaseDate() {
 		return purchaseDate;
 	}
 
-	public void setPurchaseDate(Date purchaseDate) {
-		this.purchaseDate = purchaseDate;
-		this.formattedDate = new SimpleDateFormat("dd-MMM-yyyy").format(
-				purchaseDate).toUpperCase();
-	}
+	
 
 	public String getPurchaseType() {
 		return purchaseType;
@@ -101,14 +101,7 @@ public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory
 
 	
 
-	@Override
-	public String toString() {
-		return "PurchaseHistory [txnRef=" + txnRef + ", total=" + total
-				+ ", status=" + status + ", purchaseDate=" + purchaseDate
-				+ ", purchaseType=" + purchaseType + ", formattedDate="
-				+ formattedDate + ", formattedAmount=" + formattedAmount
-				+ ", items=" + items + "]";
-	}
+	
 
 	@Override
 	public int hashCode() {
