@@ -30,9 +30,8 @@
 							<h2 class="text-danger">Cheque Payments</h2>
 						</div>
 						<div class="col-sm-7" style="padding-top: 2%">
-							<a class="btn btn-default" disabled><strong>Pending</strong></a>
-							<a href="/sm-admin/cheque-payment?category=cleared"
-								class="btn btn-primary">Cleared</a> <a
+							<a class="btn btn-primary" href="/sm-admin/cheque-payment?category=pending"><strong>Pending</strong></a>
+							<a class="btn btn-default" disabled>Cleared</a> <a
 								href="/sm-admin/workshops/canceled" class="btn btn-primary">Overdue</a>
 						</div>
 
@@ -57,7 +56,7 @@
 										<label for="uid">User ID</label> <input
 											class="form-control" name="uid" id="uid">
 									</div>
-									<input type="hidden" name="category" value="pending">
+									<input type="hidden" name="category" value="cleared">
 									<div class="form-group col-sm-4">
 										<label for="btn"> </label> <input
 											class="form-control btn btn-success" type="submit" id="btn" value="search">
@@ -73,18 +72,18 @@
 							<tr>
 								<th>Transaction ID</th>
 								<th>Issue Date</th>
-								<th>User ID</th>
+								<th>Overdue Date</th>
 								<th>Customer Name</th>
 								<th style="text-align: right">Total Amount</th>
 								<th style="text-align: center">View Details</th>
 							</tr>
 						</thead>
 						<tbody>
-							<c:forEach var="x" items="${chequePaymentBean.mpbs}">
+							<c:forEach var="x" items="${chequePaymentBean.cmpbs}">
 								<tr>
 									<td style="font-weight: bold"><c:out value='${x.txnRef}' /></td>
 									<td><c:out value='${x.issueDate}' /></td>
-									<td><c:out value='${x.uid}' /></td>
+									<td><c:out value='${x.overdueDate}' /></td>
 									<td><c:out value='${x.customerName}' /></td>
 									<td style="text-align: right"><c:out
 											value='${x.totalAmount}' /></td>
@@ -121,10 +120,7 @@
 													<strong>Amount Paid:</strong>
 													<c:out value='${y.totalPrice}' />
 												</div>
-												<div class="col-sm-1">
-													<a
-														href="<c:url value='/sm-admin/clear-manual-payment?txnRef=${x.txnRef}&id=${y.scheduleID}&qty=${y.qty}' />">Clear</a>
-												</div>
+												
 											</div>
 										</c:forEach></td>
 

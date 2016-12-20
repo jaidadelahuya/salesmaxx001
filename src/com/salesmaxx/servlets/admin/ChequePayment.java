@@ -60,6 +60,9 @@ public class ChequePayment extends HttpServlet {
 			l.addAll((Collection<? extends ManualPaymentBean>) mpb.get("beans"));
 			ocpb.setMpbs(l);
 			ocpb.setCursor((String) mpb.get("c"));
+			synchronized (session) {
+				session.setAttribute("chequePaymentBean",ocpb);
+			}
 			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/cheque-payment.jsp");
 			rd.include(req, resp);
 		}else if(ocpb.getCategory().equalsIgnoreCase(ChequeInvoice.InvoiceStatus.CLEARED
@@ -71,6 +74,12 @@ public class ChequePayment extends HttpServlet {
 			}
 			l.addAll((Collection<? extends ManualPaymentBean>) mpb.get("beans"));
 			ocpb.setcCursor((String) mpb.get("c"));
+			ocpb.setCmpbs(l);
+			synchronized (session) {
+				session.setAttribute("chequePaymentBean",ocpb);
+			}
+			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/cleared-cheques.jsp");
+			rd.include(req, resp);
 		}else if(ocpb.getCategory().equalsIgnoreCase(ChequeInvoice.InvoiceStatus.OVERDUE
 				.name())) {
 			mpb = Util.getChequePaymentBean(ocpb.getCategory(), ocpb.getoCursor());
@@ -82,9 +91,7 @@ public class ChequePayment extends HttpServlet {
 			ocpb.setoCursor((String) mpb.get("c"));
 		}
 		 
-		synchronized (session) {
-			session.setAttribute("chequePaymentBean",ocpb);
-		}
+		
 		
 	}
 

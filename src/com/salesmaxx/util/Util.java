@@ -69,7 +69,6 @@ import com.google.appengine.api.search.Results;
 import com.google.appengine.api.search.ScoredDocument;
 import com.google.appengine.api.search.SearchException;
 import com.google.appengine.api.search.SearchServiceFactory;
-import com.google.appengine.api.search.SortOptions;
 import com.google.appengine.api.search.StatusCode;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
@@ -2006,6 +2005,7 @@ public class Util {
 	@SuppressWarnings("unchecked")
 	public static PurchaseHistory entityToPurchaseHistory(Entity e) {
 		PurchaseHistory ph = new PurchaseHistory();
+		ph.setId(e.getKey());
 		ph.setPurchaseDate((Date) e.getProperty("purchaseDate"));
 		ph.setStatus((String) e.getProperty("status"));
 		ph.setItems((List<Key>) e.getProperty("items"));
@@ -3082,6 +3082,7 @@ public class Util {
 		User u = new UserController().findUser(mt.getOwnerKey());
 		if (u != null) {
 			mpb.setCustomerName(u.getFirstName() + " " + u.getLastName());
+			mpb.setUid(u.getRegId().getName());
 		}
 		DecimalFormat f1 = new DecimalFormat("#,###.00");
 		List<PendingWorkshopBean> items = new ArrayList<>();
@@ -3650,5 +3651,40 @@ public class Util {
 		swd.setId(String.valueOf(KeyFactory.stringToKey(sd.getId()).getId()));
 		swd.setCatalogueLink(sd.getOnlyField("catalogueLink").getAtom());
 		return swd;
+	}
+
+	public static ChequePaymentBean getChequePaymentBean(String txnID,
+			String category, String uid) {
+		QueryResultList<Entity> qrl = ManualTransactionController.getChequePaymentBean(txnID, category,uid);
+		ChequePaymentBean cpb = new ChequePaymentBean();
+		cpb.setCategory(category);
+		List<ManualTransaction> mts = new ArrayList<>();
+		
+		for (Entity e : qrl) {
+			ManualTransaction mt = Util.entityToManualTransaction(e);
+			mts.add(mt);
+		}
+		List<ManualPaymentBean> mpb = Util.toManualPaymentBean(mts);
+		if(category.equalsIgnoreCase("pending")) {
+			cpb.setMpbs(mpb);
+			if(qrl.getCursor()!=null) {
+				String c = qrl.getCursor().toWebSafeString();
+				cpb.setCursor(c);
+			}
+		} else if(category.equalsIgnoreCase("cleared")) {
+			cpb.setCmpbs(mpb);
+			if(qrl.getCursor()!=null) {
+				String c = qrl.getCursor().toWebSafeString();
+				cpb.setcCursor(c);
+			}
+		}else if(category.equalsIgnoreCase("overdue")) {
+			cpb.setOmpbs(mpb);
+			if(qrl.getCursor()!=null) {
+				String c = qrl.getCursor().toWebSafeString();
+				cpb.setoCursor(c);
+			}
+		}
+		
+		return cpb;
 	}
 }

@@ -15,6 +15,8 @@ public class ManualPaymentBean implements Serializable {
 	private String customerName;
 	private String totalAmount;
 	private List<PendingWorkshopBean> pwbs;
+	private String uid;
+	
 	@Override
 	public String toString() {
 		return "ManualPaymentBean [txnRef=" + txnRef + ", issueDate="
@@ -22,6 +24,18 @@ public class ManualPaymentBean implements Serializable {
 				+ ", customerName=" + customerName + ", totalAmount="
 				+ totalAmount + ", pwbs=" + pwbs + "]";
 	}
+	
+	
+	public String getUid() {
+		return uid;
+	}
+
+
+	public void setUid(String uid) {
+		this.uid = uid;
+	}
+
+
 	public String getTxnRef() {
 		return txnRef;
 	}

@@ -34,6 +34,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 			<role-name>admin</role-name>
 		</auth-constraint>
 	</security-constraint>
+	
+	<servlet>
+		<servlet-name>PendingChequePaymentPage</servlet-name>
+		<jsp-file>/WEB-INF/cheque-payment.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PendingChequePaymentPage</servlet-name>
+		<url-pattern>/sm-admin/cheque/payment/pending</url-pattern>
+	</servlet-mapping>
 	<servlet>
 		<servlet-name>CC</servlet-name>
 		<servlet-class>com.salesmaxx.SalesmaxxServlet</servlet-class>
@@ -42,7 +51,14 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CC</servlet-name>
 		<url-pattern>/ss</url-pattern>
 	</servlet-mapping>
-	
+	<servlet>
+		<servlet-name>GetChequePayment</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.GetChequePayment</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetChequePayment</servlet-name>
+		<url-pattern>/sm-admin/cheque/payment/get</url-pattern>
+	</servlet-mapping>
 	
 	
 	<servlet>

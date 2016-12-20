@@ -10,8 +10,10 @@ import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.PreparedQuery;
 import com.google.appengine.api.datastore.Query;
+import com.google.appengine.api.datastore.Query.CompositeFilter;
 import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
 import com.google.appengine.api.datastore.Query.Filter;
@@ -24,6 +26,7 @@ import com.salesmaxx.beans.ChequeInvoice;
 import com.salesmaxx.beans.ChequePaymentBean;
 import com.salesmaxx.beans.ManualPaymentBean;
 import com.salesmaxx.entities.ManualTransaction;
+import com.salesmaxx.entities.User;
 import com.salesmaxx.util.Util;
 
 public class ManualTransactionController {
@@ -131,5 +134,34 @@ public class ManualTransactionController {
 		
 		
 		
+	}
+
+	public static QueryResultList<Entity> getChequePaymentBean(String txnID,
+			String category, String uid) {
+		Query q = new Query(ManualTransaction.class.getSimpleName());
+		List<Filter> f = new ArrayList<>();
+		Filter statusFilter = new FilterPredicate("status",
+				FilterOperator.EQUAL, category.toUpperCase());
+		f.add(statusFilter);
+		if(Util.notNull(txnID)) {
+			Filter txnFilter = new FilterPredicate("txnRef",
+					FilterOperator.EQUAL, txnID.toUpperCase());
+			f.add(txnFilter);
+		}
+		if(Util.notNull(uid)) {
+			Filter oFilter = new FilterPredicate("ownerKey",
+					FilterOperator.EQUAL, KeyFactory.createKey(User.class.getSimpleName(), uid));
+			f.add(oFilter);
+		}
+		
+		if(f.size() > 1) {
+			q.setFilter(new CompositeFilter(CompositeFilterOperator.AND, f));
+		}else {
+			q.setFilter(statusFilter);
+		}
+		q.addSort("issueDate");
+		PreparedQuery pq = ds.prepare(q);
+		QueryResultList<Entity> ents = pq.asQueryResultList(FetchOptions.Builder.withLimit(50));
+		return ents;
 	}
 }

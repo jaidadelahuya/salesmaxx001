@@ -27,7 +27,7 @@ public class ClearManualPayment extends HttpServlet {
 		String qty = req.getParameter("qty");
 		
 		WorkShop w = Util.getWorkshopSchedule(id);
-		if((Util.totalNumberOfSeats - w.getNoEnrolled()) >= Long.valueOf(qty)) {
+		if((Util.totalNumberOfSeats - w.getNoEnrolled()) >= 25) {
 			boolean b = Util.clearManualPayment(txnRef,w,qty);
 			resp.sendRedirect(resp.encodeRedirectURL("/sm-admin/cheque-payment?category=cleared"));
 		} else {
