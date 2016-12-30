@@ -3495,7 +3495,10 @@ public class Util {
 		for (Facilitator f : facs) {
 			FeaturedCoach fc = new FeaturedCoach();
 			fc.setCoachName(f.getFirstName() + " " + f.getLastName());
-			fc.setPicture(Util.getImageUrl(f.getPicture()));
+			if(f.getPicture()!=null) {
+				fc.setPicture(Util.getImageUrl(f.getPicture()));
+			}
+			
 			fc.setWebkey(KeyFactory.keyToString(f.getId()));
 			fcs.add(fc);
 		}

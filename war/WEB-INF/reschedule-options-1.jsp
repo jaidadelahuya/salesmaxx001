@@ -24,40 +24,39 @@
 <body>
 	<%@ include file="/WEB-INF/sidebar.html"%>
 	<%
-		String txn = request.getParameter("txnRef");
+		String txn = request.getParameter("txn-id");
 		String id = request.getParameter("id");
 		String qty = request.getParameter("qty");
-
-		WorkShop w = Util.getWorkshopSchedule(id);
-		WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(
-				Util.getWorkshopTemplateFromCache(), id);
 	%>
+
 	<div id="main">
 		<%@ include file="/WEB-INF/nav"%>
 		<div class="container">
 			<div class="row">
 				<div class="col-sm-12 form-page">
 					<div class="row">
-						<div class="col-sm-5">
+						<div class="col-sm-12">
 							<h2 class="text-danger">Reschedule Options</h2>
 						</div>
+						<div class="col-sm-12">
+							<h6 class="text-primary">Select a workshop</h6>
+						</div>
+
+						<form action="/sm-admin/workshop/schedule/get">
+							<div class="form-group col-sm-6">
+								<%@ include file="/partials/workshops.html"%>
+								<input name="txn-ref" type="hidden" value="<%=txn%>"> <input
+									name="id" type="hidden" value="<%=id%>"> <input
+									name="qty" type="hidden" value="<%=qty%>">
+							</div>
+							
+							<div class="form-group col-sm-12">
+								<input class="btn btn-primary" type="submit" value="Continue">
+							</div>
+						</form>
+
 
 					</div>
-
-					<div class="alert alert-info">The transaction <strong><%=txn%></strong> cannot
-						be cleared because some seats are not available.</div>
-					<p>
-						<strong class="text-danger">Workshop Name: </strong> <%= wt.getWorkshopName() %>
-					</p>
-					<p>
-						<strong class="text-danger">No of seats available: </strong> <%=Util.totalNumberOfSeats - w.getNoEnrolled() %>
-					</p>
-					<p>
-						<strong class="text-danger">No of seats requested: </strong> <%=qty %>
-					</p>
-					<p>
-						<a href="/sm-admin/1/reschedule/options?txn-id=<%=txn%>&id=<%=id%>&qty=<%=qty%>" class="btn btn-primary">Reschedule</a> <a target="_blank" href="/calendar" class="btn btn-primary">Calendar</a>
-					</p>
 				</div>
 			</div>
 		</div>

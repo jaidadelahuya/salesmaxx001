@@ -7,7 +7,25 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<session-config>
 		<session-timeout>1800</session-timeout>
 	</session-config>
-	
+
+	<servlet>
+		<servlet-name>AdminAddToWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.AddToWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminAddToWorkshop</servlet-name>
+		<url-pattern>/sm-admin/workshop/add</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>AdminRescheduleComplete</servlet-name>
+		<jsp-file>/WEB-INF/admin-reschedule-complete.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminRescheduleComplete</servlet-name>
+		<url-pattern>/sm-admin/transaction/manual/reschedule/complete</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>ReadingList</servlet-name>
 		<jsp-file>/WEB-INF/reading-list.jsp</jsp-file>
@@ -30,11 +48,30 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 			<web-resource-name>bounce</web-resource-name>
 			<url-pattern>/_ah/bounce</url-pattern>
 		</web-resource-collection>
-		<auth-constraint>/sm/closed/get-cheque-invoice
+		<auth-constraint>
+			/sm/closed/get-cheque-invoice
 			<role-name>admin</role-name>
 		</auth-constraint>
 	</security-constraint>
-	
+
+	<servlet>
+		<servlet-name>RescheduleOptions2</servlet-name>
+		<jsp-file>/WEB-INF/reschedule-options-2.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RescheduleOptions2</servlet-name>
+		<url-pattern>/sm-admin/2/reschedule/options</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RescheduleOptions1</servlet-name>
+		<jsp-file>/WEB-INF/reschedule-options-1.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RescheduleOptions1</servlet-name>
+		<url-pattern>/sm-admin/1/reschedule/options</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>PendingChequePaymentPage</servlet-name>
 		<jsp-file>/WEB-INF/cheque-payment.jsp</jsp-file>
@@ -59,8 +96,17 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>GetChequePayment</servlet-name>
 		<url-pattern>/sm-admin/cheque/payment/get</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
+	<servlet>
+		<servlet-name>AdminGetWorkshopSchedule</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.GetWorkshopSchedule</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminGetWorkshopSchedule</servlet-name>
+		<url-pattern>/sm-admin/workshop/schedule/get</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>WorkshopSearchNextResult</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.WorkshopSearchNextResult</servlet-class>
@@ -69,7 +115,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>WorkshopSearchNextResult</servlet-name>
 		<url-pattern>/sm/open/workshop/search/next</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>GetCalendarData</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.GetCalendarData</servlet-class>
@@ -78,7 +124,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>GetCalendarData</servlet-name>
 		<url-pattern>/calendar/get</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CreateUser</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.admin.CreateUser</servlet-class>
@@ -866,7 +912,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ForgotPasswordInit</servlet-name>
 		<url-pattern>/sm/open/i/forgot/password</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ForgotPasswordPage</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/forgot-password.jsp</jsp-file>
@@ -938,7 +984,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ContinueCancelWorkshop</servlet-name>
 		<url-pattern>/sm/closed/continue-cancel</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SaveBankDetails</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.SaveBankDetails</servlet-class>
@@ -947,7 +993,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>SaveBankDetails</servlet-name>
 		<url-pattern>/sm/closed/save-bank-details</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ContinueReschedule</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.ContinueReschedule</servlet-class>
@@ -956,7 +1002,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ContinueReschedule</servlet-name>
 		<url-pattern>/sm/closed/continue-reschedule</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>UpdateDelegates</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.UpdateDelegates</servlet-class>
@@ -973,7 +1019,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>GetRescheduleSummary</servlet-name>
 		<url-pattern>/sm/closed/get-reschedule-summary</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AddRescheduleToCart</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.AddRescheduleToCart</servlet-class>
@@ -982,7 +1028,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AddRescheduleToCart</servlet-name>
 		<url-pattern>/sm/closed/add-reschedule-cart</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>GetChequeInvoice</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.GetChequeInvoice</servlet-class>
@@ -999,7 +1045,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 
 	<!-- *********************JSPS*************************** -->
-	
+
 	<servlet>
 		<servlet-name>AdminCanceledWorkshops</servlet-name>
 		<jsp-file>/WEB-INF/canceled-workshops.jsp</jsp-file>
@@ -1040,7 +1086,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CreateAccount</servlet-name>
 		<url-pattern>/sm/open/sign-up-complete</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>InitSignUp</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.InitSignUp</servlet-class>
@@ -1049,7 +1095,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>InitSignUp</servlet-name>
 		<url-pattern>/sm/open/account/init/new</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>SignUpSuccess</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/create-an-account.jsp</jsp-file>
@@ -1067,7 +1113,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ChangePasswordUserPage</servlet-name>
 		<url-pattern>/sm/open/change-password-user-page</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>InitVerification</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.InitVerification</servlet-class>
@@ -1076,8 +1122,8 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>InitVerification</servlet-name>
 		<url-pattern>/sm/open/init/verification</url-pattern>
 	</servlet-mapping>
-	
-	
+
+
 	<servlet>
 		<servlet-name>VerificationCode</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/confirmation-code.jsp</jsp-file>
@@ -1102,7 +1148,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>InitLogin</servlet-name>
 		<url-pattern>/sm/open/i/login</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>LoginPage</servlet-name>
 		<jsp-file>/WEB-INF/login.jsp</jsp-file>

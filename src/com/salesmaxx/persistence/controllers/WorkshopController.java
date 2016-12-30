@@ -57,6 +57,8 @@ public class WorkshopController {
 		Util.WORKSHOP_CACHE.clearAll();
 
 	}
+	
+	
 
 	public void destroy(Key key) throws RollbackFailureException, Exception {
 		EntityManager em = null;

@@ -7,7 +7,7 @@
 <html>
 <head>
 <meta charset="ISO-8859-1">
-<title>Welcome To SalesMaxx</title>
+<title>SalesMaxx</title>
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <!-- Latest compiled and minified CSS -->
 <link rel="stylesheet" href="/style/bootstrap.min.css">
@@ -21,6 +21,26 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+<meta name="image_src"
+	content="http://www.salesmaxx.com/images/calender.jpg" />
+<meta name="image_url"
+	content="http://www.salesmaxx.com/images/calender.jpg" />
+<meta property="fb:app_id" content="1134790883222273" />
+<meta property="og:title" content="SalesMaxx Calendar" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="http://www.salesmaxx.com/calendar" />
+<meta property="og:image"
+	content="http://www.salesmaxx.com/images/calender.jpg" />
+<meta property="og:description"
+	content="Interesting SalesMaxx training workshops for 2017" />
+<meta property="og:site_name" content="SalesMaxx" />
+<meta name="twitter:card" content="Summary" />
+<meta name="twitter:title" content="SalesMaxx Calendar" />
+<meta name="twitter:description"
+	content="Interesting SalesMaxx training workshops for 2017" />
+<meta name="twitter:image"
+	content="http://www.salesmaxx.com/images/calender.jpg" />
+<meta name="twitter:url" content="http://www.salesmaxx.com/calendar" />
 <%@ include file="/js/google-analytics"%>
 </head>
 <body style="overflow-x:hidden">

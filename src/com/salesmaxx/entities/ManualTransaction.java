@@ -30,7 +30,7 @@ public class ManualTransaction implements Serializable{
 	public ManualTransaction(ManualTransaction mt) {
 		ownerKey = mt.getOwnerKey();
 		issueDate = mt.getIssueDate();
-		txnRef = mt.getTransactionType();
+		txnRef = mt.getTxnRef();
 		transactionType = mt.getTransactionType();
 	}
 
