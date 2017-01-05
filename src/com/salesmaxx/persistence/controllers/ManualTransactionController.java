@@ -58,7 +58,7 @@ public class ManualTransactionController {
 			ChequeInvoice.InvoiceStatus status) {
 		Query q = new Query(ManualTransaction.class.getSimpleName());
 		Filter filter = new FilterPredicate("txnRef", FilterOperator.EQUAL,
-				txnRef);
+				txnRef.trim());
 		Filter f2 = null;
 		switch (status) {
 		case CLEARED:

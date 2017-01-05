@@ -56,7 +56,7 @@
 						<strong class="text-danger">No of seats requested: </strong> <%=qty %>
 					</p>
 					<p>
-						<a href="/sm-admin/1/reschedule/options?txn-id=<%=txn%>&id=<%=id%>&qty=<%=qty%>" class="btn btn-primary">Reschedule</a> <a target="_blank" href="/calendar" class="btn btn-primary">Calendar</a>
+						<a href="/sm-admin/1/reschedule/options?txn-id=<%=txn%>&id=<%=id%>&qty=<%=qty%>" class="btn btn-primary">Reschedule</a> <a class="btn btn-primary">Add Anyway</a> <a class="btn btn-primary">Schedule New Workshop</a> <a target="_blank" href="/calendar" class="btn btn-primary">Calendar</a>
 					</p>
 				</div>
 			</div>

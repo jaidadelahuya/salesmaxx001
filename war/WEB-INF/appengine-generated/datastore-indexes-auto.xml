@@ -1,8 +1,8 @@
-<!-- Indices written at Fri, 23 Dec 2016 07:50:21 UTC -->
+<!-- Indices written at Wed, 4 Jan 2017 15:05:50 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 1 time in query history -->
+    <!-- Used 3 times in query history -->
     <datastore-index kind="ManualTransaction" ancestor="false" source="auto">
         <property name="status" direction="asc"/>
         <property name="issueDate" direction="desc"/>

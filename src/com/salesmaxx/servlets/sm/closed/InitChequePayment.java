@@ -128,10 +128,11 @@ public class InitChequePayment extends HttpServlet {
 			} else {
 				ugi.getPendingOrder().add(mt.getId());
 			}
-
+			Cart oc = new Cart(c);
 			c.setItems(new ArrayList<EmbeddedEntity>());
 			synchronized (session) {
 				session.setAttribute("cart", c);
+				session.setAttribute("savedCartState", oc);//used if user decides to come back to cart
 			}
 			String userMsg = Util.getInvoiceEmail(u.getFirstName(),
 					"http://www.salesmaxx.com/sm/open/get-cheque-invoice?admin=admin&txnRef="

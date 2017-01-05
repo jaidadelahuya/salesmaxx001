@@ -32,6 +32,15 @@ public class Cart implements Serializable {
 		cartKey = range.getStart();
 	}
 
+	public Cart(Cart c) {
+		cartKey= c.getCartKey();
+		items = c.getItems();
+		cartItems = c.getCartItems();
+		subTotal = c.getSubTotal();
+		noOfItems = c.getNoOfItems();
+		formattedsubTotal = c.getFormattedsubTotal();
+	}
+
 	public String getFormattedsubTotal() {
 		return formattedsubTotal;
 	}

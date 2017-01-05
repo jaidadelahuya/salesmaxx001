@@ -20,8 +20,9 @@ import javax.servlet.http.HttpSession;
 import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
-import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.urlfetch.FetchOptions;
 import com.google.appengine.api.urlfetch.HTTPHeader;
+import com.google.appengine.api.urlfetch.HTTPMethod;
 import com.google.appengine.api.urlfetch.HTTPRequest;
 import com.google.appengine.api.urlfetch.HTTPResponse;
 import com.google.appengine.api.urlfetch.URLFetchService;
@@ -84,7 +85,8 @@ public class Interswitch extends HttpServlet {
 						+ txnRef
 						+ "&amount="
 						+ c.getSubTotal() * 100);
-		HTTPRequest r = new HTTPRequest(url);
+		FetchOptions lFetchOptions = FetchOptions.Builder.validateCertificate();
+        HTTPRequest r = new HTTPRequest(url, HTTPMethod.GET, lFetchOptions);
 		r.addHeader(new HTTPHeader("Hash", ClosedUtil
 				.getInterswitchHash(txnRef)));
 		URLFetchService urlfetch = URLFetchServiceFactory.getURLFetchService();

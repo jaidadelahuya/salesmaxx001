@@ -104,6 +104,14 @@ public class PurchaseHistory implements Serializable, Comparable<PurchaseHistory
 	
 
 	@Override
+	public String toString() {
+		return "PurchaseHistory [id=" + id + ", txnRef=" + txnRef + ", total="
+				+ total + ", status=" + status + ", purchaseDate="
+				+ purchaseDate + ", purchaseType=" + purchaseType + ", items="
+				+ items + "]";
+	}
+
+	@Override
 	public int hashCode() {
 		final int prime = 31;
 		int result = 1;

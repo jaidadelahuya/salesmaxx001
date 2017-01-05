@@ -19,6 +19,7 @@
 <script src="/js/sidebar.js"></script>
 </head>
 <body>
+	<%@ include file="/WEB-INF/sidebar.html"%>
 	<div id="main">
 		<%@ include file="/WEB-INF/nav"%>
 		<div class="container">

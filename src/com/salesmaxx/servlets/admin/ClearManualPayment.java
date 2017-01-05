@@ -26,14 +26,24 @@ public class ClearManualPayment extends HttpServlet {
 		String id = req.getParameter("id");
 		String qty = req.getParameter("qty");
 		
-		WorkShop w = Util.getWorkshopSchedule(id);
-		if((Util.totalNumberOfSeats - w.getNoEnrolled()) >= 25) {
-			boolean b = Util.clearManualPayment(txnRef,w,qty);
-			resp.sendRedirect(resp.encodeRedirectURL("/sm-admin/cheque-payment?category=cleared"));
-		} else {
-			RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/reschedule-options.jsp");
-			rd.include(req, resp);
+		if(Util.notNull(qty,txnRef,id)) {
+			
+			try {
+				int x = Integer.parseInt(qty);
+				WorkShop w = Util.getWorkshopSchedule(id);
+				if((w.getTotalNumberOfSeats() - w.getNoEnrolled()) >= x) {
+					boolean b = Util.clearManualPayment(txnRef,w, null,qty, false);
+					resp.sendRedirect(resp.encodeRedirectURL("/sm-admin/cheque-payment?category=cleared"));
+				} else {
+					RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/reschedule-options.jsp");
+					rd.include(req, resp);
+				}
+			}catch(NumberFormatException nfe) {
+				
+			}
 		}
+		
+		
 	}
 
 }

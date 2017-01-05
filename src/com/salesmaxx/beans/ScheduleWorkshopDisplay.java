@@ -15,11 +15,18 @@ public class ScheduleWorkshopDisplay implements Serializable {
 	private Address location;
 	private long qty;
 	private Date sDate;
-	private long seatsLeft;
+	private long seatsLeft, totalSeats;
 	
 	
 	
 	
+	public long getTotalSeats() {
+		return totalSeats;
+	}
+	public void setTotalSeats(long totalSeats) {
+		this.totalSeats = totalSeats;
+		
+	}
 	public Date getsDate() {
 		return sDate;
 	}

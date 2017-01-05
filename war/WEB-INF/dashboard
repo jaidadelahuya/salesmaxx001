@@ -158,7 +158,7 @@
 				src="/images/icons/organization.png" alt="Cheque Payment"></a>
 			<div class="caption" style="text-align: center;">
 				<a class="module to-pointer"
-					href='<c:url value="/sm-admin/cheque-payment"/>'>Cheque Payment
+					href='<c:url value="/sm-admin/cheque-payment"/>'>Bank Payment
 					</a>
 			</div>
 		</div>

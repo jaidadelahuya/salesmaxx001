@@ -7,6 +7,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<session-config>
 		<session-timeout>1800</session-timeout>
 	</session-config>
+	
+	<servlet>
+		<servlet-name>AdminExtendClass</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.ExtendClass</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminExtendClass</servlet-name>
+		<url-pattern>/sm-admin/workshop/extend-class</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RestoreCart</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.RestoreCart</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RestoreCart</servlet-name>
+		<url-pattern>/sm/open/cart/restore</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>AdminAddToWorkshop</servlet-name>
@@ -1045,6 +1063,42 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 
 	<!-- *********************JSPS*************************** -->
+	
+	<servlet>
+		<servlet-name>ExtendWorkshop2</servlet-name>
+		<jsp-file>/WEB-INF/extend-workshop-2.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ExtendWorkshop2</servlet-name>
+		<url-pattern>/sm-admin/workshop/2/extend</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ExtendWorkshop1</servlet-name>
+		<jsp-file>/WEB-INF/extend-workshop-1.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ExtendWorkshop1</servlet-name>
+		<url-pattern>/sm-admin/workshop/1/extend</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CheckInvoiceView</servlet-name>
+		<jsp-file>/WEB-INF/sm/closed/cheque-invoice.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CheckInvoiceView</servlet-name>
+		<url-pattern>/sm/open/invoice/view</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AdminAllWorkshops</servlet-name>
+		<jsp-file>/WEB-INF/all-workshops.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminAllWorkshops</servlet-name>
+		<url-pattern>/sm-admin/workshops/all</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>AdminCanceledWorkshops</servlet-name>

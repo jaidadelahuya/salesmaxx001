@@ -52,7 +52,7 @@ public class ShowAllWorkshops extends HttpServlet {
 		synchronized (session) {
 			session.setAttribute("workshop", awpb);
 		}
-		req.getRequestDispatcher("/WEB-INF/all-workshops.jsp").include(req, resp);
+		resp.sendRedirect("/sm-admin/workshops/all");
 	}
 
 }

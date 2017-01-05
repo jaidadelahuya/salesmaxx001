@@ -66,9 +66,9 @@
 		<div class="row">
 			<div class="col-sm-offset-2 col-sm-8 text-muted" style="text-align: center;">
 				<h6>
-					<strong>Affiliate Marketing Program</strong>
+					<strong style="font-size: 8pt">Affiliate Marketing Program</strong>
 				</h6>
-				<p style="font-size: 9pt; font-family: calibri">
+				<p style="font-size: 7pt; font-family: calibri">
 					Profiliant is a participant in the Amazon Services LLC Associates
 					Program, an affiliate advertising program designed to provide a
 					means for sites to earn advertising fees by advertising and linking

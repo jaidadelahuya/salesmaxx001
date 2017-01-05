@@ -38,9 +38,17 @@ public class WorkShop implements Serializable {
 	private Key location;
 	private BlobKey flyer;
 	private String venue;
+	private long totalNumberOfSeats;
 	
-	
-	
+
+	public long getTotalNumberOfSeats() {
+		return totalNumberOfSeats;
+	}
+
+	public void setTotalNumberOfSeats(long totalNumberOfSeats) {
+		this.totalNumberOfSeats = totalNumberOfSeats;
+	}
+
 	public WorkShop() {
 		this.id = EMF.getDs().allocateIds(WorkShop.class.getSimpleName(), 1).getStart();
 	}

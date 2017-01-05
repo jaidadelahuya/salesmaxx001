@@ -72,7 +72,7 @@
 							</div>
 							<div class="col-sm-12">
 								<div class="col-sm-6" style="text-align: right;">
-									<strong>DUE DATE:</strong>
+									<strong>PAYMENT DUE DATE:</strong>
 								</div>
 								<div class="col-sm-6">
 									<c:out value="${chequeInvoice.dueDate}" />
@@ -85,6 +85,15 @@
 								<div class="col-sm-6">
 									<c:out value="${chequeInvoice.txnRef}" />
 								</div>
+							</div>
+							<div class="col-sm-12">
+								<div class="col-sm-6" >
+									
+								</div>
+								<div class="col-sm-6" >
+									<strong style="color: red">REGISTRATION UNCONFIRMED</strong>
+								</div>
+								
 							</div>
 						</div>
 					</div>
@@ -176,8 +185,13 @@
 				<li style="display: inline; margin-right: 2%;"><a
 					href="<c:url value='/sm/closed/profile/pending-orders' />"><strong>Go
 							To Purchase History</strong></a></li>
+				<li style="display: inline; margin-right: 2%;"><a
+					href="<c:url value='/sm/open/cart/restore' />"><strong>Choose a different payment option</strong></a></li>
 			</ul>
 
+		</div>
+		<div class="row" style="margin-top: 4%;">
+			<div class="col-sm-12" style="text-align: center; font-size: 9pt"> <a href="<c:url value="/sm/open/cancellation-policy" />">Refund and Cancellation Policy</a></div>
 		</div>
 
 	</div>

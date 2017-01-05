@@ -4,7 +4,9 @@ import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 
 import javax.servlet.http.HttpSession;
@@ -16,6 +18,7 @@ import com.google.appengine.api.datastore.Key;
 import com.salesmaxx.beans.CartItem;
 import com.salesmaxx.beans.ChequeInvoice;
 import com.salesmaxx.beans.MyWorkshopsBean;
+import com.salesmaxx.beans.ScheduleWorkshopDisplay;
 import com.salesmaxx.entities.Cart;
 import com.salesmaxx.entities.ManualTransaction;
 import com.salesmaxx.entities.ProductPaidFor;
@@ -50,18 +53,13 @@ public class ClosedUtil {
 		String str = txnRef + INTERSWITCH_PRODUCT_ID + INTERSWITCH_PAY_ITEM_ID
 				+ amount + redirectUrl + INTERSWITCH_MAC;
 
-		System.out.println("java : " + Util.toSHA512(str).toUpperCase());
-		System.out.println("codec : " + DigestUtils.sha512Hex(str));
-		System.out.println("codec : " + DigestUtils.sha512(str));
+		
 		return Util.toSHA512(str).toUpperCase();
 	}
 
 	public static String getInterswitchHash(String txnRef) {
 		String str = INTERSWITCH_PRODUCT_ID + txnRef + INTERSWITCH_MAC;
 
-		System.out.println("java : " + Util.toSHA512(str).toUpperCase());
-		System.out.println("codec : " + DigestUtils.sha512Hex(str));
-		System.out.println("codec : " + DigestUtils.sha512(str));
 		return Util.toSHA512(str).toUpperCase();
 	}
 
@@ -139,10 +137,29 @@ public class ClosedUtil {
 			List<PurchaseableItem> ew = pc.findAll(enrolledWorkshops);
 			List<Key> keys = new ArrayList<>();
 			for (PurchaseableItem pi : ew) {
-				keys.add(pi.getItemKey());
+				Key k = pi.getItemKey();
+				if(!keys.contains(k)) {
+					keys.add(k);
+				}
+				
 			}
-			mwb.setEnrolled(Util.toScheduleWorkshopDisplay(Util
-					.getScheduledWorkshops(keys),ew));
+			Map<Key, Long> map = new HashMap<>();
+			for (PurchaseableItem pi : ew) {
+				Key k = pi.getItemKey();
+				long qty = pi.getQty();
+				for(Key kk : keys) {
+					if(kk.equals(k)) {
+						Set<Key> kkk = map.keySet();
+						if(kkk.contains(kk)) {
+							map.put(kk, map.get(kk)+qty);
+						}else {
+							map.put(kk, qty);
+						}
+					}
+				}
+			}
+			List<ScheduleWorkshopDisplay> list = Util.toScheduleWorkshopDisplay(map);
+			mwb.setEnrolled(list);
 		}
 
 		if (completedWorkshops != null) {

@@ -161,7 +161,7 @@ import com.twilio.sdk.resource.factory.MessageFactory;
 
 public class Util {
 
-	public static final long totalNumberOfSeats = 25;
+	
 	public static final String SERVICE_ACCOUNT = "profiliant.salesmaxx@gmail.com";
 	public static final MemcacheService WORKSHOP_CACHE = MemcacheServiceFactory
 			.getMemcacheService("workshops");
@@ -1005,6 +1005,7 @@ public class Util {
 		ent.setUnindexedProperty("workshopType", workShop.getWorkshopType());
 		ent.setUnindexedProperty("venue", workShop.getVenue());
 		ent.setUnindexedProperty("students", workShop.getStudents());
+		ent.setUnindexedProperty("totalNumberOfSeats", workShop.getTotalNumberOfSeats());
 
 		return ent;
 	}
@@ -1161,6 +1162,8 @@ public class Util {
 		ws.setWorkshopType((String) result.getProperty("workshopType"));
 		ws.setVenue((String) result.getProperty("venue"));
 		ws.setStudents((List<Key>) result.getProperty("students"));
+		Long seats = (Long) result.getProperty("totalNumberOfSeats");
+		ws.setTotalNumberOfSeats((seats==null || seats ==0)?25:seats);
 		return ws;
 	}
 
@@ -1231,7 +1234,8 @@ public class Util {
 		s.setId(String.valueOf(w.getId().getId()));
 		s.setLocation(a);
 		s.setsDate(w.getStartDate());
-		s.setSeatsLeft(25 - w.getNoEnrolled());
+		s.setTotalSeats(w.getTotalNumberOfSeats());
+		s.setSeatsLeft(w.getTotalNumberOfSeats() - w.getNoEnrolled());
 		WorkshopTemplate wst = getWorkshopTemplateFromScheduleId(
 				getWorkshopTemplateFromCache(),
 				String.valueOf(w.getId().getId()));
@@ -1511,7 +1515,7 @@ public class Util {
 		Util.sendEmail(Util.SERVICE_ACCOUNT, to, title, body);
 		// Util.sendEmailNotification( to, title, body);
 	}
-	
+
 	public static String getInvoiceEmail(String name, String url) {
 		if (name == null) {
 			name = "";
@@ -1523,7 +1527,7 @@ public class Util {
 				+ ",</h4>"
 				+ "<h3 style='color:#d9534f'>Your Invoice</h3><p>You have generated an invoice on SalesMaxx.</p>"
 				+ "<p>Follow the link below or copy and paste it on your browser address bar to view your invoice.</p>"
-				+ "<p>"+url+"</p><br>"
+				+ "<p>" + url + "</p><br>"
 				+ "<p>Regards,</p><p>SalesMaxx Team</p></div></body>";
 	}
 
@@ -3036,12 +3040,13 @@ public class Util {
 
 	public static Map<String, Object> getChequePaymentBean(String category,
 			String cursor) {
-		
-		Map<String,Object> map = new HashMap<>();
+
+		Map<String, Object> map = new HashMap<>();
 		ManualTransactionController mtc = new ManualTransactionController();
-		QueryResultList<Entity> qrl= mtc.addManualTransactions(category,cursor);
+		QueryResultList<Entity> qrl = mtc.addManualTransactions(category,
+				cursor);
 		List<ManualTransaction> mts = new ArrayList<>();
-		if(qrl.getCursor()!=null) {
+		if (qrl.getCursor() != null) {
 			String c = qrl.getCursor().toWebSafeString();
 			map.put("c", c);
 		}
@@ -3126,7 +3131,7 @@ public class Util {
 
 				if (((String) ee.getProperty("workshopID")).equals(id)) {
 					WorkShop w = Util.getWorkshopSchedule(id);
-					long seatsLeft = 25 - w.getNoEnrolled();
+					long seatsLeft = w.getTotalNumberOfSeats() - w.getNoEnrolled();
 					if (seatsLeft >= Long.valueOf(qty)) {
 						ee.setProperty("qty", qty);
 						synchronized (session) {
@@ -3169,8 +3174,8 @@ public class Util {
 		return items;
 	}
 
-	public static boolean clearManualPayment(String txnRef, WorkShop w,
-			String qty) {
+	public static boolean clearManualPayment(String txnRef, WorkShop w, WorkShop oldWorkshop,
+			String qty, boolean reschedule) {
 		ManualTransactionController mtc = new ManualTransactionController();
 		List<ManualTransaction> mtss = mtc.findByTxnRef(txnRef,
 				ChequeInvoice.InvoiceStatus.PENDING);
@@ -3196,10 +3201,21 @@ public class Util {
 			ScheduleWorkshopDisplay swd = toScheduleWorkshopDisplay(w);
 			String x = (Long.parseLong(qty) > 1) ? "seats" : "seat";
 			String y = (swd.getName().contains("shop")) ? "" : "workshop";
-			String body = "Your payment for " + qty + " " + x + " at the' "
-					+ swd.getName() + " " + y + " taking place on "
-					+ swd.getStartDate() + " in "
-					+ swd.getLocation().getState() + " has been confirmed.";
+			String body = "";
+			if(reschedule) {
+				ScheduleWorkshopDisplay swd1 = toScheduleWorkshopDisplay(oldWorkshop);
+				String z = (swd.getName().contains("shop")) ? "" : "workshop";
+				body = "Your payment for " + qty + " " + x + " at the "
+						+ swd1.getName() + " " + y + " taking place on "
+						+ swd1.getStartDate() + " in "
+						+ swd1.getLocation().getState() + " has been rescheduled to "
+						+swd.getName()+" taking place on "+swd.getStartDate();
+			}else {
+				body = "Your payment for " + qty + " " + x + " at the' "
+						+ swd.getName() + " " + y + " taking place on "
+						+ swd.getStartDate() + " in "
+						+ swd.getLocation().getState() + " has been confirmed.";
+			}
 			if (u.getPrimaryPhone() != null && u.isPhoneVerified()) {
 
 				try {
@@ -3241,7 +3257,7 @@ public class Util {
 				Util.getWorkshopTemplateFromCache(),
 				String.valueOf(w.getId().getId()));
 		wt.setNoEnrolled(wt.getNoEnrolled() + Long.parseLong(qty));
-		if (w.getNoEnrolled() < 25) {
+		if (w.getNoEnrolled() < w.getTotalNumberOfSeats()) {
 			w.setNoEnrolled(w.getNoEnrolled() + Long.parseLong(qty));
 			List<Key> keys = w.getStudents();
 			if (keys == null) {
@@ -3495,10 +3511,10 @@ public class Util {
 		for (Facilitator f : facs) {
 			FeaturedCoach fc = new FeaturedCoach();
 			fc.setCoachName(f.getFirstName() + " " + f.getLastName());
-			if(f.getPicture()!=null) {
+			if (f.getPicture() != null) {
 				fc.setPicture(Util.getImageUrl(f.getPicture()));
 			}
-			
+
 			fc.setWebkey(KeyFactory.keyToString(f.getId()));
 			fcs.add(fc);
 		}
@@ -3658,36 +3674,62 @@ public class Util {
 
 	public static ChequePaymentBean getChequePaymentBean(String txnID,
 			String category, String uid) {
-		QueryResultList<Entity> qrl = ManualTransactionController.getChequePaymentBean(txnID, category,uid);
+		QueryResultList<Entity> qrl = ManualTransactionController
+				.getChequePaymentBean(txnID, category, uid);
 		ChequePaymentBean cpb = new ChequePaymentBean();
 		cpb.setCategory(category);
 		List<ManualTransaction> mts = new ArrayList<>();
-		
+
 		for (Entity e : qrl) {
 			ManualTransaction mt = Util.entityToManualTransaction(e);
 			mts.add(mt);
 		}
 		List<ManualPaymentBean> mpb = Util.toManualPaymentBean(mts);
-		if(category.equalsIgnoreCase("pending")) {
+		if (category.equalsIgnoreCase("pending")) {
 			cpb.setMpbs(mpb);
-			if(qrl.getCursor()!=null) {
+			if (qrl.getCursor() != null) {
 				String c = qrl.getCursor().toWebSafeString();
 				cpb.setCursor(c);
 			}
-		} else if(category.equalsIgnoreCase("cleared")) {
+		} else if (category.equalsIgnoreCase("cleared")) {
 			cpb.setCmpbs(mpb);
-			if(qrl.getCursor()!=null) {
+			if (qrl.getCursor() != null) {
 				String c = qrl.getCursor().toWebSafeString();
 				cpb.setcCursor(c);
 			}
-		}else if(category.equalsIgnoreCase("overdue")) {
+		} else if (category.equalsIgnoreCase("overdue")) {
 			cpb.setOmpbs(mpb);
-			if(qrl.getCursor()!=null) {
+			if (qrl.getCursor() != null) {
 				String c = qrl.getCursor().toWebSafeString();
 				cpb.setoCursor(c);
 			}
 		}
-		
+
 		return cpb;
+	}
+
+	public static List<ScheduleWorkshopDisplay> toScheduleWorkshopDisplay(
+			Map<Key, Long> map) {
+		List<ScheduleWorkshopDisplay> l = new ArrayList<>();
+		Set<Key> keys = map.keySet();
+		for (Key k : keys) {
+			WorkShop w = Util.getWorkshopSchedule(String.valueOf(k.getId()));
+			WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(
+					Util.getWorkshopTemplateFromCache(),
+					String.valueOf(k.getId()));
+			ScheduleWorkshopDisplay sch = new ScheduleWorkshopDisplay();
+			sch.setId(String.valueOf(k.getId()));
+			sch.setName(wt.getWorkshopName());
+			sch.setQty(map.get(k));
+			sch.setWorkshopCode(wt.getWorkshopId().getName());
+			AddressController c = new AddressController();
+			Address a = c.findAddress(w.getLocation());
+			sch.setId(String.valueOf(w.getId().getId()));
+			sch.setLocation(a);
+			SimpleDateFormat sm = new SimpleDateFormat("E, dd MMM yyyy");
+			sch.setStartDate(sm.format(w.getStartDate()));
+			l.add(sch);
+		}
+		return l;
 	}
 }

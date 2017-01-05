@@ -26,6 +26,7 @@
 <script src="/js/sidebar.js"></script>
 </head>
 <body>
+		<%@ include file="/WEB-INF/sidebar.html"%>
 	<%
 		FacilitatorController cont = new FacilitatorController();
 		List<Facilitator> facs = cont.findAllFacilitators();
@@ -38,19 +39,20 @@
 			session.setAttribute("workshopTemplates", list);
 		}
 	%>
+	<div id="main">
 	<%@ include file="/WEB-INF/nav"%>
-	<div class="container-fluid">
+	<div class="container">
 		<div class="row">
-			<%@ include file="/WEB-INF/sidebar"%>
-			<div class="col-sm-10 form-page">
+			
+			<div class="col-sm-12 form-page">
 				<div class="row">
-					<div class="col-sm-11">
+					<div class="col-sm-4">
 						<h2 class="text-danger">Schedule Workshop</h2>
 					</div>
-					<div class="col-sm-1">
-						<img class="img-responsive module-image"
-							src="/images/icons/schedule-workshop.png" alt="Schedule workshop">
+					<div class="col-sm-8">
+						<a href="/sm-admin/workshop/1/extend" class="btn btn-primary">Extend a workshop</a>
 					</div>
+					
 				</div>
 				<hr style="margin-top: 0" />
 				<div class="row form-div">
@@ -84,43 +86,9 @@
 								<label for="state">State:</label> <input list="states"
 									id="state" name="state" class="form-control" />
 								<datalist id="states">
-									<option value="Abia"></option>
 									<option value="Abuja"></option>
-									<option value="Adamawa"></option>
-									<option value="Akwa Ibom"></option>
-									<option value="Anambra"></option>
-									<option value="Bauchi"></option>
-									<option value="Bayelsa"></option>
-									<option value="Benue"></option>
-									<option value="Borno"></option>
-									<option value="Cross River"></option>
-									<option value="Delta"></option>
-									<option value="Ebonyi"></option>
-									<option value="Edo"></option>
-									<option value="Ekiti"></option>
-									<option value="Enugu"></option>
-									<option value="Gombe"></option>
-									<option value="Imo"></option>
-									<option value="Jigawa"></option>
-									<option value="Kaduna"></option>
-									<option value="Kano"></option>
-									<option value="Katsina"></option>
-									<option value="Kebbi"></option>
-									<option value="Kogi"></option>
-									<option value="Kwara"></option>
 									<option value="Lagos"></option>
-									<option value="Nasarawa"></option>
-									<option value="Niger"></option>
-									<option value="Ogun"></option>
-									<option value="Ondo"></option>
-									<option value="Osun"></option>
-									<option value="Oyo"></option>
-									<option value="Plateau"></option>
-									<option value="Rivers"></option>
-									<option value="Sokoto"></option>
-									<option value="Taraba"></option>
-									<option value="Yobe"></option>
-									<option value="Zamfara"></option>
+									
 								</datalist>
 							</div>
 							<div class="col-md-6 form-group">
@@ -171,7 +139,7 @@
 						<div class="form-group col-sm-12">
 							<hr />
 							<input type="button"
-								class="btn btn-danger btn-md mobile-font pull-right"
+								class="btn btn-danger btn-md mobile-font"
 								id="schedule-workshop" value="Add to Calendar"
 								style="margin-bottom: 1%" />
 						</div>
@@ -179,6 +147,7 @@
 				</div>
 			</div>
 		</div>
+	</div>
 	</div>
 	<script src="/js/jquery-1.11.2.min.js"></script>
 	<script type="text/javascript" src="/js/jquery-ui.min.js"></script>
