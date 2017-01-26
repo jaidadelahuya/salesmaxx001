@@ -1,60 +1,86 @@
-<div class="well" style="background-color: white; border-color: gray; overflow: auto; padding-left: 0px;padding-right: 0px; padding-bottom: 0px" >
+<div class="col-sm-9">
+	<div class="col-sm-12"
+		style="background-color: #3b5998; color: white; border-left: 3px solid red;">
+		<h3>${discussionPageBean.category}</h3>
+	</div>
 
-	<div class="col-sm-6">
-		<h3 class="text-primary"><c:out value="${discussionPageBean.category}" /></h3>
-	</div>
-	<div class="col-sm-6" style="text-align: right;">
-		<div class="form-group">
-			<a href="<c:url value='/coaching' />" class="btn btn-danger btn-xs" style="margin-bottom: 1px;">View Coaching Categories</a>
-			<a href="<c:url value='/sm/open/start-discussion?category=${discussionPageBean.category}' />" class="btn btn-danger btn-xs" style="margin-bottom: 1px;">Start a discussion</a>
+
+
+	<c:forEach var="item" items="${discussionPageBean.beans}">
+		<div class="row">
+			<div class="col-sm-12">
+				<div class="card"
+					style="text-align: left; margin-top: 2%; height: 200px">
+					<h4>
+						<a
+							href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}"><strong>${item.topic}</strong></a>
+					</h4>
+					<div class="discussion-meta">
+						<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
+							${item.timePosted} </span> <span style="margin-right: 2%"><i
+							class="fa fa-comments"></i> ${fn:length(string2)} </span> <span
+							style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
+							${item.votes} </span>
+					</div>
+					<div style="height: 100px; padding-bottom: 10px; overflow: hidden;">
+						<p>${item.snippet}</p>
+
+					</div>
+					<p>
+						<a
+							href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}">Read
+							More</a>
+					</p>
+
+
+				</div>
+			</div>
 		</div>
-		<ul class="tabs">
-			<li><a>All</a></li>
-			<li><a>Newest</a></li>
-			<li><a>Frequent</a></li>
-			<li><a>Votes</a></li>
-			<li><a>Unanswered</a></li>
-		</ul>
+	</c:forEach>
+</div>
+<div class="col-sm-3">
+	<div class="discussion-sidebar">
+		<h4 style="font-weight: bold;">Coaching Categories</h4>
+		<div style="margin-bottom: 2%">
+			<a href="/sm/open/view-all-discussion?category=Interview%20Coaching">Interview
+				Coaching</a>
+		</div>
+		<div style="margin-bottom: 2%">
+			<a
+				href="/sm/open/view-all-discussion?category=Sales%20Performance%20Coaching">Sales
+				Performance Coaching</a>
+		</div>
+		<div style="margin-bottom: 2%">
+			<a
+				href="http://localhost:8888/sm/open/view-all-discussion?category=Sales%20Management%20and%20Leadership">Sales
+				Management/Leadership coaching</a>
+		</div>
+
 	</div>
-	<div class="col-sm-12" style="padding-right: 0px; padding-left: 0px">
-		<table class="table table-responsive table-striped table-condensed">
-			<c:forEach var="item" items="${discussionPageBean.beans}">
-				<tr>
-					<td class="row">
-						<div class="col-sm-3" style="padding-left: 0px; padding-right: 0px; ">
-							<div class="col-xs-4"  style="padding-left: 0px; padding-right: 0px">
-								<p class="counts">${item.views}</p>
-								<p class="counts-label">Views</p>
-							</div>
-							
-							<div class="col-xs-4"  style="padding-left: 0px; padding-right: 0px">
-								<p class="counts">${item.views}</p>
-								<p class="counts-label">Votes</p>
-							</div>
-							<div class="col-xs-4"  style="padding-left: 0px; padding-right: 0px">
-								<p class="counts">${fn:length(item.comments)}</p>
-								<p class="counts-label">Comments</p>
-							</div>
-						</div>
-						<div class="col-sm-9" style="padding-left: 0px; padding-right: 0px">
-							<div class="col-sm-12">
-								<h4><a href="<c:url value='/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}' />"><c:out value="${item.topic}"/></a></h4>
-							</div>
-							<div class="col-sm-6">
-								tags
-							</div>
-							<div class="col-sm-6" style="padding-left: 0px; padding-right: 2%; font-family: arial; font-size: 0.9em; text-align: right;">
-									<p>
-									<c:out value="posted on ${item.time}" /></p>
-					
-								<p>
-									<c:out value="By ${item.ownerName}" />
-								</p>
-							</div>
-						</div>
-					</td>
-				</tr>
-			</c:forEach>
-		</table>
-	</div>
+	<c:forEach items="${discussionPageBean.otherCategory}" var="item">
+		<div class="col-sm-12"
+			style="background-color: #3b5998; color: white; border-left: 3px solid red;">
+			<h5>${item.key}</h5>
+		</div>
+		
+		<c:forEach var="x" items="${item.value}">
+
+			<div class="col-sm-12 trending">
+				<div style="height: 40px; overflow: hidden">
+					<a style="font-size: 10pt"
+						href="/sm/open/get-discussion?webkey=${x.webkey}&category=${x.category}">${x.topic}</a>
+				</div>
+				<div class="discussion-meta">
+					<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
+						${x.timePosted} </span> <span style="margin-right: 2%"><i
+						class="fa fa-comments"></i> ${fn:length(string2)} </span> <span
+						style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
+						${x.votes} </span>
+				</div>
+			</div>
+
+
+		</c:forEach>
+		
+	</c:forEach>
 </div>

@@ -30,6 +30,13 @@ public class PostComment extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = 1099995782642283517L;
+			
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(req, resp);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -82,7 +89,7 @@ public class PostComment extends HttpServlet {
 			Discussion d = c.findDiscussion(k);
 			String body = "<p>"
 					+ u.getFirstName()
-					+ " made a comment on the post: <a href='https://salesmaxx001.appspot.com/sm/open/get-discussion?webkey="
+					+ " made a comment on the post: <a href='https://www.salesmaxx.com/sm/open/get-discussion?webkey="
 					+ webkey + "&privacy=private'>" + d.getTitle() + "</a></p>";
 			String title = "New comment on "+d.getCategory();
 			Util.sendEmailNotification(d.getEmailsToNotify(), title, body);

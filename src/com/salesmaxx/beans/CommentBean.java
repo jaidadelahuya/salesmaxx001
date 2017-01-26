@@ -6,6 +6,10 @@ import java.util.List;
 
 public class CommentBean implements Serializable {
 
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -9177434461929644775L;
 	private String body;
 	private String ownerName, ownerImage;
 	private int likes;

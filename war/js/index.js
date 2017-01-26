@@ -1,4 +1,5 @@
 $(document).ready(function() {
+	
 
 	$('#slick').slick({
 		infinite : true,

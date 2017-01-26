@@ -1,8 +1,6 @@
 package com.salesmaxx.servlets.sm.open;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -13,10 +11,11 @@ import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
-import com.salesmaxx.beans.DiscussionPageBean;
 import com.salesmaxx.beans.SingleDiscussionPageBean;
 import com.salesmaxx.entities.Discussion;
+import com.salesmaxx.entities.User;
 import com.salesmaxx.persistence.controllers.DiscussionController;
+import com.salesmaxx.persistence.controllers.UserController;
 import com.salesmaxx.util.Util;
 
 public class GetDiscussion extends HttpServlet {
@@ -31,60 +30,15 @@ public class GetDiscussion extends HttpServlet {
 			throws ServletException, IOException {
 		
 		String webKey = req.getParameter("webkey");
-		String category = req.getParameter("category");
-		String privacy = req.getParameter("privacy");
-		
 		HttpSession session = req.getSession();
 		SingleDiscussionPageBean sdpb = null;
-		if (privacy != null && privacy.equalsIgnoreCase("private")) {
-			Key key = KeyFactory.stringToKey(webKey);
-			Discussion d = new DiscussionController().findDiscussion(key);
-			if(d != null) {
-				List<Discussion> xxx = new ArrayList<>();
-				xxx.add(d);
-				List<SingleDiscussionPageBean> l = Util.discussionToSDPB(xxx);
-				if(l != null && !l.isEmpty()) {
-					sdpb = l.get(0);
-				}
-			}
-		} else {
-			Object o = null;
-			synchronized (session) {
-				o = session.getAttribute("discussionPageBean");
-			}
-
-			DiscussionPageBean dpb = null;
-
-			if (o != null) {
-				dpb = (DiscussionPageBean) o;
-				List<SingleDiscussionPageBean> list = dpb.getBeans();
-				for (SingleDiscussionPageBean s : list) {
-					if (webKey != null && webKey.equals(s.getWebkey())) {
-						sdpb = s;
-						sdpb.setViews(sdpb.getViews()+1);
-						break;
-					}
-				}
-				
-				if(sdpb == null) {
-					dpb = Util.getDiscussionFromCache(category);
-				}
-
-			} else {
-				dpb = Util.getDiscussionFromCache(category);
-				
-			}
-			List<SingleDiscussionPageBean> list = dpb.getBeans();
-			for (SingleDiscussionPageBean s : list) {
-				if (webKey != null && webKey.equals(s.getWebkey())) {
-					sdpb = s;
-					sdpb.setViews(sdpb.getViews()+1);
-					break;
-				}
-			}
+		Key key = KeyFactory.stringToKey(webKey);
+		DiscussionController c = new DiscussionController();
+		Discussion d = c.findDiscussion(key);
+		User u = new UserController().findUser(d.getOwner());
+		sdpb = Util.discussionToSDPB(d, u);
 			
-		}
-
+		
 		synchronized (session) {
 			session.setAttribute("singleDiscussionPageBean", sdpb);
 		}

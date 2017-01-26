@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Text;
+import com.salesmaxx.persistence.controllers.EMF;
 
 public class Discussion implements Serializable {
 
@@ -17,16 +18,37 @@ public class Discussion implements Serializable {
 	private String title,socialNetwork;
 	private Text body;
 	private Key owner;
-	private List<Key> tags,comments;
+	private List<Key> tags,comments,view,votes;
 	private Date timePosted;
 	private List<String> emailsToNotify;
-	private long view,votes;
 	private  String category;
 	private String privacy;
 	private Key id;
+	private long nComments, nViews, nVotes;
 	
 	
 	
+	public long getnComments() {
+		return nComments;
+	}
+	public void setnComments(long nComments) {
+		this.nComments = nComments;
+	}
+	public long getnViews() {
+		return nViews;
+	}
+	public void setnViews(long nViews) {
+		this.nViews = nViews;
+	}
+	public long getnVotes() {
+		return nVotes;
+	}
+	public void setnVotes(long nVotes) {
+		this.nVotes = nVotes;
+	}
+	public Discussion() {
+		id = EMF.getDs().allocateIds(Discussion.class.getSimpleName(), 1).getStart();
+	}
 	public Key getId() {
 		return id;
 	}
@@ -76,6 +98,10 @@ public class Discussion implements Serializable {
 	}
 	public void setComments(List<Key> comments) {
 		this.comments = comments;
+		if(comments!=null) {
+			nComments = comments.size();
+		}
+		
 	}
 	public Key getOwner() {
 		return owner;
@@ -95,17 +121,24 @@ public class Discussion implements Serializable {
 	public void setEmailsToNotify(List<String> emailsToNotify) {
 		this.emailsToNotify = emailsToNotify;
 	}
-	public long getView() {
+	
+	public List<Key> getView() {
 		return view;
 	}
-	public void setView(long view) {
+	public void setView(List<Key> view) {
 		this.view = view;
+		if(view != null) {
+			nViews = view.size();
+		}
 	}
-	public long getVotes() {
+	public List<Key> getVotes() {
 		return votes;
 	}
-	public void setVotes(long votes) {
+	public void setVotes(List<Key> votes) {
 		this.votes = votes;
+		if(votes != null) {
+			nVotes = votes.size();
+		}
 	}
 	@Override
 	public String toString() {

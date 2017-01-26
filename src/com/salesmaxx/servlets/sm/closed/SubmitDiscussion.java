@@ -27,6 +27,13 @@ public class SubmitDiscussion extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -3614808350072995833L;
+	
+	@Override
+	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
+			throws ServletException, IOException {
+		// TODO Auto-generated method stub
+		doPost(req, resp);
+	}
 
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp)
@@ -97,9 +104,7 @@ public class SubmitDiscussion extends HttpServlet {
 			synchronized (session) {
 				session.setAttribute("singleDiscussionPageBean", sdpb);
 			}
-			RequestDispatcher rd = req
-					.getRequestDispatcher("/WEB-INF/sm/open/view-discussion.jsp");
-			rd.include(req, resp);
+			resp.sendRedirect("/coaching/discussion?web-key="+sdpb.getWebkey());
 		}
 
 	}

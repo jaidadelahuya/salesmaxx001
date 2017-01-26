@@ -2,6 +2,7 @@
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@page import="com.salesmaxx.entities.UserRole"%>
 <!DOCTYPE html>
 <html>
@@ -39,7 +40,7 @@
 
 					</div>
 
-					<hr style="margin-top: 0" />
+					<hr style="margin-top: 0;margin-bottom: 0px" />
 
 					<div class="row form-div">
 						<%@ include file="/WEB-INF/canceled-workshops.html"%>
@@ -57,5 +58,12 @@
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/validate.js"></script>
 	<script type="text/javascript" src="/js/add-workshop.js"></script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#a-search").click(function(e) {
+				$(".search-div").show();
+			});
+		});
+	</script>
 </body>
 </html>

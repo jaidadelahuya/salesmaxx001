@@ -21,113 +21,91 @@
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
-	<div class="container-fluid"
-		style="width: 95%; margin: 0 auto; height: 100%;">
+	<div class="container">
 		<div class="row">
+			<div class="col-md-12">
+				<div style="width: 80%; margin: 0 auto">
+					<h3 class="text-primary" style="font-family: arial; font-weight: bold;">
+						<c:out value="Start a New Discussion" />: <small class="text-danger"><c:out value="${coachingCategory}" /></small>
+					</h3>
+					<div class="discussion-sidebar"
+						style="padding: 0; background-color: #d9edfe;">
+						<div class="form-group col-sm-12"
+							style="text-align: right; margin-bottom: 0px; margin-top: 2%;">
 
-			<div class="col-md-9" style="padding-left: 0px;">
-				<div class="discussion-sidebar"
-					style="padding: 0; background-color: white; padding-left: 4%;">
-					<div class="form-group col-sm-12"
-						style="text-align: right; margin-bottom: 0px; margin-top: 2%;">
-						<a href="<c:url value='/coaching' />"
-							class="btn btn-danger btn-xs" style="margin-bottom: 1px;">View
-							Coaching Categories</a>
-					</div>
+						</div>
 
-					<div class="col-md-12"padding-top: 5%;">
-						<h3 class="text-primary">
-							<c:out value="New Question/Discussion" />
-						</h3>
-						<h5 class="text-muted">
-							<strong class="text-danger">Category: </strong>
-							<c:out value="${coachingCategory}" />
-						</h5>
-					</div>
+						<div class="col-sm-12">
+							<c:choose>
+								<c:when test="${startDiscussionError}">
+									<div class="alert alert-danger">
+										<p>
+											<c:out value='${startDiscussionErrorMessage}' />
+										</p>
+									</div>
 
-					<div class="col-sm-12">
-						<c:choose>
-							<c:when test="${startDiscussionError}">
-								<div class="alert alert-danger">
-									<p>
-										<c:out value='${startDiscussionErrorMessage}' />
-									</p>
-								</div>
+								</c:when>
+								<c:when test="${startDiscussionSuccess}">
+									<div class="alert alert-success">
+										<p>
+											<c:out value='${startDiscussionSuccessMessage}' />
+										</p>
+									</div>
 
-							</c:when>
-							<c:when test="${startDiscussionSuccess}">
-								<div class="alert alert-success">
-									<p>
-										<c:out value='${startDiscussionSuccessMessage}' />
-									</p>
+								</c:when>
+							</c:choose>
+							<form action="/sm/closed/submit-discussion" method="post"
+								id="post-discussion-form">
+								<div class="row">
+									<div class="form-group col-sm-12 col-md-10">
+										<label for="title">Title:</label> <input type="text"
+											class="form-control" name="title">
+									</div>
+									<div class="col-md-2"></div>
 								</div>
+								<div class="row">
+									<div class="form-group col-sm-12 col-md-10">
+										<label for="Body">Body:</label>
+										<textarea id="discussion-msg" rows="8" class="form-control"
+											name="body"></textarea>
+									</div>
+									<div class="col-md-2"></div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-12 col-md-10">
+										<label for="Tags">Tags:</label> <input type="text"
+											class="form-control" name="tags">
+									</div>
+									<div class="col-md-2"></div>
+								</div>
+								<input type="hidden" value="${coachingCategory}" name="category">
+								<div class="row form-group">
+									<div class="col-sm-12 col-md-4">
+										<label for="privacy">Privacy: </label> <select
+											class="form-control" name="privacy">
+											<option>Public</option>
+											<option>Private</option>
+										</select>
+									</div>
+									<div class="checkbox col-sm-12 col-md-8"
+										style="font-family: calibri">
+										<label><input type="checkbox" value="true"
+											name="notify-me">Send me new responses to my post via
+											email</label>
+									</div>
+								</div>
+								<div class="row">
+									<div class="form-group col-sm-12">
+										<input type="submit" class="btn btn-xs btn-danger"
+											value="Post Question/Discussion" id="post-discussion">
+									</div>
+								</div>
+							</form>
+						</div>
 
-							</c:when>
-						</c:choose>
-						<form action="/sm/closed/submit-discussion" method="post"
-							id="post-discussion-form">
-							<div class="row">
-								<div class="form-group col-sm-12 col-md-10">
-									<label for="title">Title:</label> <input type="text"
-										class="form-control" name="title">
-								</div>
-								<div class="col-md-2"></div>
-							</div>
-							<div class="row">
-								<div class="form-group col-sm-12 col-md-10">
-									<label for="Body">Body:</label>
-									<textarea id="discussion-msg" rows="8" class="form-control" name="body"></textarea>
-								</div>
-								<div class="col-md-2"></div>
-							</div>
-							<div class="row">
-								<div class="form-group col-sm-12 col-md-10">
-									<label for="Tags">Tags:</label> <input type="text"
-										class="form-control" name="tags">
-								</div>
-								<div class="col-md-2"></div>
-							</div>
-							<input type="hidden" value="${coachingCategory}" name="category">
-							<div class="row form-group">
-								<div class="col-sm-12 col-md-4">
-									<label for="privacy">Privacy: </label> <select
-										class="form-control" name="privacy">
-										<option>Public</option>
-										<option>Private</option>
-									</select>
-								</div>
-								<div class="checkbox col-sm-12 col-md-8"
-									style="font-family: calibri">
-									<label><input type="checkbox" value="true"
-										name="notify-me">Send me new responses to my post via
-										email</label>
-								</div>
-							</div>
-							<div class="row">
-								<div class="form-group col-sm-12">
-									<input type="submit" class="btn btn-xs btn-danger"
-										value="Post Question/Discussion" id="post-discussion">
-								</div>
-							</div>
-						</form>
 					</div>
 
 				</div>
-
-			</div>
-
-			<div class="col-md-3" style="padding: 0">
-				<div style="margin-bottom: 4%">
-					<a href='/calendar'><img class="img img-responsive"
-						src="/images/calender.jpg" alt="Calendar" /></a>
-				</div>
-
-				<div style="margin-bottom: 4%">
-					<a><img class="img img-responsive"
-						src="/images/download-howtobuy.jpg"
-						alt="How to buy sales training" /></a>
-				</div>
-
 
 			</div>
 		</div>

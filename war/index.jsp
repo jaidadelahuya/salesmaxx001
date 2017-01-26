@@ -42,8 +42,27 @@
 	content="http://www.salesmaxx.com/images/calender.jpg" />
 <meta name="twitter:url" content="http://www.salesmaxx.com/calendar" />
 <%@ include file="/js/google-analytics"%>
+<style type="text/css">
+#grad {
+	background: white; /* For browsers that do not support gradients */
+	background: -webkit-linear-gradient(white, #d7ddea);
+	/* For Safari 5.1 to 6.0 */
+	background: -o-linear-gradient(white, #d7ddea);
+	/* For Opera 11.1 to 12.0 */
+	background: -moz-linear-gradient(white, #d7ddea);
+	/* For Firefox 3.6 to 15 */
+	background: linear-gradient(white, #d7ddea); /* Standard syntax */
+}
+
+#modal-header {
+	text-shadow: 1px 1px 2px black, 0 0 1em #d5b0bc, 0 0 0.2em #b6758a;
+    color: white;
+    text-align: center;
+}
+
+</style>
 </head>
-<body style="overflow-x:hidden">
+<body style="overflow-x: hidden">
 
 
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -159,44 +178,7 @@
 							style="font-family: calibri; padding: 0px">Job Role:</label>
 						<div class="col-sm-4">
 							<select class="form-control" name="job-role">
-								<option class="placeholder" selected disabled value="">Select
-									Job Role</option>
-								<option>Account Director</option>
-								<option>Account Executive</option>
-								<option>Account Manager</option>
-								<option>Advertising Sales Executive</option>
-								<option>Area Sales Manager</option>
-								<option>Business Development Director</option>
-								<option>Business Development Manager</option>
-								<option>Business Relationship Manager</option>
-								<option>Call Centre Agent</option>
-								<option>Car Sales Executive</option>
-								<option>Channel Manager</option>
-								<option>Corporate Sales Executive</option>
-								<option>Customer Service Advisor</option>
-								<option>Customer Service Manager</option>
-								<option>Field Sales Executive</option>
-								<option>Global Accounts Manager</option>
-								<option>Industrial Sales/Account Managers</option>
-								<option>Inside Sales Account Manager</option>
-								<option>Internal Sales Executive</option>
-								<option>IT Sales Executive</option>
-								<option>Key Account Manager</option>
-								<option>Major Account Manager</option>
-								<option>Mortgage Adviser</option>
-								<option>National Account Manager</option>
-								<option>Presales Consultant</option>
-								<option>Product Manager</option>
-								<option>Regional Sales Manager</option>
-								<option>Retail Channel Manager</option>
-								<option>Sales & Distribution Manager</option>
-								<option>Sales Administrator</option>
-								<option>Sales Executive</option>
-								<option>Sales Manager</option>
-								<option>Senior Account Executive</option>
-								<option>Senior Sales Executive</option>
-								<option>Telesales Executive</option>
-								<option>Territory Sales Manager</option>
+								<%@ include file="/partials/job-roles.html"%>
 							</select>
 						</div>
 					</div>
@@ -867,6 +849,31 @@
 		</div>
 
 	</div>
+
+	<!-- Modal -->
+	<div id="myModal" class="modal fade" role="dialog">
+		<div class="modal-dialog">
+
+			<!-- Modal content-->
+			<div class="modal-content" id="grad">
+				<div class="modal-header" style="border-bottom: none;">
+					<button type="button" class="close" data-dismiss="modal">&times;</button>
+
+				</div>
+				<div class="modal-body">
+					<h2 id= "modal-header">You're moments away from a SalesMaxx solution that will fit your unique needs</h2>
+					<p style="margin: 4%; text-align: center; font-size: 14pt; font-weight: bold; ">Answer a few questions and we will match you with an Authorized Partner who can help as you need.</p>
+					<br/>
+					<div style="text-align: center;">
+						<a href="/sm/open/solutions" class="btn btn-info btn-lg">Get Started</a>
+					</div>
+					
+				</div>
+
+			</div>
+
+		</div>
+	</div>
 	<!-- <div id="bootcamp-ad-div" class="row"
 		style="background-color: #b1010c; margin-top: 3%;">
 		<img alt="Bootcamp" src="/images/bootcamp.png"
@@ -907,6 +914,17 @@
 			$(".main-menu-item").removeClass("active");
 			$(".main-menu-item").removeClass("menu-active");
 			$("#home-menu").addClass("menu-active");
+			var x = sessionStorage.getItem("nShown");
+			if(x) {x=false;}else {x=true;}
+			
+			$(this).scroll(function() {
+				if ($(this).scrollTop() > 500 && x) {
+					$("#myModal").modal("show");
+					sessionStorage.setItem("nShown",false);
+					x=false;
+				}
+			});
+
 		});
 	</script>
 

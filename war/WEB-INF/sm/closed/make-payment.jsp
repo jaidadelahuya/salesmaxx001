@@ -54,9 +54,9 @@
 					</div>
 				</div>
 				<form name="form1" id="interswitch-tansaction-form"
-					action="https://stageserv.interswitchng.com/test_paydirect/pay"
+					action="https://webpay.interswitchng.com/paydirect/pay"
 					method="post">
-					<input name="product_id" type="hidden" value="6205" /> <input
+					<input name="product_id" type="hidden" value="6112" /> <input
 						name="amount" type="hidden" value="${cart.subTotal*100}" /> <input
 						name="currency" type="hidden" value="566" /> <input
 						name="site_redirect_url" type="hidden" value="${interRedirectUrl}" />

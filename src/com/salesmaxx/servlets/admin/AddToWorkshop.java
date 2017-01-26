@@ -43,7 +43,7 @@ public class AddToWorkshop extends HttpServlet {
 		if (o != null) {
 			RescheduleOption ro = (RescheduleOption) o;
 			String txnRef = ro.getTxnRef();
-			int noD = Integer.parseInt(ro.getQty());
+			
 			WorkShop w = Util.getWorkshopSchedule(id);
 			WorkShop ow = Util.getWorkshopSchedule(ro.getOid());
 			Boolean b = Util.clearManualPayment(txnRef, w, ow, ro.getQty(),

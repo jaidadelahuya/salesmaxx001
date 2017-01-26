@@ -13,22 +13,34 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
+<link rel="stylesheet" type="text/css" href="/style/font-awesome.min.css">
 <style type="text/css">
-ul {
-	list-style-type: none;
+.trending {
+	height: 70px;
+	border-bottom: 1px solid #dadada;
+	border-right: 1px solid #dadada;
+	border-left: 1px solid #dadada;
+	padding : 2%;
+	font-size: 10pt;
+	
 }
 
-.tabs li {
-	display: inline;
-	padding: 1%;
-	font-family: arial;
-	font-size: 0.85em
+.trending:nth-child(even) {
+    background: #fff8dc;
 }
 
-
-
-p {
-	margin-bottom: 0px;
+.discussion-meta {
+	color: #983b59
+}
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+	text-align: center;
+	padding: 2%;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+	height: 450px;
 }
 
 
@@ -38,16 +50,13 @@ p {
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
-	<div class="container-fluid"
-		style="width: 95%; margin: 0 auto; height: 100%;">
+	<div class="container">
 		<div class="row">
-			<div class="col-md-9" style="padding-left: 0px">
+			
 				<%@ include
 					file="/WEB-INF/sm/open/view-all-discussions-content.html"%>
-			</div>
-			<div class="col-md-3" style="padding: 0">
-				<%@ include file="/WEB-INF/sm/open/discussion-sidebar.html"%>
-			</div>
+			
+			
 		</div>
 
 	</div>

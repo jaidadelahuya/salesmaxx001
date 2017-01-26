@@ -16,6 +16,7 @@ import com.google.appengine.api.datastore.Query.Filter;
 import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.Query.FilterPredicate;
 import com.google.appengine.api.datastore.Query.SortDirection;
+import com.google.appengine.api.datastore.QueryResultList;
 import com.google.appengine.api.datastore.Transaction;
 import com.google.appengine.api.datastore.TransactionOptions;
 import com.salesmaxx.entities.Comment;
@@ -103,6 +104,35 @@ public class DiscussionController {
 		txn.commitAsync();
 		Util.DISCUSSION_CACHE.clearAll();
 		
+	}
+
+	public QueryResultList<Entity> getHottestDiscussion() {
+		Query q = new Query(Discussion.class.getSimpleName());
+		q.addSort("nComments", SortDirection.DESCENDING);
+		FetchOptions f = FetchOptions.Builder.withLimit(10);
+		PreparedQuery pq = ds.prepare(q);
+		return pq.asQueryResultList(f);
+	}
+	
+	public QueryResultList<Entity> getNewestDiscussion() {
+		Query q = new Query(Discussion.class.getSimpleName());
+		q.addSort("timePosted", SortDirection.DESCENDING);
+		FetchOptions f = FetchOptions.Builder.withLimit(5);
+		PreparedQuery pq = ds.prepare(q);
+		return pq.asQueryResultList(f);
+	}
+
+	public  QueryResultList<Entity> getDiscussions(String category, int limit, boolean keysOnly) {
+		Query q = new Query(Discussion.class.getSimpleName());
+		Filter filter = new Query.FilterPredicate("category", FilterOperator.EQUAL, category);
+		q.setFilter(filter);
+		q.addSort("timePosted", SortDirection.DESCENDING);
+		if(keysOnly) {
+			q.setKeysOnly();
+		}
+		FetchOptions f = FetchOptions.Builder.withLimit(limit);
+		PreparedQuery pq = ds.prepare(q);
+		return pq.asQueryResultList(f);
 	}
 
 	

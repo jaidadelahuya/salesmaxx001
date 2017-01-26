@@ -2,6 +2,7 @@ package com.salesmaxx.beans;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 public class DiscussionPageBean implements Serializable {
 
@@ -12,11 +13,37 @@ public class DiscussionPageBean implements Serializable {
 	
 	private String category;
 	private List<SingleDiscussionPageBean> beans;
+	private Map<String,List<SingleDiscussionPageBean> > otherCategory;
+	private String cursor;
+	
 	@Override
 	public String toString() {
 		return "DiscussionPageBean [category=" + category + ", beans=" + beans
-				+ "]";
+				+ ", otherCategory=" + otherCategory + "]";
 	}
+	
+	
+	public String getCursor() {
+		return cursor;
+	}
+
+
+	public void setCursor(String cursor) {
+		this.cursor = cursor;
+	}
+
+
+	public Map<String, List<SingleDiscussionPageBean>> getOtherCategory() {
+		return otherCategory;
+	}
+
+
+	public void setOtherCategory(
+			Map<String, List<SingleDiscussionPageBean>> otherCategory) {
+		this.otherCategory = otherCategory;
+	}
+
+
 	public String getCategory() {
 		return category;
 	}

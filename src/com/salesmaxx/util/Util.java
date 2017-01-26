@@ -22,6 +22,7 @@ import java.util.Map;
 import java.util.Properties;
 import java.util.Random;
 import java.util.Set;
+import java.util.concurrent.TimeUnit;
 
 import javax.mail.Message;
 import javax.mail.MessagingException;
@@ -153,6 +154,7 @@ import com.salesmaxx.persistence.controllers.UserController;
 import com.salesmaxx.persistence.controllers.UserGeneralInfoController;
 import com.salesmaxx.persistence.controllers.WorkshopController;
 import com.salesmaxx.persistence.controllers.WorkshopTemplateController;
+import com.salesmaxx.servlets.admin.CancelWorkshopBean;
 import com.salesmaxx.util.json.JSONObject;
 import com.salesmaxx.util.json.JSONTokener;
 import com.twilio.sdk.TwilioRestClient;
@@ -311,7 +313,7 @@ public class Util {
 		} else {
 			ServingUrlOptions suo = ServingUrlOptions.Builder.withBlobKey(key);
 			ImagesService is = ImagesServiceFactory.getImagesService();
-			return is.getServingUrl(suo);
+			return is.getServingUrl(suo).replace("http", "https");
 		}
 
 	}
@@ -647,25 +649,44 @@ public class Util {
 	}
 
 	@SuppressWarnings("unchecked")
-	public static DiscussionPageBean getDiscussionFromCache(String category) {
-
-		String cat = category.replace(" ", "");
-		Object o = DISCUSSION_CACHE.get(cat);
-		DiscussionPageBean dpb = new DiscussionPageBean();
-		List<SingleDiscussionPageBean> beans = null;
-		if (o == null) {
-			DiscussionController cont = new DiscussionController();
-			List<Discussion> discussion = cont
-					.findDiscussionsByCategory(category);
-			beans = Util.discussionToSDPB(discussion);
-			dpb.setCategory(category);
-			dpb.setBeans(beans);
-			DISCUSSION_CACHE.put(cat, dpb);
-		} else {
-			dpb = (DiscussionPageBean) o;
+	public static List<Discussion> getDiscussionFromCache(List<Key> keys) {
+		
+		Map<Key,Object> objs = DISCUSSION_CACHE.getAll(keys);
+		List<Key> notFound = new ArrayList<>();
+		List<Discussion> list = new ArrayList<>();
+		if(objs.size()<keys.size()) {
+			for(Key k : keys) {
+				if(!objs.keySet().contains(k)){
+					notFound.add(k);
+				}else {
+					Object o = objs.get(k);
+					if(o != null && o instanceof Discussion) {
+						Discussion d = (Discussion) o;
+						list.add(d);
+					}
+					
+				}
+			}
+			Map<Key, Entity> map = EMF.getDs().get(notFound);
+			Map<Key,Object> m = new HashMap<>();
+			
+			for(Key k: map.keySet()) {
+				Discussion d = Util.entityToDiscussion(map.get(k));
+				list.add(d);
+				m.put(k, d);
+			}
+			DISCUSSION_CACHE.putAll(m);
+			
+		}else {
+			for(Key k : objs.keySet()) {
+				Object o = objs.get(k);
+				if(o != null && o instanceof Discussion) {
+					Discussion d = (Discussion) o;
+					list.add(d);
+				}
+			}
 		}
-
-		return dpb;
+		return list;
 	}
 
 	@SuppressWarnings("unchecked")
@@ -1434,6 +1455,7 @@ public class Util {
 				facs.add(f);
 			} else {
 				Facilitator f = (Facilitator) o;
+				
 				facs.add(f);
 			}
 		}
@@ -2642,10 +2664,13 @@ public class Util {
 			} else {
 				e = new Entity(Discussion.class.getSimpleName());
 			}
+			e.setIndexedProperty("nVotes", discussion.getnVotes());
+			e.setIndexedProperty("nViews", discussion.getnViews());
+			e.setIndexedProperty("nComments", discussion.getnComments());
 			e.setIndexedProperty("owner", discussion.getOwner());
 			e.setIndexedProperty("socialNetwork", discussion.getSocialNetwork());
-			e.setIndexedProperty("views", discussion.getView());
-			e.setIndexedProperty("votes", discussion.getVotes());
+			e.setUnindexedProperty("views", discussion.getView());
+			e.setUnindexedProperty("votes", discussion.getVotes());
 			e.setIndexedProperty("timePosted", discussion.getTimePosted());
 			e.setUnindexedProperty("title", discussion.getTitle());
 			e.setUnindexedProperty("body", discussion.getBody());
@@ -2665,7 +2690,7 @@ public class Util {
 		d.setId(ent.getKey());
 		d.setTitle((String) ent.getProperty("title"));
 		d.setSocialNetwork((String) ent.getProperty("socialNetwork"));
-		d.setView((Long) ent.getProperty("views"));
+		d.setView( (List<Key>) ent.getProperty("views"));
 		d.setPrivacy((String) ent.getProperty("privacy"));
 		d.setBody((Text) ent.getProperty("body"));
 		d.setCategory((String) ent.getProperty("category"));
@@ -2673,8 +2698,7 @@ public class Util {
 		d.setEmailsToNotify((List<String>) ent.getProperty("emailsToNotify"));
 		d.setOwner((Key) ent.getProperty("owner"));
 		d.setTimePosted((Date) ent.getProperty("timePosted"));
-		d.setVotes((Long) ent.getProperty("votes"));
-
+		d.setVotes( (List<Key>) ent.getProperty("votes"));
 		return d;
 	}
 
@@ -2694,8 +2718,8 @@ public class Util {
 		}
 		d.setPrivacy(cp.getPrivacy());
 		d.setTitle(cp.getTitle());
-		d.setView(0);
-		d.setVotes(0);
+		d.setView(new ArrayList<Key>());
+		d.setVotes(new ArrayList<Key>());
 		d.setComments(new ArrayList<Key>());
 		List<Key> tags = null;
 
@@ -2709,10 +2733,10 @@ public class Util {
 		// spdb.setComments(comments);
 		spdb.setOwnerImage(u.getPictureUrl());
 		// spdb.setTags(tags);
-		spdb.setTime(d.getTimePosted().toString());
+		spdb.setTime(d.getTimePosted());
 		spdb.setTopic(d.getTitle());
-		spdb.setViews(d.getView());
-		spdb.setVotes(d.getVotes());
+		spdb.setViews((d.getView() == null)?0:d.getView().size());
+		spdb.setVotes((d.getVotes()==null)?0:d.getVotes().size());
 		spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
 		if (d.getId() != null) {
 			spdb.setWebkey(KeyFactory.keyToString(d.getId()));
@@ -2774,10 +2798,10 @@ public class Util {
 			spdb.setComments(Util.commentsKeyToCommentsBean(d.getComments()));
 			spdb.setOwnerImage(u.getPictureUrl());
 			// spdb.setTags(tags);
-			spdb.setTime(d.getTimePosted().toString());
+			spdb.setTime(d.getTimePosted());
 			spdb.setTopic(d.getTitle());
-			spdb.setViews(d.getView());
-			spdb.setVotes(d.getVotes());
+			spdb.setViews((d.getView()==null)?0:d.getView().size());
+			spdb.setVotes((d.getVotes()==null)?0:d.getVotes().size());
 			spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
 			list.add(spdb);
 		}
@@ -2875,53 +2899,19 @@ public class Util {
 		return t;
 	}
 
-	@SuppressWarnings("unchecked")
+	
 	public static List<SingleDiscussionPageBean> getHotestDiscussion() {
-
-		Object o = DISCUSSION_CACHE.get("hottest");
-		if (o == null) {
-
-			DiscussionPageBean o1 = Util
-					.getDiscussionFromCache("Interview Coaching");
-			DiscussionPageBean o2 = Util
-					.getDiscussionFromCache("Excecutive Coaching");
-			DiscussionPageBean o3 = Util
-					.getDiscussionFromCache("Sales Performance Coaching");
-
-			List<SingleDiscussionPageBean> dis1 = o1.getBeans();
-			List<SingleDiscussionPageBean> dis2 = o2.getBeans();
-			List<SingleDiscussionPageBean> dis3 = o3.getBeans();
-			List<SingleDiscussionPageBean> dis4 = new ArrayList<>();
-			dis4.addAll(dis1);
-			dis4.addAll(dis2);
-			dis4.addAll(dis3);
-			Collections.sort(dis4, new Comparator<SingleDiscussionPageBean>() {
-				@Override
-				public int compare(SingleDiscussionPageBean d1,
-						SingleDiscussionPageBean d2) {
-
-					return new Long(d1.getViews()).compareTo(new Long(d2
-							.getViews()));
-				}
-			});
-
-			int x = 0;
-			if (dis4.size() > 9) {
-				x = 9;
-			} else {
-				x = dis4.size();
-			}
-			dis4 = dis4.subList(0, x);
-			dis1.clear();
-			dis1.addAll(dis4);
-			DISCUSSION_CACHE.put("hotest", dis1,
-					Expiration.byDeltaSeconds(302400));
-			return new ArrayList<>(dis1);
-		} else {
-			List<SingleDiscussionPageBean> dis = (List<SingleDiscussionPageBean>) o;
-			return dis;
+		QueryResultList<Entity> ents = new DiscussionController().getHottestDiscussion();
+		List<SingleDiscussionPageBean> list = new ArrayList<>();
+		for(Entity e : ents) {
+			Discussion d = Util.entityToDiscussion(e);
+			Key k = d.getOwner();
+			User u = new UserController().findUser(k);
+			SingleDiscussionPageBean b = Util.discussionToSDPB(d, u);
+			list.add(b);
 		}
-
+		return list;
+		
 	}
 
 	public static void sendEmailNotification(List<String> emailsToNotify,
@@ -3397,12 +3387,12 @@ public class Util {
 	public static Entity canceledWorkshopToEntity(CanceledWorkshop cw) {
 		Entity e = new Entity(cw.getId());
 		e.setUnindexedProperty("amount", cw.getAmount());
-		e.setUnindexedProperty("cancelDate", cw.getCancelDate());
+		e.setIndexedProperty("cancelDate", cw.getCancelDate());
 		e.setUnindexedProperty("noOfDelegates", cw.getNoOfDelegates());
 		e.setUnindexedProperty("reason", cw.getReason());
-		e.setUnindexedProperty("owner", cw.getUserid());
+		e.setIndexedProperty("owner", cw.getUserid());
 		e.setUnindexedProperty("workshopScheduleId", cw.getWorkshopId());
-		e.setUnindexedProperty("cleared", cw.isCleared());
+		e.setIndexedProperty("cleared", cw.isCleared());
 		return e;
 	}
 
@@ -3453,6 +3443,7 @@ public class Util {
 		cw.setId(e.getKey());
 		cw.setNoOfDelegates((long) e.getProperty("noOfDelegates"));
 		cw.setReason((Text) e.getProperty("reason"));
+		cw.setWorkshopId((String) e.getProperty("workshopScheduleId"));
 		return cw;
 	}
 
@@ -3731,5 +3722,183 @@ public class Util {
 			l.add(sch);
 		}
 		return l;
+	}
+
+	public static CancelWorkshopBean toCanceledWorkshopBean(CanceledWorkshop cw) {
+		CancelWorkshopBean cwb = new CancelWorkshopBean();
+		cwb.setCancelDate(cw.getCancelDate());
+		cwb.setOwnerID(cw.getUserid().getName());
+		cwb.setReason((cw.getReason() == null)?"":cw.getReason().getValue());
+		cwb.setWebKey(KeyFactory.keyToString(cw.getId()));
+		WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(Util.getWorkshopTemplateFromCache(), cw.getWorkshopId());
+		cwb.setWorkshopCode(wt.getWorkshopId().getName());
+		cwb.setWorkshopName(wt.getWorkshopName());
+		cwb.setNoD(cw.getNoOfDelegates());
+		WorkShop w = Util.getWorkshopSchedule(cw.getWorkshopId());
+		cwb.setWorkshopDate(w.getStartDate());
+		Address a = (new AddressController()).findAddress(w.getLocation());
+		if(a!=null) {
+			cwb.setWorkshopLocation(a.getState());
+		}
+		
+		return cwb;
+	}
+
+	public static List<SingleDiscussionPageBean> getNewestDiscussion() {
+		QueryResultList<Entity> ents = new DiscussionController().getNewestDiscussion();
+		List<SingleDiscussionPageBean> list = new ArrayList<>();
+		for(Entity e : ents) {
+			Discussion d = Util.entityToDiscussion(e);
+			Key k = d.getOwner();
+			User u = new UserController().findUser(k);
+			SingleDiscussionPageBean b = Util.discussionToSDPB(d, u);
+			list.add(b);
+		}
+		return list;
+	}
+	
+	public static String getPostedTime(Date datePosted) {
+
+		Date today = new Date();
+		long difference = today.getTime() - datePosted.getTime();
+
+		// to seconds
+		difference = TimeUnit.MILLISECONDS.toSeconds(difference);
+		if (difference < 60) {
+			return difference + " seconds ago";
+		}
+
+		// to minutes
+		difference = TimeUnit.SECONDS.toMinutes(difference);
+		if (difference < 60) {
+			if (difference <= 1) {
+				return 1 + " minute ago";
+			} else {
+				return difference + " minutes ago";
+			}
+		}
+
+		// to hours
+		difference = TimeUnit.MINUTES.toHours(difference);
+		if (difference < 24) {
+			if (difference <= 1) {
+				return 1 + " hour ago";
+			} else {
+				return difference + " hours ago";
+			}
+		} else if (difference < 48) {
+			return "yesterday";
+		}
+
+		// to days
+		difference = TimeUnit.HOURS.toDays(difference);
+		if (difference < 7) {
+			if (difference <= 1) {
+				return 1 + " day ago";
+			} else {
+				return difference + " days ago";
+			}
+		}
+
+		// to Weeks
+		difference = Math.round(difference / 7);
+		if (difference < 5) {
+			if (difference <= 1) {
+				return 1 + " week ago";
+			} else {
+				return difference + " weeks ago";
+			}
+		}
+
+		// to months
+		difference = Math.round(difference / 4);
+		if (difference < 12) {
+			if (difference <= 1) {
+				return 1 + " month ago";
+			} else {
+				return difference + " months ago";
+			}
+		}
+
+		// to years
+		difference = Math.round(difference / 12);
+
+		if (difference <= 1) {
+			return 1 + " year ago";
+		} else {
+			return difference + " years ago";
+		}
+
+	}
+
+	public static Map<String, List<SingleDiscussionPageBean>> getDiscussions(
+			String category) {
+		
+		Map<String, List<SingleDiscussionPageBean>> map = new HashMap<>();
+		if(category.equalsIgnoreCase("Interview Coaching")) {
+			List<Key> keys = new ArrayList<>();
+			QueryResultList<Entity> ents = new DiscussionController().getDiscussions("Sales Performance Coaching", 5, true);
+			for (Entity e : ents) {
+				keys.add(e.getKey());
+			}
+			List<Discussion> discussions = Util.getDiscussionFromCache(keys);
+			List<SingleDiscussionPageBean> l=  Util.discussionToSDPB(discussions);
+			map.put("Sales Performance Coaching", l);
+			keys.clear();ents.clear();discussions.clear();
+			ents = new DiscussionController().getDiscussions("Sales Management and Leadership", 5, true);
+			for (Entity e : ents) {
+				keys.add(e.getKey());
+			}
+			discussions = Util.getDiscussionFromCache(keys);
+			List<SingleDiscussionPageBean> l1=  Util.discussionToSDPB(discussions);
+			map.put("Sales Management and Leadership", l1);
+			
+			
+			
+			
+		}else if(category.equalsIgnoreCase("Sales Performance Coaching")) {
+			List<Key> keys = new ArrayList<>();
+			QueryResultList<Entity> ents = new DiscussionController().getDiscussions("Interview Coaching", 5, true);
+			for (Entity e : ents) {
+				keys.add(e.getKey());
+			}
+			List<Discussion> discussions = Util.getDiscussionFromCache(keys);
+			List<SingleDiscussionPageBean> l=  Util.discussionToSDPB(discussions);
+			map.put("Interview Coaching", l);
+			keys.clear();ents.clear();discussions.clear();
+			ents = new DiscussionController().getDiscussions("Sales Management and Leadership", 5, true);
+			for (Entity e : ents) {
+				keys.add(e.getKey());
+			}
+			discussions = Util.getDiscussionFromCache(keys);
+			List<SingleDiscussionPageBean> l1=  Util.discussionToSDPB(discussions);
+			map.put("Sales Management and Leadership", l1);
+			
+			
+			
+			
+		}else if(category.equalsIgnoreCase("Sales Management and Leadership")) {
+			List<Key> keys = new ArrayList<>();
+			QueryResultList<Entity> ents = new DiscussionController().getDiscussions("Interview Coaching", 5, true);
+			for (Entity e : ents) {
+				keys.add(e.getKey());
+			}
+			List<Discussion> discussions = Util.getDiscussionFromCache(keys);
+			List<SingleDiscussionPageBean> l=  Util.discussionToSDPB(discussions);
+			map.put("Interview Coaching", l);
+			keys.clear();ents.clear();discussions.clear();
+			ents = new DiscussionController().getDiscussions("Sales Performance Coaching", 5, true);
+			for (Entity e : ents) {
+				keys.add(e.getKey());
+			}
+			discussions = Util.getDiscussionFromCache(keys);
+			List<SingleDiscussionPageBean> l1=  Util.discussionToSDPB(discussions);
+			map.put("Sales Performance Coaching", l1);
+			
+			
+			
+			
+		}
+		return map;
 	}
 }

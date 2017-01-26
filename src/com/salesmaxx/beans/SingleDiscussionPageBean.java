@@ -1,9 +1,11 @@
 package com.salesmaxx.beans;
 
 import java.io.Serializable;
+import java.util.Date;
 import java.util.List;
 
 import com.salesmaxx.entities.Tag;
+import com.salesmaxx.util.Util;
 
 public class SingleDiscussionPageBean implements Serializable {
 
@@ -19,12 +21,27 @@ public class SingleDiscussionPageBean implements Serializable {
 	private long views;
 	private long votes;
 	private List<CommentBean> comments;
-	private String time;
+	private Date time;
 	private String ownerImage;
 	private String ownerName;
 	private String webkey;
+	private String snippet;
+	private String timePosted;
 	
 	
+	
+	public String getTimePosted() {
+		return timePosted;
+	}
+	public void setTimePosted(String timePosted) {
+		this.timePosted = timePosted;
+	}
+	public String getSnippet() {
+		return snippet;
+	}
+	public void setSnippet(String snippet) {
+		this.snippet = snippet;
+	}
 	public String getWebkey() {
 		return webkey;
 	}
@@ -57,6 +74,11 @@ public class SingleDiscussionPageBean implements Serializable {
 	}
 	public void setBody(String body) {
 		this.body = body;
+		if(body !=null && body.length() > 400) {
+			snippet = body.substring(0, body.indexOf("</p>"));
+		}else {
+			snippet = body;
+		}
 	}
 	public List<Tag> getTags() {
 		return tags;
@@ -82,11 +104,12 @@ public class SingleDiscussionPageBean implements Serializable {
 	public void setComments(List<CommentBean> comments) {
 		this.comments = comments;
 	}
-	public String getTime() {
+	public Date getTime() {
 		return time;
 	}
-	public void setTime(String time) {
+	public void setTime(Date time) {
 		this.time = time;
+		timePosted = Util.getPostedTime(time);
 	}
 	public String getOwnerImage() {
 		return ownerImage;

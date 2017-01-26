@@ -43,20 +43,33 @@
 						</div>
 
 					</div>
-
-					<div class="alert alert-info">The transaction <strong><%=txn%></strong> cannot
+					<c:choose>
+						<c:when test="${not empty extendError}">
+							<div class="alert alert-danger">${extendError}</div>
+						</c:when>
+						<c:when test="${not empty extendSuccess}">
+							<div class="alert alert-danger">${extendSuccess}</div>
+						</c:when>
+						<c:otherwise>
+						<div class="alert alert-info">The transaction <strong><%=txn%></strong> cannot
 						be cleared because some seats are not available.</div>
+						</c:otherwise>
+					</c:choose>
+					
 					<p>
 						<strong class="text-danger">Workshop Name: </strong> <%= wt.getWorkshopName() %>
 					</p>
 					<p>
-						<strong class="text-danger">No of seats available: </strong> <%=Util.totalNumberOfSeats - w.getNoEnrolled() %>
+						<strong class="text-danger">Total number of seats: </strong> <%=w.getTotalNumberOfSeats() %>
+					</p>
+					<p>
+						<strong class="text-danger">No of seats available: </strong> <%=w.getTotalNumberOfSeats() - w.getNoEnrolled() %>
 					</p>
 					<p>
 						<strong class="text-danger">No of seats requested: </strong> <%=qty %>
 					</p>
 					<p>
-						<a href="/sm-admin/1/reschedule/options?txn-id=<%=txn%>&id=<%=id%>&qty=<%=qty%>" class="btn btn-primary">Reschedule</a> <a class="btn btn-primary">Add Anyway</a> <a class="btn btn-primary">Schedule New Workshop</a> <a target="_blank" href="/calendar" class="btn btn-primary">Calendar</a>
+						<a href="/sm-admin/1/reschedule/options?txn-id=<%=txn%>&id=<%=id%>&qty=<%=qty%>" class="btn btn-primary">Reschedule</a> <a href="/sm-admin/workshop/extend-class/add?txn-id=<%=txn%>&id=<%=id%>&qty=<%=qty%>" class="btn btn-primary">Add Anyway</a> <a class="btn btn-primary" href="/sm-admin/schedule-workshop">Schedule New Workshop</a> <a target="_blank" href="/calendar" class="btn btn-primary">Calendar</a>
 					</p>
 				</div>
 			</div>

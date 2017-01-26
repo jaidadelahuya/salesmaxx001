@@ -267,10 +267,11 @@
 			//$("#workshop-menu").addClass("active");
 			$('#calendar').fullCalendar({
 				events : "/calendar/get",
+				defaultView: 'listMonth',
 				header : {
 					left : 'prev,next today',
 					center : 'title',
-					right : 'month,basicWeek,basicDay,listMonth'
+					right : 'listMonth,basicWeek,basicDay,month'
 				},
 				theme : true,
 				weekNumbers : true

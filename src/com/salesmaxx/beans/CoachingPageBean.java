@@ -12,13 +12,10 @@ public class CoachingPageBean implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 7266517453402081817L;
-	private List<SingleDiscussionPageBean> dis;
-	private List<Testimonial> t1;
-	private List<FeaturedCoach> fc;
+	private List<SingleDiscussionPageBean> dis,trending;
 	@Override
 	public String toString() {
-		return "CoachingPageBean [dis=" + dis + ", t1=" + t1 + ", fc=" + fc
-				+ "]";
+		return "CoachingPageBean [dis=" + dis + ", trending=" + trending + "]";
 	}
 	public List<SingleDiscussionPageBean> getDis() {
 		return dis;
@@ -26,18 +23,16 @@ public class CoachingPageBean implements Serializable {
 	public void setDis(List<SingleDiscussionPageBean> dis) {
 		this.dis = dis;
 	}
-	public List<Testimonial> getT1() {
-		return t1;
+	public List<SingleDiscussionPageBean> getTrending() {
+		return trending;
 	}
-	public void setT1(List<Testimonial> t1) {
-		this.t1 = t1;
+	public void setTrending(List<SingleDiscussionPageBean> trending) {
+		this.trending = trending;
 	}
-	public List<FeaturedCoach> getFc() {
-		return fc;
-	}
-	public void setFc(List<FeaturedCoach> fc) {
-		this.fc = fc;
-	}
+	
+	
+	
+	
 	
 	
 }

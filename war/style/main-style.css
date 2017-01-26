@@ -111,7 +111,8 @@ li {
 }
 
 .main-menu-item {
-	font-weight: bolder !important;
+	font-weight: bold !important;
+	font-size: 1.1em;
 }
 
 .counts {

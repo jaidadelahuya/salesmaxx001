@@ -1,24 +1,183 @@
-<div class="row">
-	<div class="col-sm-12 discussion-sidebar"
-		style="background-color: #f1f1f1">
-		<form class="form-inline"
-			action="<c:url value='/sm-admin/find-canceled-workshops' />">
-			<div class="form-group">
-				<label for="first-name">First Name:</label> <input 
-					class="form-control" id="first-name" name="first-name">
-			</div>
-			<div class="form-group">
-				<label for="last-name">Last Name:</label> <input 
-					class="form-control" id="last-name" name="last-name">
-			</div>
-			<div class="form-group">
-				<label for="email">Email address:</label> <input type="email"
-					class="form-control" id="email" name="email">
-			</div>
-			
-			
-			<button type="submit" class="btn btn-default">Find</button>
-		</form>
+<div class="col-sm-12" style="padding-bottom: 1%;">
+	<div class="col-sm-12" style="text-align: right;">
+		<span id="a-search"
+			style="background-color: red; color: white; padding: 2px; cursor: pointer;">Advanced
+			Search</span>
 	</div>
+	<div class="row search-div" style="display: none">
+		<div class="col-sm-12">
+			<form class="form-inline" action="/sm-admin/s/workshops/canceled">
+				<div class="form-group">
+					<label for="uid">User ID:</label> <input id="uid" name="uid" class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="email">Email:</label> <input id="email" name="email" type="email"
+						class="form-control">
+				</div>
+				<div class="form-group">
+					<label for="status">Status:</label> <select id="status" name="status" class="form-control">
+						<option value="cleared">Cleared</option>
+						<option value="pending" selected="selected">Pending</option>
+					</select>
+				</div>
+
+				<button type="submit" class="btn btn-danger">Search</button>
+			</form>
+			<hr />
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-sm-12" style="padding-top: 4px; margin-bottom: 4px">
+			<strong>Status: <span style="margin-right: 2%"><a<c:if
+							test='${canceledWorkshopPage.status eq "pending"}'> style="text-decoration: underline ; color: red" </c:if>
+						href="/sm-admin/s/workshops/canceled?status=pending">Pending</a></span> <span><a<c:if
+							test='${canceledWorkshopPage.status eq "cleared"}'> style="text-decoration: underline ; color: red" </c:if>
+						href="/sm-admin/s/workshops/canceled?status=cleared">Cleared</a></span></strong>
+		</div>
+	</div>
+	<c:choose>
+		<c:when test='${canceledWorkshopPage.status eq "pending"}'>
+			<c:choose>
+				<c:when test="${not empty canceledWorkshopPage.pendingWorkshops}">
+					<c:forEach var="item"
+						items="${canceledWorkshopPage.pendingWorkshops}">
+						<div class="panel panel-danger">
+							<div class="panel-heading">
+								<div class="row">
+									<div class="col-md-4">
+										<strong>Canceled Date: </strong>
+										<fmt:formatDate type="date" value="${item.cancelDate}" />
+									</div>
+									<div class="col-md-4">
+										<strong>No. of Delegates: </strong>
+										<c:out value="${item.noD}" />
+									</div>
+									<div class="col-md-4">
+										<strong>User ID: </strong>
+										<c:out value="${item.ownerID}" />
+									</div>
+								</div>
+							</div>
+							<div class="panel-body">
+								<div class="row">
+									<div class="col-sm-12">
+										<c:out value='${item.workshopName}' />
+										(
+										<c:out value='${item.workshopCode}' />
+										)
+									</div>
+								</div>
+								<div class="row" style="font-family: calibri; font-size: 11pt">
+									<div class="col-md-6">
+										<strong>Workshop Date: </strong>
+										<fmt:formatDate type="date" value="${item.workshopDate}" />
+									</div>
+									<div class="col-md-6">
+										<strong>Workshop Location: </strong>
+										<c:out value="${item.workshopLocation}" />
+									</div>
+								</div>
+								<div class="row">
+									<div class="col-sm-12">
+										<input value="Clear" class="btn btn-danger btn-xs" />
+									</div>
+								</div>
+							</div>
+						</div>
+					</c:forEach>
+				</c:when>
+				<c:otherwise>
+					<div class="panel panel-danger">
+						<div class="panel-heading">
+							<div class="row">
+								<div class="col-sm-12">
+									<strong>No Workshops found</strong>
+								</div>
+							</div>
+						</div>
+						<div class="panel-body">
+							<div class="row">
+								<div class="col-sm-12">
+									There are no <strong>${canceledWorkshopPage.status}</strong>
+									canceled workshops
+								</div>
+							</div>
+
+						</div>
+					</div>
+				</c:otherwise>
+			</c:choose>
+		</c:when>
+		<c:when test='${canceledWorkshopPage.status eq "cleared"}'>
+			<c:choose>
+		<c:when test="${not empty canceledWorkshopPage.clearedWorkshops}">
+			<c:forEach var="item" items="${canceledWorkshopPage.clearedWorkshops}">
+				<div class="panel panel-danger">
+					<div class="panel-heading">
+						<div class="row">
+							<div class="col-md-4">
+								<strong>Canceled Date: </strong>
+								<fmt:formatDate type="date" value="${item.cancelDate}" />
+							</div>
+							<div class="col-md-4">
+								<strong>No. of Delegates: </strong>
+								<c:out value="${item.noD}" />
+							</div>
+							<div class="col-md-4">
+								<strong>User ID: </strong>
+								<c:out value="${item.ownerID}" />
+							</div>
+						</div>
+					</div>
+					<div class="panel-body">
+						<div class="row">
+							<div class="col-sm-12">
+								<c:out value='${item.workshopName}' />
+								(
+								<c:out value='${item.workshopCode}' />
+								)
+							</div>
+						</div>
+						<div class="row" style="font-family: calibri; font-size: 11pt">
+							<div class="col-md-6">
+								<strong>Workshop Date: </strong>
+								<fmt:formatDate type="date" value="${item.workshopDate}" />
+							</div>
+							<div class="col-md-6">
+								<strong>Workshop Location: </strong>
+								<c:out value="${item.workshopLocation}" />
+							</div>
+						</div>
+						<div class="row">
+							<div class="col-sm-12">
+								<input value="Clear" class="btn btn-danger btn-xs" />
+							</div>
+						</div>
+					</div>
+				</div>
+			</c:forEach>
+		</c:when>
+		<c:otherwise>
+			<div class="panel panel-danger">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-sm-12"><strong>No Workshops found</strong></div>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div class="row">
+						<div class="col-sm-12">
+							There are no <strong>${canceledWorkshopPage.status}</strong> canceled workshops
+						</div>
+					</div>
+					
+				</div>
+			</div>
+		</c:otherwise>
+	</c:choose>
+		</c:when>
+	</c:choose>
+
+
 
 </div>

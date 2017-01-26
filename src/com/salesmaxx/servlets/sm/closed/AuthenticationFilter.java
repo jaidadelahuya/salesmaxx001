@@ -120,8 +120,13 @@ public class AuthenticationFilter implements Filter {
 					String body = req.getParameter("comment");
 					String webkey = req.getParameter("webkey");
 					synchronized (session) {
-						session.setAttribute("newComment", body);
-						session.setAttribute("newPostWebkey", webkey);
+						if(Util.notNull(body)) {
+							session.setAttribute("newComment", body);
+						}
+						if(Util.notNull(webkey)) {
+							session.setAttribute("newPostWebkey", webkey);
+						}
+						
 					}
 					
 				} else if(req.getRequestURI().contains("/save-testimonial")) {

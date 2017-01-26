@@ -27,18 +27,34 @@ public class CoachingServlet extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		
-		//List<Testimonial> list = Util.getTestimonialFromCache("latest-testimonials");
-		List<SingleDiscussionPageBean> list2 = Util.getHotestDiscussion();
-		//List<FeaturedCoach> list3 = Util.getFeaturedCoaches();
 		
-		CoachingPageBean cpd = new CoachingPageBean();
-		cpd.setDis(list2);
-		List<Facilitator> facs = Util.getFacilitatorsFromCache(new FacilitatorController().getFacilitatorsKeys());
-		cpd.setFc(Util.toFeaturedCoach(facs));
+		
+		CoachingPageBean cpd = null;
+		
 		HttpSession session = req.getSession();
+		Object o = null;
+		synchronized (session) {
+			o = session.getAttribute("coachingPageBean");
+			if(o!=null) {
+				cpd = (CoachingPageBean) o;
+			}
+			
+		}
+		if(cpd==null) {
+			List<SingleDiscussionPageBean> list = Util.getHotestDiscussion();
+			List<SingleDiscussionPageBean> l = Util.getNewestDiscussion();
+			
+			cpd = new CoachingPageBean();
+			cpd.setDis(l);
+			cpd.setTrending(list);
+			
+			
+		}
+		
 		synchronized (session) {
 			session.setAttribute("coachingPageBean", cpd);
 		}
+		
 		RequestDispatcher rd = req.getRequestDispatcher("/WEB-INF/coaching.jsp");
 		rd.include(req, resp);
 	}

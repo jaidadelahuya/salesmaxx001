@@ -226,7 +226,7 @@ public class SearchForWorkshop extends HttpServlet {
 						"date", "location", "workshopID", "catalogueLink")
 				.setCursor(Cursor.newBuilder().build())
 				.setSortOptions(sortOptions).build();
-		Results<ScoredDocument> results = Util.searchIndex("WORKSHOPS",
+		Results<ScoredDocument> results = Util.searchIndex("Workshops",
 				searchString, qOptions);
 		
 		List<ScheduleWorkshopDisplay> swd = Util.scoredDocumentToScheduleWorkshopDisplay(results);

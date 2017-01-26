@@ -7,7 +7,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<session-config>
 		<session-timeout>1800</session-timeout>
 	</session-config>
-	
+
+	<servlet>
+		<servlet-name>ExtendAndAddToWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.ExtendAndAddToWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ExtendAndAddToWorkshop</servlet-name>
+		<url-pattern>/sm-admin/workshop/extend-class/add</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>AdminExtendClass</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.admin.ExtendClass</servlet-class>
@@ -16,7 +25,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AdminExtendClass</servlet-name>
 		<url-pattern>/sm-admin/workshop/extend-class</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>RestoreCart</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.RestoreCart</servlet-class>
@@ -73,6 +82,69 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</security-constraint>
 
 	<servlet>
+		<servlet-name>OrganizationCoachingQuestion2</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/organization-question-2.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrganizationCoachingQuestion2</servlet-name>
+		<url-pattern>/coaching/organization-question-2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>OrganizationCoachingQuestion1</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/organization-question-1.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>OrganizationCoachingQuestion1</servlet-name>
+		<url-pattern>/coaching/organization-question-1</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PersonalCoachingQuestion2</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/personal-question-2.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PersonalCoachingQuestion2</servlet-name>
+		<url-pattern>/coaching/personal-question-2</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>PersonalCoachingQuestion1</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/personal-question-1.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PersonalCoachingQuestion1</servlet-name>
+		<url-pattern>/coaching/personal-question-1</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CoachingQuestion1</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/coaching-question-1.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingQuestion1</servlet-name>
+		<url-pattern>/coaching/question1</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>SelectSolution</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/select-solution.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>SelectSolution</servlet-name>
+		<url-pattern>/sm/open/solutions</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>RescheduleOptions</servlet-name>
+		<jsp-file>/WEB-INF/reschedule-options.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RescheduleOptions</servlet-name>
+		<url-pattern>/sm-admin/reschedule/options</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>RescheduleOptions2</servlet-name>
 		<jsp-file>/WEB-INF/reschedule-options-2.jsp</jsp-file>
 	</servlet>
@@ -106,6 +178,16 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CC</servlet-name>
 		<url-pattern>/ss</url-pattern>
 	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetCoachingPreference</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.CoachingPreferenceServlet</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetCoachingPreference</servlet-name>
+		<url-pattern>/coaching/get-coaching-preference</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>GetChequePayment</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.admin.GetChequePayment</servlet-class>
@@ -930,6 +1012,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ForgotPasswordInit</servlet-name>
 		<url-pattern>/sm/open/i/forgot/password</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>PreferenceResult</servlet-name>
+		<jsp-file>/WEB-INF/preference-result.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>PreferenceResult</servlet-name>
+		<url-pattern>/coaching/preference/result</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>ForgotPasswordPage</servlet-name>
@@ -1059,11 +1150,44 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 
 
-
-
-
 	<!-- *********************JSPS*************************** -->
 	
+	<servlet>
+		<servlet-name>CoachingCategory</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/view-all-discussions.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingCategory</servlet-name>
+		<url-pattern>/coaching/view</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CoachingQuestion4</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/coaching-question-4.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingQuestion4</servlet-name>
+		<url-pattern>/coaching/question4</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>CoachingQuestion3</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/coaching-question-3.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingQuestion3</servlet-name>
+		<url-pattern>/coaching/question3</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>CoachingQuestion2</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/coaching-question-2.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingQuestion2</servlet-name>
+		<url-pattern>/coaching/question2</url-pattern>
+	</servlet-mapping>
+
 	<servlet>
 		<servlet-name>ExtendWorkshop2</servlet-name>
 		<jsp-file>/WEB-INF/extend-workshop-2.jsp</jsp-file>
@@ -1072,7 +1196,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ExtendWorkshop2</servlet-name>
 		<url-pattern>/sm-admin/workshop/2/extend</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ExtendWorkshop1</servlet-name>
 		<jsp-file>/WEB-INF/extend-workshop-1.jsp</jsp-file>
@@ -1081,7 +1205,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ExtendWorkshop1</servlet-name>
 		<url-pattern>/sm-admin/workshop/1/extend</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CheckInvoiceView</servlet-name>
 		<jsp-file>/WEB-INF/sm/closed/cheque-invoice.jsp</jsp-file>
@@ -1090,7 +1214,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CheckInvoiceView</servlet-name>
 		<url-pattern>/sm/open/invoice/view</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>AdminAllWorkshops</servlet-name>
 		<jsp-file>/WEB-INF/all-workshops.jsp</jsp-file>
@@ -1098,6 +1222,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>AdminAllWorkshops</servlet-name>
 		<url-pattern>/sm-admin/workshops/all</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
+		<servlet-name>GetCanceledWorkshop</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.GetCanceledWorkshop</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>GetCanceledWorkshop</servlet-name>
+		<url-pattern>/sm-admin/s/workshops/canceled</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -1218,6 +1351,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>Discussion</servlet-name>
 		<url-pattern>/sm/open/start-discussion-page</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ViewDiscussion</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.open.GetDiscussion1</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewDiscussion</servlet-name>
+		<url-pattern>/coaching/discussion</url-pattern>
 	</servlet-mapping>
 
 	<servlet>
@@ -1586,6 +1728,23 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/sm/closed/*</url-pattern>
 		<url-pattern>/sm/open/*</url-pattern>
 	</filter-mapping>
+
+	<security-constraint>
+
+		<web-resource-collection>
+
+			<web-resource-name>Viewpoint Secure URLs</web-resource-name>
+
+			<url-pattern>/*</url-pattern>
+
+		</web-resource-collection>
+
+		<user-data-constraint>
+
+			<transport-guarantee>CONFIDENTIAL</transport-guarantee>
+		</user-data-constraint>
+
+	</security-constraint>
 
 	<listener>
 		<listener-class>com.salesmaxx.listeners.SalesMaxxSessionListener</listener-class>

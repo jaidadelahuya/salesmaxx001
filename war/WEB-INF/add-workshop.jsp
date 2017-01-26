@@ -34,7 +34,7 @@
 							<a class="btn btn-default" disabled><strong>New
 									Workshop</strong></a> <a href="/sm-admin/workshops/show/all?sort=name"
 								class="btn btn-primary">All Workshops</a> <a
-								href="/sm-admin/workshops/canceled" class="btn btn-primary">Canceled
+								href="/sm-admin/s/workshops/canceled?status=pending" class="btn btn-primary">Canceled
 								Workshops</a>
 						</div>
 

@@ -33,7 +33,7 @@
 						<div class="col-sm-9" style="padding-top: 2%">
 							<a href="/sm-admin/workshop/new" class="btn btn-primary"><strong>New
 									Workshop</strong></a> <a class="btn btn-default" disabled>All Workshops</a>
-							<a href="/sm-admin/workshops/canceled" class="btn btn-primary">Canceled
+							<a href="/sm-admin/s/workshops/canceled?status=pending" class="btn btn-primary">Canceled
 								Workshops</a>
 						</div>
 
