@@ -27,7 +27,7 @@ public class SubmitDiscussion extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -3614808350072995833L;
-	
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
@@ -73,25 +73,44 @@ public class SubmitDiscussion extends HttpServlet {
 		}
 
 		DiscussionController cont = new DiscussionController();
-		
+
 		d = cont.create(d, new ArrayList<Tag>());
 		if (d.getPrivacy() != null
 				&& d.getPrivacy().equalsIgnoreCase("private")) {
+			String toUser = u.getUsername();
+			if (toUser == null && u.getEmails() != null) {
+				for (String s : u.getEmails()) {
+					toUser = s;
+					break;
+				}
+			}
 			String from = Util.SERVICE_ACCOUNT;
 			String to = "stephenu@profiliant.com";
 			String title = "Private coaching request from SalesMaxx";
 			String webkey = KeyFactory.keyToString(d.getId());
-			String body = "<p>Hello,</p>"
-					+ "<p>We have a private coaching request. Click <a href='http://www.salesmaxx.com/sm/open/get-discussion?webkey="
+			String body = "<p>Hello Admin,</p>"
+					+ "<p>"
+					+ u.getFirstName()
+					+ " "
+					+ u.getLastName()
+					+ " has requested a private coaching request.</p>"
+					+ "<p><strong>Request Details</strong><br/><p><strong>Email: </strong>"
+					+ toUser
+					+ "</p><p>"+d.getBody().getValue()+"</p></p>"
+					+ "<p>Click <a href='http://www.salesmaxx.com/sm/open/get-discussion?webkey="
 					+ webkey + "&privacy=private'>here to view</a></p>";
 			req.setAttribute("privateMsgSent", true);
 			System.out.println(body);
-			RequestDispatcher rd = req
-					.getRequestDispatcher("/WEB-INF/sm/open/start-discussion.jsp");
-			rd.include(req, resp);
-			
+
+			String userTitle = "Your private coaching request has been recieved";
+			String userBody = "<p>Hello "
+					+ u.getFirstName()
+					+ "</p><p>Your coaching request has been recieved. One of our coaches will contact you shortly.</p><p>Warm Regards<br>SalesMaxx Admin</p>";
+
+			resp.sendRedirect("/sm/close/coaching/request-success");
 			try {
 				Util.sendEmail(from, to, title, body);
+				Util.sendEmail(from, toUser, userTitle, userBody);
 			} catch (AddressException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -104,9 +123,9 @@ public class SubmitDiscussion extends HttpServlet {
 			synchronized (session) {
 				session.setAttribute("singleDiscussionPageBean", sdpb);
 			}
-			resp.sendRedirect("/coaching/discussion?web-key="+sdpb.getWebkey());
+			resp.sendRedirect("/coaching/discussion?web-key="
+					+ sdpb.getWebkey());
 		}
 
 	}
-
 }

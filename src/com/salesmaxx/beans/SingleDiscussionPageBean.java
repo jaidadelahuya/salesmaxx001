@@ -20,6 +20,7 @@ public class SingleDiscussionPageBean implements Serializable {
 	private List<Tag> tags;
 	private long views;
 	private long votes;
+	private long nComments;
 	private List<CommentBean> comments;
 	private Date time;
 	private String ownerImage;
@@ -30,6 +31,12 @@ public class SingleDiscussionPageBean implements Serializable {
 	
 	
 	
+	public long getnComments() {
+		return nComments;
+	}
+	public void setnComments(long nComments) {
+		this.nComments = nComments;
+	}
 	public String getTimePosted() {
 		return timePosted;
 	}
@@ -103,6 +110,10 @@ public class SingleDiscussionPageBean implements Serializable {
 	}
 	public void setComments(List<CommentBean> comments) {
 		this.comments = comments;
+		if(comments!=null) {
+			nComments = comments.size();
+		}
+		
 	}
 	public Date getTime() {
 		return time;

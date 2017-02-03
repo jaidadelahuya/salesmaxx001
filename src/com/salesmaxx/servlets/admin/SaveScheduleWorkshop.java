@@ -17,6 +17,7 @@ import com.google.appengine.api.blobstore.BlobstoreService;
 import com.google.appengine.api.blobstore.BlobstoreServiceFactory;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.search.Document;
 import com.salesmaxx.entities.Address;
 import com.salesmaxx.entities.WorkShop;
 import com.salesmaxx.entities.WorkshopTemplate;
@@ -90,7 +91,8 @@ public class SaveScheduleWorkshop extends HttpServlet {
 			WorkshopTemplate temp = Util.getWorkshopFromList(ky.getName(),
 					temps);
 			try {
-				Util.addWorkshopToIndex(wk,add,temp);
+				Document d = Util.createDocument(wk,add,temp);
+				Util.addWorkshopToIndex(d);
 			} catch (InterruptedException e) {
 				resp.sendError(HttpServletResponse.SC_BAD_REQUEST,
 						"Document has not been added to index.");

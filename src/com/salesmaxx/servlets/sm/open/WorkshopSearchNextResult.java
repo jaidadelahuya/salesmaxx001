@@ -49,12 +49,12 @@ public class WorkshopSearchNextResult extends HttpServlet {
 					.build();
 			QueryOptions qOptions = QueryOptions
 					.newBuilder()
-					.setLimit(2)
+					.setLimit(10)
 					.setFieldsToReturn("workshopName", "image", "description",
 							"date", "location", "workshopID", "catalogueLink")
 					.setCursor(Cursor.newBuilder().build(sb.getNextCursor()))
 					.setSortOptions(sortOptions).build();
-			Results<ScoredDocument> results = Util.searchIndex("WORKSHOPS",
+			Results<ScoredDocument> results = Util.searchIndex("wk",
 					sb.getQueryString(), qOptions);
 			
 			List<ScheduleWorkshopDisplay> swd = Util.scoredDocumentToScheduleWorkshopDisplay(results);

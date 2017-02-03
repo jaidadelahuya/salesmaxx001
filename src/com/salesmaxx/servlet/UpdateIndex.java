@@ -35,31 +35,8 @@ public class UpdateIndex extends HttpServlet {
 
 			List<WorkshopTemplate> temps = Util.getWorkshopTemplateFromCache();
 			List<WorkshopTemplate> wts = null;
-
 			List<Document> docs = new ArrayList<>();
 			for (WorkshopTemplate wt : temps) {
-				Document.Builder db = Document.newBuilder();
-				db = db.setId(wt.getWebSafeKey());
-				db = db.addField(Field.newBuilder().setName("description")
-						.setText(wt.getShortDescription().getValue()));
-				db = db.addField(Field.newBuilder().setName("experience")
-						.setText(wt.getSkillLevel().get(0)));
-				db = db.addField(Field.newBuilder().setName("type")
-						.setText("workshop"));
-				db = db.addField(Field.newBuilder().setName("workshopCode")
-						.setAtom(wt.getWorkshopId().getName()));
-				db = db.addField(Field.newBuilder().setName("name")
-						.setText(wt.getWorkshopName()));
-				for (String s : wt.getIndustries()) {
-					db = db.addField(Field.newBuilder().setName("industry")
-							.setText(s));
-				}
-
-				for (String s : wt.getProfessions()) {
-					db = db.addField(Field.newBuilder().setName("profession")
-							.setText(s));
-				}
-
 				wts = new ArrayList<>();
 				wts.add(wt);
 				List<WorkShop> ws = Util
@@ -68,22 +45,19 @@ public class UpdateIndex extends HttpServlet {
 
 					AddressController ac = new AddressController();
 					Address a = ac.findAddress(w.getLocation());
-					db = db.addField(Field.newBuilder().setName("location")
-							.setText(a.getState()));
+					
+					Document d = Util.createDocument(w, a, wt);
+					docs.add(d);
 
-					Calendar c = new GregorianCalendar();
-					c.setTime(w.getStartDate());
-					DateFormatSymbols dfs = new DateFormatSymbols();
-					String[] mons = dfs.getMonths();
-					db.addField(Field.newBuilder().setName("month")
-							.setText(mons[c.get(Calendar.MONTH)]));
+					
 				}
-				db = db.setRank(Integer.MAX_VALUE);
-				docs.add(db.build());
+				
 			}
 
-			SearchDocumentIndexService.indexDocument("SearchDocuments", docs);
+			SearchDocumentIndexService.indexDocument("wk", docs);
+			resp.getWriter().write("done");
 		}
+		
 
 	
 }

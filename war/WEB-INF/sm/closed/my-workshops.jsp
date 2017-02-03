@@ -21,7 +21,7 @@
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <link rel="stylesheet" type="text/css"
-	href="/style/bootstrap-rating.css">
+	href="/style/font-awesome.min.css">
 <link rel="stylesheet" type="text/css" href="/style/slick.css" />
 <link rel="stylesheet" type="text/css" href="/style/slick-theme.css" />
 <script src="https://apis.google.com/js/platform.js" async defer></script>
@@ -32,16 +32,15 @@
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
-	<div class="container-fluid"
-		style="width: 95%; margin: 0 auto; height: 100%;">
+	<div class="container">
 		<div class="row">
 			<div class="col-md-3" style="padding-left: 0px">
 				<%@ include file="/WEB-INF/sm/closed/user-profile-sidebar.html"%>
 			</div>
 			<div class="col-md-9" style="padding-right: 0px">
-				<div class="" style="padding: 0;">
+				
 					<%@ include file="/WEB-INF/sm/closed/my-workshop-content.html"%>
-				</div>
+				
 			</div>
 		</div>
 

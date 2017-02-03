@@ -108,6 +108,8 @@ public class DiscussionController {
 
 	public QueryResultList<Entity> getHottestDiscussion() {
 		Query q = new Query(Discussion.class.getSimpleName());
+		//Filter filter = new Query.FilterPredicate("privacy", FilterOperator.EQUAL, "Public");
+		//q.setFilter(filter);
 		q.addSort("nComments", SortDirection.DESCENDING);
 		FetchOptions f = FetchOptions.Builder.withLimit(10);
 		PreparedQuery pq = ds.prepare(q);
@@ -116,6 +118,8 @@ public class DiscussionController {
 	
 	public QueryResultList<Entity> getNewestDiscussion() {
 		Query q = new Query(Discussion.class.getSimpleName());
+		//Filter filter = new Query.FilterPredicate("privacy", FilterOperator.EQUAL, "Public");
+		//q.setFilter(filter);
 		q.addSort("timePosted", SortDirection.DESCENDING);
 		FetchOptions f = FetchOptions.Builder.withLimit(5);
 		PreparedQuery pq = ds.prepare(q);
@@ -124,8 +128,8 @@ public class DiscussionController {
 
 	public  QueryResultList<Entity> getDiscussions(String category, int limit, boolean keysOnly) {
 		Query q = new Query(Discussion.class.getSimpleName());
-		Filter filter = new Query.FilterPredicate("category", FilterOperator.EQUAL, category);
-		q.setFilter(filter);
+		//Filter filter = new Query.FilterPredicate("category", FilterOperator.EQUAL, category);
+		//q.setFilter(filter);
 		q.addSort("timePosted", SortDirection.DESCENDING);
 		if(keysOnly) {
 			q.setKeysOnly();

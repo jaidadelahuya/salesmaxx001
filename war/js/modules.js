@@ -310,11 +310,7 @@ $(document).ready(function() {
 		});
 	});
 	
-	$("#enrolled-Workshops-Header").click(function() {
-		$("#enrolled-Workshops-div").slideToggle(function () {
-			$("#enrolled-workshop-triangle").toggleClass("glyphicon-triangle-bottom glyphicon-triangle-top");
-		});
-	});
+	
 	
 	
 	

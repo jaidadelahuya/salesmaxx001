@@ -9,29 +9,31 @@
 	<c:forEach var="item" items="${discussionPageBean.beans}">
 		<div class="row">
 			<div class="col-sm-12">
-				<div class="card"
-					style="text-align: left; margin-top: 2%; height: 200px">
-					<h4>
-						<a
-							href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}"><strong>${item.topic}</strong></a>
-					</h4>
-					<div class="discussion-meta">
-						<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
-							${item.timePosted} </span> <span style="margin-right: 2%"><i
-							class="fa fa-comments"></i> ${fn:length(string2)} </span> <span
-							style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
-							${item.votes} </span>
-					</div>
-					<div style="height: 100px; padding-bottom: 10px; overflow: hidden;">
-						<p>${item.snippet}</p>
+				<div class="panel panel-default"
+					style="text-align: left; margin-top: 1%; height: 200px">
+					<div class="panel-body">
+						<h4>
+							<a
+								href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}"><strong>${item.topic}</strong></a>
+						</h4>
+						<div class="discussion-meta">
+							<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
+								${item.timePosted} </span> <span style="margin-right: 2%"><i
+								class="fa fa-comments"></i> ${fn:length(item.comments)} </span> <span
+								style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
+								${item.votes} </span>
+						</div>
+						<div
+							style="height: 100px; padding-bottom: 10px; overflow: hidden;">
+							<p>${item.snippet}</p>
 
+						</div>
+						<p>
+							<a
+								href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}">Read
+								More</a>
+						</p>
 					</div>
-					<p>
-						<a
-							href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}">Read
-							More</a>
-					</p>
-
 
 				</div>
 			</div>
@@ -62,7 +64,7 @@
 			style="background-color: #3b5998; color: white; border-left: 3px solid red;">
 			<h5>${item.key}</h5>
 		</div>
-		
+
 		<c:forEach var="x" items="${item.value}">
 
 			<div class="col-sm-12 trending">
@@ -81,6 +83,6 @@
 
 
 		</c:forEach>
-		
+
 	</c:forEach>
 </div>

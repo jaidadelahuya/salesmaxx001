@@ -32,18 +32,16 @@ input[type=radio] {
 }
 
 .radio {
-	font-size: 15pt;
-	font-weight: bold;
+	font-size: 14pt;
+	
 }
 
-.soln {
-	font-size: 11pt;
-	padding: 2% 4%;
-	text-align: justify;
-}
+
 
 .inner {
-	height: 22em;
+	height: 6em;
+	text-align: left;
+	padding: 2% 4%
 }
 </style>
 <body>
@@ -55,62 +53,70 @@ input[type=radio] {
 
 			<div class="col-md-12" style="padding-left: 0px; text-align: center">
 
-				<h2 style="text-shadow: 0 0 3px #3b5998;">What Kind of coaching
-					do you need?</h2>
+				<h2 style="text-shadow: 0 0 3px #3b5998;">What will you be required to do?</h2>
 				<br>
 				<form action="/sm/open/solution/crazy-servlet">
-					
-					<input value="What Kind of coaching do you need?" name="question" type="hidden" >
+				<input type="hidden" value="What will you be required to do?" name="question">
+				<input value="Required to do" name="group" type="hidden" >
 					<div class="row">
-						<div class="col-sm-4">
-							<div style="margin: 2%; background-color: #59983b; color: white;"
-								class="card inner">
-								<div class="radio">
-									<label><input type="radio" value="Interview"
-										name="answer"><strong>Interview</strong></label>
-
-								</div>
-								<p class="soln">Getting the right kind of help to prep for a
-									sales job interview. Our coaches provide guidance on how to be
-									successful at the interview stage and how to be productive the
-									first 100-days of getting the role. Everything from your
-									dressing to the right sales compensation. We are here to help.</p>
-							</div>
-						</div>
-						<div class="col-sm-4">
-							<div
-								style="margin: 2%; background-color: #3b987a; color: white; margin-top: 8%"
-								class="card inner">
-								<div class="radio">
-									<label><input type="radio" name="answer"
-										value="Sales Performance"><strong>Sales
-											Performance</strong></label>
-								</div>
-								<p class="soln">For that moment where you need a sounding
-									board on your deal strategy or opportunity pursuit plan. Our
-									well experienced coaches will help you develop and refine a
-									focused plan to win. At other ties they will work with you to
-									ensure your professional growth and career development if sales
-									& marketing is your chosen career.</p>
-							</div>
-						</div>
 						<div class="col-sm-4">
 							<div style="margin: 2%; background-color: #3b5998; color: white;"
 								class="card inner">
 								<div class="radio">
-									<label><input type="radio" name="answer"
-										value="Sales Management"><strong>Sales
-											Management / Leadership</strong></label>
+									<label><input type="radio" value="Face an interview panel"
+										name="answer">Face an interview panel</label>
+
 								</div>
-								<p class="soln">Whether you're faced with navigating the
-									tough terrain of sales management or the leader challenged to
-									align sales with your business strategy, you can stand on the
-									shoulder of giants using this platform to gain leading insight
-									& cutting edge ideas on most sales management issues. Our
-									advise is based on experience & extensive research of what
-									works.</p>
+								
 							</div>
 						</div>
+						<div class="col-sm-4">
+							<div
+								style="margin: 2%; background-color:#983b59 ; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" name="answer"
+										value="Solve a hypothetical business case study">Solve a hypothetical business case study</label>
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div style="margin: 2%; background-color: #59983b; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" name="answer"
+										value="Make a presentation">Make a presentation</label>
+								</div>
+								
+							</div>
+						</div>
+
+					</div>
+					<div class="row">
+						<div class="col-sm-4">
+							<div style="margin: 2%; background-color:#987a3b; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" value="Write an essay"
+										name="answer">Write an essay</label>
+
+								</div>
+								
+							</div>
+						</div>
+						<div class="col-sm-4">
+							<div
+								style="margin: 2%; background-color:#3b987a ; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" name="answer"
+										value="Take a question/Answer test">Take a question/Answer test</label>
+								</div>
+								
+							</div>
+						</div>
+						
 
 					</div>
 

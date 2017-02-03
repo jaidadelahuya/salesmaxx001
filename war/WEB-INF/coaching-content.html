@@ -28,9 +28,9 @@
 				role. Everything from your dressing to the right sales compensation.
 				We are here to help.</p>
 			<div style="font-family: cambria; padding: 2%; color: white">
-				<a
+				<a class="a-btn"
 					href="<c:url value='/sm/open/view-all-discussion?category=Interview Coaching' />"
-					style="padding-right: 2%; color: white">View discussions</a> <a
+					style="padding-right: 2%; color: white">View discussions</a> <a class="a-btn"
 					style="color: white"
 					href="<c:url value='/sm/open/start-discussion?category=Interview Coaching' />">Start
 					a discussion</a>
@@ -51,9 +51,9 @@
 				work with you to ensure your professional growth and career
 				development if sales & marketing is your chosen career.</p>
 			<div style="font-family: cambria; padding: 0% 2%; color: white">
-				<a
+				<a class="a-btn"
 					href="<c:url value='/sm/open/view-all-discussion?category=Sales Performance Coaching' />"
-					style="padding-right: 2%; color: white">View discussions</a> <a
+					style="padding-right: 2%; color: white">View discussions</a> <a class="a-btn"
 					style="color: white"
 					href="<c:url value='/sm/open/start-discussion?category=Sales Performance Coaching' />">Start
 					a discussion</a>
@@ -74,9 +74,9 @@
 				issues. Our advise is based on experience & extensive research of
 				what works.</p>
 			<div style="font-family: cambria; padding: 2%; color: white">
-				<a
+				<a class="a-btn"
 					href="<c:url value='/sm/open/view-all-discussion?category=Sales Management and Leadership' />"
-					style="padding-right: 2%; color: white">View discussions</a> <a
+					style="padding-right: 2%; color: white">View discussions</a> <a class="a-btn"
 					style="color: white"
 					href="<c:url value='/sm/open/start-discussion?category=Sales Management and Leadership' />">Start
 					a discussion</a>
@@ -95,8 +95,9 @@
 		<c:forEach var="item" items="${coachingPageBean.dis}">
 			<div class="row">
 				<div class="col-sm-12">
-					<div class="card"
-						style="text-align: left; margin-top: 2%; height: 200px">
+					<div class="panel panel-default"
+						style="text-align: left; margin-top: 1%; height: 200px; background-color: white">
+						<div class="panel-body">
 						<h4>
 							<a
 								href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}"><strong>${item.topic}</strong></a>
@@ -104,7 +105,7 @@
 						<div style="color: 	#983b59">
 							<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
 								${item.timePosted} </span> <span style="margin-right: 2%"><i
-								class="fa fa-comments"></i> ${fn:length(string2)} </span> <span
+								class="fa fa-comments"></i> ${item.nComments} </span> <span
 								style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
 								${item.votes} </span>
 						</div>
@@ -119,7 +120,7 @@
 								More</a>
 						</p>
 
-
+						</div>
 					</div>
 				</div>
 			</div>
@@ -203,7 +204,7 @@
 				<div class="discussion-meta">
 					<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
 						${item.timePosted} </span> <span style="margin-right: 2%"><i
-						class="fa fa-comments"></i> ${fn:length(string2)} </span> <span
+						class="fa fa-comments"></i> ${item.nComments} </span> <span
 						style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
 						${item.votes} </span>
 				</div>

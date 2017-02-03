@@ -37,12 +37,13 @@ input[type=radio] {
 }
 
 .soln {
-	font-size: 13pt;
+	font-size: 12pt;
 	padding: 2% 4%;
+	text-align: justify;
 }
 
 .inner {
-	height: 12em;
+	height: 14em;
 }
 </style>
 <body>
@@ -52,52 +53,58 @@ input[type=radio] {
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
 
-			<div class="col-md-12" style="padding-left: 0px;text-align: center">
-				
-					<h2 style="text-shadow: 0 0 3px #3b5998;">What Kind of Help
-						Are You Looking For?</h2>
-					<br>
+			<div class="col-md-12" style="padding-left: 0px; text-align: center">
+
+				<h2 style="text-shadow: 0 0 3px #3b5998;">What Kind of Help Are
+					You Looking For?</h2>
+				<br>
+				<form action="/sm/open/solution/crazy-servlet">
+				<input type="hidden" value="What Kind of Help Are You Looking For?" name="question">
 					<div class="row">
 						<div class="col-sm-4">
-							<div style="margin: 2%; background-color: #3b5998; color: white"
+							<div style="margin: 2%; background-color: #3b5998; color: white; margin-top: 8%"
 								class="card inner">
 								<div class="radio">
-									<label><input type="radio" name="optradio">Sales Training</label>
-									<input class="url" type="hidden" value="/coaching/personal-question-1">
+									<label><input type="radio" value="Sales Training"
+										name="answer"><strong>Sales Training</strong></label>
 								</div>
-								<p class="soln">I'm ready to buy SalesMaxx Training now</p>
+								<p class="soln">Effective Sales Training Workshops
+									Guaranteed to improve your selling efforts, at a cost you can
+									afford.</p>
 							</div>
 						</div>
 						<div class="col-sm-4">
 							<div style="margin: 2%; background-color: #983b59; color: white"
 								class="card inner">
 								<div class="radio">
-									<label><input type="radio" name="optradio">Sales Coaching</label>
-									<input class="url" type="hidden" value="/coaching/question1">
+									<label><input type="radio" value="Sales Coaching"
+										name="answer"><strong>Sales Coaching</strong></label>
 								</div>
-								<p class="soln">I need coaching advice on Sales and
-									Marketing</p>
+								<p class="soln">Performance focused opportunity pursuit
+									hand holding and guidance by our team of cross-industry sales
+									methodology experts, to help you win.</p>
 							</div>
 						</div>
 						<div class="col-sm-4">
-							<div style="margin: 2%; background-color: #59983b; color: white"
+							<div style="margin: 2%; background-color: #59983b; color: white; margin-top: 8%"
 								class="card inner">
 								<div class="radio">
-									<label><input type="radio" name="optradio">Sales Tools</label>
-									<input class="url" type="hidden" value="/tools">
+									<label><input value="Sales Tools" type="radio"
+										name="answer"><strong>Sales Tools</strong></label>
 								</div>
-								<p class="soln">I need tools to enhance Sales and Marketing.
-								</p>
+								<p class="soln">The perfect set of sales tools and apps to
+									help you close more business deals in less time.</p>
 							</div>
 						</div>
 					</div>
 					<br>
 					<div class="row" style="text-align: center">
 						<div class="col-sm-12">
-							<a  id="continue" class="btn btn-info btn-lg">Continue</a>
+							<button type="submit" class="btn btn-info btn-lg">Continue</button>
 						</div>
 					</div>
-			
+				</form>
+
 			</div>
 
 
@@ -131,14 +138,7 @@ input[type=radio] {
 		t.parentNode.insertBefore(s, t);
 	</script>
 	<script type="text/javascript">
-		$(document).ready(function() {
-			$("input[type=radio]").click(function() {
-				var par = $(this).closest(".radio");
-				var ma = par.find(".url");
-				var x = ma.prop("value");
-				$("#continue").prop("href",x);
-			});
-		});
+		
 	</script>
 
 </body>

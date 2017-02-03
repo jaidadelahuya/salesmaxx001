@@ -37,10 +37,12 @@
 			</div>
 			<div class="col-md-3" style="padding: 0">
 				<div style="position: relative;">
-					<iframe src="/images/bootcamp_internal/bootcamp_int.html" width="310"
+					<div style="position: relative;">
+					<iframe src="/images/zoho-campaign/index.html" width="310"
 						height="255" scrolling="no" frameBorder='0'></iframe>
-					<a href="/sm/open/get-workshop-category?categoryName=Bootcamp"
+					<a href="/sm/open/sales-and-marketing-automation#campaigns"
 						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+				</div>
 				</div>
 				<div class="discussion-sidebar">
 					<h4>Coaching Categories</h4>

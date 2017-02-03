@@ -28,21 +28,17 @@
 }
 
 input[type=radio] {
-	margin-top: 3%;
+	margin-top: 2%;
 }
 
 .radio {
-	font-size: 15pt;
-	font-weight: bold;
-}
-
-.soln {
 	font-size: 13pt;
-	padding: 2% 4%;
 }
 
 .inner {
-	height: 12em;
+	height: 6.5em;
+	text-align:center;
+	padding: 4% 4%
 }
 </style>
 <body>
@@ -51,56 +47,72 @@ input[type=radio] {
 	<div class="container"
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
-			<form  action="/sm/open/solution/crazy-servlet">
-				<div class="col-md-12" style="padding-left: 0px;text-align: center">
-						<input value="experience" name="question" type="hidden">
-						<input value="experience" name="group" type="hidden">
-						<h2 style="text-shadow: 0 0 3px #59983b;">How would you
-							describe your skill level?</h2>
-						<br>
-						<div class="row">
-							<div class="col-sm-4">
-								<div style="margin: 2%; background-color: #59983b; color: white"
-									class="card inner">
-									<div class="radio">
-										<label><input value="foundation" type="radio" name="answer"><strong>Beginner</strong></label>
 
-									</div>
-									<p class="soln">0 - 2 years</p>
+			<div class="col-md-12" style="padding-left: 0px; text-align: center">
+
+				<h2 style="text-shadow: 0 0 3px #3b5998;">Who will you be
+					seeing?</h2>
+				<br>
+				<form action="/sm/open/solution/next-prospect-preference">
+					<input type="hidden" name="question"
+						value="Who will you be seeing?">
+					<div class="row">
+						<div class="col-sm-3">
+							<div style="margin: 2%; background-color: #3b5998; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" value="A Sales Manager"
+										name="answer">A Sales Manager</label>
+
 								</div>
-							</div>
-							<div class="col-sm-4">
-								<div style="margin: 2%; background-color: #3b987a; color: white; margin-top: 8%"
-									class="card inner">
-									<div class="radio">
-										<label><input value="intermediate" type="radio" name="answer"><strong>Intermediate</strong></label>
 
-									</div>
-									<p class="soln">3 - 7 years</p>
-								</div>
-							</div>
-							<div class="col-sm-4">
-								<div style="margin: 2%; background-color:#3b5998 ; color: white"
-									class="card inner">
-									<div class="radio">
-										<label><input value="advanced" type="radio" name="answer"><strong>Advanced</strong></label>
-
-									</div>
-									<p class="soln">More than 7 years</p>
-								</div>
-							</div>
-
-						</div>
-						<br>
-						<div class="row" style="text-align: center">
-							<div class="col-sm-12">
-								<input type="submit" value="Continue"
-									class="btn btn-info btn-lg">
 							</div>
 						</div>
-				
-				</div>
-			</form>
+						<div class="col-sm-3">
+							<div style="margin: 2%; background-color: #3b987a; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" name="answer" value="A CEO">A
+										CEO</label>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div style="margin: 2%; background-color: #59983b; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" name="answer"
+										value="A HR Manager or Recruitment Manager">A HR
+										Manager or Recruitment Manager</label>
+								</div>
+
+							</div>
+						</div>
+						<div class="col-sm-3">
+							<div style="margin: 2%; background-color: 	#983b59; color: white;"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" name="answer"
+										value="A Panel">A Panel</label>
+								</div>
+
+							</div>
+						</div>
+
+					</div>
+
+
+					<br>
+					<div class="row" style="text-align: center">
+						<div class="col-sm-12">
+							<button type="submit" class="btn btn-info btn-lg">Continue</button>
+						</div>
+					</div>
+				</form>
+
+			</div>
+
 
 		</div>
 		<br>
@@ -131,7 +143,6 @@ input[type=radio] {
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
 	</script>
-
 
 
 

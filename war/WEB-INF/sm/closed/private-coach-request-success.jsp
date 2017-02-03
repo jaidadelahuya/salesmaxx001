@@ -28,7 +28,7 @@
 }
 
 input[type=radio] {
-	margin-top: 3%;
+	margin-top: 2%;
 }
 
 .radio {
@@ -37,54 +37,44 @@ input[type=radio] {
 }
 
 .soln {
-	font-size: 13pt;
+	font-size: 11pt;
 	padding: 2% 4%;
+	text-align: justify;
 }
 
 .inner {
-	height: 12em;
+	height: 22em;
 }
 </style>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
-	<div class="container"
-		style="width: 80%; margin: 0 auto; height: 100%;">
+	<div class="container">
 		<div class="row">
-			<form method="post" action="/coaching/get-coaching-preference">
-				<div class="col-md-12" style="padding-left: 0px; text-align: center">
-					<input type="hidden" value="wq" name="redirect"> <input
-						type="hidden"
-						value="job-role"
-						name="question" />
-					<h2 style="text-shadow: 0 0 3px #3b5998;">How would you
-						describe your job role?</h2>
-					<br>
-					<div class="row">
-						<div class="col-md-offset-2 col-md-8">
-							<div style="margin: 2%; background-color: #3b5998; color: white"
-								class="card inner">
-								<div class="form-group" style="width: 80%; margin: 0 auto; margin-top: 5%;">
-									 <select
-										class="form-control" name="answer">
-										<%@ include file="/partials/job-roles.html"%>
-									</select>
-								</div>
-							</div>
-						</div>
 
-
-
-					</div>
-					<br>
-					<div class="row" style="text-align: center">
-						<div class="col-sm-12">
-							<input type="submit" class="btn btn-info btn-lg" value="Continue">
-						</div>
-					</div>
-
+			<div class="col-sm-9">
+				<h3>Private Coaching Confirmation</h3>
+				<div class="alert alert-success">Your request for a private
+					coach has been received. One of our coaches will contact you within
+					24 hrs via your email.</div>
+				<div style="margin-top: 4%">
+					<strong>View More :</strong> <span style="margin-right: 2%"><a
+						href="/sm/open/view-all-discussion?category=Interview Coaching">Interview
+							Coaching</a></span><span style="margin-right: 2%"><a
+						href="/sm/open/view-all-discussion?category=Excecutive Coaching">Executive
+							Coaching</a></span><span style="margin-right: 2%"><a
+						href="/sm/open/view-all-discussion?category=Sales Performance Coaching">Sales Performance
+							Coaching</a></span>
 				</div>
-			</form>
+			</div>
+			<div class="col-sm-3">
+				<div>
+					<a href="/calendar"><img class="img img-responsive"
+						alt="SalesMaxx Calendar" src="/images/calender.jpg"></a>
+				</div>
+				
+			</div>
+
 
 		</div>
 		<br>
@@ -115,6 +105,7 @@ input[type=radio] {
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
 	</script>
+
 
 
 </body>

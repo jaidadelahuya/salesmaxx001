@@ -56,10 +56,9 @@
 
 #modal-header {
 	text-shadow: 1px 1px 2px black, 0 0 1em #d5b0bc, 0 0 0.2em #b6758a;
-    color: white;
-    text-align: center;
+	color: white;
+	text-align: center;
 }
-
 </style>
 </head>
 <body style="overflow-x: hidden">
@@ -861,13 +860,18 @@
 
 				</div>
 				<div class="modal-body">
-					<h2 id= "modal-header">You're moments away from a SalesMaxx solution that will fit your unique needs</h2>
-					<p style="margin: 4%; text-align: center; font-size: 14pt; font-weight: bold; ">Answer a few questions and we will match you with an Authorized Partner who can help as you need.</p>
-					<br/>
+					<h2 id="modal-header">You are moments away from a sales
+						solution that delivers real business results...REVENUE!</h2>
+					<p
+						style="margin: 4%; text-align: center; font-size: 14pt; font-weight: bold;">Just
+						answer a few questions and we will post you to the right solution
+						to deliver sales revenue now.</p>
+					<br />
 					<div style="text-align: center;">
-						<a href="/sm/open/solutions" class="btn btn-info btn-lg">Get Started</a>
+						<a href="/sm/open/solutions" class="btn btn-info btn-lg">Get
+							Started</a>
 					</div>
-					
+
 				</div>
 
 			</div>
@@ -915,13 +919,17 @@
 			$(".main-menu-item").removeClass("menu-active");
 			$("#home-menu").addClass("menu-active");
 			var x = sessionStorage.getItem("nShown");
-			if(x) {x=false;}else {x=true;}
-			
+			if (x) {
+				x = false;
+			} else {
+				x = true;
+			}
+
 			$(this).scroll(function() {
 				if ($(this).scrollTop() > 500 && x) {
 					$("#myModal").modal("show");
-					sessionStorage.setItem("nShown",false);
-					x=false;
+					sessionStorage.setItem("nShown", false);
+					x = false;
 				}
 			});
 

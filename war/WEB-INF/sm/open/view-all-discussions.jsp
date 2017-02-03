@@ -22,26 +22,16 @@
 	border-left: 1px solid #dadada;
 	padding : 2%;
 	font-size: 10pt;
+	background-color: white;
 	
 }
 
-.trending:nth-child(even) {
-    background: #fff8dc;
-}
+
 
 .discussion-meta {
 	color: #983b59
 }
-.card {
-	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
-		rgba(0, 0, 0, 0.19);
-	text-align: center;
-	padding: 2%;
-	border-radius: 5px;
-	-moz-border-radius: 5px;
-	-webkit-border-radius: 5px;
-	height: 450px;
-}
+
 
 
 </style>

@@ -100,7 +100,7 @@
 					</div>
 					<div class="form-group" style="margin: 2%;">
 						<label>Phone Number <small class="text-danger">(For
-								fast notifications)</small></label> <input type="text" class="form-control"
+								quick notifications)</small></label> <input type="text" class="form-control"
 							name="phone" value="${signUp.phone}" />
 					</div>
 					<div class="form-group" style="margin: 2%;">

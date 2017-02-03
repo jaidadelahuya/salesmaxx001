@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
 
@@ -59,15 +60,21 @@ public class SearchForWorkshop extends HttpServlet {
 		} else {
 			sb = (SearchBean) o;
 		}
+		
+		
 
 		if (Util.notNull(date)) {
 			Date d = Util.WebtoDate1(date);
-			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-mm-dd");
+			SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd");
 			String dt = sdf.format(d);
 			searchString += "date >= " + dt + " ";
 			sb.setDate(date);
 		}else {
 			sb.setDate("");
+			Date today = new Date();
+			SimpleDateFormat sdf1 = new SimpleDateFormat("yyyy-MM-dd");
+			String tt = sdf1.format(today);
+			searchString += "date >= " + tt + " ";
 		}
 
 		if (Util.notNullArray(locations)) {
@@ -96,7 +103,7 @@ public class SearchForWorkshop extends HttpServlet {
 			String ls = "industry = (";
 			for (int i = 0; i < industries.length; i++) {
 				l.add(industries[i]);
-				ls = ls.concat(industries[i]);
+				ls = ls.concat("\""+industries[i]+"\"");
 				if (i < industries.length - 1) {
 					ls = ls.concat(" OR ");
 				} else {
@@ -116,7 +123,7 @@ public class SearchForWorkshop extends HttpServlet {
 			String ls = "profession = (";
 			for (int i = 0; i < roles.length; i++) {
 				l.add(roles[i]);
-				ls = ls.concat(roles[i]);
+				ls = ls.concat("\""+roles[i]+"\"");
 				if (i < roles.length - 1) {
 					ls = ls.concat(" OR ");
 				} else {
@@ -221,15 +228,16 @@ public class SearchForWorkshop extends HttpServlet {
 				.build();
 		QueryOptions qOptions = QueryOptions
 				.newBuilder()
-				.setLimit(3)
+				.setLimit(20)
 				.setFieldsToReturn("workshopName", "image", "description",
 						"date", "location", "workshopID", "catalogueLink")
 				.setCursor(Cursor.newBuilder().build())
 				.setSortOptions(sortOptions).build();
-		Results<ScoredDocument> results = Util.searchIndex("Workshops",
+		Results<ScoredDocument> results = Util.searchIndex("wk",
 				searchString, qOptions);
 		
 		List<ScheduleWorkshopDisplay> swd = Util.scoredDocumentToScheduleWorkshopDisplay(results);
+		
 		if(results.getCursor()!=null) {
 			sb.setNextCursor(results.getCursor().toWebSafeString());
 		}else {

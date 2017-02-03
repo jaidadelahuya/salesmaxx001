@@ -49,17 +49,15 @@
 		<div class="row">
 
 			<div class="col-md-12" style="padding-left: 0px">
-				<form method="post" action="/coaching/get-coaching-preference">
-					<h2 style="text-shadow: 0 0 3px #3b5998; text-align: center">Which
-						one industry represents your organization best?</h2>
+				<form action="/sm/open/solution/crazy-servlet">
+					<h2 style="text-shadow: 0 0 3px #3b5998; text-align: center">Which industry represents your organization best?</h2>
 					<br>
-					<input type="hidden" value="pq3" name="redirect">
-						<input type="hidden"
-							value="industry" name="question" />
+					<input value="industry" name="group" type="hidden">
+					<input value="industry" name="question" type="hidden" >
 					<div class="row">
-						<div class="col-md-offset-1 col-sm-10">
+						<div class="col-sm-12">
 							<div
-								style="margin: 2%; background-color: #3b5998; color: white; text-align: left"
+								style="margin: 2%; background-color: #983b59; color: white; text-align: left; font-size: 12pt; padding-top: 4%"
 								class="card inner">
 								<div class="row">
 

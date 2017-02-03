@@ -56,7 +56,6 @@ import com.google.appengine.api.datastore.TransactionOptions;
 import com.google.appengine.api.images.ImagesService;
 import com.google.appengine.api.images.ImagesServiceFactory;
 import com.google.appengine.api.images.ServingUrlOptions;
-import com.google.appengine.api.memcache.Expiration;
 import com.google.appengine.api.memcache.MemcacheService;
 import com.google.appengine.api.memcache.MemcacheServiceFactory;
 import com.google.appengine.api.search.Document;
@@ -2730,7 +2729,11 @@ public class Util {
 		SingleDiscussionPageBean spdb = new SingleDiscussionPageBean();
 		spdb.setBody(d.getBody().getValue());
 		spdb.setCategory(d.getCategory());
-		// spdb.setComments(comments);
+		List<Key> comments = d.getComments();
+		if(comments!=null) {
+			spdb.setComments(commentsKeyToCommentsBean(comments));
+		}
+		
 		spdb.setOwnerImage(u.getPictureUrl());
 		// spdb.setTags(tags);
 		spdb.setTime(d.getTimePosted());
@@ -3512,8 +3515,14 @@ public class Util {
 		return fcs;
 	}
 
-	public static void addWorkshopToIndex(WorkShop wk, Address add,
-			WorkshopTemplate temp) throws InterruptedException {
+	public static void addWorkshopToIndex(Document doc)
+			throws InterruptedException  {
+		
+		indexADocument("wk", doc);
+	}
+	
+	public static Document createDocument(WorkShop wk, Address add,
+			WorkshopTemplate temp) {
 		String desc = (temp.getShortDescription() == null) ? "" : temp
 				.getShortDescription().getValue();
 		String forSale = (wk.isForSale()) ? "paid" : "free";
@@ -3559,7 +3568,7 @@ public class Util {
 		}
 
 		Document doc = bd.build();
-		indexADocument("WORKSHOPS", doc);
+	  return doc;	
 	}
 
 	public static void indexADocument(String indexName, Document document)

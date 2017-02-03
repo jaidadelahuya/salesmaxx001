@@ -3,7 +3,7 @@
 <%@ taglib uri="http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <%@ taglib uri="http://java.sun.com/jsp/jstl/functions" prefix="fn"%>
 <%@ taglib uri="/WEB-INF/custom-functions.tld" prefix="pn"%>
-<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html>
 <html style="height: 100%;">
 <head>
@@ -15,7 +15,10 @@
 <link rel="stylesheet" type="text/css" href="/style/index.css">
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
-<link rel="canonical" href="https://www.salesmaxx.com/sm/open/get-discussion?webkey=${singleDiscussionPageBean.webkey}&category=${singleDiscussionPageBean.category}">
+<link rel="stylesheet" type="text/css"
+	href="/style/font-awesome.min.css">
+<link rel="canonical"
+	href="https://www.salesmaxx.com/sm/open/get-discussion?webkey=${singleDiscussionPageBean.webkey}&category=${singleDiscussionPageBean.category}">
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
@@ -26,7 +29,8 @@
 <meta property="fb:app_id" content="1134790883222273" />
 <meta property="og:title" content="SalesMaxx Discussion" />
 <meta property="og:type" content="website" />
-<meta property="og:url" content="https://www.salesmaxx.com/sm/open/get-discussion?webkey=${singleDiscussionPageBean.webkey}&category=${singleDiscussionPageBean.category}"" />
+<meta property="og:url"
+	content="https://www.salesmaxx.com/sm/open/get-discussion?webkey=${singleDiscussionPageBean.webkey}&category=${singleDiscussionPageBean.category}" " />
 <meta property="og:image"
 	content="https://www.salesmaxx.com/images/salesmaxx-logo.png" />
 <meta property="og:description"
@@ -38,8 +42,16 @@
 	content="${singleDiscussionPageBean.topic}" />
 <meta name="twitter:image"
 	content="https://www.salesmaxx.com/images/salesmaxx-logo.png" />
-<meta name="twitter:url" content="https://www.salesmaxx.com/sm/open/get-discussion?webkey=${singleDiscussionPageBean.webkey}&category=${singleDiscussionPageBean.category}"" />
+<meta name="twitter:url"
+	content="https://www.salesmaxx.com/sm/open/get-discussion?webkey=${singleDiscussionPageBean.webkey}&category=${singleDiscussionPageBean.category}" " />
 <%@ include file="/js/google-analytics"%>
+<style type="text/css">
+.card {
+	/* Add shadows to create the "card" effect */
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
+	transition: 0.3s;
+}
+</style>
 </head>
 <body>
 	<div id="fb-root"></div>
@@ -76,10 +88,10 @@
 	<%@ include file="/WEB-INF/sm/open/sub-nav"%>
 	<div class="container">
 		<div class="row">
-			<div class="col-md-offset-1 col-md-10" style="padding-left: 0px">
-				<%@ include file="/WEB-INF/sm/open/view-discussion.html"%>
-			</div>
-			
+
+			<%@ include file="/WEB-INF/sm/open/view-discussion.html"%>
+
+
 		</div>
 
 	</div>

@@ -42,7 +42,7 @@ input[type=radio] {
 }
 
 .inner {
-	height: 12em;
+	height: 8em;
 }
 </style>
 <body>
@@ -51,49 +51,38 @@ input[type=radio] {
 	<div class="container"
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
-			<form method="post" action="/coaching/get-coaching-preference">
+			<form  action="/sm/open/solution/crazy-servlet">
 				<div class="col-md-12" style="padding-left: 0px; text-align: center">
 
 					<h2 style="text-shadow: 0 0 3px #3b5998;">Which type of
 						Interview Coaching do you need?</h2>
-
-					<input type="hidden" value="cq5" name="redirect"> <input
-						type="hidden" value="sub-category" name="question" /> <br>
+					<input type="hidden" name="question" value="Which type of Interview Coaching do you need?">
+					 <br>
 					<div class="row">
-						<div class="col-md-offset-1 col-md-10">
-							<div
-								style="margin: 2%; background-color: #3b5998; color: white; padding: 4%"
+						<div class="col-md-offset-2 col-md-8">
+							<div class="col-sm-6">
+							<div style="margin: 2%; background-color: #3b5998; color: white; padding-top: 8%"
 								class="card inner">
-								<div class="row">
-									<div class="col-sm-4">
-										<div class="radio">
-											<label><input class="category" type="radio"
-												value="Preparatory" name="answer">Preparatory</label>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="radio">
-											<label><input class="category" type="radio"
-												value="Post Interview Review" name="answer">Post
-												Interview Review</label>
-										</div>
-									</div>
-									<div class="col-sm-4">
-										<div class="radio">
-											<label><input class="category" type="radio" id="other"
-												value="Other" name="answer">Other</label>
-										</div>
-									</div>
+								<div class="radio">
+									<label><input type="radio" value="Preparatory"
+										name="answer"><strong>Preparatory</strong></label>
+
 								</div>
-								<div class="row">
-									<div class="col-sm-12" id="other-div" style="text-align: left; display: none">
-										<div class="form-group">
-											<label for="answer">Describe the type of coaching you need</label>
-											<textarea rows="1" class="form-control" name="other-answer"></textarea>
-										</div>
-									</div>
-								</div>
+								
 							</div>
+						</div>
+						<div class="col-sm-6">
+							<div style="margin: 2%; background-color: #987a3b; color: white;padding-top: 8%"
+								class="card inner">
+								<div class="radio">
+									<label><input type="radio" value="Post Interview"
+										name="answer"><strong>Post Interview</strong></label>
+
+								</div>
+								
+							</div>
+						</div>
+							
 						</div>
 
 					</div>
