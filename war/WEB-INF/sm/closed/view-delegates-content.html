@@ -1,0 +1,48 @@
+<div class="panel panel-primary">
+	<div class="panel-heading">
+		<h4>View Delegates</h4>
+	</div>
+</div>
+<div class="panel panel-default">
+	<div class="panel-body" style="border-bottom: 1px solid #dadada">
+		<div style="width: 20%; float: left">
+			<img class="img img-responsive" src="${viewDelegate.imageUrl}">
+		</div>
+		<div style="width: 80%; float: left">
+			<h4 style="font-weight: bold">
+				<c:out value="${viewDelegate.name}" />
+				<small style="margin: 0px 4px">(<c:out
+						value="${viewDelegate.workshopCode}" />)
+				</small>
+			</h4>
+			<div class="row">
+				<div class="col-sm-12">
+					<span style="margin-right: 2%"><strong class="text-muted">Location:
+					</strong> <c:out value="${viewDelegate.location.state}" /></span> <span
+						style="margin-right: 2%"><strong class="text-muted">Date:
+					</strong> <c:out value="${viewDelegate.startDate}" /></span><span
+						style="margin-right: 2%"><strong class="text-muted">Number
+							Of Delegates: </strong> <c:out value="${viewDelegate.qty}" /></span>
+				</div>
+			</div>
+
+
+
+
+		</div>
+
+	</div>
+	<div class="panel-body">
+		<c:choose>
+			<c:when test="${empty workshopDelegates}">
+					<h4>You have not added any delegates yet</h4>
+					<div class="form-group">
+						<a href="#" class="btn btn-primary">Add Delegates</a> <a href="/sm/closed/profile/my-workshops" class="btn btn-default">Cancel</a>
+					</div>
+				</c:when>
+			<c:otherwise>
+				not empty
+				</c:otherwise>
+		</c:choose>
+	</div>
+</div>

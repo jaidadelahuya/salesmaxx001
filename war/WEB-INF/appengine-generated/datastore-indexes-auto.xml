@@ -1,12 +1,17 @@
-<!-- Indices written at Fri, 3 Feb 2017 10:03:03 UTC -->
+<!-- Indices written at Wed, 8 Feb 2017 07:18:16 UTC -->
 
 <datastore-indexes>
 
-    <!-- Used 4 times in query history -->
+    <!-- Used 1 time in query history -->
     <datastore-index kind="Discussion" ancestor="false" source="auto">
-        <property name="category" direction="asc"/>
         <property name="privacy" direction="asc"/>
-        <property name="views" direction="desc"/>
+        <property name="nComments" direction="desc"/>
+    </datastore-index>
+
+    <!-- Used 1 time in query history -->
+    <datastore-index kind="Discussion" ancestor="false" source="auto">
+        <property name="privacy" direction="asc"/>
+        <property name="timePosted" direction="desc"/>
     </datastore-index>
 
 </datastore-indexes>

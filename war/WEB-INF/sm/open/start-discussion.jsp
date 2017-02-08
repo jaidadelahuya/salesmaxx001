@@ -17,6 +17,21 @@
 <link rel="stylesheet" type="text/css" href="/style/custom.css">
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <%@ include file="/js/google-analytics"%>
+<style type="text/css">
+.card {
+	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0
+		rgba(0, 0, 0, 0.19);
+	text-align: center;
+	padding: 2%;
+	border-radius: 5px;
+	-moz-border-radius: 5px;
+	-webkit-border-radius: 5px;
+}
+
+.inner {
+	height: 22em;
+}
+</style>
 </head>
 <body>
 	<%@ include file="/WEB-INF/main-nav"%>
@@ -24,88 +39,77 @@
 	<div class="container">
 		<div class="row">
 			<div class="col-md-12">
-				<div style="width: 80%; margin: 0 auto">
-					<h3 class="text-primary" style="font-family: arial; font-weight: bold;">
-						<c:out value="Start a New Discussion" />: <small class="text-danger"><c:out value="${coachingCategory}" /></small>
-					</h3>
-					<div class="discussion-sidebar"
-						style="padding: 0; background-color: #d9edfe;">
-						<div class="form-group col-sm-12"
-							style="text-align: right; margin-bottom: 0px; margin-top: 2%;">
+				<h2 style="text-shadow: 0 0 3px #3b5998; text-align: center">Tell
+					us what challenge you are having?</h2>
+				<div class="col-md-offset-2 col-md-8">
+					<div class="panel panel-default">
+
+						<div class="panel-body" style="background-color: lavender">
+							<div class="col-sm-12">
+								<c:choose>
+									<c:when test="${startDiscussionError}">
+										<div class="alert alert-danger">
+											<p>
+												<c:out value='${startDiscussionErrorMessage}' />
+											</p>
+										</div>
+
+									</c:when>
+									<c:when test="${startDiscussionSuccess}">
+										<div class="alert alert-success">
+											<p>
+												<c:out value='${startDiscussionSuccessMessage}' />
+											</p>
+										</div>
+
+									</c:when>
+								</c:choose>
+								<form action="/sm/closed/submit-discussion" method="post"
+									id="post-discussion-form">
+									<div class="row">
+										<div class="form-group col-sm-12">
+											<label  for="title">Title:</label> <input type="text"
+												class="form-control" name="title">
+										</div>
+
+									</div>
+									<div class="row">
+										<div class="form-group col-sm-12">
+											<label  for="Body">Body:</label>
+											<textarea id="discussion-msg" rows="8" class="form-control"
+												name="body"></textarea>
+										</div>
+
+									</div>
+									<p class="text-muted;"
+										style="font-family: calibri; font-size: 10pt; text-align: left">This
+										will be featured as a post on our coaching board and other
+										members will be able to view and offer advice via comments.</p>
+
+									
+									<div class="row">
+										<div class="col-md-12" style="font-size: 10pt">
+										<h4 style="text-shadow: 0 0 3px #3b5998;">Options</h4>
+										<label class="checkbox-inline" style="margin-left: 10px"><input type="checkbox" name="anonymous"
+											value="true">Post as anonymous</label> <label class="checkbox-inline"><input name="privacy"
+											type="checkbox" value="true">Make Private <span style="color: red; font-size: 8pt;"> (Login Required)</span></label> <label
+											class="checkbox-inline"><input type="checkbox" name="notify-me"
+											value="true">Send me response via email<span style="color: red; font-size: 8pt"> (Login Required)</span></label></div>
+									</div>
+									<br>
+									<div class="row">
+										<div class="form-group col-sm-12">
+											<input type="submit" class="btn btn-sm btn-info"
+												value="Submit" id="post-discussion">
+										</div>
+									</div>
+								</form>
+							</div>
 
 						</div>
-
-						<div class="col-sm-12">
-							<c:choose>
-								<c:when test="${startDiscussionError}">
-									<div class="alert alert-danger">
-										<p>
-											<c:out value='${startDiscussionErrorMessage}' />
-										</p>
-									</div>
-
-								</c:when>
-								<c:when test="${startDiscussionSuccess}">
-									<div class="alert alert-success">
-										<p>
-											<c:out value='${startDiscussionSuccessMessage}' />
-										</p>
-									</div>
-
-								</c:when>
-							</c:choose>
-							<form action="/sm/closed/submit-discussion" method="post"
-								id="post-discussion-form">
-								<div class="row">
-									<div class="form-group col-sm-12 col-md-10">
-										<label for="title">Title:</label> <input type="text"
-											class="form-control" name="title">
-									</div>
-									<div class="col-md-2"></div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-12 col-md-10">
-										<label for="Body">Body:</label>
-										<textarea id="discussion-msg" rows="8" class="form-control"
-											name="body"></textarea>
-									</div>
-									<div class="col-md-2"></div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-12 col-md-10">
-										<label for="Tags">Tags:</label> <input type="text"
-											class="form-control" name="tags">
-									</div>
-									<div class="col-md-2"></div>
-								</div>
-								<input type="hidden" value="${coachingCategory}" name="category">
-								<div class="row form-group">
-									<div class="col-sm-12 col-md-4">
-										<label for="privacy">Privacy: </label> <select
-											class="form-control" name="privacy">
-											<option>Public</option>
-											<option>Private</option>
-										</select>
-									</div>
-									<div class="checkbox col-sm-12 col-md-8"
-										style="font-family: calibri">
-										<label><input type="checkbox" value="true"
-											name="notify-me">Send me new responses to my post via
-											email</label>
-									</div>
-								</div>
-								<div class="row">
-									<div class="form-group col-sm-12">
-										<input type="submit" class="btn btn-xs btn-danger"
-											value="Post Question/Discussion" id="post-discussion">
-									</div>
-								</div>
-							</form>
-						</div>
-
 					</div>
-
 				</div>
+
 
 			</div>
 		</div>

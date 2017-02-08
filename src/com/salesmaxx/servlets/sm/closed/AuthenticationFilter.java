@@ -75,19 +75,32 @@ public class AuthenticationFilter implements Filter {
 				session.setAttribute("requestURI", req.getRequestURI());
 				String title = req.getParameter("title");
 				String body = req.getParameter("body");
-				String tags = req.getParameter("tags");
-				String category = req.getParameter("category");
 				String privacy = req.getParameter("privacy");
 				String notify = req.getParameter("notify-me");
+				String anonymous = req.getParameter("anonymous");
 				CoachingPost cp = new CoachingPost();
 				cp.setTitle(title);
 				cp.setBody(body);
-				cp.setCategory(category);
-				cp.setNotify(notify);
-				cp.setPrivacy(privacy);
-				cp.setTags(tags);
+				if(Util.notNull(privacy)) {
+					cp.setPrivacy(true);
+				}
+				
+				if(Util.notNull(notify)) {
+					cp.setNotify(true);
+				}
+				
+				if(Util.notNull(anonymous)) {
+					cp.setAnonymous(true);
+				}
 				session.setAttribute("coachingPost", cp);
-				resp.sendRedirect("/sm/open/i/login");
+				if(cp.isNotify() | cp.isPrivacy()) {
+					resp.sendRedirect("/sm/open/i/login");
+				}else {
+					arg2.doFilter(arg0, arg1);
+				}
+	
+				
+				
 			} else if (req.getRequestURI().contains(
 					"sm/closed/post-comment")) {
 				String body = req.getParameter("comment");

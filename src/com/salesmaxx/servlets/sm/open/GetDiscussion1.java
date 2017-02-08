@@ -37,8 +37,12 @@ public class GetDiscussion1 extends HttpServlet {
 				Entity e = EMF.getDs().get(key);
 				Discussion d = Util.entityToDiscussion(e);
 				Key owner = d.getOwner();
-				Entity e1 = EMF.getDs().get(owner);
-				User u = Util.toUser(e1);
+				User u = null;
+				if(owner==key) {
+					Entity e1 = EMF.getDs().get(owner);
+					u = Util.toUser(e1);
+				}
+				
 				SingleDiscussionPageBean sd = Util.discussionToSDPB(d, u);
 				HttpSession session = req.getSession();
 				synchronized (session) {

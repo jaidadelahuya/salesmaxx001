@@ -23,6 +23,9 @@ public class ProspectUtil {
 		map.put("Required to do", "/sm/open/solutions/coaching/7");
 		map.put("yes", "/sm/open/solutions/coaching/5");
 		map.put("no", "/");
+		map.put("Whom to see", "/sm/open/start-discussion-page");
+		map.put("Sales Performance Type", "/sm/open/start-discussion-page");
+		map.put("Sales Management Type", "/sm/open/start-discussion-page");
 		
 	}
 

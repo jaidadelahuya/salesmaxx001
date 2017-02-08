@@ -46,9 +46,14 @@ import com.google.appengine.api.datastore.DatastoreServiceFactory;
 import com.google.appengine.api.datastore.EmbeddedEntity;
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.EntityNotFoundException;
+import com.google.appengine.api.datastore.FetchOptions;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.KeyRange;
+import com.google.appengine.api.datastore.PreparedQuery;
+import com.google.appengine.api.datastore.Query.CompositeFilterOperator;
+import com.google.appengine.api.datastore.Query.Filter;
+import com.google.appengine.api.datastore.Query.FilterOperator;
 import com.google.appengine.api.datastore.QueryResultList;
 import com.google.appengine.api.datastore.Text;
 import com.google.appengine.api.datastore.Transaction;
@@ -132,6 +137,7 @@ import com.salesmaxx.entities.UserRole;
 import com.salesmaxx.entities.Video;
 import com.salesmaxx.entities.WhitePaper;
 import com.salesmaxx.entities.WorkShop;
+import com.salesmaxx.entities.WorkshopDelegate;
 import com.salesmaxx.entities.WorkshopTemplate;
 import com.salesmaxx.entities.exception.RollbackFailureException;
 import com.salesmaxx.persistence.controllers.AddressController;
@@ -162,10 +168,11 @@ import com.twilio.sdk.resource.factory.MessageFactory;
 
 public class Util {
 
-	
 	public static final String SERVICE_ACCOUNT = "profiliant.salesmaxx@gmail.com";
 	public static final MemcacheService WORKSHOP_CACHE = MemcacheServiceFactory
 			.getMemcacheService("workshops");
+	public static final MemcacheService DISCUSSION_TAGS_CACHE = MemcacheServiceFactory
+			.getMemcacheService("discussion_tags");
 	public static final MemcacheService USER_CACHE = MemcacheServiceFactory
 			.getMemcacheService("users");
 	public static final MemcacheService DISCUSSION_CACHE = MemcacheServiceFactory
@@ -649,37 +656,37 @@ public class Util {
 
 	@SuppressWarnings("unchecked")
 	public static List<Discussion> getDiscussionFromCache(List<Key> keys) {
-		
-		Map<Key,Object> objs = DISCUSSION_CACHE.getAll(keys);
+
+		Map<Key, Object> objs = DISCUSSION_CACHE.getAll(keys);
 		List<Key> notFound = new ArrayList<>();
 		List<Discussion> list = new ArrayList<>();
-		if(objs.size()<keys.size()) {
-			for(Key k : keys) {
-				if(!objs.keySet().contains(k)){
+		if (objs.size() < keys.size()) {
+			for (Key k : keys) {
+				if (!objs.keySet().contains(k)) {
 					notFound.add(k);
-				}else {
+				} else {
 					Object o = objs.get(k);
-					if(o != null && o instanceof Discussion) {
+					if (o != null && o instanceof Discussion) {
 						Discussion d = (Discussion) o;
 						list.add(d);
 					}
-					
+
 				}
 			}
 			Map<Key, Entity> map = EMF.getDs().get(notFound);
-			Map<Key,Object> m = new HashMap<>();
-			
-			for(Key k: map.keySet()) {
+			Map<Key, Object> m = new HashMap<>();
+
+			for (Key k : map.keySet()) {
 				Discussion d = Util.entityToDiscussion(map.get(k));
 				list.add(d);
 				m.put(k, d);
 			}
 			DISCUSSION_CACHE.putAll(m);
-			
-		}else {
-			for(Key k : objs.keySet()) {
+
+		} else {
+			for (Key k : objs.keySet()) {
 				Object o = objs.get(k);
-				if(o != null && o instanceof Discussion) {
+				if (o != null && o instanceof Discussion) {
 					Discussion d = (Discussion) o;
 					list.add(d);
 				}
@@ -1025,7 +1032,8 @@ public class Util {
 		ent.setUnindexedProperty("workshopType", workShop.getWorkshopType());
 		ent.setUnindexedProperty("venue", workShop.getVenue());
 		ent.setUnindexedProperty("students", workShop.getStudents());
-		ent.setUnindexedProperty("totalNumberOfSeats", workShop.getTotalNumberOfSeats());
+		ent.setUnindexedProperty("totalNumberOfSeats",
+				workShop.getTotalNumberOfSeats());
 
 		return ent;
 	}
@@ -1183,7 +1191,7 @@ public class Util {
 		ws.setVenue((String) result.getProperty("venue"));
 		ws.setStudents((List<Key>) result.getProperty("students"));
 		Long seats = (Long) result.getProperty("totalNumberOfSeats");
-		ws.setTotalNumberOfSeats((seats==null || seats ==0)?25:seats);
+		ws.setTotalNumberOfSeats((seats == null || seats == 0) ? 25 : seats);
 		return ws;
 	}
 
@@ -1454,7 +1462,7 @@ public class Util {
 				facs.add(f);
 			} else {
 				Facilitator f = (Facilitator) o;
-				
+
 				facs.add(f);
 			}
 		}
@@ -2689,7 +2697,7 @@ public class Util {
 		d.setId(ent.getKey());
 		d.setTitle((String) ent.getProperty("title"));
 		d.setSocialNetwork((String) ent.getProperty("socialNetwork"));
-		d.setView( (List<Key>) ent.getProperty("views"));
+		d.setView((List<Key>) ent.getProperty("views"));
 		d.setPrivacy((String) ent.getProperty("privacy"));
 		d.setBody((Text) ent.getProperty("body"));
 		d.setCategory((String) ent.getProperty("category"));
@@ -2697,7 +2705,7 @@ public class Util {
 		d.setEmailsToNotify((List<String>) ent.getProperty("emailsToNotify"));
 		d.setOwner((Key) ent.getProperty("owner"));
 		d.setTimePosted((Date) ent.getProperty("timePosted"));
-		d.setVotes( (List<Key>) ent.getProperty("votes"));
+		d.setVotes((List<Key>) ent.getProperty("votes"));
 		return d;
 	}
 
@@ -2705,22 +2713,26 @@ public class Util {
 		Discussion d = new Discussion();
 		d.setBody(new Text(cp.getBody()));
 		d.setCategory(cp.getCategory());
-		d.setOwner(u.getRegId());
+		if(!cp.isAnonymous() && u != null
+				){
+			d.setOwner(u.getRegId());
+		}
+		
 		d.setTimePosted(new Date());
 		List<String> emails = new ArrayList<>();
-		if ((cp.getNotify() != null && cp.getNotify().equalsIgnoreCase("true"))
-				| cp.getPrivacy().equalsIgnoreCase("private")) {
+		if (cp.isNotify()
+				| cp.isPrivacy()) {
 			emails.add(u.getUsername());
 			d.setEmailsToNotify(emails);
 		} else {
 			d.setEmailsToNotify(emails);
 		}
-		d.setPrivacy(cp.getPrivacy());
+		d.setPrivacy(cp.isPrivacy()?"private":"public");
 		d.setTitle(cp.getTitle());
 		d.setView(new ArrayList<Key>());
 		d.setVotes(new ArrayList<Key>());
 		d.setComments(new ArrayList<Key>());
-		List<Key> tags = null;
+		
 
 		return d;
 	}
@@ -2730,17 +2742,23 @@ public class Util {
 		spdb.setBody(d.getBody().getValue());
 		spdb.setCategory(d.getCategory());
 		List<Key> comments = d.getComments();
-		if(comments!=null) {
+		if (comments != null) {
 			spdb.setComments(commentsKeyToCommentsBean(comments));
 		}
+		if(u==null) {
+			spdb.setOwnerName("Anonymous");
+			spdb.setOwnerImage("/images/unknown-user.jpg");
+		}else {
+			spdb.setOwnerImage(u.getPictureUrl());
+			spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
+		}
 		
-		spdb.setOwnerImage(u.getPictureUrl());
 		// spdb.setTags(tags);
 		spdb.setTime(d.getTimePosted());
 		spdb.setTopic(d.getTitle());
-		spdb.setViews((d.getView() == null)?0:d.getView().size());
-		spdb.setVotes((d.getVotes()==null)?0:d.getVotes().size());
-		spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
+		spdb.setViews((d.getView() == null) ? 0 : d.getView().size());
+		spdb.setVotes((d.getVotes() == null) ? 0 : d.getVotes().size());
+		
 		if (d.getId() != null) {
 			spdb.setWebkey(KeyFactory.keyToString(d.getId()));
 		}
@@ -2803,8 +2821,8 @@ public class Util {
 			// spdb.setTags(tags);
 			spdb.setTime(d.getTimePosted());
 			spdb.setTopic(d.getTitle());
-			spdb.setViews((d.getView()==null)?0:d.getView().size());
-			spdb.setVotes((d.getVotes()==null)?0:d.getVotes().size());
+			spdb.setViews((d.getView() == null) ? 0 : d.getView().size());
+			spdb.setVotes((d.getVotes() == null) ? 0 : d.getVotes().size());
 			spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
 			list.add(spdb);
 		}
@@ -2902,11 +2920,11 @@ public class Util {
 		return t;
 	}
 
-	
 	public static List<SingleDiscussionPageBean> getHotestDiscussion() {
-		QueryResultList<Entity> ents = new DiscussionController().getHottestDiscussion();
+		QueryResultList<Entity> ents = new DiscussionController()
+				.getHottestDiscussion();
 		List<SingleDiscussionPageBean> list = new ArrayList<>();
-		for(Entity e : ents) {
+		for (Entity e : ents) {
 			Discussion d = Util.entityToDiscussion(e);
 			Key k = d.getOwner();
 			User u = new UserController().findUser(k);
@@ -2914,7 +2932,7 @@ public class Util {
 			list.add(b);
 		}
 		return list;
-		
+
 	}
 
 	public static void sendEmailNotification(List<String> emailsToNotify,
@@ -3124,7 +3142,8 @@ public class Util {
 
 				if (((String) ee.getProperty("workshopID")).equals(id)) {
 					WorkShop w = Util.getWorkshopSchedule(id);
-					long seatsLeft = w.getTotalNumberOfSeats() - w.getNoEnrolled();
+					long seatsLeft = w.getTotalNumberOfSeats()
+							- w.getNoEnrolled();
 					if (seatsLeft >= Long.valueOf(qty)) {
 						ee.setProperty("qty", qty);
 						synchronized (session) {
@@ -3167,8 +3186,8 @@ public class Util {
 		return items;
 	}
 
-	public static boolean clearManualPayment(String txnRef, WorkShop w, WorkShop oldWorkshop,
-			String qty, boolean reschedule) {
+	public static boolean clearManualPayment(String txnRef, WorkShop w,
+			WorkShop oldWorkshop, String qty, boolean reschedule) {
 		ManualTransactionController mtc = new ManualTransactionController();
 		List<ManualTransaction> mtss = mtc.findByTxnRef(txnRef,
 				ChequeInvoice.InvoiceStatus.PENDING);
@@ -3195,15 +3214,16 @@ public class Util {
 			String x = (Long.parseLong(qty) > 1) ? "seats" : "seat";
 			String y = (swd.getName().contains("shop")) ? "" : "workshop";
 			String body = "";
-			if(reschedule) {
+			if (reschedule) {
 				ScheduleWorkshopDisplay swd1 = toScheduleWorkshopDisplay(oldWorkshop);
 				String z = (swd.getName().contains("shop")) ? "" : "workshop";
 				body = "Your payment for " + qty + " " + x + " at the "
 						+ swd1.getName() + " " + y + " taking place on "
 						+ swd1.getStartDate() + " in "
-						+ swd1.getLocation().getState() + " has been rescheduled to "
-						+swd.getName()+" taking place on "+swd.getStartDate();
-			}else {
+						+ swd1.getLocation().getState()
+						+ " has been rescheduled to " + swd.getName()
+						+ " taking place on " + swd.getStartDate();
+			} else {
 				body = "Your payment for " + qty + " " + x + " at the' "
 						+ swd.getName() + " " + y + " taking place on "
 						+ swd.getStartDate() + " in "
@@ -3516,11 +3536,11 @@ public class Util {
 	}
 
 	public static void addWorkshopToIndex(Document doc)
-			throws InterruptedException  {
-		
+			throws InterruptedException {
+
 		indexADocument("wk", doc);
 	}
-	
+
 	public static Document createDocument(WorkShop wk, Address add,
 			WorkshopTemplate temp) {
 		String desc = (temp.getShortDescription() == null) ? "" : temp
@@ -3568,7 +3588,7 @@ public class Util {
 		}
 
 		Document doc = bd.build();
-	  return doc;	
+		return doc;
 	}
 
 	public static void indexADocument(String indexName, Document document)
@@ -3726,6 +3746,7 @@ public class Util {
 			Address a = c.findAddress(w.getLocation());
 			sch.setId(String.valueOf(w.getId().getId()));
 			sch.setLocation(a);
+			sch.setImageUrl(wt.getImageUrl());
 			SimpleDateFormat sm = new SimpleDateFormat("E, dd MMM yyyy");
 			sch.setStartDate(sm.format(w.getStartDate()));
 			l.add(sch);
@@ -3737,35 +3758,41 @@ public class Util {
 		CancelWorkshopBean cwb = new CancelWorkshopBean();
 		cwb.setCancelDate(cw.getCancelDate());
 		cwb.setOwnerID(cw.getUserid().getName());
-		cwb.setReason((cw.getReason() == null)?"":cw.getReason().getValue());
+		cwb.setReason((cw.getReason() == null) ? "" : cw.getReason().getValue());
 		cwb.setWebKey(KeyFactory.keyToString(cw.getId()));
-		WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(Util.getWorkshopTemplateFromCache(), cw.getWorkshopId());
+		WorkshopTemplate wt = Util.getWorkshopTemplateFromScheduleId(
+				Util.getWorkshopTemplateFromCache(), cw.getWorkshopId());
 		cwb.setWorkshopCode(wt.getWorkshopId().getName());
 		cwb.setWorkshopName(wt.getWorkshopName());
 		cwb.setNoD(cw.getNoOfDelegates());
 		WorkShop w = Util.getWorkshopSchedule(cw.getWorkshopId());
 		cwb.setWorkshopDate(w.getStartDate());
 		Address a = (new AddressController()).findAddress(w.getLocation());
-		if(a!=null) {
+		if (a != null) {
 			cwb.setWorkshopLocation(a.getState());
 		}
-		
+
 		return cwb;
 	}
 
 	public static List<SingleDiscussionPageBean> getNewestDiscussion() {
-		QueryResultList<Entity> ents = new DiscussionController().getNewestDiscussion();
+		QueryResultList<Entity> ents = new DiscussionController()
+				.getNewestDiscussion();
 		List<SingleDiscussionPageBean> list = new ArrayList<>();
-		for(Entity e : ents) {
+		for (Entity e : ents) {
 			Discussion d = Util.entityToDiscussion(e);
 			Key k = d.getOwner();
-			User u = new UserController().findUser(k);
+			User u = null;
+			if(k!=null) {
+				u = new UserController().findUser(k);
+			}
+	
 			SingleDiscussionPageBean b = Util.discussionToSDPB(d, u);
 			list.add(b);
 		}
 		return list;
 	}
-	
+
 	public static String getPostedTime(Date datePosted) {
 
 		Date today = new Date();
@@ -3842,72 +3869,146 @@ public class Util {
 
 	public static Map<String, List<SingleDiscussionPageBean>> getDiscussions(
 			String category) {
-		
+
 		Map<String, List<SingleDiscussionPageBean>> map = new HashMap<>();
-		if(category.equalsIgnoreCase("Interview Coaching")) {
+		if (category.equalsIgnoreCase("Interview Coaching")) {
 			List<Key> keys = new ArrayList<>();
-			QueryResultList<Entity> ents = new DiscussionController().getDiscussions("Sales Performance Coaching", 5, true);
+			QueryResultList<Entity> ents = new DiscussionController()
+					.getDiscussions("Sales Performance Coaching", 5, true);
 			for (Entity e : ents) {
 				keys.add(e.getKey());
 			}
 			List<Discussion> discussions = Util.getDiscussionFromCache(keys);
-			List<SingleDiscussionPageBean> l=  Util.discussionToSDPB(discussions);
+			List<SingleDiscussionPageBean> l = Util
+					.discussionToSDPB(discussions);
 			map.put("Sales Performance Coaching", l);
-			keys.clear();ents.clear();discussions.clear();
-			ents = new DiscussionController().getDiscussions("Sales Management and Leadership", 5, true);
+			keys.clear();
+			ents.clear();
+			discussions.clear();
+			ents = new DiscussionController().getDiscussions(
+					"Sales Management and Leadership", 5, true);
 			for (Entity e : ents) {
 				keys.add(e.getKey());
 			}
 			discussions = Util.getDiscussionFromCache(keys);
-			List<SingleDiscussionPageBean> l1=  Util.discussionToSDPB(discussions);
+			List<SingleDiscussionPageBean> l1 = Util
+					.discussionToSDPB(discussions);
 			map.put("Sales Management and Leadership", l1);
-			
-			
-			
-			
-		}else if(category.equalsIgnoreCase("Sales Performance Coaching")) {
+
+		} else if (category.equalsIgnoreCase("Sales Performance Coaching")) {
 			List<Key> keys = new ArrayList<>();
-			QueryResultList<Entity> ents = new DiscussionController().getDiscussions("Interview Coaching", 5, true);
+			QueryResultList<Entity> ents = new DiscussionController()
+					.getDiscussions("Interview Coaching", 5, true);
 			for (Entity e : ents) {
 				keys.add(e.getKey());
 			}
 			List<Discussion> discussions = Util.getDiscussionFromCache(keys);
-			List<SingleDiscussionPageBean> l=  Util.discussionToSDPB(discussions);
+			List<SingleDiscussionPageBean> l = Util
+					.discussionToSDPB(discussions);
 			map.put("Interview Coaching", l);
-			keys.clear();ents.clear();discussions.clear();
-			ents = new DiscussionController().getDiscussions("Sales Management and Leadership", 5, true);
+			keys.clear();
+			ents.clear();
+			discussions.clear();
+			ents = new DiscussionController().getDiscussions(
+					"Sales Management and Leadership", 5, true);
 			for (Entity e : ents) {
 				keys.add(e.getKey());
 			}
 			discussions = Util.getDiscussionFromCache(keys);
-			List<SingleDiscussionPageBean> l1=  Util.discussionToSDPB(discussions);
+			List<SingleDiscussionPageBean> l1 = Util
+					.discussionToSDPB(discussions);
 			map.put("Sales Management and Leadership", l1);
-			
-			
-			
-			
-		}else if(category.equalsIgnoreCase("Sales Management and Leadership")) {
+
+		} else if (category.equalsIgnoreCase("Sales Management and Leadership")) {
 			List<Key> keys = new ArrayList<>();
-			QueryResultList<Entity> ents = new DiscussionController().getDiscussions("Interview Coaching", 5, true);
+			QueryResultList<Entity> ents = new DiscussionController()
+					.getDiscussions("Interview Coaching", 5, true);
 			for (Entity e : ents) {
 				keys.add(e.getKey());
 			}
 			List<Discussion> discussions = Util.getDiscussionFromCache(keys);
-			List<SingleDiscussionPageBean> l=  Util.discussionToSDPB(discussions);
+			List<SingleDiscussionPageBean> l = Util
+					.discussionToSDPB(discussions);
 			map.put("Interview Coaching", l);
-			keys.clear();ents.clear();discussions.clear();
-			ents = new DiscussionController().getDiscussions("Sales Performance Coaching", 5, true);
+			keys.clear();
+			ents.clear();
+			discussions.clear();
+			ents = new DiscussionController().getDiscussions(
+					"Sales Performance Coaching", 5, true);
 			for (Entity e : ents) {
 				keys.add(e.getKey());
 			}
 			discussions = Util.getDiscussionFromCache(keys);
-			List<SingleDiscussionPageBean> l1=  Util.discussionToSDPB(discussions);
+			List<SingleDiscussionPageBean> l1 = Util
+					.discussionToSDPB(discussions);
 			map.put("Sales Performance Coaching", l1);
-			
-			
-			
-			
+
 		}
 		return map;
+	}
+
+	public static List<WorkshopDelegate> getWorkshopDelegates(Key ownerKey,
+			Key workshopKey) {
+		com.google.appengine.api.datastore.Query q = new com.google.appengine.api.datastore.Query(
+				WorkshopDelegate.class.getSimpleName());
+		Filter f1 = new com.google.appengine.api.datastore.Query.FilterPredicate(
+				"ownerKey", FilterOperator.EQUAL, ownerKey);
+		Filter f2 = new com.google.appengine.api.datastore.Query.FilterPredicate(
+				"workshopKey", FilterOperator.EQUAL, workshopKey);
+		List<Filter> filters = new ArrayList<>();
+		filters.add(f1); filters.add(f2);
+		Filter f3 = new com.google.appengine.api.datastore.Query.CompositeFilter(CompositeFilterOperator.AND, filters);
+		q.setFilter(f3);
+		FetchOptions options = FetchOptions.Builder.withLimit(35);
+		PreparedQuery pq = EMF.getDs().prepare(q);
+		QueryResultList< Entity> qrl = pq.asQueryResultList(options);
+		List<WorkshopDelegate> list = new ArrayList<>();
+		for(Entity e : qrl) {
+			list.add(new WorkshopDelegate(e));
+		}
+		return list;
+	}
+
+	public static Discussion tagDiscussion(Map<String, String> map, Discussion d) {
+		String coachingType = map.get("What Kind of coaching do you need?");
+		List<String> questions = new ArrayList<>();
+		if(coachingType!=null) {
+			if(coachingType.equalsIgnoreCase("Interview")) {
+				d.setCategory("Interview Coaching");
+				questions.add("Which type of Interview Coaching do you need?");
+				questions.add("This is my");
+				questions.add("What will you be required to do?");
+				questions.add("Who will you be seeing?");
+				questions.add("Are you confirmed for another interview?");
+				
+			}else if(coachingType.equalsIgnoreCase("Sales Performance")) {
+				d.setCategory("Sales Performance Coaching");
+				
+				questions.add("Which type of Sales Performance Coaching do you need?");
+				
+			} else if(coachingType.equalsIgnoreCase("Sales Management")) {
+				d.setCategory("Sales Management and Leadership");
+				questions.add("Which type of Sales Management/Leadership Coaching do you need?");
+			}
+			
+			List<Key> tags = getDiscussionTags(map,questions);
+			d.setTags(tags);
+			
+			return d;
+		}
+		return null;
+	}
+
+	private static List<Key> getDiscussionTags(Map<String, String> map,
+			List<String> questions) {
+		List<Key> k = new ArrayList<>();
+		for(String s : questions) {
+			String ans = map.get(s);
+			if(Util.notNull(ans)) {
+				Tag t = new Tag(ans);
+				k.add(t.getKey());
+			}
+		}
+		return k;
 	}
 }

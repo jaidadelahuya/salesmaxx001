@@ -9,12 +9,30 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</session-config>
 	
 	<servlet>
+		<servlet-name>ViewWorkshopDelegates</servlet-name>
+		<jsp-file>/WEB-INF/sm/closed/view-delegate.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewWorkshopDelegates</servlet-name>
+		<url-pattern>/sm/closed/profile/my-workshops/delegates/view</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
 		<servlet-name>PrivateCoachingRequestSuccess</servlet-name>
 		<jsp-file>/WEB-INF/sm/closed/private-coach-request-success.jsp</jsp-file>
 	</servlet>
 	<servlet-mapping>
 		<servlet-name>PrivateCoachingRequestSuccess</servlet-name>
 		<url-pattern>/sm/close/coaching/request-success</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>ViewWorkshopDelegatesServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.ViewWorkshopDelegates</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>ViewWorkshopDelegatesServlet</servlet-name>
+		<url-pattern>/sm/closed/profile/my-workshops/delegates</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

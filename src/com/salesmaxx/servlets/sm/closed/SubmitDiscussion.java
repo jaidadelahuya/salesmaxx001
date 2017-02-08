@@ -2,6 +2,7 @@ package com.salesmaxx.servlets.sm.closed;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Map;
 
 import javax.mail.MessagingException;
 import javax.mail.internet.AddressException;
@@ -50,7 +51,7 @@ public class SubmitDiscussion extends HttpServlet {
 		if (o == null) {
 			String title = req.getParameter("title");
 			String body = req.getParameter("body");
-			String tags = req.getParameter("tags");
+			String anonymous = req.getParameter("anonymous");
 			String category = req.getParameter("category");
 			String privacy = req.getParameter("privacy");
 			String notify = req.getParameter("notify-me");
@@ -59,9 +60,18 @@ public class SubmitDiscussion extends HttpServlet {
 			cp.setTitle(title);
 			cp.setBody(body);
 			cp.setCategory(category);
-			cp.setNotify(notify);
-			cp.setPrivacy(privacy);
-			cp.setTags(tags);
+			if (Util.notNull(privacy)) {
+				cp.setPrivacy(true);
+			}
+
+			if (Util.notNull(anonymous)) {
+				cp.setAnonymous(true);
+			}
+
+			if (Util.notNull(notify)) {
+				cp.setNotify(true);
+			}
+
 			d = Util.coachingPostToDiscussion(cp, u);
 		} else {
 			CoachingPost cp = (CoachingPost) o;
@@ -71,10 +81,21 @@ public class SubmitDiscussion extends HttpServlet {
 			}
 
 		}
+		
+		Object o1 = null;
+		Map<String, String> map = null;
+		synchronized (session) {
+			o1 = session.getAttribute("qaMap");
+		}
+		
+		if(o1!=null) {
+			map = (Map<String, String>) o1;
+			d = Util.tagDiscussion(map, d);
+		}
 
 		DiscussionController cont = new DiscussionController();
 
-		d = cont.create(d, new ArrayList<Tag>());
+		d = cont.create(d);
 		if (d.getPrivacy() != null
 				&& d.getPrivacy().equalsIgnoreCase("private")) {
 			String toUser = u.getUsername();
@@ -96,7 +117,9 @@ public class SubmitDiscussion extends HttpServlet {
 					+ " has requested a private coaching request.</p>"
 					+ "<p><strong>Request Details</strong><br/><p><strong>Email: </strong>"
 					+ toUser
-					+ "</p><p>"+d.getBody().getValue()+"</p></p>"
+					+ "</p><p>"
+					+ d.getBody().getValue()
+					+ "</p></p>"
 					+ "<p>Click <a href='http://www.salesmaxx.com/sm/open/get-discussion?webkey="
 					+ webkey + "&privacy=private'>here to view</a></p>";
 			req.setAttribute("privateMsgSent", true);

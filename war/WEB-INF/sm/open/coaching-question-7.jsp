@@ -53,9 +53,10 @@ input[type=radio] {
 				<h2 style="text-shadow: 0 0 3px #3b5998;">Who will you be
 					seeing?</h2>
 				<br>
-				<form action="/sm/open/solution/next-prospect-preference">
+				<form action="/sm/open/solution/crazy-servlet">
 					<input type="hidden" name="question"
 						value="Who will you be seeing?">
+					<input type="hidden" name="group" value="Whom to see">
 					<div class="row">
 						<div class="col-sm-3">
 							<div style="margin: 2%; background-color: #3b5998; color: white;"

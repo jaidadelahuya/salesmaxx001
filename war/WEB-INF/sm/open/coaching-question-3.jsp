@@ -51,14 +51,14 @@ input[type=radio] {
 	<div class="container"
 		style="width: 80%; margin: 0 auto; height: 100%;">
 		<div class="row">
-			<form method="post" action="/coaching/get-coaching-preference">
+			<form  action="/sm/open/solution/crazy-servlet">
 				<div class="col-md-12" style="padding-left: 0px; text-align: center">
 
 					<h2 style="text-shadow: 0 0 3px #3b5998;">Which type of Sales
 						Performance Coaching do you need?</h2>
 
-					<input type="hidden" value="cq5" name="redirect"> <input
-						type="hidden" value="sub-category" name="question" /> <br>
+					<input type="hidden" value="Sales Performance Type" name="group"> <input
+						type="hidden" value="Which type of Sales Performance Coaching do you need?" name="question" /> <br>
 					<div class="row">
 						<div class="col-md-12">
 							<div style="margin: 2%; background-color: #983b59; color: white; text-align: left; padding: 3%; font-size: 12pt"
@@ -98,8 +98,7 @@ input[type=radio] {
 									</div>
 									<div class="col-sm-4">
 										<div class="radio">
-											<label><input class="category" type="radio" id="other"
-												value="Other" name="answer">Other</label>
+											<label><input class="category" type="radio" id="other" name="answer">Other</label>
 										</div>
 									</div>
 								</div>
@@ -107,7 +106,7 @@ input[type=radio] {
 									<div class="col-sm-12" id="other-div" style="text-align: left; display: none;">
 										<div class="form-group">
 											<label for="answer">Describe the type of coaching you need</label>
-											<textarea rows="1" class="form-control" name="other-answer"></textarea>
+											<textarea rows="1" class="form-control" name="answer"></textarea>
 										</div>
 									</div>
 								</div>
@@ -165,9 +164,12 @@ input[type=radio] {
 				if(id=="other") {
 					y.slideDown();
 					
+					$("#other").prop("disabled", true);
+					
 				}else {
 					y.slideUp();
 					
+					$("#other").prop("disabled", false);
 				}
 			});
 		});

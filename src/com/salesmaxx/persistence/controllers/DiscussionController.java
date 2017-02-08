@@ -30,28 +30,15 @@ public class DiscussionController {
 	private static DatastoreService ds = EMF.getDs();
 	private Transaction txn = null;
 	
-	public Discussion create(Discussion discussion, List<Tag> tags) {
+	public Discussion create(Discussion discussion) {
 		
-		if(tags != null) {
-			List<Entity> tgs = Util.TagsToEntities(tags);
-			List<Key> keys = Util.getTagsKeys(tgs);
-			discussion.setTags(keys);
-			Entity ents = Util.discussionToEntity(discussion);
-			discussion.setId(ents.getKey());
-			txn = ds.beginTransaction(TransactionOptions.Builder.withXG(true));
-			ds.put(tgs);
-			ds.put(ents);
-			txn.commit();
-			if(discussion.getPrivacy().equalsIgnoreCase("public")) {
-				Util.DISCUSSION_CACHE.clearAll();
-			}
-			
-		} else {
+		
 			txn = ds.beginTransaction();
 			Entity ents = Util.discussionToEntity(discussion);
+			ds.put(ents);
 			txn.commit();
 			
-		}
+		
 		
 		return discussion;
 		
@@ -108,18 +95,18 @@ public class DiscussionController {
 
 	public QueryResultList<Entity> getHottestDiscussion() {
 		Query q = new Query(Discussion.class.getSimpleName());
-		//Filter filter = new Query.FilterPredicate("privacy", FilterOperator.EQUAL, "Public");
-		//q.setFilter(filter);
+		Filter filter = new Query.FilterPredicate("privacy", FilterOperator.EQUAL, "Public");
+		q.setFilter(filter);
 		q.addSort("nComments", SortDirection.DESCENDING);
-		FetchOptions f = FetchOptions.Builder.withLimit(10);
+		FetchOptions f = FetchOptions.Builder.withLimit(15);
 		PreparedQuery pq = ds.prepare(q);
 		return pq.asQueryResultList(f);
 	}
 	
 	public QueryResultList<Entity> getNewestDiscussion() {
 		Query q = new Query(Discussion.class.getSimpleName());
-		//Filter filter = new Query.FilterPredicate("privacy", FilterOperator.EQUAL, "Public");
-		//q.setFilter(filter);
+		Filter filter = new Query.FilterPredicate("privacy", FilterOperator.EQUAL, "Public");
+		q.setFilter(filter);
 		q.addSort("timePosted", SortDirection.DESCENDING);
 		FetchOptions f = FetchOptions.Builder.withLimit(5);
 		PreparedQuery pq = ds.prepare(q);
@@ -128,8 +115,8 @@ public class DiscussionController {
 
 	public  QueryResultList<Entity> getDiscussions(String category, int limit, boolean keysOnly) {
 		Query q = new Query(Discussion.class.getSimpleName());
-		//Filter filter = new Query.FilterPredicate("category", FilterOperator.EQUAL, category);
-		//q.setFilter(filter);
+		Filter filter = new Query.FilterPredicate("category", FilterOperator.EQUAL, category);
+		q.setFilter(filter);
 		q.addSort("timePosted", SortDirection.DESCENDING);
 		if(keysOnly) {
 			q.setKeysOnly();

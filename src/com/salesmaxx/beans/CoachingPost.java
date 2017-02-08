@@ -8,7 +8,8 @@ public class CoachingPost implements Serializable {
 	 * 
 	 */
 	private static final long serialVersionUID = 3384279548731247755L;
-	private String title, body, privacy, tags, category, notify;
+	private String title, body,  tags, category, coachingPost;
+	private boolean anonymous, privacy, notify;
 
 	@Override
 	public String toString() {
@@ -16,6 +17,20 @@ public class CoachingPost implements Serializable {
 				+ privacy + ", tags=" + tags + ", category=" + category
 				+ ", notify=" + notify + "]";
 	}
+	
+	
+
+	public String getCoachingPost() {
+		return coachingPost;
+	}
+
+
+
+	public void setCoachingPost(String coachingPost) {
+		this.coachingPost = coachingPost;
+	}
+
+
 
 	public String getTitle() {
 		return title;
@@ -33,13 +48,7 @@ public class CoachingPost implements Serializable {
 		this.body = body;
 	}
 
-	public String getPrivacy() {
-		return privacy;
-	}
-
-	public void setPrivacy(String privacy) {
-		this.privacy = privacy;
-	}
+	
 
 	public String getTags() {
 		return tags;
@@ -57,13 +66,43 @@ public class CoachingPost implements Serializable {
 		this.category = category;
 	}
 
-	public String getNotify() {
+
+
+	public boolean isAnonymous() {
+		return anonymous;
+	}
+
+
+
+	public void setAnonymous(boolean anonymous) {
+		this.anonymous = anonymous;
+	}
+
+
+
+	public boolean isPrivacy() {
+		return privacy;
+	}
+
+
+
+	public void setPrivacy(boolean privacy) {
+		this.privacy = privacy;
+	}
+
+
+
+	public boolean isNotify() {
 		return notify;
 	}
 
-	public void setNotify(String notify) {
+
+
+	public void setNotify(boolean notify) {
 		this.notify = notify;
 	}
+
+	
 	
 	
 

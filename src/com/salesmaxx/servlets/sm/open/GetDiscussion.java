@@ -35,7 +35,11 @@ public class GetDiscussion extends HttpServlet {
 		Key key = KeyFactory.stringToKey(webKey);
 		DiscussionController c = new DiscussionController();
 		Discussion d = c.findDiscussion(key);
-		User u = new UserController().findUser(d.getOwner());
+		User u = null;
+		if(d.getOwner()!=null) {
+			u = new UserController().findUser(d.getOwner());
+		}
+				
 		sdpb = Util.discussionToSDPB(d, u);
 			
 		
