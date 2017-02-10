@@ -22,8 +22,6 @@
 <link rel="stylesheet" type="text/css" href="/style/main-style.css">
 <link rel="stylesheet" type="text/css"
 	href="/style/font-awesome.min.css">
-<link rel="stylesheet" type="text/css" href="/style/slick.css" />
-<link rel="stylesheet" type="text/css" href="/style/slick-theme.css" />
 <script src="https://apis.google.com/js/platform.js" async defer></script>
 <meta name="google-signin-client_id"
 	content="1082599418027-i7l89ubpe432n7lfiu9jus3cc0a99vqs.apps.googleusercontent.com">
@@ -72,6 +70,19 @@
 		s.src = 'https://salesiq.zoho.com/profiliantngr/float.ls?embedname=speaktoaconsultant';
 		t = d.getElementsByTagName('script')[0];
 		t.parentNode.insertBefore(s, t);
+	</script>
+	<script type="text/javascript">
+		$(document).ready(function() {
+			$("#add-new").click(function(e) {
+				
+				$("#more-delegate-form").slideDown("slow", function() {
+					$("#cancel").click(function(e) {
+						e.preventDefault();
+						$("#more-delegate-form").slideUp();
+					});
+				});
+			});
+		});
 	</script>
 
 </body>

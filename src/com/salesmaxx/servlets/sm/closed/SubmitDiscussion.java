@@ -130,7 +130,7 @@ public class SubmitDiscussion extends HttpServlet {
 					+ u.getFirstName()
 					+ "</p><p>Your coaching request has been recieved. One of our coaches will contact you shortly.</p><p>Warm Regards<br>SalesMaxx Admin</p>";
 
-			resp.sendRedirect("/sm/close/coaching/request-success");
+			
 			try {
 				Util.sendEmail(from, to, title, body);
 				Util.sendEmail(from, toUser, userTitle, userBody);
@@ -141,14 +141,16 @@ public class SubmitDiscussion extends HttpServlet {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
-		} else {
+		}
+		resp.sendRedirect("/sm/open/coaching/success");
+		/*else {
 			SingleDiscussionPageBean sdpb = Util.discussionToSDPB(d, u);
 			synchronized (session) {
 				session.setAttribute("singleDiscussionPageBean", sdpb);
 			}
 			resp.sendRedirect("/coaching/discussion?web-key="
 					+ sdpb.getWebkey());
-		}
+		}*/
 
 	}
 }

@@ -60,6 +60,7 @@
 	text-align: center;
 }
 </style>
+<script type="text/javascript" src="https://cdn.ywxi.net/js/1.js" async></script>
 </head>
 <body style="overflow-x: hidden">
 
@@ -896,23 +897,7 @@
 	<script type="text/javascript" src="/js/modules.js"></script>
 	<script type="text/javascript" src="/js/index.js"></script>
 	<script type="text/javascript" src="/js/validate.js"></script>
-	<script type='text/javascript'>
-		var $zoho = $zoho || {
-			salesiq : {
-				values : {},
-				ready : function() {
-					$zoho.salesiq.floatbutton.visible('hide');
-				}
-			}
-		};
-		var d = document;
-		s = d.createElement('script');
-		s.type = 'text/javascript';
-		s.defer = true;
-		s.src = 'https://salesiq.zoho.com/profiliantngr/float.ls?embedname=speaktoaconsultant';
-		t = d.getElementsByTagName('script')[0];
-		t.parentNode.insertBefore(s, t);
-	</script>
+	
 	<script type="text/javascript">
 		$(document).ready(function() {
 			$(".main-menu-item").removeClass("active");

@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.Transaction;
 import com.salesmaxx.persistence.controllers.EMF;
 
 public class WorkshopDelegate implements Serializable {
@@ -86,6 +87,13 @@ public class WorkshopDelegate implements Serializable {
 		e.setUnindexedProperty("firstName", firstName);
 		e.setUnindexedProperty("lastName", lastName);
 		return e;
+	}
+	public void persist() {
+		Transaction txn = EMF.getDs().beginTransaction();
+		EMF.getDs().put(toEntity());
+		txn.commitAsync();
+		
+		
 	}
 	
 	

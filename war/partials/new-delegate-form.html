@@ -1,0 +1,31 @@
+<form action="/sm/closed/profile/my-workshops/delegates/new"
+	method="post">
+	<input type="hidden" value="" name="workshop-key"> <input
+		type="hidden" value="" name="owner-key">
+	<div class="row ">
+		<div class="col-md-6 form-group">
+			<label for="first-name">First Name *</label> <input
+				class="form-control" name="first-name" id="first-name" value="${firstName}">
+		</div>
+		<div class="col-md-6 form-group">
+			<label for="last-name">Last Name *</label> <input
+				class="form-control" name="last-name" id="last-name" >
+		</div>
+	</div>
+	<div class="row ">
+		<div class="col-md-6 form-group">
+			<label for="tel">Phone</label> <input class="form-control"
+				name="phone" id="tel" type="tel">
+		</div>
+		<div class="col-md-6 form-group">
+			<label for="email">Email</label> <input class="form-control"
+				name="email" id="email">
+		</div>
+	</div>
+	<div class="row">
+		<div class="col-md-12 form-group">
+			<input type="submit" value="Add Delegates" class="btn btn-primary" />
+			<a id="cancel" href="/sm/closed/profile/my-workshops" class="btn btn-default">Cancel</a>
+		</div>
+	</div>
+</form>

@@ -30,9 +30,10 @@
 			<div style="font-family: cambria; padding: 2%; color: white">
 				<a class="a-btn"
 					href="<c:url value='/sm/open/view-all-discussion?category=Interview Coaching' />"
-					style="padding-right: 2%; color: white">View discussions</a> <a class="a-btn"
-					style="color: white"
-					href="<c:url value='/sm/open/start-discussion?category=Interview Coaching' />">Initiate Coaching</a>
+					style="padding-right: 2%; color: white">View discussions</a> <a
+					class="a-btn" style="color: white"
+					href="<c:url value='/sm/open/start-discussion?question=What Kind of coaching do you need%3F&answer=Interview' />">Initiate
+					Coaching</a>
 			</div>
 		</div>
 	</div>
@@ -52,9 +53,10 @@
 			<div style="font-family: cambria; padding: 0% 2%; color: white">
 				<a class="a-btn"
 					href="<c:url value='/sm/open/view-all-discussion?category=Sales Performance Coaching' />"
-					style="padding-right: 2%; color: white">View discussions</a> <a class="a-btn"
-					style="color: white"
-					href="<c:url value='/sm/open/start-discussion?category=Sales Performance Coaching' />">Initiate Coaching</a>
+					style="padding-right: 2%; color: white">View discussions</a> <a
+					class="a-btn" style="color: white"
+					href="<c:url value='/sm/open/start-discussion?question=What Kind of coaching do you need%3F&answer=Sales Performance' />">Initiate
+					Coaching</a>
 			</div>
 		</div>
 	</div>
@@ -74,9 +76,10 @@
 			<div style="font-family: cambria; padding: 2%; color: white">
 				<a class="a-btn"
 					href="<c:url value='/sm/open/view-all-discussion?category=Sales Management and Leadership' />"
-					style="padding-right: 2%; color: white">View discussions</a> <a class="a-btn"
-					style="color: white"
-					href="<c:url value='/sm/open/start-discussion?category=Sales Management and Leadership' />">Initiate Coaching</a>
+					style="padding-right: 2%; color: white">View discussions</a> <a
+					class="a-btn" style="color: white"
+					href="<c:url value='/sm/open/start-discussion?question=What Kind of coaching do you need%3F&answer=Sales Management' />">Initiate
+					Coaching</a>
 			</div>
 		</div>
 	</div>
@@ -95,27 +98,27 @@
 					<div class="panel panel-default"
 						style="text-align: left; margin-top: 1%; height: 200px; background-color: white">
 						<div class="panel-body">
-						<h4>
-							<a
-								href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}"><strong>${item.topic}</strong></a>
-						</h4>
-						<div style="color: 	#983b59">
-							<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
-								${item.timePosted} </span> <span style="margin-right: 2%"><i
-								class="fa fa-comments"></i> ${item.nComments} </span> <span
-								style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
-								${item.votes} </span>
-						</div>
-						<div
-							style="height: 100px; padding-bottom: 10px; overflow: hidden;">
-							<p>${item.snippet}</p>
+							<h4>
+								<a
+									href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}"><strong>${item.topic}</strong></a>
+							</h4>
+							<div style="color: #983b59">
+								<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
+									${item.timePosted} </span> <span style="margin-right: 2%"><i
+									class="fa fa-comments"></i> ${item.nComments} </span> <span
+									style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
+									${item.votes} </span>
+							</div>
+							<div
+								style="height: 100px; padding-bottom: 10px; overflow: hidden;">
+								<p>${item.snippet}</p>
 
-						</div>
-						<p>
-							<a
-								href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}">Read
-								More</a>
-						</p>
+							</div>
+							<p>
+								<a
+									href="/sm/open/get-discussion?webkey=${item.webkey}&category=${item.category}">Read
+									More</a>
+							</p>
 
 						</div>
 					</div>

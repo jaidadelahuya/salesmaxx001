@@ -28,11 +28,14 @@ public class ViewWorkshopDelegates extends HttpServlet {
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String id = req.getParameter("id");
+		String oid = req.getParameter("oid");
 		HttpSession session = req.getSession();
 		Object o = null;
 		Object o1 = null;
 
 		synchronized (session) {
+			session.removeAttribute("error");
+			session.removeAttribute("success");
 			o = session.getAttribute("myWorkshopsBean");
 			o1 = session.getAttribute("user");
 		}

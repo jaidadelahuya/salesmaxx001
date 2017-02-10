@@ -38,11 +38,11 @@
 			<div class="col-md-3" style="padding: 0">
 				<div style="position: relative;">
 					<div style="position: relative;">
-					<iframe src="/images/zoho-campaign/index.html" width="310"
-						height="255" scrolling="no" frameBorder='0'></iframe>
-					<a href="/sm/open/sales-and-marketing-automation#campaigns"
-						style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
-				</div>
+						<iframe src="/images/zoho-campaign/index.html" width="310"
+							height="255" scrolling="no" frameBorder='0'></iframe>
+						<a href="/sm/open/sales-and-marketing-automation#campaigns"
+							style="position: absolute; top: 0; left: 0; display: inline-block; width: 336px; height: 280px; z-index: 5;"></a>
+					</div>
 				</div>
 				<div class="discussion-sidebar">
 					<h4>Coaching Categories</h4>
@@ -50,16 +50,18 @@
 						<li><a
 							href="<c:url value='/sm/open/view-all-discussion?category=Interview Coaching'/>">Interview
 								Coaching</a></li>
-						<li><a
-							href="<c:url value='/sm/open/view-all-discussion?category=Excecutive Coaching'/>">Executive
-								Coaching</a></li>
+
 						<li><a
 							href="<c:url value='/sm/open/view-all-discussion?category=Sales Performance Coaching'/>">Sales
 								Performance Coaching</a></li>
+						<li><a
+							href="<c:url value='/sm/open/view-all-discussion?category=Excecutive Coaching'/>">Sales Management/Leadership</a></li>
 					</ul>
 				</div>
 				<div class="discussion-sidebar">
-					<h4><a href="/calendar">Workshops by Month</a></h4>
+					<h4>
+						<a href="/calendar">Workshops by Month</a>
+					</h4>
 					<span class="workshop-by-month"><a href="/calendar#jan">JAN</a></span>
 					<span class="workshop-by-month"><a href="/calendar#feb">FEB</a></span>
 					<span class="workshop-by-month"><a href="/calendar#mar">MAR</a></span>

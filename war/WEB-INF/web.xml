@@ -7,7 +7,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<session-config>
 		<session-timeout>1200</session-timeout>
 	</session-config>
-	
+
 	<servlet>
 		<servlet-name>ViewWorkshopDelegates</servlet-name>
 		<jsp-file>/WEB-INF/sm/closed/view-delegate.jsp</jsp-file>
@@ -16,7 +16,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ViewWorkshopDelegates</servlet-name>
 		<url-pattern>/sm/closed/profile/my-workshops/delegates/view</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>PrivateCoachingRequestSuccess</servlet-name>
 		<jsp-file>/WEB-INF/sm/closed/private-coach-request-success.jsp</jsp-file>
@@ -27,6 +27,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	</servlet-mapping>
 	
 	<servlet>
+		<servlet-name>AddDelegateServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.AddDelegates</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AddDelegateServlet</servlet-name>
+		<url-pattern>/sm/closed/profile/my-workshops/delegates/new</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>ViewWorkshopDelegatesServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.closed.ViewWorkshopDelegates</servlet-class>
 	</servlet>
@@ -34,7 +43,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ViewWorkshopDelegatesServlet</servlet-name>
 		<url-pattern>/sm/closed/profile/my-workshops/delegates</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CrazyServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.CrazyServlet</servlet-class>
@@ -42,8 +51,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>CrazyServlet</servlet-name>
 		<url-pattern>/sm/open/solution/crazy-servlet</url-pattern>
+		<url-pattern>/sm/open/start-discussion</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>WorkshopPreferenceResult</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.WorkshopPreferenceResult</servlet-class>
@@ -52,7 +62,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>WorkshopPreferenceResult</servlet-name>
 		<url-pattern>/sm/open/solution/workshop-preference-result</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>InitProspectPreference</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.InitProspectPreference</servlet-class>
@@ -79,7 +89,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>AdminExtendClass</servlet-name>
 		<url-pattern>/sm-admin/workshop/extend-class</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>NextProspectPreferenceServlet</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.NextCustomerPreferenceServlet</servlet-class>
@@ -153,7 +163,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/coaching/organization-question-2</url-pattern>
 	</servlet-mapping>
 
-	
+
 
 	<servlet>
 		<servlet-name>PersonalCoachingQuestion2</servlet-name>
@@ -180,7 +190,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>PersonalCoachingQuestion1</servlet-name>
 		<url-pattern>/sm/open/solutions/workshop/1</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingQuestion10</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-10.jsp</jsp-file>
@@ -189,7 +199,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingQuestion10</servlet-name>
 		<url-pattern>/sm/open/solutions/coaching/10</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingQuestion9</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-9.jsp</jsp-file>
@@ -198,7 +208,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingQuestion9</servlet-name>
 		<url-pattern>/sm/open/solutions/coaching/9</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingQuestion8</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-8.jsp</jsp-file>
@@ -207,7 +217,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingQuestion8</servlet-name>
 		<url-pattern>/sm/open/solutions/coaching/8</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingQuestion7</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-7.jsp</jsp-file>
@@ -216,7 +226,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingQuestion7</servlet-name>
 		<url-pattern>/sm/open/solutions/coaching/7</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingQuestion6</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-6.jsp</jsp-file>
@@ -225,9 +235,9 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingQuestion6</servlet-name>
 		<url-pattern>/sm/open/solutions/coaching/6</url-pattern>
 	</servlet-mapping>
-	
-	
-	
+
+
+
 	<servlet>
 		<servlet-name>CoachingQuestion5</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-5.jsp</jsp-file>
@@ -299,7 +309,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/ss</url-pattern>
 	</servlet-mapping>
 
-	
+
 
 	<servlet>
 		<servlet-name>GetChequePayment</servlet-name>
@@ -1037,14 +1047,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<url-pattern>/sm/open/social-media-login</url-pattern>
 	</servlet-mapping>
 
-	<servlet>
-		<servlet-name>StartDiscussion</servlet-name>
-		<servlet-class>com.salesmaxx.servlets.sm.open.StartDiscussion</servlet-class>
-	</servlet>
-	<servlet-mapping>
-		<servlet-name>StartDiscussion</servlet-name>
-		<url-pattern>/sm/open/start-discussion</url-pattern>
-	</servlet-mapping>
+
 
 	<servlet>
 		<servlet-name>LoginReload</servlet-name>
@@ -1125,7 +1128,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>ForgotPasswordInit</servlet-name>
 		<url-pattern>/sm/open/i/forgot/password</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>PreferenceResult</servlet-name>
 		<jsp-file>/WEB-INF/preference-result.jsp</jsp-file>
@@ -1264,7 +1267,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 
 	<!-- *********************JSPS*************************** -->
-	
+
 	<servlet>
 		<servlet-name>CoachingCategory</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/view-all-discussions.jsp</jsp-file>
@@ -1273,7 +1276,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingCategory</servlet-name>
 		<url-pattern>/coaching/view</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingQuestion4</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-4.jsp</jsp-file>
@@ -1291,7 +1294,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>CoachingQuestion3</servlet-name>
 		<url-pattern>/sm/open/solutions/coaching/3</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>CoachingQuestion2</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/coaching-question-2.jsp</jsp-file>
@@ -1425,6 +1428,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 
 
 	<servlet>
+		<servlet-name>CoachingResult</servlet-name>
+		<jsp-file>/WEB-INF/sm/open/coaching-result.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>CoachingResult</servlet-name>
+		<url-pattern>/sm/open/coaching/success</url-pattern>
+	</servlet-mapping>
+
+	<servlet>
 		<servlet-name>VerificationCode</servlet-name>
 		<jsp-file>/WEB-INF/sm/open/confirmation-code.jsp</jsp-file>
 	</servlet>
@@ -1465,7 +1477,7 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>Discussion</servlet-name>
 		<url-pattern>/sm/open/start-discussion-page</url-pattern>
 	</servlet-mapping>
-	
+
 	<servlet>
 		<servlet-name>ViewDiscussion</servlet-name>
 		<servlet-class>com.salesmaxx.servlets.sm.open.GetDiscussion1</servlet-class>
