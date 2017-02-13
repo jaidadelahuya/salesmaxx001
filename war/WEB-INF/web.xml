@@ -7,6 +7,24 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<session-config>
 		<session-timeout>1200</session-timeout>
 	</session-config>
+	
+	<servlet>
+		<servlet-name>AdminGetDelegates</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.admin.GetDelegate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminGetDelegates</servlet-name>
+		<url-pattern>/sm-admin/get-delegates</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>AdminViewDelegates</servlet-name>
+		<jsp-file>/WEB-INF/sm/view-delegate.jsp</jsp-file>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>AdminViewDelegates</servlet-name>
+		<url-pattern>/sm-admin/view-delegates</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>ViewWorkshopDelegates</servlet-name>

@@ -24,13 +24,16 @@
 							<strong>Workshop Date: </strong>
 							<c:out value='${x.startDate}' />
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<strong>City: </strong>
 							<c:out value='${x.location.state}' />
 						</div>
-						<div class="col-sm-4">
+						<div class="col-sm-3">
 							<strong>No of Seats Left: </strong>
 							<c:out value='${x.seatsLeft}' />
+						</div>
+						<div class="col-sm-2">
+							<a href="/sm-admin/get-delegates?id=${x.id}">view delegates</a>
 						</div>
 					</div>
 				</c:forEach>

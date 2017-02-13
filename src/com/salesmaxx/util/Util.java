@@ -78,6 +78,7 @@ import com.google.appengine.api.search.StatusCode;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+import com.salesmaxx.beans.AdminDelegateView;
 import com.salesmaxx.beans.CartItem;
 import com.salesmaxx.beans.CategoryDisplay;
 import com.salesmaxx.beans.ChequeInvoice;
@@ -2713,26 +2714,23 @@ public class Util {
 		Discussion d = new Discussion();
 		d.setBody(new Text(cp.getBody()));
 		d.setCategory(cp.getCategory());
-		if(!cp.isAnonymous() && u != null
-				){
+		if (!cp.isAnonymous() && u != null) {
 			d.setOwner(u.getRegId());
 		}
-		
+
 		d.setTimePosted(new Date());
 		List<String> emails = new ArrayList<>();
-		if (cp.isNotify()
-				| cp.isPrivacy()) {
+		if (cp.isNotify() | cp.isPrivacy()) {
 			emails.add(u.getUsername());
 			d.setEmailsToNotify(emails);
 		} else {
 			d.setEmailsToNotify(emails);
 		}
-		d.setPrivacy(cp.isPrivacy()?"private":"public");
+		d.setPrivacy(cp.isPrivacy() ? "private" : "public");
 		d.setTitle(cp.getTitle());
 		d.setView(new ArrayList<Key>());
 		d.setVotes(new ArrayList<Key>());
 		d.setComments(new ArrayList<Key>());
-		
 
 		return d;
 	}
@@ -2745,20 +2743,20 @@ public class Util {
 		if (comments != null) {
 			spdb.setComments(commentsKeyToCommentsBean(comments));
 		}
-		if(u==null) {
+		if (u == null) {
 			spdb.setOwnerName("Anonymous");
 			spdb.setOwnerImage("/images/unknown-user.jpg");
-		}else {
+		} else {
 			spdb.setOwnerImage(u.getPictureUrl());
 			spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
 		}
-		
+
 		// spdb.setTags(tags);
 		spdb.setTime(d.getTimePosted());
 		spdb.setTopic(d.getTitle());
 		spdb.setViews((d.getView() == null) ? 0 : d.getView().size());
 		spdb.setVotes((d.getVotes() == null) ? 0 : d.getVotes().size());
-		
+
 		if (d.getId() != null) {
 			spdb.setWebkey(KeyFactory.keyToString(d.getId()));
 		}
@@ -3783,10 +3781,10 @@ public class Util {
 			Discussion d = Util.entityToDiscussion(e);
 			Key k = d.getOwner();
 			User u = null;
-			if(k!=null) {
+			if (k != null) {
 				u = new UserController().findUser(k);
 			}
-	
+
 			SingleDiscussionPageBean b = Util.discussionToSDPB(d, u);
 			list.add(b);
 		}
@@ -3956,14 +3954,16 @@ public class Util {
 		Filter f2 = new com.google.appengine.api.datastore.Query.FilterPredicate(
 				"workshopKey", FilterOperator.EQUAL, workshopKey);
 		List<Filter> filters = new ArrayList<>();
-		filters.add(f1); filters.add(f2);
-		Filter f3 = new com.google.appengine.api.datastore.Query.CompositeFilter(CompositeFilterOperator.AND, filters);
+		filters.add(f1);
+		filters.add(f2);
+		Filter f3 = new com.google.appengine.api.datastore.Query.CompositeFilter(
+				CompositeFilterOperator.AND, filters);
 		q.setFilter(f3);
 		FetchOptions options = FetchOptions.Builder.withLimit(35);
 		PreparedQuery pq = EMF.getDs().prepare(q);
-		QueryResultList< Entity> qrl = pq.asQueryResultList(options);
+		QueryResultList<Entity> qrl = pq.asQueryResultList(options);
 		List<WorkshopDelegate> list = new ArrayList<>();
-		for(Entity e : qrl) {
+		for (Entity e : qrl) {
 			list.add(new WorkshopDelegate(e));
 		}
 		return list;
@@ -3972,28 +3972,30 @@ public class Util {
 	public static Discussion tagDiscussion(Map<String, String> map, Discussion d) {
 		String coachingType = map.get("What Kind of coaching do you need?");
 		List<String> questions = new ArrayList<>();
-		if(coachingType!=null) {
-			if(coachingType.equalsIgnoreCase("Interview")) {
+		if (coachingType != null) {
+			if (coachingType.equalsIgnoreCase("Interview")) {
 				d.setCategory("Interview Coaching");
 				questions.add("Which type of Interview Coaching do you need?");
 				questions.add("This is my");
 				questions.add("What will you be required to do?");
 				questions.add("Who will you be seeing?");
 				questions.add("Are you confirmed for another interview?");
-				
-			}else if(coachingType.equalsIgnoreCase("Sales Performance")) {
+
+			} else if (coachingType.equalsIgnoreCase("Sales Performance")) {
 				d.setCategory("Sales Performance Coaching");
-				
-				questions.add("Which type of Sales Performance Coaching do you need?");
-				
-			} else if(coachingType.equalsIgnoreCase("Sales Management")) {
+
+				questions
+						.add("Which type of Sales Performance Coaching do you need?");
+
+			} else if (coachingType.equalsIgnoreCase("Sales Management")) {
 				d.setCategory("Sales Management and Leadership");
-				questions.add("Which type of Sales Management/Leadership Coaching do you need?");
+				questions
+						.add("Which type of Sales Management/Leadership Coaching do you need?");
 			}
-			
-			List<Key> tags = getDiscussionTags(map,questions);
+
+			List<Key> tags = getDiscussionTags(map, questions);
 			d.setTags(tags);
-			
+
 			return d;
 		}
 		return null;
@@ -4002,13 +4004,65 @@ public class Util {
 	private static List<Key> getDiscussionTags(Map<String, String> map,
 			List<String> questions) {
 		List<Key> k = new ArrayList<>();
-		for(String s : questions) {
+		for (String s : questions) {
 			String ans = map.get(s);
-			if(Util.notNull(ans)) {
+			if (Util.notNull(ans)) {
 				Tag t = new Tag(ans);
 				k.add(t.getKey());
 			}
 		}
 		return k;
+	}
+
+	public static QueryResultList<Entity> getDelegatesForWorkshop(Key key) {
+		com.google.appengine.api.datastore.Query q = new com.google.appengine.api.datastore.Query(
+				WorkshopDelegate.class.getSimpleName());
+		Filter f = new com.google.appengine.api.datastore.Query.FilterPredicate("workshopKey", FilterOperator.EQUAL,key);
+		q.setFilter(f);
+		PreparedQuery pq = EMF.getDs().prepare(q);
+		FetchOptions options = FetchOptions.Builder.withLimit(40);
+		QueryResultList<Entity> ents = pq.asQueryResultList(options);
+		return ents;
+	}
+
+	public static List<AdminDelegateView> toAdminDelegateView(List<WorkshopDelegate> list) {
+		List<User> users = new ArrayList<>();
+		List<AdminDelegateView> uList = new ArrayList<>();
+		
+		for(WorkshopDelegate wd : list) {
+			Key k= wd.getOwnerKey();
+			User user = null;
+			for(User u : users) {
+				if(u.getRegId().equals(k)) {
+					user = u;
+					break;
+				}
+			}
+			
+			if(user==null) {
+				try {
+					Entity ent = EMF.getDs().get(k);
+					user = Util.toUser(ent);
+					users.add(user);
+					
+					
+				} catch (EntityNotFoundException e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+				
+			}
+			
+			AdminDelegateView adw = new AdminDelegateView();
+			adw.setDelegateName(wd.getFirstName()+" "+wd.getLastName());
+			adw.setEmail(wd.getEmail());
+			//adw.setOrganization(organization);
+			adw.setPhone(wd.getPhone());
+			adw.setRegistrar(user.getFirstName()+" "+user.getLastName());
+			
+			uList.add(adw);
+			
+		}
+		return uList;
 	}
 }
