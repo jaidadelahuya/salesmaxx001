@@ -13,8 +13,9 @@
 				<span style="margin-right: 2%"><i class="fa fa-clock-o"></i>
 					${singleDiscussionPageBean.timePosted} </span> <span
 					style="margin-right: 2%"><i class="fa fa-comments"></i>
-					${singleDiscussionPageBean.nComments} </span> <span style="margin-right: 2%"><i
-					class="fa fa-thumbs-up"></i> ${singleDiscussionPageBean.votes} </span>
+					${singleDiscussionPageBean.nComments} </span> <span
+					style="margin-right: 2%"><i class="fa fa-thumbs-up"></i>
+					${singleDiscussionPageBean.votes} </span>
 			</div>
 			<div class="col-sm-6" style="text-align: right; font-weight: bold">
 				by
@@ -75,6 +76,10 @@
 							style="padding-bottom: 4px; margin-bottom: 2px">${item.body}</div>
 						<div class="panel-body"
 							style="margin-top: 0px; padding-top: 0px; font-family: calibri; font-size: 11pt; color: #983b59">
+							<a class="btn" href="/sm/open/vote-comment?id=${item.webkey}&type=up">UpVote
+							</a>
+							<a class="btn" href="/sm/open/vote-comment?id=${item.webkey}&type=down">DownVote
+							</a>
 							<fmt:formatDate type="date" dateStyle="long" timeStyle="long"
 								value="${item.time}" />
 							by<strong> ${item.ownerName}</strong>
@@ -89,20 +94,20 @@
 				</div>
 			</div>
 			<div style="overflow: auto; margin: 1px">
-			<form id="post-comment-form" method="post"
-				action="<c:url value='/sm/closed/post-comment'/>">
-				<input type="hidden" value="${singleDiscussionPageBean.webkey}"
-					name="webkey">
-				<textarea rows="5 cols=" " name="comment"
-					class="post-comment-textarea" id="comment-msg"
-					style="float: left; padding: 1%; width: 100%; margin-top: 2%;"
-					placeholder="Write a comment..."></textarea>
-				<span style="font-family: calibri; font-size: 0.85em"
-					class="form-group">
-					<button type="submit" id="post-comment-btn" style="margin: 2px;"
-						class="btn btn-xs btn-info pull-right">Post comment</button>
-				</span>
-			</form>
+				<form id="post-comment-form" method="post"
+					action="<c:url value='/sm/closed/post-comment'/>">
+					<input type="hidden" value="${singleDiscussionPageBean.webkey}"
+						name="webkey">
+					<textarea rows="5 cols=" " name="comment"
+						class="post-comment-textarea" id="comment-msg"
+						style="float: left; padding: 1%; width: 100%; margin-top: 2%;"
+						placeholder="Write a comment..."></textarea>
+					<span style="font-family: calibri; font-size: 0.85em"
+						class="form-group">
+						<button type="submit" id="post-comment-btn" style="margin: 2px;"
+							class="btn btn-xs btn-info pull-right">Post comment</button>
+					</span>
+				</form>
 			</div>
 		</div>
 	</div>

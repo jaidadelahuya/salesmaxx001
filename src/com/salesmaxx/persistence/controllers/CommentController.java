@@ -7,6 +7,7 @@ import java.util.Set;
 
 import com.google.appengine.api.datastore.DatastoreService;
 import com.google.appengine.api.datastore.Entity;
+import com.google.appengine.api.datastore.EntityNotFoundException;
 import com.google.appengine.api.datastore.Key;
 import com.google.appengine.api.datastore.Transaction;
 import com.salesmaxx.entities.Comment;
@@ -30,5 +31,16 @@ public class CommentController {
 			return m;
 		}
 
+	}
+
+	public Comment findComment(Key key) {
+		try {
+			Entity e = ds.get(key);
+			return Util.entityToComment(e);
+		} catch (EntityNotFoundException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return null;
 	}
 }

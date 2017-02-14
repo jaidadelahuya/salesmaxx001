@@ -98,7 +98,7 @@
 				<li class="main-menu-item" id="calendar-menu"><a style="padding-bottom: 5px" href="/calendar">Calendar</a></li>
 				<li class="main-menu-item" id="coaching-menu"><a style="padding-bottom: 5px" href="/coaching">Coaching</a></li>
 				<li class="main-menu-item" id="about-menu"><a style="padding-bottom: 5px" href="/about">About Us</a></li>
-				<li class="main-menu-item" id="reading-list"><a style="padding-bottom: 5px" href="/readinglist">Reading List</a></li>
+				<li class="main-menu-item" id="reading-list"><a target="_blank" style="padding-bottom: 5px" href="http://astore.amazon.com/salesmaxx-20">Reading List</a></li>
 				<li class="main-menu-item" id="contact-menu"><a style="padding-bottom: 5px" href="/contact">Contact Us</a></li>
 				
 

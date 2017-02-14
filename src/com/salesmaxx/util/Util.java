@@ -2780,6 +2780,8 @@ public class Util {
 		Map<Key, User> map = new UserController().findUsers(userKeys);
 		for (Comment c : mp) {
 			CommentBean cb = new CommentBean();
+			cb.setUpVoters(asListOfString(c.getUpvote()));
+			cb.setDownVoters(asListOfString(c.getDownVote()));
 			cb.setBody(c.getBody().getValue());
 			cb.setComments(Util.commentsKeyToCommentsBean(c.getComments()));
 			if (c.getLikers() == null) {
@@ -2795,6 +2797,14 @@ public class Util {
 			l.add(cb);
 		}
 		return l;
+	}
+
+	private static List<String> asListOfString(List<Key> upvote) {
+		List<String> list = new ArrayList<>();
+		for(Key k: upvote) {
+			list.add(KeyFactory.keyToString(k));
+		}
+		return list;
 	}
 
 	public static List<SingleDiscussionPageBean> discussionToSDPB(
@@ -4064,5 +4074,30 @@ public class Util {
 			
 		}
 		return uList;
+	}
+
+	public static Comment toComment(CommentBean cb) {
+		Comment comment = new Comment();
+		comment.setId(KeyFactory.stringToKey(cb.getWebkey()));
+		comment.setComments(asListOfKeysfromCommentBean(cb.getComments()));
+		comment.setDownVote(asListOfKeys(cb.getDownVoters()));
+		//comment.setLikers(cb.get);
+		return null;
+	}
+
+	private static List<Key> asListOfKeys(List<String> downVoters) {
+		List<Key> keys = new ArrayList<>();
+		for(String s : downVoters) {
+			keys.add(KeyFactory.stringToKey(s));
+		}
+		return keys;
+	}
+
+	private static List<Key> asListOfKeysfromCommentBean(List<CommentBean> comments) {
+		List<Key> keys = new ArrayList<>();
+		for(CommentBean cb : comments) {
+			keys.add(KeyFactory.stringToKey(cb.getWebkey()));
+		}
+		return keys;
 	}
 }
