@@ -16,27 +16,30 @@ public class CommentBean implements Serializable {
 	private Date time;
 	private List<CommentBean> comments;
 	private String webkey;
-	private List<String> upVoters, downVoters;
+	private int upVotes, downVotes;
 	
 
 
-	public List<String> getUpVoters() {
-		return upVoters;
+	
+
+
+	public int getUpVotes() {
+		return upVotes;
 	}
 
 
-	public void setUpVoters(List<String> upVoters) {
-		this.upVoters = upVoters;
+	public void setUpVotes(int upVotes) {
+		this.upVotes = upVotes;
 	}
 
 
-	public List<String> getDownVoters() {
-		return downVoters;
+	public int getDownVotes() {
+		return downVotes;
 	}
 
 
-	public void setDownVoters(List<String> downVoters) {
-		this.downVoters = downVoters;
+	public void setDownVotes(int downVotes) {
+		this.downVotes = downVotes;
 	}
 
 

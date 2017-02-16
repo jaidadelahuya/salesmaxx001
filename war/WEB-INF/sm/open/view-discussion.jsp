@@ -51,6 +51,11 @@
 	box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2);
 	transition: 0.3s;
 }
+.vote {
+	color: #983b59;
+	padding: 4px;
+	width: 75px;
+}
 </style>
 </head>
 <body>
@@ -111,6 +116,30 @@
 			$("#tools-menu").addClass("active");
 			tinymce.init({
 				selector : '#comment-msg'
+			});
+			
+			$(".vote").click(function(e) {
+				
+				var me = $(this);
+				var z = me.find("span")
+				var par = me.closest("span");
+				var x = par.find(".key").val();
+				var y = par.find(".type").val();
+				e.preventDefault();
+				$.ajax({
+					url : "/sm/closed/vote-comment",
+					dataType : "json",
+					data : {
+						"id" : x,
+						"type" : y
+					},
+					success : function(data) {
+						z.text(data)
+					},
+					error : function(xhr) {
+						alert(xhr.statusText);
+					}
+				});
 			});
 		});
 	</script>

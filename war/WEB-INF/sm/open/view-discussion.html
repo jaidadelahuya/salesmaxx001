@@ -1,7 +1,7 @@
 <div class="col-md-9">
 	<div class="panel panel-default">
 		<div class="panel-heading"
-			style="background-color: #3b5998; color: white;">
+			style="background-color: #627aac; color: white;">
 			<h2>
 				<strong><c:out value="${singleDiscussionPageBean.topic}" /></strong>
 			</h2>
@@ -64,7 +64,7 @@
 			<c:if test="${fn:length(singleDiscussionPageBean.comments) > 0}">
 				<div style="overflow: auto;">
 					<div
-						style="background-color: #3b5998; color: white; padding: 0.25em; padding-left: 2%; border-left: 3px solid red">
+						style="background-color: #627aac; color: white; padding: 0.25em; padding-left: 2%; border-left: 3px solid red">
 						<h4>Comments</h4>
 					</div>
 				</div>
@@ -76,20 +76,22 @@
 							style="padding-bottom: 4px; margin-bottom: 2px">${item.body}</div>
 						<div class="panel-body"
 							style="margin-top: 0px; padding-top: 0px; font-family: calibri; font-size: 11pt; color: #983b59">
-							<a class="btn" href="/sm/open/vote-comment?id=${item.webkey}&type=up">UpVote
-							</a>
-							<a class="btn" href="/sm/open/vote-comment?id=${item.webkey}&type=down">DownVote
-							</a>
+							
 							<fmt:formatDate type="date" dateStyle="long" timeStyle="long"
 								value="${item.time}" />
 							by<strong> ${item.ownerName}</strong>
+							<c:if test="${not empty user}">
+							<span style="margin-left: 2%"><input value="${item.webkey}" type="hidden" class="key" /><input value="up" type="hidden" class="type" /><button class="btn btn-default vote" ><i class="fa fa-thumbs-up"></i> | <span><c:out value='${item.upVotes}' /></span>
+							</button></span>
+							<span><input value="${item.webkey}" type="hidden" class="key" /><input value="down" type="hidden" class="type" /><button class="btn btn-default vote" href="/sm/open/vote-comment?id=${item.webkey}&type=down"><i class="fa fa-thumbs-down"></i> | <span><c:out value='${item.downVotes}' /></span>
+							</button></span></c:if>
 						</div>
 					</div>
 				</c:forEach>
 			</c:if>
 			<div style="overflow: auto;">
 				<div
-					style="background-color: #3b5998; color: white; padding: 0.25em; padding-left: 2%; border-left: 3px solid red">
+					style="background-color: #627aac; color: white; padding: 0.25em; padding-left: 2%; border-left: 3px solid red">
 					<h4>Write a Comment</h4>
 				</div>
 			</div>

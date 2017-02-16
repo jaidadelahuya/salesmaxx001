@@ -13,7 +13,14 @@ public class Vote implements Serializable {
 	private static final long serialVersionUID = -4412298186631842414L;
 	
 	private String type;
-	private Key voter, id;
+	private Key voter, id, commentKey;
+	public Key getCommentKey() {
+		return commentKey;
+	}
+	public void setCommentKey(Key commentKey) {
+		this.commentKey = commentKey;
+	}
+
 	private Date date;
 	
 	
@@ -57,12 +64,14 @@ public class Vote implements Serializable {
 		id = e.getKey();
 		type = (String) e.getProperty("type");
 		voter = (Key) e.getProperty("voter");
+		commentKey = (Key) e.getProperty("commentKey");
 	}
 	
 	public Entity toEntity() {
 		Entity e = new Entity(id);
 		e.setIndexedProperty("voter", voter);
 		e.setIndexedProperty("type", type);
+		e.setIndexedProperty("commentKey", commentKey);
 		return e;
 	}
 

@@ -18,24 +18,10 @@ public class Comment implements Serializable {
 	private Text body;
 	private Key owner;
 	List<Key> likers;
-	List<Key> comments, upvote, downVote;
+	List<Key> comments;
 	
 	private Key id;
 	
-	
-	
-	public List<Key> getUpvote() {
-		return upvote;
-	}
-	public void setUpvote(List<Key> upvote) {
-		this.upvote = upvote;
-	}
-	public List<Key> getDownVote() {
-		return downVote;
-	}
-	public void setDownVote(List<Key> downVote) {
-		this.downVote = downVote;
-	}
 	public Key getId() {
 		return id;
 	}

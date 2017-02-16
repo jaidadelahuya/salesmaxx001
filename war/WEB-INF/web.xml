@@ -1093,6 +1093,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 		<servlet-name>NewsLetterSubscription</servlet-name>
 		<url-pattern>/sm/open/newsletter-subscription</url-pattern>
 	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>VoteComment</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.VoteComment</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>VoteComment</servlet-name>
+		<url-pattern>/sm/closed/vote-comment</url-pattern>
+	</servlet-mapping>
 
 	<servlet>
 		<servlet-name>GetDiscussion</servlet-name>

@@ -136,6 +136,7 @@ import com.salesmaxx.entities.User;
 import com.salesmaxx.entities.UserGeneralInfo;
 import com.salesmaxx.entities.UserRole;
 import com.salesmaxx.entities.Video;
+import com.salesmaxx.entities.Vote;
 import com.salesmaxx.entities.WhitePaper;
 import com.salesmaxx.entities.WorkShop;
 import com.salesmaxx.entities.WorkshopDelegate;
@@ -2780,8 +2781,10 @@ public class Util {
 		Map<Key, User> map = new UserController().findUsers(userKeys);
 		for (Comment c : mp) {
 			CommentBean cb = new CommentBean();
-			cb.setUpVoters(asListOfString(c.getUpvote()));
-			cb.setDownVoters(asListOfString(c.getDownVote()));
+			List<Entity> upVotes = Util.getVotes(c.getId(), "up");
+			List<Entity> downVotes = Util.getVotes(c.getId(), "down");
+			cb.setUpVotes((upVotes == null) ? 0 : upVotes.size());
+			cb.setDownVotes((downVotes == null) ? 0 : downVotes.size());
 			cb.setBody(c.getBody().getValue());
 			cb.setComments(Util.commentsKeyToCommentsBean(c.getComments()));
 			if (c.getLikers() == null) {
@@ -2799,11 +2802,31 @@ public class Util {
 		return l;
 	}
 
-	private static List<String> asListOfString(List<Key> upvote) {
-		List<String> list = new ArrayList<>();
-		for(Key k: upvote) {
-			list.add(KeyFactory.keyToString(k));
+	private static List<Entity> getVotes(Key commentKey, String type) {
+		com.google.appengine.api.datastore.Query q = new com.google.appengine.api.datastore.Query(
+				Vote.class.getSimpleName());
+		Filter f1 = new com.google.appengine.api.datastore.Query.FilterPredicate(
+				"commentKey", FilterOperator.EQUAL, commentKey);
+		Filter f2 = new com.google.appengine.api.datastore.Query.FilterPredicate(
+				"type", FilterOperator.EQUAL, type);
+		Filter f3 = new com.google.appengine.api.datastore.Query.CompositeFilter(
+				CompositeFilterOperator.AND, Arrays.asList(f1, f2));
+		q.setKeysOnly();
+		q.setFilter(f3);
+		FetchOptions options = FetchOptions.Builder.withLimit(1000);
+		QueryResultList<Entity> qrl = EMF.getDs().prepare(q).asQueryResultList(options);
+		List<Entity> list = new ArrayList<>();
+		list.addAll(qrl);
+		while(qrl.getCursor()!=null) {
+			if(qrl.size() < 1000) {
+				break;
+			}
+			options.startCursor(qrl.getCursor());
+			qrl = EMF.getDs().prepare(q).asQueryResultList(options);
+			list.addAll(qrl);
 		}
+		
+
 		return list;
 	}
 
@@ -2812,7 +2835,7 @@ public class Util {
 		List<SingleDiscussionPageBean> list = new ArrayList<>();
 		List<Key> keys = new ArrayList<Key>();
 		for (Discussion d : dis) {
-			if (!keys.contains(d.getOwner())) {
+			if (!keys.contains(d.getOwner())&& d.getOwner()!=null) {
 				keys.add(d.getOwner());
 			}
 		}
@@ -2825,13 +2848,20 @@ public class Util {
 			spdb.setBody(d.getBody().getValue());
 			spdb.setCategory(d.getCategory());
 			spdb.setComments(Util.commentsKeyToCommentsBean(d.getComments()));
-			spdb.setOwnerImage(u.getPictureUrl());
+			if(u==null) {
+				spdb.setOwnerImage("/images/unknown-user.jpg");
+				spdb.setOwnerName("Anonymous");
+			}else {
+				spdb.setOwnerImage(u.getPictureUrl());
+				spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
+			}
+			
 			// spdb.setTags(tags);
 			spdb.setTime(d.getTimePosted());
 			spdb.setTopic(d.getTitle());
 			spdb.setViews((d.getView() == null) ? 0 : d.getView().size());
 			spdb.setVotes((d.getVotes() == null) ? 0 : d.getVotes().size());
-			spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
+			
 			list.add(spdb);
 		}
 
@@ -4027,7 +4057,8 @@ public class Util {
 	public static QueryResultList<Entity> getDelegatesForWorkshop(Key key) {
 		com.google.appengine.api.datastore.Query q = new com.google.appengine.api.datastore.Query(
 				WorkshopDelegate.class.getSimpleName());
-		Filter f = new com.google.appengine.api.datastore.Query.FilterPredicate("workshopKey", FilterOperator.EQUAL,key);
+		Filter f = new com.google.appengine.api.datastore.Query.FilterPredicate(
+				"workshopKey", FilterOperator.EQUAL, key);
 		q.setFilter(f);
 		PreparedQuery pq = EMF.getDs().prepare(q);
 		FetchOptions options = FetchOptions.Builder.withLimit(40);
@@ -4035,69 +4066,66 @@ public class Util {
 		return ents;
 	}
 
-	public static List<AdminDelegateView> toAdminDelegateView(List<WorkshopDelegate> list) {
+	public static List<AdminDelegateView> toAdminDelegateView(
+			List<WorkshopDelegate> list) {
 		List<User> users = new ArrayList<>();
 		List<AdminDelegateView> uList = new ArrayList<>();
-		
-		for(WorkshopDelegate wd : list) {
-			Key k= wd.getOwnerKey();
+
+		for (WorkshopDelegate wd : list) {
+			Key k = wd.getOwnerKey();
 			User user = null;
-			for(User u : users) {
-				if(u.getRegId().equals(k)) {
+			for (User u : users) {
+				if (u.getRegId().equals(k)) {
 					user = u;
 					break;
 				}
 			}
-			
-			if(user==null) {
+
+			if (user == null) {
 				try {
 					Entity ent = EMF.getDs().get(k);
 					user = Util.toUser(ent);
 					users.add(user);
-					
-					
+
 				} catch (EntityNotFoundException e) {
 					// TODO Auto-generated catch block
 					e.printStackTrace();
 				}
-				
+
 			}
-			
+
 			AdminDelegateView adw = new AdminDelegateView();
-			adw.setDelegateName(wd.getFirstName()+" "+wd.getLastName());
+			adw.setDelegateName(wd.getFirstName() + " " + wd.getLastName());
 			adw.setEmail(wd.getEmail());
-			//adw.setOrganization(organization);
+			// adw.setOrganization(organization);
 			adw.setPhone(wd.getPhone());
-			adw.setRegistrar(user.getFirstName()+" "+user.getLastName());
-			
+			adw.setRegistrar(user.getFirstName() + " " + user.getLastName());
+
 			uList.add(adw);
-			
+
 		}
 		return uList;
 	}
 
-	public static Comment toComment(CommentBean cb) {
-		Comment comment = new Comment();
-		comment.setId(KeyFactory.stringToKey(cb.getWebkey()));
-		comment.setComments(asListOfKeysfromCommentBean(cb.getComments()));
-		comment.setDownVote(asListOfKeys(cb.getDownVoters()));
-		//comment.setLikers(cb.get);
-		return null;
-	}
-
-	private static List<Key> asListOfKeys(List<String> downVoters) {
-		List<Key> keys = new ArrayList<>();
-		for(String s : downVoters) {
-			keys.add(KeyFactory.stringToKey(s));
+	public static boolean checkVotingStatus(User u, CommentBean cb) {
+		com.google.appengine.api.datastore.Query q = new com.google.appengine.api.datastore.Query(
+				Vote.class.getSimpleName());
+		q.setKeysOnly();
+		Key key = KeyFactory.stringToKey(cb.getWebkey());
+		Filter f = new com.google.appengine.api.datastore.Query.FilterPredicate(
+				"voter", FilterOperator.EQUAL, u.getRegId());
+		Filter f2 = new com.google.appengine.api.datastore.Query.FilterPredicate(
+				"commentKey", FilterOperator.EQUAL, key);
+		Filter f3 = new com.google.appengine.api.datastore.Query.CompositeFilter(
+				CompositeFilterOperator.AND, Arrays.asList(f, f2));
+		q.setFilter(f3);
+		QueryResultList<Entity> qrl = EMF.getDs().prepare(q)
+				.asQueryResultList(FetchOptions.Builder.withDefaults());
+		if (qrl.isEmpty()) {
+			return false;
+		} else {
+			return true;
 		}
-		return keys;
-	}
 
-	private static List<Key> asListOfKeysfromCommentBean(List<CommentBean> comments) {
-		List<Key> keys = new ArrayList<>();
-		for(CommentBean cb : comments) {
-			keys.add(KeyFactory.stringToKey(cb.getWebkey()));
-		}
-		return keys;
 	}
 }

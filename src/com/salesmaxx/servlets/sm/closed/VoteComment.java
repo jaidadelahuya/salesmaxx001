@@ -11,12 +11,14 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.google.appengine.api.datastore.Transaction;
 import com.salesmaxx.beans.CommentBean;
 import com.salesmaxx.beans.SingleDiscussionPageBean;
 import com.salesmaxx.entities.Comment;
 import com.salesmaxx.entities.User;
 import com.salesmaxx.entities.Vote;
 import com.salesmaxx.persistence.controllers.CommentController;
+import com.salesmaxx.persistence.controllers.EMF;
 import com.salesmaxx.util.Util;
 
 public class VoteComment extends HttpServlet {
@@ -25,12 +27,13 @@ public class VoteComment extends HttpServlet {
 	 * 
 	 */
 	private static final long serialVersionUID = -7015095727817198817L;
+
 	@Override
 	protected void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String id = req.getParameter("id");
 		String type = req.getParameter("type");
-		
+
 		HttpSession session = req.getSession();
 		Object o = null;
 		Object o1 = null;
@@ -38,44 +41,43 @@ public class VoteComment extends HttpServlet {
 			o = session.getAttribute("user");
 			o1 = session.getAttribute("singleDiscussionPageBean");
 		}
-		
-		if(o!=null && o1!=null& Util.notNull(id,type)) {
+
+		if (o != null && o1 != null & Util.notNull(id, type)) {
 			User u = (User) o;
 			SingleDiscussionPageBean sdpb = (SingleDiscussionPageBean) o1;
 			List<CommentBean> list = sdpb.getComments();
-			for(CommentBean cb:list) {
-				if(cb.getWebkey().equals(id)) {
-					CommentController c = new CommentController();
-					Comment comm = c.findComment(KeyFactory.stringToKey(id));
-					
-					List<String> l = null;
-					if(id.equalsIgnoreCase("up")) {
-						l = (cb.getUpVoters()==null)?cb.getUpVoters():new ArrayList<String>();
-						if(l.contains(KeyFactory.keyToString(u.getRegId())) && !comm.getUpvote().contains(u.getRegId())) {
-							//send message
-						}else {
-							l.add(KeyFactory.keyToString(u.getRegId()));
-							comm.getUpvote().add(u.getRegId());
-						}
+			for (CommentBean cb : list) {
+				if (cb.getWebkey().equals(id)) {
+					boolean hasVoted = Util.checkVotingStatus(u, cb);
+					resp.setContentType("application/json");
+					if (hasVoted) {
+						resp.sendError(HttpServletResponse.SC_EXPECTATION_FAILED, "You have already voted for this comment");
+						return;
+					} else {
 						
-					}else if(id.equalsIgnoreCase("down")) {
-						l = (cb.getDownVoters()==null)?cb.getUpVoters():new ArrayList<String>();
-						if(l.contains(KeyFactory.keyToString(u.getRegId())) && !comm.getDownVote().contains(u.getRegId())) {
-							//send message
-						}else {
-							l.add(KeyFactory.keyToString(u.getRegId()));
-							comm.getDownVote().add(u.getRegId());
+						if(type.equalsIgnoreCase("up")) {
+							cb.setUpVotes(cb.getUpVotes()+1);
+							resp.getWriter().write(String.valueOf(cb.getUpVotes()));
+						}else if(type.equalsIgnoreCase("down")) {
+							cb.setDownVotes(cb.getDownVotes()+1);
+							resp.getWriter().write(String.valueOf(cb.getDownVotes()));
 						}
+						synchronized (session) {
+							session.setAttribute("singleDiscussionPageBean", sdpb);
+						}
+						Vote v = new Vote();
+						v.setType(type);
+						v.setVoter(u.getRegId());
+						v.setCommentKey(KeyFactory.stringToKey(id));
+						Transaction txn = EMF.getDs().beginTransaction();
+						EMF.getDs().put(v.toEntity());
+						txn.commitAsync();
+						
 					}
-					
-					Vote v = new Vote();
-					v.setType(type);
-					v.setVoter(u.getRegId());
-					
+
 				}
 			}
-			
+
 		}
 	}
-
 }

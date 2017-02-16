@@ -2,6 +2,8 @@ package com.salesmaxx.servlets.sm.open;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Map;
 
@@ -19,6 +21,7 @@ import com.salesmaxx.beans.SingleDiscussionPageBean;
 import com.salesmaxx.entities.Discussion;
 import com.salesmaxx.persistence.controllers.DiscussionController;
 import com.salesmaxx.util.Util;
+
 
 public class ViewAllDiscussion extends HttpServlet {
 
@@ -43,6 +46,17 @@ public class ViewAllDiscussion extends HttpServlet {
 				}
 				List<Discussion> discussions = Util.getDiscussionFromCache(keys);
 				List<SingleDiscussionPageBean> l=  Util.discussionToSDPB(discussions);
+				Collections.sort(l, new Comparator<SingleDiscussionPageBean>() {
+
+					@Override
+					public int compare(SingleDiscussionPageBean o1,
+							SingleDiscussionPageBean o2) {
+						return o2.getTime().compareTo(o1.getTime());
+						
+					}
+
+					
+				});
 				dpb.setBeans(l);
 				dpb.setCategory(category);
 				Map<String,List<SingleDiscussionPageBean>> map = Util.getDiscussions(category);
