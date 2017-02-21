@@ -7,6 +7,10 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<session-config>
 		<session-timeout>1200</session-timeout>
 	</session-config>
+	<error-page>
+        <exception-type>java.lang.Exception</exception-type>
+        <location>/errors/servererror.jsp</location>
+    </error-page>
 	
 	<servlet>
 		<servlet-name>AdminGetDelegates</servlet-name>
@@ -42,6 +46,15 @@ http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd"
 	<servlet-mapping>
 		<servlet-name>PrivateCoachingRequestSuccess</servlet-name>
 		<url-pattern>/sm/close/coaching/request-success</url-pattern>
+	</servlet-mapping>
+	
+	<servlet>
+		<servlet-name>RemoveDelegateServlet</servlet-name>
+		<servlet-class>com.salesmaxx.servlets.sm.closed.DeleteDelegate</servlet-class>
+	</servlet>
+	<servlet-mapping>
+		<servlet-name>RemoveDelegateServlet</servlet-name>
+		<url-pattern>/sm/closed/profile/my-workshops/delegates/del</url-pattern>
 	</servlet-mapping>
 	
 	<servlet>

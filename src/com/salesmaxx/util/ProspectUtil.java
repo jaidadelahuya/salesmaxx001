@@ -26,6 +26,7 @@ public class ProspectUtil {
 		map.put("Whom to see", "/sm/open/start-discussion-page");
 		map.put("Sales Performance Type", "/sm/open/start-discussion-page");
 		map.put("Sales Management Type", "/sm/open/start-discussion-page");
+		map.put("no", "/sm/open/start-discussion-page");
 		
 	}
 

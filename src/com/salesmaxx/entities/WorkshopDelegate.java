@@ -4,6 +4,7 @@ import java.io.Serializable;
 
 import com.google.appengine.api.datastore.Entity;
 import com.google.appengine.api.datastore.Key;
+import com.google.appengine.api.datastore.KeyFactory;
 import com.google.appengine.api.datastore.Transaction;
 import com.salesmaxx.persistence.controllers.EMF;
 
@@ -14,12 +15,21 @@ public class WorkshopDelegate implements Serializable {
 	 */
 	private static final long serialVersionUID = -3326313305370375202L;
 	private Key id, ownerKey, workshopKey;
-	private String firstName,lastName,email,phone;
+	private String firstName,lastName,email,phone, webKey;
+	
+	
+	public String getWebKey() {
+		return webKey;
+	}
+	public void setWebKey(String webKey) {
+		this.webKey = webKey;
+	}
 	public Key getId() {
 		return id;
 	}
 	public void setId(Key id) {
 		this.id = id;
+		this.webKey = KeyFactory.keyToString(id);
 	}
 	public Key getOwnerKey() {
 		return ownerKey;
@@ -66,6 +76,7 @@ public class WorkshopDelegate implements Serializable {
 	}
 	public WorkshopDelegate() {
 		this.id = EMF.getDs().allocateIds(WorkshopDelegate.class.getSimpleName(), 1).getStart();
+		this.webKey = KeyFactory.keyToString(id);
 	}
 	
 	public WorkshopDelegate(Entity e) {
@@ -76,6 +87,7 @@ public class WorkshopDelegate implements Serializable {
 		this.ownerKey = (Key) e.getProperty("ownerKey");
 		this.phone = (String) e.getProperty("phone");
 		this.workshopKey = (Key) e.getProperty("workshopKey");
+		this.webKey = KeyFactory.keyToString(id);
 	}
 	
 	public Entity toEntity() {

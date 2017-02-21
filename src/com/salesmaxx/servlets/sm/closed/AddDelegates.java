@@ -54,6 +54,30 @@ public class AddDelegates extends HttpServlet {
 			resp.sendRedirect("/sm/closed/profile/my-workshops/delegates/view");
 			return;
 		}
+		
+		synchronized (session) {
+			session.setAttribute("lastName", firstName);
+		}
+		
+		if (!Util.notNull(phone)) {
+			synchronized (session) {
+				session.setAttribute("error",
+						"You should enter "+firstName+"'s phone number.");
+			}
+			resp.sendRedirect("/sm/closed/profile/my-workshops/delegates/view");
+			return;
+		}
+		
+		if (!Util.notNull(email)) {
+			synchronized (session) {
+				session.setAttribute("error",
+						"You should enter "+lastName+"'s email.");
+			}
+			resp.sendRedirect("/sm/closed/profile/my-workshops/delegates/view");
+			return;
+		}
+		
+		
 
 		Object o = null;
 		Object o1 = null;
@@ -88,6 +112,7 @@ public class AddDelegates extends HttpServlet {
 						+ " has been added to your list of delegates successfully.");
 				session.removeAttribute("error");
 				session.removeAttribute("firstName");
+				session.removeAttribute("lastName");
 			}
 			del.persist();
 			

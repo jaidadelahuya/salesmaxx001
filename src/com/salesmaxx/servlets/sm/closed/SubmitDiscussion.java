@@ -2,6 +2,7 @@ package com.salesmaxx.servlets.sm.closed;
 
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Map;
 
 import javax.mail.MessagingException;
@@ -14,7 +15,9 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import com.google.appengine.api.datastore.KeyFactory;
+import com.salesmaxx.beans.Book;
 import com.salesmaxx.beans.CoachingPost;
+import com.salesmaxx.beans.CoachingSuccess;
 import com.salesmaxx.beans.SingleDiscussionPageBean;
 import com.salesmaxx.entities.Discussion;
 import com.salesmaxx.entities.Tag;
@@ -142,15 +145,23 @@ public class SubmitDiscussion extends HttpServlet {
 				e.printStackTrace();
 			}
 		}
+		Object oo = null;
+		synchronized (session) {
+			oo = session.getAttribute("qaMap");
+		}
+		CoachingSuccess cs = new CoachingSuccess();
+		if(oo!=null) {
+			Map<String, String> mp = (Map<String, String>) oo;
+			List<Book> books = Util.getBooks(mp);
+			cs.setBooks(books);
+		}
+		synchronized (session) {
+			session.setAttribute("coachingSuccess", cs);
+		}
 		resp.sendRedirect("/sm/open/coaching/success");
-		/*else {
-			SingleDiscussionPageBean sdpb = Util.discussionToSDPB(d, u);
-			synchronized (session) {
-				session.setAttribute("singleDiscussionPageBean", sdpb);
-			}
-			resp.sendRedirect("/coaching/discussion?web-key="
-					+ sdpb.getWebkey());
-		}*/
+		synchronized (session) {
+			session.removeAttribute("requestURI");
+		}
 
 	}
 }

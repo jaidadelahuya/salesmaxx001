@@ -1,7 +1,10 @@
 package com.salesmaxx.util;
 
+import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.text.DateFormatSymbols;
@@ -36,9 +39,16 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
+import javax.xml.parsers.DocumentBuilder;
+import javax.xml.parsers.DocumentBuilderFactory;
+import javax.xml.parsers.ParserConfigurationException;
 
 import org.apache.http.NameValuePair;
 import org.apache.http.message.BasicNameValuePair;
+import org.w3c.dom.Node;
+import org.w3c.dom.NodeList;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 import com.google.appengine.api.blobstore.BlobKey;
 import com.google.appengine.api.datastore.DatastoreService;
@@ -78,7 +88,13 @@ import com.google.appengine.api.search.StatusCode;
 import com.google.appengine.api.taskqueue.Queue;
 import com.google.appengine.api.taskqueue.QueueFactory;
 import com.google.appengine.api.taskqueue.TaskOptions;
+import com.google.appengine.api.urlfetch.HTTPMethod;
+import com.google.appengine.api.urlfetch.HTTPRequest;
+import com.google.appengine.api.urlfetch.HTTPResponse;
+import com.google.appengine.api.urlfetch.URLFetchService;
+import com.google.appengine.api.urlfetch.URLFetchServiceFactory;
 import com.salesmaxx.beans.AdminDelegateView;
+import com.salesmaxx.beans.Book;
 import com.salesmaxx.beans.CartItem;
 import com.salesmaxx.beans.CategoryDisplay;
 import com.salesmaxx.beans.ChequeInvoice;
@@ -2814,18 +2830,18 @@ public class Util {
 		q.setKeysOnly();
 		q.setFilter(f3);
 		FetchOptions options = FetchOptions.Builder.withLimit(1000);
-		QueryResultList<Entity> qrl = EMF.getDs().prepare(q).asQueryResultList(options);
+		QueryResultList<Entity> qrl = EMF.getDs().prepare(q)
+				.asQueryResultList(options);
 		List<Entity> list = new ArrayList<>();
 		list.addAll(qrl);
-		while(qrl.getCursor()!=null) {
-			if(qrl.size() < 1000) {
+		while (qrl.getCursor() != null) {
+			if (qrl.size() < 1000) {
 				break;
 			}
 			options.startCursor(qrl.getCursor());
 			qrl = EMF.getDs().prepare(q).asQueryResultList(options);
 			list.addAll(qrl);
 		}
-		
 
 		return list;
 	}
@@ -2835,7 +2851,7 @@ public class Util {
 		List<SingleDiscussionPageBean> list = new ArrayList<>();
 		List<Key> keys = new ArrayList<Key>();
 		for (Discussion d : dis) {
-			if (!keys.contains(d.getOwner())&& d.getOwner()!=null) {
+			if (!keys.contains(d.getOwner()) && d.getOwner() != null) {
 				keys.add(d.getOwner());
 			}
 		}
@@ -2848,20 +2864,20 @@ public class Util {
 			spdb.setBody(d.getBody().getValue());
 			spdb.setCategory(d.getCategory());
 			spdb.setComments(Util.commentsKeyToCommentsBean(d.getComments()));
-			if(u==null) {
+			if (u == null) {
 				spdb.setOwnerImage("/images/unknown-user.jpg");
 				spdb.setOwnerName("Anonymous");
-			}else {
+			} else {
 				spdb.setOwnerImage(u.getPictureUrl());
 				spdb.setOwnerName(u.getFirstName() + " " + u.getLastName());
 			}
-			
+
 			// spdb.setTags(tags);
 			spdb.setTime(d.getTimePosted());
 			spdb.setTopic(d.getTitle());
 			spdb.setViews((d.getView() == null) ? 0 : d.getView().size());
 			spdb.setVotes((d.getVotes() == null) ? 0 : d.getVotes().size());
-			
+
 			list.add(spdb);
 		}
 
@@ -4127,5 +4143,127 @@ public class Util {
 			return true;
 		}
 
+	}
+
+	public static List<Book> getBooks(Map<String, String> mp) {
+		String keyword = getKeyword(mp);
+		List<Book> books = new ArrayList<>();
+		String requestUrl = null;
+
+		SignedRequestsHelper helper = null;
+
+		try {
+			helper = SignedRequestsHelper.getInstance(AWSCredential.ep,
+					AWSCredential.ak, AWSCredential.sak);
+		} catch (Exception e) {
+			e.printStackTrace();
+			return null;
+		}
+
+		Map<String, String> params = new HashMap<String, String>();
+
+		params.put("Service", "AWSECommerceService");
+		params.put("Operation", "ItemSearch");
+		params.put("AWSAccessKeyId", AWSCredential.ak);
+		params.put("AssociateTag", AWSCredential.sid);
+		params.put("SearchIndex", "Books");
+		params.put("Keywords", keyword);
+		params.put("ResponseGroup", "ItemAttributes,Medium,Offers");
+		params.put("Sort", "salesrank");
+		params.put("BrowseNode", "2712");
+
+		requestUrl = helper.sign(params);
+
+		URL url;
+		try {
+			url = new URL(requestUrl);
+			com.google.appengine.api.urlfetch.FetchOptions options = com.google.appengine.api.urlfetch.FetchOptions.Builder
+					.doNotFollowRedirects().disallowTruncate();
+			HTTPRequest request = new HTTPRequest(url, HTTPMethod.GET, options);
+			URLFetchService urlfetch = URLFetchServiceFactory
+					.getURLFetchService();
+			HTTPResponse response = urlfetch.fetch(request);
+			String r = new String(response.getContent(), "utf-8");
+
+			String moreResultURL = null;
+
+			
+			DocumentBuilderFactory dbFactory = DocumentBuilderFactory
+					.newInstance();
+			DocumentBuilder dBuilder = dbFactory.newDocumentBuilder();
+			org.w3c.dom.Document doc = dBuilder.parse(new InputSource(
+					new ByteArrayInputStream(r.getBytes("utf-8"))));
+			doc.getDocumentElement().normalize();
+			NodeList mrnl = doc.getElementsByTagName("MoreSearchResultsUrl");
+			Node mrn = mrnl.item(0);
+			moreResultURL = mrn.getTextContent();
+			NodeList itemNodes = doc.getElementsByTagName("Item");
+
+			for (int i = 0; i < itemNodes.getLength(); i++) {
+				Book b = new Book();
+				Node n = itemNodes.item(i);
+				NodeList nl = n.getChildNodes();
+				NodeList cln = null;
+				for (int j = 0; j < nl.getLength(); j++) {
+					Node nn = nl.item(j);
+					String name = nn.getNodeName();
+					switch (name) {
+					
+					case "DetailPageURL":
+						b.setUrl(nn.getTextContent());
+						break;
+					case "LargeImage":
+						cln = nn.getChildNodes();
+						for (int k = 0; k < cln.getLength(); k++) {
+							Node n1 = cln.item(k);
+							if (n1.getNodeName().equalsIgnoreCase("URL")) {
+								b.setImage(n1.getTextContent());
+								break;
+							}
+						}
+						break;
+					case "ItemAttributes":
+						cln = nn.getChildNodes();
+						for (int k = 0; k < cln.getLength(); k++) {
+							Node n1 = cln.item(k);
+							 if (n1.getNodeName().equalsIgnoreCase(
+									"Title")) {
+								b.setTitle(n1.getTextContent());
+							}
+						}
+
+					}
+				}
+				books.add(b);
+			}
+		} catch (MalformedURLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (IOException e) {
+			// TODO: handle exception
+		} catch (ParserConfigurationException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		} catch (SAXException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+		return books;
+	}
+
+	private static String getKeyword(Map<String, String> mp) {
+
+		String a1 = mp.get("What Kind of coaching do you need?");
+		if (a1.equalsIgnoreCase("interview")) {
+			return "sales interview";
+		} else if (a1.equalsIgnoreCase("sales performance")) {
+			return mp
+					.get("Which type of Sales Performance Coaching do you need?");
+		} else if (a1.equalsIgnoreCase("sales management")) {
+			return mp
+					.get("Which type of Sales Management/Leadership Coaching do you need?");
+		}
+		return null;
 	}
 }
