@@ -81,8 +81,10 @@ public class SingleDiscussionPageBean implements Serializable {
 	}
 	public void setBody(String body) {
 		this.body = body;
-		if(body !=null && body.length() > 400) {
-			snippet = body.substring(0, body.indexOf("</p>"));
+		if(body !=null && body.length() > 410) {
+			int i = body.indexOf("</p>");
+			snippet = body.substring(0, (i>410 && i != -1)?410:i);
+			
 		}else {
 			snippet = body;
 		}
